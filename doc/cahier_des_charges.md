@@ -217,7 +217,7 @@ Pet Foster Connect est une application permettant de mettre en relation des fami
 | Famille        | Supprimer le profil                            | Effacer le profil                                                        |                | 
 | Famille        | Me déconnecter                                 | De sécuriser mon compte                                                  |                | 
 
-### L'équipes :
+### L'équipe :
 
 - Camille : Lead dev Front
 - Clara : Lead dev Back
