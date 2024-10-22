@@ -220,6 +220,6 @@ Pet Foster Connect est une application permettant de mettre en relation des fami
 ### L'équipe :
 
 - Camille : Lead dev Front
-- Clara : Lead dev Back
-- Phillipe : Product Owner
-- Sloan : Scrum Master
+- Clara : Scrum Master
+- Phillipe : Lead dev Back
+- Sloan : Product Owner
