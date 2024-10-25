@@ -157,17 +157,17 @@ Pet Foster Connect est une application permettant de mettre en relation des fami
 
 #### Dashboard
 
-| Verbe  | Chemin                             |  Request Body | Response Body                      | Code (succès) |
-| ------ | ---------------------------------- | ------------- | ---------------------------------- | ------------- |
-| GET    | /admin/association                 |               | liste des animaux de l'association | 200           |
-| POST   | /admin/association/ajouter         |               | animal ajouté                      | 201           |
-| PATCH  | /admin/association/modifier        |               | animal modifié                     | 200           |
-| DELETE | /admin/association/supprimer       |               |                                    | 204           |
-| GET    | /admin/association/profil          |               | les données de l'association       | 200           |
-| PATCH  | /admin/association/profil          |               | les données de l'association       | 200           |
-| DELETE | admin/association/profil/supprimer |               |                                    | 204           |
-| GET    | /admin/association/demandes        |               | les demandes                       | 200           |
-| PATCH  | /admin/association/demande/:id     |               | la demande                         | 200           |
+| Verbe  | Chemin                              |  Request Body | Response Body                      | Code (succès) |
+| ------ | ----------------------------------- | ------------- | ---------------------------------- | ------------- |
+| GET    | /admin/association                  |               | liste des animaux de l'association | 200           |
+| POST   | /admin/association/ajouter          |               | animal ajouté                      | 201           |
+| PATCH  | /admin/association/modifier         |               | animal modifié                     | 200           |
+| DELETE | /admin/association/supprimer        |               |                                    | 204           |
+| GET    | /admin/association/profil           |               | les données de l'association       | 200           |
+| PATCH  | /admin/association/profil           |               | les données de l'association       | 200           |
+| DELETE | /admin/association/profil/supprimer |               |                                    | 204           |
+| GET    | /admin/association/demandes         |               | les demandes                       | 200           |
+| PATCH  | /admin/association/demande/:id      |               | la demande                         | 200           |
 
 #### Famille
 
@@ -194,7 +194,7 @@ Pet Foster Connect est une application permettant de mettre en relation des fami
 
 | Verbe | Chemin       | Request Body | Response Body | Code (succès) |
 | ----- | ------------ | ------------ | ------------- | ------------- |
-| POST  | /déconnexion |              |               | 200           |
+| POST  | /deconnexion |              |               | 200           |
 
 ### Les users stories :
 
