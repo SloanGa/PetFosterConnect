@@ -1,0 +1,164 @@
+@use "./variables" as v;
+
+body {
+    background-color: #fffaf7;
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn {
+    background-color: v.$orange;
+    color: #fff;
+    border-radius: 15px;
+    padding: 0.8rem 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: opacity 0.3s;
+
+    &:hover {
+        background-color: v.$orange;
+        color: #fff;
+        opacity: 0.7;
+    }
+
+    &:focus {
+        border: 2px solid v.$brown;
+        background-color: v.$orange;
+        color: #fff;
+        opacity: 0.7;
+    }
+}
+
+header {
+    padding: 30px 0 0;
+}
+
+.header {
+    &__logo {
+        width: 200px;
+    }
+}
+
+.header__primary {
+    display: flex;
+    padding: 0 25px 25px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: v.$brown-light 1px solid;
+
+    &__icons {
+        display: flex;
+        column-gap: 1.2rem;
+    }
+
+    &__links {
+        display: none;
+        .nav__list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 1.5rem;
+        }
+        &--mobile {
+            padding: 30px 0;
+            display: none;
+        }
+    }
+}
+
+.header__secondary {
+    padding: 30px 0;
+    display: none;
+}
+
+.nav__list {
+    color: v.$brown;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 0.5rem;
+    }
+}
+
+.icon {
+    background: none;
+    border: none;
+    padding: 0;
+
+    img {
+        width: 35px;
+    }
+}
+
+.hero {
+    width: 100%;
+    background-image: url("../assets/banner-home.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    &__text {
+        display: none;
+        font-family: Arima, sans-serif;
+        font-weight: bold;
+        font-size: 2rem;
+        color: #ffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 50%;
+        margin: 0 auto;
+    }
+}
+
+.section__title__text {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.section__title {
+    margin-top: 2em;
+    text-align: center;
+    font-family: Arima, sans-serif;
+}
+
+.section__subtitle {
+    margin-top: 2em;
+}
+
+.pet__host {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pet__host__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pet__host__image {
+    width: 100px;
+}
+
+.pet__host__name,
+.pet__host__localisation {
+    margin-top: 1em;
+}
