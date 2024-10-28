@@ -1,134 +1,209 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
-    <meta description="Application permettant de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive 
-    afin de leur offrir une meilleure vie.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Accueil - PetFoster Connect</title>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/src/styles/reset.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/src/styles/style.scss">
-  </head>
-  <body>
-    <header>
-        <div class="header__primary">
-            <a href="/" title="Retour sur la page d'accueil">
-                <img src="/src/assets/logo_name.png" class="header__logo" alt="Logo PetFoster Connect">
-            </a>
-            <div class="header__primary__icons">
-                <button type="button" class="icon">
-                    <img src="/src/assets/icons/burger-icon.svg" alt="">
-                </button>
-                <button type="button" class="icon">
-                    <img src="/src/assets/icons/user-connect.svg" alt="">
-                </button>
+        <!-- Rajouter d'autres éléments pour les balises meta pour le SEO -->
+
+        <!-- <meta description="Application permettant de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive 
+    afin de leur offrir une meilleure vie."
+        /> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Accueil - PetFoster Connect</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/src/styles/reset.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/src/styles/style.scss" />
+    </head>
+    <body>
+        <header>
+            <div class="header__primary">
+                <a href="/" title="Retour sur la page d'accueil">
+                    <img
+                        src="/src/assets/logo_name.png"
+                        class="header__logo"
+                        alt="Logo PetFoster Connect"
+                    />
+                </a>
+                <div class="header__primary__icons">
+                    <button type="button" class="icon" aria-label="Ouvrir le menu de navigation">
+                        <img src="/src/assets/icons/burger-icon.svg" alt="icône menu" />
+                    </button>
+                    <button
+                        type="button"
+                        class="icon"
+                        aria-label="Ouvrir le menu de connexion ou inscription"
+                    >
+                        <img
+                            src="/src/assets/icons/user-connect.svg"
+                            alt="icône connexion/inscription"
+                        />
+                    </button>
+                </div>
+                <div class="header__primary__links">
+                    <nav>
+                        <ul class="nav__list">
+                            <li>
+                                <a href="/connexion" class="nav__list__link" title="Se connecter"
+                                    >Se connecter</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/inscription" class="btn" title="S'inscrire">S'inscrire</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-            <div class="header__primary__links">
+            <div class="header__secondary">
                 <nav>
                     <ul class="nav__list">
                         <li>
-                            <a href="/connexion" class="nav__list__link">Se connecter</a>
+                            <a href="/" class="nav__list__link" title="Page d'accueil">
+                                <img
+                                    src="/src/assets/icons/house.svg"
+                                    alt="icône accueil"
+                                    class="icon"
+                                />
+                                Accueil
+                            </a>
                         </li>
                         <li>
-                            <button href="/inscription" class="btn">S'inscrire</button>
+                            <a href="/animals" class="nav__list__link" title="Page des animaux">
+                                <img
+                                    src="/src/assets/icons/paw-print.svg"
+                                    alt="icône animaux"
+                                    class="icon"
+                                />
+                                Les animaux
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="/associations"
+                                class="nav__list__link"
+                                title="Page des associations"
+                            >
+                                <img
+                                    src="/src/assets/icons/heart-handshake.svg"
+                                    alt="icône association"
+                                    class="icon"
+                                />
+                                Les associations
+                            </a>
                         </li>
                     </ul>
                 </nav>
             </div>
-        </div>
-        <div class="header__secondary">
-            <nav>
+            <nav class="header__primary__links--mobile">
                 <ul class="nav__list">
-                    <li >
-                        <a href="/" class="nav__list__link">
-                            <img src="/src/assets/icons/house.svg" alt="" class="icon">
-                            Accueil
-                        </a>
+                    <li>
+                        <a href="/connexion" class="nav__list__link" title="Se connecter"
+                            >Se connecter</a
+                        >
                     </li>
                     <li>
-                        <a href="/animals" class="nav__list__link">
-                            <img src="/src/assets/icons/paw-print.svg" alt="" class="icon">
-                            Les animaux
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/associations" class="nav__list__link">
-                            <img src="/src/assets/icons/heart-handshake.svg" alt="" class="icon">
-                            Les associations
-                        </a>
+                        <a href="/inscription" class="btn" title="S'inscrire">S'inscrire</a>
                     </li>
                 </ul>
             </nav>
-        </div>
-        <nav class="header__primary__links--mobile">
-            <ul class="nav__list">
-                <li>
-                    <a href="/connexion" class="nav__list__link">Se connecter</a>
-                </li>
-                <li>
-                    <button href="/inscription" class="btn">S'inscrire</button>
-                </li>
-            </ul>
-        </nav>
-    </header>
+        </header>
 
-    <main>
-        <div class="hero">
-            <p class="hero__text">
-                Familles d’accueil et associations, main dans la patte pour leur offrir une seconde chance.
-            </p>
-        </div>
-    
-    <section>
-        <h1 class="section__title">
-                PetFoster Connect
-        </h1>
+        <main>
+            <section class="hero">
+                <p class="hero__text">
+                    Familles d’accueil et associations, main dans la patte pour leur offrir une
+                    seconde chance.
+                </p>
+            </section>
 
-        <p class="section__title__text">
-            La plateforme qui met en liaison familles d’accueil et associations afin de proposer aux animaux un foyer temporaire dans l’attente de leur adoption. 
-            Que vous soyez une famille d’accueil ou une association, inscrivez-vous en quelques clics.  
-        </p>
+            <section>
+                <h1 class="section__title">PetFoster Connect</h1>
 
-     <section>
-        <h2 class="section__subtitle">
-            Découvrez nos animaux à accueillir.
-        </h2>
-     
-    <div class="pet__host">
+                <p class="section__title__text">
+                    La plateforme qui met en liaison familles d’accueil et associations afin de
+                    proposer aux animaux un foyer temporaire dans l’attente de leur adoption. Que
+                    vous soyez une famille d’accueil ou une association, inscrivez-vous en quelques
+                    clics.
+                </p>
+            </section>
 
-      <article class="pet__host__card">
-        <img src="/src/assets/chien1.jpg" class="pet__host__image" alt="Chien">
-        <span class="pet__host__name"> 
-            Toutou1
-        </span>
-        <span class="pet__host__localisation">
-            Alpes-Maritimes (06)
-        </span>
-      </article>
+            <section>
+                <h2 class="section__subtitle">Découvrez nos animaux à accueillir</h2>
 
-      <article class="pet__host__card">
-        <img src="/src/assets/chien2.jpg" class="pet__host__image" alt="Chien2">
-        <span class="pet__host__name"> 
-            Toutou2
-        </span>
-        <span class="pet__host__localisation">
-            Var (83)
-        </span>
-      </article>
+                <!-- Cards des animaux -->
 
-        
+                <div class="cards">
+                    <article class="card">
+                        <img
+                            src="/src/assets/chien1.jpg"
+                            class="pet__host__image card-img-top"
+                            alt="Chien"
+                            loading="lazy"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">Toutou1</h3>
+                            <p class="card-text">Alpes-Maritimes (06)</p>
+                        </div>
+                    </article>
 
-      
-    
+                    <article class="card">
+                        <img
+                            src="/src/assets/chien2.jpg"
+                            class="pet__host__image card-img-top"
+                            alt="Chien2"
+                            loading="lazy"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">Toutou2</h3>
+                            <p class="card-text">Var (83)</p>
+                        </div>
+                    </article>
+                </div>
 
+                <a href="/animaux" class="allpets btn" title="Voir les animaux"
+                    >Voir tous les animaux</a
+                >
+            </section>
+        </main>
 
-    <!-- <div id="root"></div> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+        <footer>
+            <nav class="footer__nav">
+                <ul class="footer__nav__list">
+                    <li>
+                        <a href="">Mentions légales</a>
+                    </li>
+                    <li>
+                        <a href="">Politique de confidentialité</a>
+                    </li>
+                    <li>
+                        <a href="">Plan du site</a>
+                    </li>
+                    <li>
+                        <a href="">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright">PetFosterConnect - Copyright © 2024</div>
+        </footer>
+
+        <!-- <div id="root"></div> -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
 </html>

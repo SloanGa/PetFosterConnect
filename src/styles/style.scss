@@ -12,6 +12,20 @@ a {
     color: inherit;
 }
 
+h1,
+h2 {
+    font-weight: bold;
+    font-family: Arima, sans-serif;
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
 .btn {
     background-color: v.$orange;
     color: #fff;
@@ -37,6 +51,10 @@ a {
 
 header {
     padding: 30px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 9999999;
+    background-color: #fffaf7;
 }
 
 .header {
@@ -47,7 +65,7 @@ header {
 
 .header__primary {
     display: flex;
-    padding: 0 25px 25px;
+    padding: 0 20px 20px 20px;
     justify-content: space-between;
     align-items: center;
     border-bottom: v.$brown-light 1px solid;
@@ -84,6 +102,8 @@ header {
     display: flex;
     flex-direction: column;
     row-gap: 1.5rem;
+    padding-left: 0;
+    margin-bottom: 0;
 
     &__link {
         display: flex;
@@ -129,36 +149,85 @@ header {
 .section__title__text {
     margin-top: 1em;
     text-align: center;
+    padding: 0 2rem;
 }
 
 .section__title {
     margin-top: 2em;
     text-align: center;
-    font-family: Arima, sans-serif;
 }
 
 .section__subtitle {
     margin-top: 2em;
+    text-align: center;
 }
 
-.pet__host {
+.cards {
     display: flex;
-    gap: 1em;
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.card {
+    width: 280px;
+}
+
+.card-body {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.pet__host__card {
+.card-title {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.card-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
 }
 
 .pet__host__image {
-    width: 100px;
+    height: 280px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: top;
 }
 
-.pet__host__name,
-.pet__host__localisation {
-    margin-top: 1em;
+.allpets {
+    margin: 3rem auto;
+    display: block;
+    width: max-content;
+}
+
+footer {
+    margin-top: 3rem;
+    background-color: v.$green-dark;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+
+    .footer__nav__list {
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 0.5rem;
+    }
+
+    a {
+        font-weight: normal;
+    }
+
+    .copyright {
+        font-weight: 300;
+    }
 }
