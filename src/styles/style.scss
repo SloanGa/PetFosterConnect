@@ -204,7 +204,6 @@ header {
     background-image: url("../assets/banner-home.jpg");
     background-size: cover;
     background-position: center;
-    width: 100%;
     height: 300px;
     object-fit: cover;
     &__text {
@@ -349,7 +348,7 @@ header {
 
 .animals__section{
     @media (min-width: 992px) {
-        display: flex;
+        //display: flex;
         gap: 5em;
       width: 100%;
         margin: auto;
