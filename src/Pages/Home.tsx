@@ -1,11 +1,12 @@
-
 import { Helmet } from "react-helmet-async";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
+import AnimalCard from "../Components/AnimalCard/AnimalCard.tsx";
 
 const Home = () => {
     return (
         <>
+            {/*Composant qui gere les meta données*/}
             <Helmet>
                 <title>Page d'accueil | PetFoster Connect</title>
                 <meta
@@ -14,7 +15,7 @@ const Home = () => {
                 />
             </Helmet>
 
-            <Header/>
+            <Header />
             <main>
                 <section className="hero">
                     <p className="hero__text">
@@ -39,45 +40,24 @@ const Home = () => {
 
                         {/*<!-- Cards des animaux --> */}
                         <div className="cards">
-                            <a href="#" className="card__link" aria-label="Voir la page de cet animal">
-                                <article className="card">
-                                    <img src="/src/assets/chien1.jpg" className="card__img card-img-top" alt="Chien"
-                                         loading="lazy"/>
-                                    <div className="card-body text-center">
-                                        <h3 className="card__title card-title">Toutou1</h3>
-                                        <p className="card__text card-text">Alpes-Maritimes (06)</p>
-                                    </div>
-                                </article>
-                            </a>
+                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien1.jpg"} alt={"Chien"}
+                                        name={"Toutou1"}
+                                        associationLocation={"Alpes-Maritimes (06)"} isHomePage={true} />
 
-                            <a href="#" className="card__link" aria-label="Voir la page de cet animal">
-                                <article className="card">
-                                    <img src="/src/assets/chien2.jpg" className="card__img card-img-top" alt="Chien2"
-                                         loading="lazy"/>
-                                    <div className="card-body text-center">
-                                        <h3 className="card__title card-title">Toutou2</h3>
-                                        <p className="card__text card-text">Var (83)</p>
-                                    </div>
-                                </article>
-                            </a>
+                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien2.jpg"} alt={"Chien2"}
+                                        name={"Toutou2"}
+                                        associationLocation={"Var (83)"} isHomePage={true} />
 
-                            <a href="#" className="card__link" aria-label="Voir la page de cet animal">
-                                <article className="card">
-                                    <img src="/src/assets/chien2.jpg" className="card__img card-img-top" alt="Chien2"
-                                         loading="lazy"/>
-                                    <div className="card-body text-center">
-                                        <h3 className="card__title card-title">Toutou3</h3>
-                                        <p className="card__text card-text">Finistère (29)</p>
-                                    </div>
-                                </article>
-                            </a>
+                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chat1.jpg"} alt={"Chat1"}
+                                        name={"Chat1"}
+                                        associationLocation={"Finistère (29)"} isHomePage={true} />
                         </div>
 
                         <a href="/animaux" className="btn" title="Voir les animaux">Voir tous les animaux</a>
                     </section>
                 </div>
             </main>
-            <Footer/>
+            <Footer />
 
         </>
     );
