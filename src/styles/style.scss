@@ -330,10 +330,15 @@ header {
     }
 }
 
+.intro__text__animals{
+    display: none;
+}
+
 .animals__section__filter {
-    padding: 0 0 1.25rem 1.25rem;
     align-items: center;
     gap: 1em;
+    padding-bottom: 1.25rem;
+    position: relative;
 }
 
 .animals__section__result{
@@ -356,3 +361,50 @@ header {
     background-color: #baa89b;
     color: #fff;
 }  
+
+.filters{
+    display: none;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    left: 0;
+    top : 40px;
+    z-index: 1;
+    background-color: v.$body;
+    font-family: Helvetica, sans-serif;
+}
+
+.filters__form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin: 1em auto;
+    gap: 0.5em;
+}  
+
+  .filters__form__description{
+    font-size: 1em;
+    font-weight: bold;
+  }
+
+  .filters__form__fieldset {
+   display: flex;
+   flex-direction: column;
+   gap: 0.2em;
+  }
+
+  .form-check-input {
+    margin-right: 0.5em;
+  }
+  
+  .card__description{
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    padding-top: 0.3em;
+
+    span{
+        font-weight: normal;
+    }
+  }
+
