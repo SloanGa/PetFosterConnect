@@ -2,7 +2,11 @@
 <html lang="fr">
 
 <head>
+
+  <!-- Balise charset -->
   <meta charset="UTF-8" />
+
+  <!-- Favicon-->
   <link rel="icon" type="image/svg+xml" href="/src/assets/logo.ico" />
 
   <!-- Rajouter d'autres éléments pour les balises meta pour le SEO -->
@@ -107,18 +111,28 @@
       <section class="intro">
         <h1 class="main__title">Les animaux</h1>
         <p class="intro__text intro__text__animals">
-          La plateforme qui met en liaison familles d’accueil et associations afin de
-          proposer aux animaux un foyer temporaire dans l’attente de leur adoption.
-          Que vous soyez une famille d’accueil ou une association, inscrivez-vous en
-          quelques clics.
+
+          <!-- Voir pour balise <strong> et <em> pour la sémantique -->
+
+          Dans notre application, vous pouvez facilement rechercher des animaux en fonction de plusieurs critères.
+          Que vous soyez à la recherche d'un compagnon spécifique ou que vous souhaitiez simplement explorer les options disponibles, notre fonctionnalité de recherche
+          vous permet de filtrer les résultats par type d'animal, localisation, association, genre, âge et taille. Que vous souhaitiez un petit chien dynamique ou un chat âgé et calme,
+          PetFoster Connect vous aide à trouver l'animal qui correspond parfaitement
+          à vos attentes !
         </p>
       </section>
 
+      <h2 class="animals__section__result">XXXX Résultats</h2>
       <section class="animals__section">
+
+        <!-- Balise aside ? -->
         <div class="animals__section__filter">
           <button type="button" class="icon icon__filter" aria-label="Ouvrir le menu de filtre">
             <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
+            <span>Filtres</span>
           </button>
+
+
 
           <!-- Formulaire de filtre -->
           <div class="filters">
@@ -154,7 +168,7 @@
               </select>
 
               <fieldset class="filters__form__fieldset">
-                <legend class="filters__form__description">Age</legend>
+                <legend class="filters__form__description">Âge</legend>
                 <label>
                   <input class="form-check-input" type="checkbox" name="age" value="0-2" aria-label="0 à 2 ans" />
                   0 à 2 ans
@@ -196,13 +210,11 @@
           </div>
         </div>
 
-        <h2 class="animals__section__result">XXXX Résultats</h2>
-
         <!-- Cards des animaux -->
 
         <!-- Première card -->
 
-        <div class="cards">
+        <div class="cards cards__animals">
           <a href="#" class="card__link" aria-label="Voir la page de cet animal">
             <article class="card">
               <img src="/src/assets/chien1.jpg" class="card__img card-img-top" alt="Chien" loading="lazy" />
@@ -260,21 +272,78 @@
               </div>
             </article>
           </a>
+
+          <a href="#" class="card__link" aria-label="Voir la page de cet animal">
+            <article class="card">
+              <img src="/src/assets/chien2.jpg" class="card__img card-img-top" alt="Chien2" loading="lazy" />
+              <div class="card-body text-center">
+                <h3 class="card__title card-title">Toutou2</h3>
+                <div class="card__description">
+                  <span>SPA du 06</span>
+                  <span>Alpes-Maritimes (06)</span>
+                </div>
+                <div class="card__description">
+                  <span>Chien </span>
+                  <span>Mâle</span>
+                  <span> 1 ans</span>
+                </div>
+              </div>
+            </article>
+          </a>
+
+          <!-- Troisième card -->
+
+          <a href="#" class="card__link" aria-label="Voir la page de cet animal">
+            <article class="card">
+              <img src="/src/assets/chat1.jpg" class="card__img card-img-top" alt="Chien2" loading="lazy" />
+              <div class="card-body text-center">
+                <h3 class="card__title card-title">Chat1</h3>
+                <div class="card__description">
+                  <span>SPA du 06</span>
+                  <span>Alpes-Maritimes (06)</span>
+                </div>
+                <div class="card__description">
+                  <span>Chat </span>
+                  <span>Mâle</span>
+                  <span> 1 ans</span>
+                </div>
+              </div>
+            </article>
+          </a>
+
+          <a href="#" class="card__link" aria-label="Voir la page de cet animal">
+            <article class="card">
+              <img src="/src/assets/chat1.jpg" class="card__img card-img-top" alt="Chien2" loading="lazy" />
+              <div class="card-body text-center">
+                <h3 class="card__title card-title">Chat1</h3>
+                <div class="card__description">
+                  <span>SPA du 06</span>
+                  <span>Alpes-Maritimes (06)</span>
+                </div>
+                <div class="card__description">
+                  <span>Chat </span>
+                  <span>Mâle</span>
+                  <span> 1 ans</span>
+                </div>
+              </div>
+            </article>
+          </a>
+
         </div>
 
         <!-- Pagination -->
 
-        <nav aria-label="Pages de navigation">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">8</a></li>
-            <li class="page-item"><a class="page-link" href="#">9</a></li>
-          </ul>
-        </nav>
       </section>
+      <nav aria-label="Pages de navigation">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">8</a></li>
+          <li class="page-item"><a class="page-link" href="#">9</a></li>
+        </ul>
+      </nav>
     </div>
   </main>
 

@@ -251,6 +251,7 @@ header {
 .cards {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     gap: 2rem;
     margin-top: 2rem;
@@ -332,17 +333,38 @@ header {
 
 .intro__text__animals{
     display: none;
+
+    @media (min-width: 992px) {
+        display: block;
+        padding-bottom: 2em;
+    }
+
+}
+
+.icon__filter{
+    padding: 2em 0;
+}
+
+.animals__section{
+    @media (min-width: 992px) {
+        display: flex;
+        gap: 5em;
+      width: 100%;
+        margin: auto;
+    }
 }
 
 .animals__section__filter {
-    align-items: center;
-    gap: 1em;
-    padding-bottom: 1.25rem;
     position: relative;
+    @media (min-width: 992px) {
+       width: 30%;
+       
+    }
+
 }
 
 .animals__section__result{
-    padding-left: 1.25rem ;
+    padding: 0.7em 0 0 1.25em;
 }
 
 .pagination {
@@ -363,15 +385,21 @@ header {
 }  
 
 .filters{
-    display: none;
+    // display: none;
     width: 100%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: absolute;
     left: 0;
-    top : 40px;
     z-index: 1;
+    margin-top: 1.5em;
     background-color: v.$body;
     font-family: Helvetica, sans-serif;
+
+    @media (min-width: 992px) {
+        display: flex;
+        position: relative;
+        box-shadow: none;
+    }
 }
 
 .filters__form {
@@ -380,6 +408,10 @@ header {
     flex-direction: column;
     margin: 1em auto;
     gap: 0.5em;
+    @media (min-width: 992px) {
+        margin: 0;
+        width: 100%;
+    }
 }  
 
   .filters__form__description{
@@ -408,3 +440,8 @@ header {
     }
   }
 
+  .cards__animals{
+    @media (min-width: 992px) {
+        align-items: flex-start;
+    }
+  }
