@@ -1,0 +1,331 @@
+@use "./variables" as v;
+
+html {
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background-color: v.$body;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+}
+
+h1,
+h2 {
+    font-weight: bold;
+    font-family: Arima, sans-serif;
+}
+
+h1 {
+    font-size: 1.75rem;
+    @media (min-width: 992px) {
+        font-size: 3rem;
+    }
+}
+
+h2 {
+    font-size: 1.25rem;
+    @media (min-width: 992px) {
+        font-size: 1.5rem;
+    }
+}
+
+.btn {
+    background-color: v.$tertiary;
+    color: #fff;
+    border-radius: 15px;
+    padding: 0.8rem 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: opacity 0.3s;
+
+    &:hover {
+        background-color: v.$tertiary;
+        color: #fff;
+        opacity: 0.7;
+    }
+
+    &:focus {
+        border: 2px solid v.$secondary;
+        background-color: v.$tertiary;
+        color: #fff;
+        opacity: 0.7;
+    }
+}
+
+header {
+    padding: 1.25rem 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 9999999;
+    background-color: v.$body;
+    @media (min-width: 992px) {
+        position: static;
+    }
+}
+
+.header {
+    &__logo {
+        width: 200px;
+    }
+}
+
+.header__primary {
+    display: flex;
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: v.$secondary-light 1px solid;
+
+    &__icons {
+        display: flex;
+        column-gap: 1.2rem;
+        @media (min-width: 992px) {
+            display: none;
+        }
+    }
+
+    &__links {
+        display: none;
+        @media (min-width: 992px) {
+            display: block;
+            color: v.$secondary;
+        }
+
+        .nav__list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 1.5rem;
+            @media (min-width: 992px) {
+                color: v.$secondary;
+            }
+
+            &__link:hover,
+            &__link:focus {
+                color: inherit;
+                opacity: 0.5;
+            }
+        }
+
+        &--mobile {
+            padding: 1.25rem 0;
+            display: none;
+        }
+    }
+}
+
+.header__secondary {
+    padding: 1.25rem 0;
+    display: none;
+    @media (min-width: 992px) {
+        display: block;
+        background-color: v.$primary;
+    }
+}
+
+.nav__list {
+    color: v.$secondary;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+    padding-left: 0;
+    margin-bottom: 0;
+    @media (min-width: 992px) {
+        flex-direction: row;
+        justify-content: center;
+        color: #fff;
+        column-gap: 2rem;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 0.5rem;
+        transition: color 0.3s;
+
+        &:hover,
+        &:focus {
+            @media (min-width: 992px) {
+                color: v.$primary-light;
+            }
+
+            .icon {
+                @media (min-width: 992px) {
+                    stroke: v.$primary-light;
+                }
+            }
+        }
+
+        &.active {
+            color: v.$secondary-light;
+            @media (min-width: 992px) {
+                color: v.$primary-light;
+            }
+
+            .icon {
+                @media (min-width: 992px) {
+                    stroke: v.$primary-light;
+                }
+            }
+        }
+    }
+}
+
+.icon {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    transition: stroke 0.3s;
+    @media (min-width: 992px) {
+        stroke: v.$secondary-light;
+        width: 30px;
+        height: 30px;
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.hero {
+    width: 100%;
+    background-image: url("../assets/banner-home.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    &__text {
+        display: none;
+        font-family: Arima, sans-serif;
+        font-weight: bold;
+        font-size: 2rem;
+        color: #ffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 70%;
+        margin: 0 auto;
+        text-align: center;
+        @media (min-width: 992px) {
+            display: block;
+        }
+    }
+}
+
+.main__title {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.intro__text {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 0 2rem;
+    @media (min-width: 992px) {
+        padding: 0;
+    }
+}
+
+.animals__section__title {
+    margin: 2.5rem 0 0;
+    text-align: center;
+    @media (min-width: 992px) {
+        text-align: start;
+    }
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+
+    @media (min-width: 992px) {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.card {
+    &__link {
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: scale(1.03);
+        }
+    }
+
+    &__img {
+        height: 280px;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    &__title {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    &__text {
+        font-weight: normal;
+    }
+}
+
+.animals__section .btn {
+    margin: 3rem auto;
+    display: block;
+    width: max-content;
+}
+
+.footer {
+    margin-top: 3rem;
+    background-color: v.$primary;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+
+    .footer__nav__list {
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 0.5rem;
+
+        @media (min-width: 992px) {
+            flex-direction: row;
+            column-gap: 1rem;
+            justify-content: center;
+        }
+    }
+
+    a {
+        font-weight: normal;
+        transition: all 0.3s;
+        &:hover,
+        &:focus {
+            @media (min-width: 992px) {
+                color: v.$primary-light;
+            }
+        }
+    }
+
+    .copyright {
+        font-weight: 300;
+    }
+}
