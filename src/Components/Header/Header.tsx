@@ -17,9 +17,10 @@ const Header = () => {
                 {/* <!-- icônes burger menu et user pour version mobile --> */}
                 <div className="header__primary__icons">
                     <Icon ariaLabel={"Ouvrir le menu de navigation"} src={"/src/assets/icons/burger-icon.svg"}
-                          alt={"icône menu"} />
+                          alt={"icône menu"} onClick={() => console.log("open nav")} />
                     <Icon ariaLabel={"Ouvrir le menu de connexion ou inscription"}
-                          src={"/src/assets/icons/user-connect.svg"} alt={"icône connexion/inscription"} />
+                          src={"/src/assets/icons/user-connect.svg"} alt={"icône connexion/inscription"}
+                          onClick={() => console.log("open nav")} />
                 </div>
 
                 {/* <!-- Liens connexion / inscription pour version desktop --> */}

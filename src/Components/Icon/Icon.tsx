@@ -2,17 +2,18 @@ interface IconProps {
     ariaLabel: string;
     src: string;
     alt: string;
+    onClick: () => void;
 }
 
-const Icon = ({ariaLabel, src, alt } : IconProps) => {
+const Icon = ({ ariaLabel, src, alt, onClick }: IconProps) => {
     return (
         <>
-            <button
-                type="button"
-                className="icon"
-                aria-label={ariaLabel}
+            <button onClick={onClick}
+                    type="button"
+                    className="icon"
+                    aria-label={ariaLabel}
             >
-                <img src={src} alt={alt}/>
+                <img src={src} alt={alt} />
             </button>
         </>
     );
