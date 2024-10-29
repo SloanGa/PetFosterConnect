@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import Icon from "../Icon/Icon.tsx";
 import AppLink from "../AppLink/AppLink.tsx";
+import { useState } from "react";
 
 const Header = () => {
+
+    const [isPrimaryMenuVisible, setIsPrimaryMenuVisible] = useState(false);
+
+    const toggleMenuVisibility = () => {
+        setIsPrimaryMenuVisible((prev) => !prev);
+        console.log("click");
+    };
     return (
         <header>
             <div className="header__primary">
@@ -20,7 +28,7 @@ const Header = () => {
                           alt={"icône menu"} onClick={() => console.log("open nav")} />
                     <Icon ariaLabel={"Ouvrir le menu de connexion ou inscription"}
                           src={"/src/assets/icons/user-connect.svg"} alt={"icône connexion/inscription"}
-                          onClick={() => console.log("open nav")} />
+                          onClick={toggleMenuVisibility} />
                 </div>
 
                 {/* <!-- Liens connexion / inscription pour version desktop --> */}
@@ -104,10 +112,10 @@ const Header = () => {
                 </nav>
             </div>
             {/* <!-- Liens connexion / inscription pour version mobile (apparaît au clic sur icône user) -->  */}
-            <nav className="header__primary__links--mobile">
+            <nav className={`header__primary__links--mobile ${isPrimaryMenuVisible ? "active" : ""}`}>
                 <ul className="nav__list">
-                    <AppLink to="/connexion" className="nav__list__link" title="Se connecter" text={"Se connecter"} />
-                    <AppLink to="/inscription/association" className="btn" title="S'inscrire" text={"S'inscrire"} />
+                    <AppLink to="/connexion" className={"nav__list__link"} title="Se connecter" text={"Se connecter"} />
+                    <AppLink to="/inscription/association" className={"btn"} title="S'inscrire" text={"S'inscrire"} />
                 </ul>
             </nav>
         </header>
