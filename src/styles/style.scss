@@ -331,6 +331,8 @@ header {
     }
 }
 
+// Page animals
+
 .intro__text__animals{
     display: none;
 
@@ -357,7 +359,7 @@ header {
 .animals__section__filter {
     position: relative;
     @media (min-width: 992px) {
-       width: 30%;
+       width: 32%;
        
     }
 
