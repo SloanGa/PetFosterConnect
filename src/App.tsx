@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./Pages/Home";
+import Associations from "./Pages/Associations";
+import Association from "./Pages/Association";
+import Animaux from "./Pages/Animaux";
+import Animal from "./Pages/Animal";
+import Famille from "./Pages/Famille";
+import Connexion from "./Pages/Connexion";
+import InscriptionAssociation from "./Pages/InscriptionAssociation";
+import InscriptionFamille from "./Pages/InscriptionFamille";
+import MentionsLegales from "./Pages/MentionsLegales";
+import PlanDuSite from "./Pages/PlanDuSite";
+import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite";
+import Erreur from "./Pages/Erreur";
+import TableauBord from "./Pages/TableauBord";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/associations" element={<Associations />} />
+                <Route path="/association/:name" element={<Association />} />
+                <Route path="/animaux" element={<Animaux />} />
+                <Route path="/animaux/:name-id" element={<Animal />} />
+                <Route path="/famille/:name-id" element={<Famille />} />
+                <Route path="/inscription/famille" element={<InscriptionFamille />} />
+                <Route path="/inscription/association" element={<InscriptionAssociation />} />
+                <Route path="/connexion" element={<Connexion />} />
+                <Route path="tableau-de-bord" element={<TableauBord />} />
+                <Route path="/mentions-legales" element={<MentionsLegales />} />
+                <Route path="/plan-du-site" element={<PlanDuSite />} />
+                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+                {/* Page erreur redirige automatiquement vers /erreur */}
+                <Route path="*" element={<Navigate to="/erreur" replace />} />
+                <Route path="/erreur" element={<Erreur />} />
+            </Routes>
+        </BrowserRouter>
+    );
+};
 
-export default App
+export default App;
