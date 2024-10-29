@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import AnimalCard from "../Components/AnimalCard/AnimalCard.tsx";
+import AppLink from "../Components/AppLink/AppLink.tsx";
 
 const Home = () => {
     return (
@@ -52,8 +53,9 @@ const Home = () => {
                                         name={"Chat1"}
                                         associationLocation={"Finistère (29)"} isHomePage={true} />
                         </div>
+                        <AppLink to={"/animaux"} className={"btn"} title={"Voir les animaux"}
+                                 text={"Voir tous les animaux"} />
 
-                        <a href="/animaux" className="btn" title="Voir les animaux">Voir tous les animaux</a>
                     </section>
                 </div>
             </main>
