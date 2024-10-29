@@ -329,3 +329,30 @@ header {
         font-weight: 300;
     }
 }
+
+.animals__section__filter {
+    padding: 0 0 1.25rem 1.25rem;
+    align-items: center;
+    gap: 1em;
+}
+
+.animals__section__result{
+    padding-left: 1.25rem ;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    border: none;
+    width: 30%;
+    margin: 2em auto;
+}
+
+.page-link {
+    color: inherit;
+} 
+
+.page-link:hover {
+    background-color: #baa89b;
+    color: #fff;
+}  

@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap" rel="stylesheet" />
 
   <!-- Feuilles de style -->
-  <link rel="stylesheet" href="/src/styles/reset.css">
+  <link rel="stylesheet" href="/src/styles/reset.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <link rel="stylesheet" href="/src/styles/style.scss" />
 </head>
@@ -65,7 +65,7 @@
             </a>
           </li>
           <li>
-            <a href="/animals" class="nav__list__link" title="Page des animaux">
+            <a href="#animals" class="nav__list__link" title="Page des animaux">
               <svg class="icon lucide lucide-paw-print" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#663c21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="4" r="2" />
                 <circle cx="18" cy="8" r="2" />
@@ -103,106 +103,36 @@
   </header>
 
   <main>
+    <section class="hero">
+      <p class="hero__text">
+        Familles d’accueil et associations, main dans la patte pour leur offrir une
+        seconde chance.
+      </p>
+    </section>
+
     <div class="container-md">
       <section class="intro">
-        <h1 class="main__title">Les animaux</h1>
+        <h1 class="main__title">PetFoster Connect</h1>
+
+        <p class="intro__text">
+          La plateforme qui met en liaison familles d’accueil et associations afin de
+          proposer aux animaux un foyer temporaire dans l’attente de leur adoption.
+          Que vous soyez une famille d’accueil ou une association, inscrivez-vous en
+          quelques clics.
+        </p>
       </section>
 
       <section class="animals__section">
-
-        <div class="animals__section__filter">
-          <button type="button" class="icon icon__filter" aria-label="Ouvrir le menu de filtre">
-            <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
-          </button>
-
-          <form class="filters">
-            <label for="species">Type</label>
-            <select id="species" name="species">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-
-            <label for="department">Localisation</label>
-            <select id="department" name="department">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-
-            <label for="association">Association</label>
-            <select id="association" name="association">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-
-            <label for="gender">Genre</label>
-            <select id="gender" name="gender">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-
-            <fieldset>
-              <legend>Age</legend>
-              <label>
-                <input type="checkbox" name="age" value="0-2">
-                0 à 2 ans
-              </label>
-              <label>
-                <input type="checkbox" name="age" value="2-5">
-                2 à 5 ans
-              </label>
-              <label>
-                <input type="checkbox" name="age" value="5-10">
-                5 à 10 ans
-              </label>
-              <label>
-                <input type="checkbox" name="age" value="11">
-                > 10 ans
-              </label>
-            </fieldset>
-
-            <fieldset>
-              <legend>Taille</legend>
-              <label>
-                <input type="checkbox" name="size" value="small">
-                Petit
-              </label>
-              <label>
-                <input type="checkbox" name="size" value="medium">
-                Moyen
-              </label>
-              <label>
-                <input type="checkbox" name="size" value="large">
-                Grand
-              </label>
-            </fieldset>
-
-            <button>Rechercher</button>
-
-          </form>
-
-        </div>
-
-        <h2 class="animals__section__result">XXXX Résultats</h2>
-
+        <h2 class="animals__section__title">Découvrez nos animaux à accueillir</h2>
 
         <!-- Cards des animaux -->
-
         <div class="cards">
           <a href="#" class="card__link" aria-label="Voir la page de cet animal">
             <article class="card">
               <img src="/src/assets/chien1.jpg" class="card__img card-img-top" alt="Chien" loading="lazy" />
               <div class="card-body text-center">
                 <h3 class="card__title card-title">Toutou1</h3>
-                <span class="card__spalocalisation">SPA du 06</span>
-                <span class="card__department">Alpes-Maritimes (06)</span>
-                <span class="card__type">Chien </span>
-                <span class="card__genre">Male </span>
-                <span class="card__age"> 1 ans</span>
-
+                <p class="card__text card-text">Alpes-Maritimes (06)</p>
               </div>
             </article>
           </a>
@@ -228,21 +158,7 @@
           </a>
         </div>
 
-        <!-- Pagination -->
-
-        <nav aria-label="Pages de navigation">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">8</a></li>
-            <li class="page-item"><a class="page-link" href="#">9</a></li>
-
-          </ul>
-        </nav>
-
-
+        <a href="/animaux" class="btn" title="Voir les animaux">Voir tous les animaux</a>
       </section>
     </div>
   </main>
