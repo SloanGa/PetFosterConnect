@@ -1,0 +1,138 @@
+@use '../../styles/variables' as v;
+
+ header {
+   padding: 1.25rem 0 0;
+   position: sticky;
+   top: 0;
+   z-index: 9999999;
+   background-color: v.$body;
+   @media (min-width: 992px) {
+     position: static;
+   }
+ }
+
+ .header {
+   &__logo {
+   width: 200px;
+   }
+ }
+
+ .header__primary {
+   display: flex;
+   padding: 0 1.25rem 1.25rem 1.25rem;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: v.$secondary-light 1px solid;
+
+   &__icons {
+    display: flex;
+    column-gap: 1.2rem;
+    @media (min-width: 992px) {
+    display: none;
+    }
+  }
+
+   &__links {
+    display: none;
+    @media (min-width: 992px) {
+      display: block;
+      color: v.$secondary;
+    }
+
+    .nav__list {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      column-gap: 1.5rem;
+      @media (min-width: 992px) {
+        color: v.$secondary;
+      }
+
+      &__link:hover,
+      &__link:focus {
+        color: inherit;
+        opacity: 0.5;
+      }
+    }
+
+    &--mobile {
+      display: none;
+
+      &.active {
+        display: block;
+        padding: 1.25rem 1rem;
+        @media (min-width: 992px) {
+          display: none;
+        }
+      }
+    }
+   }
+ }
+
+ .header__secondary {
+   padding: 1.25rem 0;
+   display: none;
+
+   &.active {
+    display: block;
+   }
+
+  @media (min-width: 992px) {
+    display: block;
+    background-color: v.$primary;
+  }
+}
+
+ .nav__list {
+  color: v.$secondary;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  padding-left: 0;
+  margin-bottom: 0;
+  @media (min-width: 992px) {
+    flex-direction: row;
+    justify-content: center;
+    color: #fff;
+    column-gap: 2rem;
+  }
+
+   &__link {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     column-gap: 0.5rem;
+     transition: color 0.3s;
+
+     &:hover,
+     &:focus {
+    @media (min-width: 992px) {
+        color: v.$primary-light;
+      }
+
+      .icon {
+        @media (min-width: 992px) {
+         stroke: v.$primary-light;
+        }
+      }
+     }
+
+     &.active {
+      color: v.$secondary-light;
+      @media (min-width: 992px) {
+        color: v.$primary-light;
+      }
+
+       .icon {
+         @media (min-width: 992px) {
+          stroke: v.$primary-light;
+        }
+       }
+     }
+   }
+ }
+
+
+ 

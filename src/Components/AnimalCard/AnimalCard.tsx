@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import './AnimalCard.scss';
+
 interface CardProps {
     path: string;
     src: string;
