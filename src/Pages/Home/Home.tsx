@@ -7,11 +7,11 @@ import AppLink from "../../Components/AppLink/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
-import { useAnimals } from "../../Context/AnimalContext.tsx";
+import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 
 const Home = () => {
 
-    const { animals, isLoading, error } = useAnimals();
+    const { animals, isLoading, error } = useFetchAnimals();
 
     const getRandomizeAnimals = (animals: IAnimal[], count: number): IAnimal[] => {
         // Trie le tableau dans un ordre aléatoire
