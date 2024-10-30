@@ -3,13 +3,15 @@ import Header from "../../Components/Header/Header";
 import AnimalCard from "../../Components/AnimalCard/AnimalCard";
 import Pagination from "../../Components/Pagination/Pagination";
 import Footer from "../../Components/Footer/Footer";
-import Filter from "../../Components/Filter/Filter.tsx";
+import Filters from "../../Components/Filters/Filters.tsx";
 import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
+import Loading from "../../Components/Loading/Loading.tsx";
+import { Error } from "../../Components/Error/Error.tsx";
 
 const Animaux = () => {
 
-    const { animals, isLoading, error } = useFetchAnimals()
+    const { animals, isLoading, error } = useFetchAnimals();
 
     return (
         <>
@@ -36,7 +38,7 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">XXXX Résultats</h2>
+                    <h2 className="animals__section__result">{`${animals.length} Résultats`}</h2>
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
@@ -44,81 +46,29 @@ const Animaux = () => {
                                 <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
                                 <span>Filtres</span>
                             </button>
-                            <Filter />
+                            <Filters animals={animals} />
                         </div>
                         <div className="cards">
-                            <AnimalCard
-                                src="/src/assets/chat1.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
-                            <AnimalCard
-                                src="/src/assets/chien1.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
-                            <AnimalCard
-                                src="/src/assets/chien1.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
-                            <AnimalCard
-                                src="/src/assets/chien1.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
-                            <AnimalCard
-                                src="/src/assets/chien2.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
-                            <AnimalCard
-                                src="/src/assets/chien1.jpg"
-                                alt="Chien"
-                                name="Chien"
-                                associationLocation="Paris"
-                                associationName="Test"
-                                animalType="Chien"
-                                gender="19"
-                                age="19"
-                                path="/animaux/name-id"
-                                isHomePage={false}
-                            />
+                            {isLoading ? (
+                                <Loading />
+                            ) : error ? (
+                                <Error error={error} />
+                            ) : (
+                                <ul className="cards">
+                                    {animals.map((animal) => (
+                                        <li key={animal.id}>
+                                            <AnimalCard
+                                                path={`/animaux/${animal.name}-${animal.id}`}
+                                                src={animal.url_image!}
+                                                alt={animal.name}
+                                                name={animal.name}
+                                                associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
+                                                isHomePage={true}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
 
                     </section>
