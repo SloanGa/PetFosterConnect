@@ -110,8 +110,8 @@ const Home = () => {
                                                 src={animal.url_image!}
                                                 alt={animal.name}
                                                 name={animal.name}
-                                                associationLocation={`${getDepartments(animal.association.department_id)[0].name} (${getDepartments(animal.association.department_id)[0].code}) `}
-                                                // associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
+                                                // associationLocation={`${getDepartments(animal.association.department_id)[0].name} (${getDepartments(animal.association.department_id)[0].code}) `}
+                                                associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
                                                 isHomePage={true}
                                             />
                                         </li>

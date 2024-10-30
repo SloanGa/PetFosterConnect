@@ -3,8 +3,7 @@ import Header from "../../Components/Header/Header";
 import AnimalCard from "../../Components/AnimalCard/AnimalCard";
 import Pagination from "../../Components/Pagination/Pagination";
 import Footer from "../../Components/Footer/Footer";
-import Filters
- from "../../Components/Filters/Filters";
+import Filtres from "../../Components/Filtres/Filtres";
 import './Animaux.scss';
 
 const Animaux = () => {
@@ -38,7 +37,7 @@ const Animaux = () => {
                                 <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
                                 <span>Filtres</span>
                             </button>
-                            <Filters />
+                            <Filtres />
                         </div>
 
                         <AnimalCard 

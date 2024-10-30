@@ -30,7 +30,7 @@ const AnimalCard = ({
 
                     }: CardProps) => {
     return (
-        <div className="cards">
+        <>
             <Link to={path} className="card__link" aria-label="Voir la page de cet animal">
                 <article className="card">
                     <img src={src} className="card__img card-img-top" alt={alt} loading="lazy" />
@@ -57,7 +57,7 @@ const AnimalCard = ({
                     </div>
                 </article>
             </Link>
-        </div>
+        </>
     );
 };
 
