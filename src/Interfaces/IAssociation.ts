@@ -1,9 +1,12 @@
+import { IDepartment } from "./IDepartment.ts";
+
 interface IAssociation {
     id: number;
     name: string;
     address: string;
     zip_code: string;
-    department: string;
+    department_id: number;
+    department: IDepartment;
     city: string;
     phone_number: string;
     description: string | null;
