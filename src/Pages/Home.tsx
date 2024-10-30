@@ -3,18 +3,19 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import AnimalCard from "../Components/AnimalCard/AnimalCard.tsx";
 import AppLink from "../Components/AppLink/AppLink.tsx";
-import { useEffect, useState } from "react";
 import Loading from "../Components/Loading/Loading.tsx";
 import { Error } from "../Components/Error/Error.tsx";
+import { IAnimal } from "../Interfaces/IAnimal.ts";
+import { useEffect, useState } from "react";
 
 const Home = () => {
 
-    const [animals, setAnimals] = useState([]);
+    const [animals, setAnimals] = useState<IAnimal[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
 
-    const getRandomizeAnimals = (animals, count) => {
+    const getRandomizeAnimals = (animals: IAnimal[], count: number): IAnimal[] => {
         // Trie le tableau dans un ordre aléatoire
         const shuffledAnimals = animals.sort(() => 0.5 - Math.random());
         //Retourne un tableau avec "count" element (ici 3)
@@ -29,8 +30,8 @@ const Home = () => {
                 if (!response.ok) {
                     return setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 }
-
                 const data = await response.json();
+                console.log(data);
                 setAnimals(getRandomizeAnimals(data, 3));
 
             } catch (error) {
