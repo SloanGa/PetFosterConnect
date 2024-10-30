@@ -4,6 +4,7 @@ import Footer from "../Components/Footer/Footer";
 import AnimalCard from "../Components/AnimalCard/AnimalCard.tsx";
 import AppLink from "../Components/AppLink/AppLink.tsx";
 import { useEffect, useState } from "react";
+import Loading from "../Components/Loading/Loading.tsx";
 
 const Home = () => {
 
@@ -12,8 +13,6 @@ const Home = () => {
 
     useEffect(() => {
         const fetchAnimals = async () => {
-            setIsLoading(true);
-
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/animals`);
                 const data = await response.json();
@@ -63,19 +62,40 @@ const Home = () => {
                         <h2 className="animals__section__title">Découvrez nos animaux à accueillir</h2>
 
                         {/*<!-- Cards des animaux --> */}
+
                         <div className="cards">
-                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien1.jpg"} alt={"Chien"}
+                            {isLoading ? (
+                                <Loading />
+                            ) : (
+                                <>
+                                    <AnimalCard
+                                        path={"/animaux/name-id"}
+                                        src={"/src/assets/chien1.jpg"}
+                                        alt={"Chien"}
                                         name={"Toutou1"}
                                         associationLocation={"Alpes-Maritimes (06)"}
-                                        isHomePage={true} />
+                                        isHomePage={true}
+                                    />
 
-                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien2.jpg"} alt={"Chien2"}
+                                    <AnimalCard
+                                        path={"/animaux/name-id"}
+                                        src={"/src/assets/chien2.jpg"}
+                                        alt={"Chien2"}
                                         name={"Toutou2"}
-                                        associationLocation={"Var (83)"} isHomePage={true} />
+                                        associationLocation={"Var (83)"}
+                                        isHomePage={true}
+                                    />
 
-                            <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chat1.jpg"} alt={"Chat1"}
+                                    <AnimalCard
+                                        path={"/animaux/name-id"}
+                                        src={"/src/assets/chat1.jpg"}
+                                        alt={"Chat1"}
                                         name={"Chat1"}
-                                        associationLocation={"Finistère (29)"} isHomePage={true} />
+                                        associationLocation={"Finistère (29)"}
+                                        isHomePage={true}
+                                    />
+                                </>
+                            )}
                         </div>
                         <AppLink to={"/animaux"} className={"btn"} title={"Voir les animaux"}
                                  text={"Voir tous les animaux"} />

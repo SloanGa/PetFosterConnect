@@ -121,8 +121,8 @@ const Header = () => {
             {/* <!-- Liens connexion / inscription pour version mobile (apparaît au clic sur icône user) -->  */}
             <nav className={`header__primary__links--mobile ${isPrimaryMenuVisible ? "active" : ""}`}>
                 <ul className="nav__list">
-                    <AppLink to="/connexion" className={"nav__list__link"} title="Se connecter" text={"Se connecter"} />
-                    <AppLink to="/inscription/association" className={"btn"} title="S'inscrire" text={"S'inscrire"} />
+                    <AppLink to="/connexion" className="nav__list__link" title="Se connecter" text={"Se connecter"} />
+                    <AppLink to="/inscription/association" className="btn" title="S'inscrire" text={"S'inscrire"} />
                 </ul>
             </nav>
         </header>
