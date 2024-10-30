@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Associations from "./Pages/Associations";
@@ -14,29 +15,35 @@ import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite";
 import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord";
 
+
 const App = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/associations" element={<Associations />} />
-                <Route path="/association/:name" element={<Association />} />
-                <Route path="/animaux" element={<Animaux />} />
-                <Route path="/animaux/:name-id" element={<Animal />} />
-                <Route path="/famille/:name-id" element={<Famille />} />
-                <Route path="/inscription/famille" element={<InscriptionFamille />} />
-                <Route path="/inscription/association" element={<InscriptionAssociation />} />
-                <Route path="/connexion" element={<Connexion />} />
-                <Route path="tableau-de-bord" element={<TableauBord />} />
-                <Route path="/mentions-legales" element={<MentionsLegales />} />
-                <Route path="/plan-du-site" element={<PlanDuSite />} />
-                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+        <HelmetProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/associations" element={<Associations />} />
+                    <Route path="/association/:name" element={<Association />} />
+                    <Route path="/animaux" element={<Animaux />} />
+                    <Route path="/animaux/:name-id" element={<Animal />} />
+                    <Route path="/famille/:name-id" element={<Famille />} />
+                    <Route path="/inscription/famille" element={<InscriptionFamille />} />
+                    <Route path="/inscription/association" element={<InscriptionAssociation />} />
+                    <Route path="/connexion" element={<Connexion />} />
+                    <Route path="tableau-de-bord" element={<TableauBord />} />
+                    <Route path="/mentions-legales" element={<MentionsLegales />} />
+                    <Route path="/plan-du-site" element={<PlanDuSite />} />
+                    <Route
+                        path="/politique-confidentialite"
+                        element={<PolitiqueConfidentialite />}
+                    />
 
-                {/* Page erreur redirige automatiquement vers /erreur */}
-                <Route path="*" element={<Navigate to="/erreur" replace />} />
-                <Route path="/erreur" element={<Erreur />} />
-            </Routes>
-        </BrowserRouter>
+                    {/* Page erreur redirige automatiquement vers /erreur */}
+                    <Route path="*" element={<Navigate to="/erreur" replace />} />
+                    <Route path="/erreur" element={<Erreur />} />
+                </Routes>
+            </BrowserRouter>
+        </HelmetProvider>
     );
 };
 
