@@ -1,3 +1,5 @@
+import './Icon.scss';
+
 interface IconProps {
     ariaLabel: string;
     src: string;

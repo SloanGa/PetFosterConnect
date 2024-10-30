@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Icon from "../Icon/Icon.tsx";
 import AppLink from "../AppLink/AppLink.tsx";
 import { useState } from "react";
+import './Header.scss';
 
 const Header = () => {
 
