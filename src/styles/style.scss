@@ -119,6 +119,9 @@ header {
       &.active {
         display: block;
         padding: 1.25rem 1rem;
+        @media (min-width: 992px) {
+          display: none;
+        }
       }
     }
   }
