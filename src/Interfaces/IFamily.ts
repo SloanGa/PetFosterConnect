@@ -3,7 +3,7 @@ interface IFamily {
     name: string;
     address: string;
     zip_code: string;
-    department: string;
+    department_id: number;
     city: string;
     phone_number: string;
     description: string | null;

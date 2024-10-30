@@ -7,10 +7,12 @@ import Loading from "../Components/Loading/Loading.tsx";
 import { Error } from "../Components/Error/Error.tsx";
 import { IAnimal } from "../Interfaces/IAnimal.ts";
 import { useEffect, useState } from "react";
+import { IDepartment } from "../Interfaces/IDepartment.ts";
 
 const Home = () => {
 
     const [animals, setAnimals] = useState<IAnimal[]>([]);
+    const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -22,17 +24,28 @@ const Home = () => {
         return shuffledAnimals.slice(0, count);
     };
 
+    const getDepartments = (id: number): IDepartment[] => {
+        return departments.filter((location) => location.id === id);
+    };
+
+
     useEffect(() => {
         const fetchAnimals = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/animals`);
+                const [response1, response2] = await Promise.all([
+                    fetch(`${import.meta.env.VITE_API_URL}/animals`),
+                    fetch(`${import.meta.env.VITE_API_URL}/departments`),
+                ]);
 
-                if (!response.ok) {
+                if (!response1.ok || !response2.ok) {
                     return setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 }
-                const data = await response.json();
-                console.log(data);
-                setAnimals(getRandomizeAnimals(data, 3));
+                const animals = await response1.json();
+                const departments = await response2.json();
+
+
+                setAnimals(getRandomizeAnimals(animals, 3));
+                setDepartments(departments);
 
             } catch (error) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
@@ -42,8 +55,10 @@ const Home = () => {
             }
         };
 
+
         fetchAnimals();
     }, []);
+    
 
     return (
         <>
@@ -95,7 +110,8 @@ const Home = () => {
                                                 src={animal.url_image!}
                                                 alt={animal.name}
                                                 name={animal.name}
-                                                associationLocation={animal.association.department}
+                                                associationLocation={`${getDepartments(animal.association.department_id)[0].name} (${getDepartments(animal.association.department_id)[0].code}) `}
+                                                // associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
                                                 isHomePage={true}
                                             />
                                         </li>
