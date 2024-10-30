@@ -3,15 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Associations from "./Pages/Associations";
 import Association from "./Pages/Association";
-import Animaux from "./Pages/Animaux";
+import Animaux from "./Pages/Animaux/Animaux";
 import Animal from "./Pages/Animal";
 import Famille from "./Pages/Famille";
 import Connexion from "./Pages/Connexion";
 import InscriptionAssociation from "./Pages/InscriptionAssociation";
 import InscriptionFamille from "./Pages/InscriptionFamille";
-import MentionsLegales from "./Pages/MentionsLegales";
+import MentionsLegales from "./Pages/MentionsLegales/MentionsLegales";
 import PlanDuSite from "./Pages/PlanDuSite";
-import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite";
+import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
 import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord";
 

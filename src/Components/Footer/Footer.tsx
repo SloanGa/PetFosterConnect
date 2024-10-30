@@ -6,13 +6,13 @@ const Footer = () => {
             <nav>
                 <ul className="footer__nav__list">
                     <li>
-                        <a href="">Mentions légales</a>
+                        <a href="/mentions-legales">Mentions légales</a>
                     </li>
                     <li>
-                        <a href="">Politique de confidentialité</a>
+                        <a href="/politique-confidentialite">Politique de confidentialité</a>
                     </li>
                     <li>
-                        <a href="">Plan du site</a>
+                        <a href="/plan-du-site">Plan du site</a>
                     </li>
                     <li>
                         <a href="mailto:contact@petfosterconnect.com">Contact</a>
