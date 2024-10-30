@@ -7,6 +7,9 @@ import Filtres from "../../Components/Filtres/Filtres";
 import './Animaux.scss';
 
 const Animaux = () => {
+
+
+    
     return (
         <>
             <Helmet>
