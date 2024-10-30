@@ -43,7 +43,8 @@ const Home = () => {
                         <div className="cards">
                             <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien1.jpg"} alt={"Chien"}
                                         name={"Toutou1"}
-                                        associationLocation={"Alpes-Maritimes (06)"} isHomePage={true} />
+                                        associationLocation={"Alpes-Maritimes (06)"}
+                                        isHomePage={true} />
 
                             <AnimalCard path={"/animaux/name-id"} src={"/src/assets/chien2.jpg"} alt={"Chien2"}
                                         name={"Toutou2"}
