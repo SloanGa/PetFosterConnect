@@ -92,7 +92,7 @@ const Home = () => {
                                         <li key={animal.id}>
                                             <AnimalCard
                                                 path={`/animaux/${animal.name}-${animal.id}`}
-                                                src={animal.url_image}
+                                                src={animal.url_image!}
                                                 alt={animal.name}
                                                 name={animal.name}
                                                 associationLocation={animal.association.department}

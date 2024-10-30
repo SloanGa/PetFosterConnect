@@ -15,7 +15,7 @@ interface IAnimal {
     family_id: number | null;
     family: IFamily | null;
     association_id: number;
-    association: IAssociation | null;
+    association: IAssociation;
     created_at: Date;
     updated_at: Date;
 }
