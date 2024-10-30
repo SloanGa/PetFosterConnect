@@ -127,6 +127,11 @@ header {
 .header__secondary {
   padding: 1.25rem 0;
   display: none;
+
+  &.active {
+    display: block;
+  }
+
   @media (min-width: 992px) {
     display: block;
     background-color: v.$primary;

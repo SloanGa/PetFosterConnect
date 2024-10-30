@@ -6,11 +6,18 @@ import { useState } from "react";
 const Header = () => {
 
     const [isPrimaryMenuVisible, setIsPrimaryMenuVisible] = useState(false);
+    const [isSecondaryMenuVisible, setIsSecondaryMenuVisible] = useState(false);
 
-    const toggleMenuVisibility = () => {
+    const togglePrimaryMenuVisibility = () => {
         setIsPrimaryMenuVisible((prev) => !prev);
-        console.log("click");
+        setIsSecondaryMenuVisible(false);
     };
+
+    const toggleSecondaryMenuVisibility = () => {
+        setIsSecondaryMenuVisible((prev) => !prev);
+        setIsPrimaryMenuVisible(false);
+    };
+
     return (
         <header>
             <div className="header__primary">
@@ -25,10 +32,10 @@ const Header = () => {
                 {/* <!-- icônes burger menu et user pour version mobile --> */}
                 <div className="header__primary__icons">
                     <Icon ariaLabel={"Ouvrir le menu de navigation"} src={"/src/assets/icons/burger-icon.svg"}
-                          alt={"icône menu"} onClick={() => console.log("open nav")} />
+                          alt={"icône menu"} onClick={toggleSecondaryMenuVisibility} />
                     <Icon ariaLabel={"Ouvrir le menu de connexion ou inscription"}
                           src={"/src/assets/icons/user-connect.svg"} alt={"icône connexion/inscription"}
-                          onClick={toggleMenuVisibility} />
+                          onClick={togglePrimaryMenuVisibility} />
                 </div>
 
                 {/* <!-- Liens connexion / inscription pour version desktop --> */}
@@ -47,7 +54,7 @@ const Header = () => {
                     </nav>
                 </div>
             </div>
-            <div className="header__secondary">
+            <div className={`header__secondary ${isSecondaryMenuVisible ? "active" : ""}`}>
                 <nav>
                     <ul className="nav__list">
                         <AppLink to="/" className="nav__list__link active" title="Page d'accueil" svg={<svg
