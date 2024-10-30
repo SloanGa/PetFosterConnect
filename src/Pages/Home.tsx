@@ -3,8 +3,31 @@ import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import AnimalCard from "../Components/AnimalCard/AnimalCard.tsx";
 import AppLink from "../Components/AppLink/AppLink.tsx";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+
+    const [animals, setAnimals] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAnimals = async () => {
+            setIsLoading(true);
+
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/animals`);
+                const data = await response.json();
+                setAnimals(data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAnimals();
+    }, []);
+
     return (
         <>
             {/*Composant qui gere les meta données*/}

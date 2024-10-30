@@ -2,8 +2,8 @@ networks:
   front:
     driver: bridge
 
-services:  
- petfoster:
+services:
+  petfoster:
     image: node:lts-alpine3.20
     volumes:
       - .:/src
@@ -13,5 +13,5 @@ services:
     ports:
       - "5173:5173"
     command: [ "sh", "-c", "npm install && npm run dev --host 0.0.0.0" ]
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
