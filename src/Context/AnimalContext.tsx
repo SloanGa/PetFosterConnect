@@ -1,3 +1,6 @@
+/* Ne pas supprimer. Context que l'on pourra réutiliser pour l'auth */
+
+
 // import { createContext, useContext, useEffect, useState } from "react";
 // import { IAnimal } from "../Interfaces/IAnimal.ts";
 //

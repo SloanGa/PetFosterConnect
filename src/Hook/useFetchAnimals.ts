@@ -33,7 +33,7 @@ const useFetchAnimals = () => {
         fetchAnimals();
     }, []);
 
-    return { animals, isLoading, error, baseURL };
+    return { animals, isLoading, setIsLoading, error, setError, baseURL };
 };
 
 export { useFetchAnimals };

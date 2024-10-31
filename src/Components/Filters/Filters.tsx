@@ -18,10 +18,11 @@ const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
     
-    // Permet de retourner un tableau des type et genre sans les dupliquer
+    /* Permet de retourner un tableau des type et genre sans les dupliquer */
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
     const uniqueGender = [...new Set(animals.map((animal) => animal.gender))];
 
+    /* Empêche l'utilisateur de pourvoir avoir plusieurs checkbox cochée */
     const handleAgeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSelectedAge(selectedAge === value ? null : value);
@@ -31,7 +32,8 @@ const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
         setSelectedSize(selectedSize === value ? null : value);
     };
 
-    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    /* Reinitialise le formulaire */
+    const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         const form = e.currentTarget.form;
         if (form) {
             form.reset();
@@ -148,7 +150,7 @@ const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
                 </button>
 
                 <button className="btn__form--reinit" type="button"
-                        aria-label="Bouton de reinitialisation du formulaire" onClick={handleReset}>
+                        aria-label="Bouton de reinitialisation du formulaire" onClick={handleResetForm}>
                     Réinitialiser
                 </button>
             </form>

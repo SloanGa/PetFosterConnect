@@ -8,26 +8,26 @@ import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
 
 const Animaux = () => {
 
-    const { animals, isLoading, error, baseURL } = useFetchAnimals();
+    const { animals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
 
-    // Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals
+    /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
         if (animals) {
             setAnimalsToDisplay(animals);
         }
     }, [animals]);
 
-
-    const handleFilter = async (e: FormEvent<HTMLFormElement>) => {
+    /* Logique pour la gestion du filtre  */
+    const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
@@ -51,7 +51,7 @@ const Animaux = () => {
             params[key] = value;
         });
 
-        // Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2...
+        /* Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2... */
         const queryString = new URLSearchParams(params).toString();
 
         try {
@@ -65,8 +65,34 @@ const Animaux = () => {
         }
     };
 
+
     const toggleFiltersVisibility = () => {
         setIsFiltersVisible((prev) => !prev);
+    };
+
+
+    /* Logique pour la gestion de la pagination  */
+    const handleChangePage = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        const page = event.currentTarget.dataset.page;
+        console.log("test");
+        try {
+            setIsLoading(true);
+            const response = await
+                fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
+
+            if (!response.ok) {
+                return setError("Une erreur est survenue, veuillez rafraîchir la page.");
+            }
+            const data: IAnimal[] = await response.json();
+            setAnimalsToDisplay(data);
+
+        } catch (error) {
+            setError("Une erreur est survenue, veuillez rafraîchir la page.");
+            console.error("Erreur lors de la récupération des données:", error);
+        } finally {
+            setIsLoading(false);
+        }
+
     };
 
     return (
@@ -101,7 +127,8 @@ const Animaux = () => {
 
                             <Icon ariaLabel="Ouvrir le menu de filtre" src="/src/assets/icons/filter.svg"
                                   alt="icône filtre" onClick={toggleFiltersVisibility} text="Filtres" />
-                            <Filters animals={animals} handleFilter={handleFilter}
+
+                            <Filters animals={animals} handleFilter={handleSubmitFilter}
                                      isFiltersVisible={isFiltersVisible} />
                         </div>
                         <div className="cards">
@@ -133,7 +160,7 @@ const Animaux = () => {
 
                     </section>
 
-                    <Pagination />
+                    <Pagination animals={animals} handleChangePage={handleChangePage} />
                 </div>
             </main>
             <Footer />
