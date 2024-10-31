@@ -1,6 +1,6 @@
 import './Filtres.scss';
 
-const Filtres = () => {
+const Filters = () => {
     return (
         <div className="filters">
         <form className="filters__form" method="post" action="">
@@ -78,4 +78,4 @@ const Filtres = () => {
 
 )};
 
-export default Filtres;
+export default Filters;
