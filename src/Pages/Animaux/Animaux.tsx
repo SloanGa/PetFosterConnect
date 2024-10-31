@@ -63,7 +63,11 @@ const Animaux = () => {
                                                 alt={animal.name}
                                                 name={animal.name}
                                                 associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
-                                                isHomePage={true}
+                                                associationName={animal.association.name}
+                                                animalType={animal.species}
+                                                gender={animal.gender}
+                                                age={animal.age}
+                                                isHomePage={false}
                                             />
                                         </li>
                                     ))}

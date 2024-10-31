@@ -12,7 +12,7 @@ interface CardProps {
     associationName?: string;
     animalType?: string;
     gender?: string;
-    age?: string;
+    age?: number;
     isHomePage: boolean;
 }
 
