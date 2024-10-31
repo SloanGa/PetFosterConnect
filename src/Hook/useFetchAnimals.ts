@@ -6,6 +6,9 @@ const useFetchAnimals = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const baseURL = import.meta.env.VITE_API_URL;
+
+
     useEffect(() => {
         const fetchAnimals = async () => {
             try {
@@ -30,7 +33,7 @@ const useFetchAnimals = () => {
         fetchAnimals();
     }, []);
 
-    return { animals, isLoading, error };
+    return { animals, isLoading, setIsLoading, error, setError, baseURL };
 };
 
 export { useFetchAnimals };

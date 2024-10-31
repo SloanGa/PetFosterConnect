@@ -1,16 +1,3 @@
-.cards {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 2rem;
-
-  @media (min-width: 992px) {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
 
 .card {
   &__link {
@@ -18,6 +5,11 @@
 
     &:hover {
       transform: scale(1.03);
+      background: red;
+    }
+
+    p {
+      text-align: center;
     }
   }
 

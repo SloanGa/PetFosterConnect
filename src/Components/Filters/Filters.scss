@@ -2,14 +2,15 @@
 
 
 .animals__section__filter {
+  padding-top: 2.5em;
   position: relative;
   @media (min-width: 992px) {
-    width: 32%;
+    //width: 20%;
   }
 }
 
 .animals__section__result {
-  padding: 0.7em 0 0 1.25em;
+  padding: 1.5em 0 0 1.25em;
 }
 
 .filters {
@@ -19,9 +20,13 @@
   position: absolute;
   left: 0;
   z-index: 1;
-  margin-top: 1.5em;
+  margin-top: 1em;
   background-color: v.$body;
   font-family: Helvetica, sans-serif;
+
+  &.active {
+    display: block;
+  }
 
   @media (min-width: 992px) {
     display: flex;
@@ -50,10 +55,47 @@
 .filters__form__fieldset {
   display: flex;
   flex-direction: column;
-  gap: 0.2em;
+  gap: 0.6em;
 }
 
 .form-check-input {
   margin-right: 0.5em;
+  margin-top: 0;
 }
 
+.btn__form {
+  border: 1px solid transparent;
+  background-color: v.$tertiary;
+  color: #fff;
+  border-radius: 15px;
+  padding: 0.8rem 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: opacity 0.3s;
+
+  &:hover {
+    background-color: v.$tertiary;
+    color: #fff;
+    opacity: 0.7;
+  }
+
+}
+
+.btn__form--reinit {
+  border: 1px solid transparent;
+  background-color: v.$secondary-light;
+  color: #fff;
+  border-radius: 15px;
+  padding: 0.8rem 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: opacity 0.3s;
+
+
+  &:hover {
+    background-color: v.$secondary-light;
+    color: #fff;
+    opacity: 0.7;
+  }
+
+}

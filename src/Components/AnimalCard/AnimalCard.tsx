@@ -29,6 +29,7 @@ const AnimalCard = ({
                         isHomePage,
 
                     }: CardProps) => {
+
     return (
         <>
             <Link to={path} className="card__link" aria-label="Voir la page de cet animal">
@@ -50,7 +51,7 @@ const AnimalCard = ({
                                 <div className="card__description">
                                     <span>{animalType}</span>
                                     <span>{gender}</span>
-                                    <span>{age}</span>
+                                    <span>{`${age} ans`}</span>
                                 </div>
                             </>
                         )}

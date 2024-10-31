@@ -1,18 +1,22 @@
-@use '../../styles/variables' as v; 
+@use '../../styles/variables' as v;
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    border: none;
-    width: 30%;
-    margin: 2em auto;
-  }
-  
-  .page-link {
-    color: inherit;
-  }
-  
-  .page-link:hover {
-    background-color: #baa89b;
-    color: #fff;
-  }
+  display: flex;
+  justify-content: center;
+  border: none;
+  width: 30%;
+  margin: 2em auto;
+}
+
+.page-link {
+  color: inherit;
+}
+
+.page-item {
+  margin: 0
+}
+
+.page-link:hover {
+  background-color: #baa89b;
+  color: #fff;
+}

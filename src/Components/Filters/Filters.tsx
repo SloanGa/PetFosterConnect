@@ -1,19 +1,47 @@
 import "./Filters.scss";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 
 interface FiltersProps {
     animals: IAnimal[];
+    handleFilter: (event: FormEvent) => void;
+    isFiltersVisible: boolean;
 }
 
-const Filters = ({ animals }: FiltersProps) => {
+const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
+
     const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [associations, setAssociations] = useState<IAssociation[]>([]);
+    const [selectedAge, setSelectedAge] = useState<string | null>(null);
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
+    /* Permet de retourner un tableau des type et genre sans les dupliquer */
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
     const uniqueGender = [...new Set(animals.map((animal) => animal.gender))];
+
+    /* Empêche l'utilisateur de pourvoir avoir plusieurs checkbox cochée */
+    const handleAgeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSelectedAge(selectedAge === value ? null : value);
+    };
+    const handleSizeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSelectedSize(selectedSize === value ? null : value);
+    };
+
+    /* Reinitialise le formulaire */
+    const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const form = e.currentTarget.form;
+        if (form) {
+            form.reset();
+            setSelectedSize(null);
+            setSelectedAge(null);
+        }
+    };
+
 
     useEffect(() => {
         const fetchFilterData = async () => {
@@ -39,8 +67,9 @@ const Filters = ({ animals }: FiltersProps) => {
 
 
     return (
-        <div className="filters">
-            <form className="filters__form" method="post" action="">
+        <div className={`filters ${isFiltersVisible ? "active" : ""}`}>
+            <form className="filters__form" method="get" action={`${import.meta.env.VITE_API_URL}/animals/search`}
+                  onSubmit={handleFilter}>
                 <label className="filters__form__description" htmlFor="species">Type</label>
                 <select className="form-select" id="species" name="species">
                     <option value="">Tous les types</option>
@@ -53,76 +82,75 @@ const Filters = ({ animals }: FiltersProps) => {
                 </select>
 
                 <label className="filters__form__description" htmlFor="department">Localisation</label>
-                <select className="form-select" id="department" name="department">
+                <select className="form-select" id="department" name="department_id">
                     <option value="">Tous les départements</option>
                     {departments.map((department) => (
-                        <option key={department.id} value={department.name}>{department.name}</option>
+                        <option key={department.id} value={department.id}>{department.name}</option>
                     ))}
                 </select>
 
                 <label className="filters__form__description" htmlFor="association">Association</label>
-                <select className="form-select" id="association" name="association">
+                <select className="form-select" id="association" name="association_id">
                     <option value="">Toutes les associations</option>
                     {associations.map((association) => (
-                        <option key={association.id} value={association.name}>{association.name}</option>
+                        <option key={association.id} value={association.id}>{association.name}</option>
                     ))}
                 </select>
 
                 <label className="filters__form__description" htmlFor="gender">Genre</label>
                 <select className="form-select" id="gender" name="gender">
                     <option value="">Tous les genres</option>
-                    {uniqueGender.map((species) => (
-                        <option key={species} value={species}>
-                            {species}
+                    {uniqueGender.map((gender) => (
+                        <option key={gender} value={gender}>
+                            {gender}
                         </option>
                     ))}
                 </select>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Âge</legend>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="0-2"
-                               aria-label="0 à 2 ans" />
-                        0 à 2 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="2-5"
-                               aria-label="2 à 5 ans" />
-                        2 à 5 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="5-10"
-                               aria-label="5 à 10 ans" />
-                        5 à 10 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="11"
-                               aria-label="Plus de 10 ans" />
-                        10 ans
-                    </label>
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="0 à 2 ans"
+                                    value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="2 à 5 ans"
+                                    value="2-5" text="2 à 5 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="5 à 10 ans"
+                                    value="5-10" text="5 à 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="Plus de 10 ans"
+                                    value="11" text="< 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="small"
-                               aria-label="Petit" />
-                        Petit
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="medium"
-                               aria-label="Moyen" />
-                        Moyen
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="large"
-                               aria-label="Grand" />
-                        Grand
-                    </label>
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Petit"
+                                    value="Petit" text="Petit" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Moyen"
+                                    value="Moyen" text="Moyen" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Grand"
+                                    value="Grand" text="Grand" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
                 </fieldset>
 
-                <button className="btn" type="submit" aria-label="Bouton de recherche">
+                <button className="btn__form" type="submit" aria-label="Bouton de recherche">
                     Rechercher
+                </button>
+
+                <button className="btn__form--reinit" type="button"
+                        aria-label="Bouton de reinitialisation du formulaire" onClick={handleResetForm}>
+                    Réinitialiser
                 </button>
             </form>
         </div>
