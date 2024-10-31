@@ -8,15 +8,16 @@ import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 interface FiltersProps {
     animals: IAnimal[];
     handleFilter: (event: FormEvent) => void;
+    isFiltersVisible: boolean;
 }
 
-const Filters = ({ animals, handleFilter }: FiltersProps) => {
+const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
 
     const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [associations, setAssociations] = useState<IAssociation[]>([]);
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
-
+    
     // Permet de retourner un tableau des type et genre sans les dupliquer
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
     const uniqueGender = [...new Set(animals.map((animal) => animal.gender))];
@@ -38,6 +39,8 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
             setSelectedAge(null);
         }
     };
+
+  
 
     useEffect(() => {
         const fetchFilterData = async () => {
@@ -63,7 +66,7 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
 
 
     return (
-        <div className="filters">
+        <div className={`filters ${isFiltersVisible ? "active" : ""}`}> 
             <form className="filters__form" method="get" action="http://localhost:5050/animals/search"
                   onSubmit={handleFilter}>
                 <label className="filters__form__description" htmlFor="species">Type</label>

@@ -20,9 +20,13 @@
   position: absolute;
   left: 0;
   z-index: 1;
-  margin-top: 1.5em;
+  margin-top: 1em;
   background-color: v.$body;
   font-family: Helvetica, sans-serif;
+
+  &.active {
+    display: block;
+  }
 
   @media (min-width: 992px) {
     display: flex;

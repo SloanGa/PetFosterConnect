@@ -17,6 +17,7 @@ const Animaux = () => {
     const { animals, isLoading, error, baseURL } = useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
+    const [isFiltersVisible, setIsFiltersVisible] = useState(false);
 
     // Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals
     useEffect(() => {
@@ -64,6 +65,10 @@ const Animaux = () => {
         }
     };
 
+    const toggleFiltersVisibility = () => {
+        setIsFiltersVisible((prev) => !prev);
+    };
+
     return (
         <>
             <Helmet>
@@ -93,13 +98,11 @@ const Animaux = () => {
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
-                            {/*<button type="button" className="icon icon__filter" aria-label="Ouvrir le menu de filtre">*/}
-                            {/*    <img src="/src/assets/icons/filter.svg" alt="icône filtre" />*/}
-                            {/*    <span>Filtres</span>*/}
-                            {/*</button>*/}
+
                             <Icon ariaLabel="Ouvrir le menu de filtre" src="/src/assets/icons/filter.svg"
-                                  alt="icône filtre" onClick={() => console.log("click")} text="Filtres" />
-                            <Filters animals={animals} handleFilter={handleFilter} />
+                                  alt="icône filtre" onClick={toggleFiltersVisibility} text="Filtres" />
+                            <Filters animals={animals} handleFilter={handleFilter}
+                                     isFiltersVisible={isFiltersVisible} />
                         </div>
                         <div className="cards">
                             {isLoading ? (
