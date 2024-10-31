@@ -98,7 +98,7 @@ const Filters = ({ animals }: FiltersProps) => {
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
-                    
+
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="small"
                                     value="small" text="Petit" />
 

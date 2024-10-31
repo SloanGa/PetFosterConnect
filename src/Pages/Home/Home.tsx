@@ -11,7 +11,7 @@ import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 
 const Home = () => {
 
-    const { animals, isLoading, error } = useFetchAnimals();
+    const { animals, isLoading, error, baseURL } = useFetchAnimals();
 
     const getRandomizeAnimals = (animals: IAnimal[], count: number): IAnimal[] => {
         // Trie le tableau dans un ordre aléatoire
@@ -69,10 +69,9 @@ const Home = () => {
                                         <li key={animal.id}>
                                             <AnimalCard
                                                 path={`/animaux/${animal.name}-${animal.id}`}
-                                                src={animal.url_image!}
+                                                src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
                                                 name={animal.name}
-                                                // associationLocation={`${getDepartments(animal.association.department_id)[0].name} (${getDepartments(animal.association.department_id)[0].code}) `}
                                                 associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}
                                                 isHomePage={true}
                                             />

@@ -11,7 +11,7 @@ import { Error } from "../../Components/Error/Error.tsx";
 
 const Animaux = () => {
 
-    const { animals, isLoading, error } = useFetchAnimals();
+    const { animals, isLoading, error, baseURL } = useFetchAnimals();
 
     return (
         <>
@@ -59,7 +59,7 @@ const Animaux = () => {
                                         <li key={animal.id}>
                                             <AnimalCard
                                                 path={`/animaux/${animal.name}-${animal.id}`}
-                                                src={animal.url_image!}
+                                                src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
                                                 name={animal.name}
                                                 associationLocation={`${animal.association.department.name} (${animal.association.department.code})`}

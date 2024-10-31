@@ -6,6 +6,9 @@ const useFetchAnimals = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const baseURL = "http://localhost:5050";
+
+
     useEffect(() => {
         const fetchAnimals = async () => {
             try {
@@ -30,7 +33,7 @@ const useFetchAnimals = () => {
         fetchAnimals();
     }, []);
 
-    return { animals, isLoading, error };
+    return { animals, isLoading, error, baseURL };
 };
 
 export { useFetchAnimals };
