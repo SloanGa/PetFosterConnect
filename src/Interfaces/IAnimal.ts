@@ -1,5 +1,6 @@
 import { IAssociation } from "./IAssociation.ts";
 import { IFamily } from "./IFamily.ts";
+import { IDepartment } from "./IDepartment.ts";
 
 interface IAnimal {
     id: number;

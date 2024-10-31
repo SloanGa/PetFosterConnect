@@ -1,0 +1,39 @@
+.hero {
+  width: 100%;
+  background-image: url("../../assets/banner-home.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  object-fit: cover;
+
+  &__text {
+    display: none;
+    font-family: Arima, sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #ffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 70%;
+    margin: 0 auto;
+    text-align: center;
+    @media (min-width: 992px) {
+      display: block;
+    }
+  }
+}
+
+.animals__section__home {
+  @media (min-width: 992px) {
+    gap: 5em;
+    width: 100%;
+    margin: auto;
+    .btn {
+      margin: 3rem auto;
+      display: block;
+      width: max-content;
+    }
+  }
+}

@@ -1,47 +1,45 @@
-@use '../../styles/variables' as v; 
-
 .cards {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 2rem;
-  
-    @media (min-width: 992px) {
-      flex-direction: row;
-      justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.card {
+  &__link {
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.03);
     }
   }
-  
-  .card {
-    &__link {
-      transition: transform 0.3s;
-  
-      &:hover {
-        transform: scale(1.03);
-      }
-    }
-  
-    &__img {
-      height: 280px;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      object-position: top;
-    }
-  
-    &__title {
-      font-weight: bold;
-      font-size: 1rem;
-    }
-  
-    &__text {
-      font-weight: normal;
-    }
+
+  &__img {
+    height: 280px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: top;
   }
+
+  &__title {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  &__text {
+    font-weight: normal;
+  }
+}
 
 .animals__section .btn {
-    margin: 3rem auto;
-    display: block;
-    width: max-content;
-    }
+  margin: 3rem auto;
+  display: block;
+  width: max-content;
+}

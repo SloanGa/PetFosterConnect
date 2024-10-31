@@ -1,78 +1,59 @@
-@use '../../styles/variables' as v; 
+@use '../../styles/variables' as v;
+
 
 .animals__section__filter {
-    position: relative;
-    @media (min-width: 992px) {
-    width: 32%;}
+  position: relative;
+  @media (min-width: 992px) {
+    width: 32%;
+  }
 }
+
 .animals__section__result {
-padding: 0.7em 0 0 1.25em;
+  padding: 0.7em 0 0 1.25em;
 }
 
 .filters {
-    display: none;
-    width: 100%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    margin-top: 1.5em;
-    background-color: v.$body;
-    font-family: Helvetica, sans-serif;
-  
-    @media (min-width: 992px) {
-      display: flex;
-      position: relative;
-      box-shadow: none;
-    }
-  }
-  
-  .filters__form {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    margin: 1em auto;
-    gap: 1em;
-    @media (min-width: 992px) {
-      margin: 0;
-      width: 100%;
-    }
-  }
-  
-  .filters__form__description {
-    font-size: 1em;
-    font-weight: bold;
-  }
-  
-  .filters__form__fieldset {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2em;
-  }
-  
-  .form-check-input {
-    margin-right: 0.5em;
-  }
+  display: none;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  margin-top: 1.5em;
+  background-color: v.$body;
+  font-family: Helvetica, sans-serif;
 
-.btn {
-background-color: v.$tertiary;
-color: #fff;
-border-radius: 15px;
-padding: 0.8rem 1rem;
-text-transform: uppercase;
-font-weight: 600;
-transition: opacity 0.3s;
-
-&:hover {
-background-color: v.$tertiary;
-color: #fff;
-opacity: 0.7;
+  @media (min-width: 992px) {
+    display: flex;
+    position: relative;
+    box-shadow: none;
+  }
 }
 
- &:focus {
- border: 2px solid v.$secondary;
- background-color: v.$tertiary;
- color: #fff;
- opacity: 0.7;
- }
- }
+.filters__form {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  margin: 1em auto;
+  gap: 1em;
+  @media (min-width: 992px) {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.filters__form__description {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.filters__form__fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.form-check-input {
+  margin-right: 0.5em;
+}
+

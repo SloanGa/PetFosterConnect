@@ -1,7 +1,7 @@
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./Pages/Home";
-import Associations from "./Pages/Associations/Associations";
+import Home from "./Pages/Home/Home.tsx";
+import Associations from "./Pages/Associations/Associations.tsx";
 import Association from "./Pages/Association";
 import Animaux from "./Pages/Animaux/Animaux";
 import Animal from "./Pages/Animal";
@@ -14,11 +14,13 @@ import PlanDuSite from "./Pages/PlanDuSite";
 import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
 import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord";
+// import { AnimalProvider } from "./Context/AnimalContext.tsx";
 
 
 const App = () => {
     return (
         <HelmetProvider>
+            {/*<AnimalProvider>*/}
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -43,6 +45,7 @@ const App = () => {
                     <Route path="/erreur" element={<Erreur />} />
                 </Routes>
             </BrowserRouter>
+            {/*</AnimalProvider>*/}
         </HelmetProvider>
     );
 };
