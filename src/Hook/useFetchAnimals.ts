@@ -6,7 +6,7 @@ const useFetchAnimals = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const baseURL = "http://localhost:5050";
+    const baseURL = import.meta.env.VITE_API_URL;
 
 
     useEffect(() => {

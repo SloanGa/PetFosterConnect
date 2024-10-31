@@ -8,7 +8,7 @@ import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import React, { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
 
@@ -55,7 +55,7 @@ const Animaux = () => {
         const queryString = new URLSearchParams(params).toString();
 
         try {
-            const response = await fetch(`http://localhost:5050/animals/search?${queryString}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/animals/search?${queryString}`);
 
             const data: IAnimal[] = await response.json();
 
