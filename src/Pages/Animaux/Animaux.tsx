@@ -10,6 +10,7 @@ import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
 import { FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import Icon from "../../Components/Icon/Icon.tsx";
 
 const Animaux = () => {
 
@@ -92,10 +93,12 @@ const Animaux = () => {
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
-                            <button type="button" className="icon icon__filter" aria-label="Ouvrir le menu de filtre">
-                                <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
-                                <span>Filtres</span>
-                            </button>
+                            {/*<button type="button" className="icon icon__filter" aria-label="Ouvrir le menu de filtre">*/}
+                            {/*    <img src="/src/assets/icons/filter.svg" alt="icône filtre" />*/}
+                            {/*    <span>Filtres</span>*/}
+                            {/*</button>*/}
+                            <Icon ariaLabel="Ouvrir le menu de filtre" src="/src/assets/icons/filter.svg"
+                                  alt="icône filtre" onClick={() => console.log("click")} text="Filtres" />
                             <Filters animals={animals} handleFilter={handleFilter} />
                         </div>
                         <div className="cards">

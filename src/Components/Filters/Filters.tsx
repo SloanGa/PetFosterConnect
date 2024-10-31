@@ -1,5 +1,5 @@
 import "./Filters.scss";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IDepartment } from "../../Interfaces/IDepartment.ts";
@@ -28,6 +28,15 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
     const handleSizeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setSelectedSize(selectedSize === value ? null : value);
+    };
+
+    const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const form = e.currentTarget.form;
+        if (form) {
+            form.reset();
+            setSelectedSize(null);
+            setSelectedAge(null);
+        }
     };
 
     useEffect(() => {
@@ -131,8 +140,13 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
                                     selected={selectedSize!} />
                 </fieldset>
 
-                <button className="btn" type="submit" aria-label="Bouton de recherche">
+                <button className="btn__form" type="submit" aria-label="Bouton de recherche">
                     Rechercher
+                </button>
+
+                <button className="btn__form--reinit" type="button"
+                        aria-label="Bouton de reinitialisation du formulaire" onClick={handleReset}>
+                    Réinitialiser
                 </button>
             </form>
         </div>
