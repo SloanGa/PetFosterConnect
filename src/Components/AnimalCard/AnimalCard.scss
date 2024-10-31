@@ -13,6 +13,10 @@
 }
 
 .card {
+  p {
+    text-align: center;
+  }
+
   &__link {
     transition: transform 0.3s;
 

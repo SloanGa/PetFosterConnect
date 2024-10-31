@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 
 interface FiltersProps {
     animals: IAnimal[];
@@ -80,45 +81,32 @@ const Filters = ({ animals }: FiltersProps) => {
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Âge</legend>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="0-2"
-                               aria-label="0 à 2 ans" />
-                        0 à 2 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="2-5"
-                               aria-label="2 à 5 ans" />
-                        2 à 5 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="5-10"
-                               aria-label="5 à 10 ans" />
-                        5 à 10 ans
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="age" value="11"
-                               aria-label="Plus de 10 ans" />
-                        10 ans
-                    </label>
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="0 à 2 ans"
+                                    value="0-2" text="0 à 2 ans" />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="2 à 5 ans"
+                                    value="2-5" text="2 à 5 ans" />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="5 à 10 ans"
+                                    value="5-10" text="5 à 10 ans" />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="Plus de 10 ans"
+                                    value="11" text="< 10 ans" />
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="small"
-                               aria-label="Petit" />
-                        Petit
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="medium"
-                               aria-label="Moyen" />
-                        Moyen
-                    </label>
-                    <label>
-                        <input className="form-check-input" type="checkbox" name="size" value="large"
-                               aria-label="Grand" />
-                        Grand
-                    </label>
+                    
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="small"
+                                    value="small" text="Petit" />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="medium"
+                                    value="medium" text="Moyen" />
+
+                    <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="large"
+                                    value="large" text="Grand" />
                 </fieldset>
 
                 <button className="btn" type="submit" aria-label="Bouton de recherche">

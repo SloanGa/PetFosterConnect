@@ -50,7 +50,7 @@ const AnimalCard = ({
                                 <div className="card__description">
                                     <span>{animalType}</span>
                                     <span>{gender}</span>
-                                    <span>{age}</span>
+                                    <span>{`${age} ans`}</span>
                                 </div>
                             </>
                         )}
