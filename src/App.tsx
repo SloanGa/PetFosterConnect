@@ -1,7 +1,7 @@
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Pages/Home/Home.tsx";
-import Associations from "./Pages/Associations";
+import Associations from "./Pages/Associations/Associations.tsx";
 import Association from "./Pages/Association";
 import Animaux from "./Pages/Animaux/Animaux";
 import Animal from "./Pages/Animal";
