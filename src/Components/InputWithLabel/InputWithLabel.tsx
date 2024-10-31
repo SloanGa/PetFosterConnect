@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 interface InputProps {
     classNameLabel?: string;
     classNameInput: string;
@@ -6,7 +8,9 @@ interface InputProps {
     value?: string;
     ariaLabel: string;
     placeholder?: string;
+    selected?: string;
     text?: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputWithLabel = ({
@@ -18,12 +22,14 @@ const InputWithLabel = ({
                             ariaLabel,
                             placeholder,
                             text,
+                            selected,
+                            onChange,
                         }: InputProps) => {
     return (
         <label htmlFor={value} className={classNameLabel}>
 
             <input id={value} className={classNameInput} type={type} name={name} value={value} aria-label={ariaLabel}
-                   placeholder={placeholder} /> {text}
+                   placeholder={placeholder} checked={selected === value} onChange={onChange} /> {text}
         </label>
     );
 };

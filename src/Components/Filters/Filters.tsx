@@ -1,5 +1,5 @@
 import "./Filters.scss";
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IDepartment } from "../../Interfaces/IDepartment.ts";
@@ -14,10 +14,21 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
 
     const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [associations, setAssociations] = useState<IAssociation[]>([]);
+    const [selectedAge, setSelectedAge] = useState<string | null>(null);
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
     // Permet de retourner un tableau des type et genre sans les dupliquer
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
     const uniqueGender = [...new Set(animals.map((animal) => animal.gender))];
+
+    const handleAgeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSelectedAge(selectedAge === value ? null : value);
+    };
+    const handleSizeCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSelectedSize(selectedSize === value ? null : value);
+    };
 
     useEffect(() => {
         const fetchFilterData = async () => {
@@ -61,7 +72,6 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
                 <select className="form-select" id="department" name="department_id">
                     <option value="">Tous les départements</option>
                     {departments.map((department) => (
-                        //department_id
                         <option key={department.id} value={department.id}>{department.name}</option>
                     ))}
                 </select>
@@ -70,7 +80,6 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
                 <select className="form-select" id="association" name="association_id">
                     <option value="">Toutes les associations</option>
                     {associations.map((association) => (
-                        //association_id
                         <option key={association.id} value={association.id}>{association.name}</option>
                     ))}
                 </select>
@@ -79,7 +88,6 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
                 <select className="form-select" id="gender" name="gender">
                     <option value="">Tous les genres</option>
                     {uniqueGender.map((gender) => (
-                        // gender
                         <option key={gender} value={gender}>
                             {gender}
                         </option>
@@ -90,30 +98,37 @@ const Filters = ({ animals, handleFilter }: FiltersProps) => {
                     <legend className="filters__form__description">Âge</legend>
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="0 à 2 ans"
-                                    value="0-2" text="0 à 2 ans" />
+                                    value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="2 à 5 ans"
-                                    value="2-5" text="2 à 5 ans" />
+                                    value="2-5" text="2 à 5 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="5 à 10 ans"
-                                    value="5-10" text="5 à 10 ans" />
+                                    value="5-10" text="5 à 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="age"
                                     ariaLabel="Plus de 10 ans"
-                                    value="11" text="< 10 ans" />
+                                    value="11" text="< 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Petit"
-                                    value="Petit" text="Petit" />
+                                    value="Petit" text="Petit" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Moyen"
-                                    value="Moyen" text="Moyen" />
+                                    value="Moyen" text="Moyen" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
 
                     <InputWithLabel classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Grand"
-                                    value="Grand" text="Grand" />
+                                    value="Grand" text="Grand" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
                 </fieldset>
 
                 <button className="btn" type="submit" aria-label="Bouton de recherche">
