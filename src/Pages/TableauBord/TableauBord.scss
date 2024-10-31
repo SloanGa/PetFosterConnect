@@ -1,2 +1,22 @@
 @use '../../styles/variables' as v;
 
+.content{
+    display: flex;
+}
+
+.main__content{
+    flex: 1;
+    border-left: v.$secondary-light 1px solid;
+    &__h1{
+        text-align: center;
+        margin: 2em;
+    }
+
+    &__cards__container{
+       
+        padding-left: 3em;
+        padding-right: 3em 
+    }
+
+    padding-bottom: 3em;
+}
