@@ -48,7 +48,7 @@ const Header = () => {
                                          text={"Se connecter"} />
                             </li>
                             <li>
-                                <AppLink to="/inscription/association" className="btn" title="S'inscrire"
+                                <AppLink to="/inscription" className="btn" title="S'inscrire"
                                          text={"S'inscrire"} />
                             </li>
                         </ul>
