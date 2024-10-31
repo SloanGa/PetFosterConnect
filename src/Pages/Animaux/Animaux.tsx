@@ -8,10 +8,60 @@ import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
+import { FormEvent, useEffect, useState } from "react";
+import { IAnimal } from "../../Interfaces/IAnimal.ts";
 
 const Animaux = () => {
 
     const { animals, isLoading, error, baseURL } = useFetchAnimals();
+
+    const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
+
+    // Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals
+    useEffect(() => {
+        if (animals) {
+            setAnimalsToDisplay(animals);
+        }
+    }, [animals]);
+
+
+    const handleFilter = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const params: { [key: string]: string } = {};
+
+        // Parcourir chaque entrée de FormData et ignore les ""
+        formData.forEach((value: string, key: string) => {
+            // Gérer les options par défaut
+            if (key === "department_id" && value === "") {
+                return; // Ignore la valeur par défaut
+            }
+            if (key === "association_id" && value === "") {
+                return; // Ignore la valeur par défaut
+            }
+            if (key === "species" && value === "") {
+                return; // Ignore la valeur par défaut
+            }
+            if (key === "gender" && value === "") {
+                return; // Ignore la valeur par défaut
+            }
+            params[key] = value;
+        });
+
+        // Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2...
+        const queryString = new URLSearchParams(params).toString();
+
+        try {
+            const response = await fetch(`http://localhost:5050/animals/search?${queryString}`);
+
+            const data: IAnimal[] = await response.json();
+
+            setAnimalsToDisplay(data);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données filtrées:", error);
+        }
+    };
 
     return (
         <>
@@ -38,7 +88,7 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">{`${animals.length} Résultats`}</h2>
+                    <h2 className="animals__section__result">{`${animalsToDisplay.length} Résultats`}</h2>
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
@@ -46,7 +96,7 @@ const Animaux = () => {
                                 <img src="/src/assets/icons/filter.svg" alt="icône filtre" />
                                 <span>Filtres</span>
                             </button>
-                            <Filters animals={animals} />
+                            <Filters animals={animals} handleFilter={handleFilter} />
                         </div>
                         <div className="cards">
                             {isLoading ? (
@@ -55,7 +105,7 @@ const Animaux = () => {
                                 <Error error={error} />
                             ) : (
                                 <ul className="cards">
-                                    {animals.map((animal) => (
+                                    {animalsToDisplay.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard
                                                 path={`/animaux/${animal.name}-${animal.id}`}

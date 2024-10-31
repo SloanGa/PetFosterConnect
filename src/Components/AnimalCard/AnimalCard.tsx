@@ -29,6 +29,7 @@ const AnimalCard = ({
                         isHomePage,
 
                     }: CardProps) => {
+
     return (
         <>
             <Link to={path} className="card__link" aria-label="Voir la page de cet animal">

@@ -9,19 +9,21 @@
   @media (min-width: 992px) {
     flex-direction: row;
     justify-content: center;
+    width: 100%;
   }
 }
 
 .card {
-  p {
-    text-align: center;
-  }
-
   &__link {
     transition: transform 0.3s;
 
     &:hover {
       transform: scale(1.03);
+      background: red;
+    }
+
+    p {
+      text-align: center;
     }
   }
 
