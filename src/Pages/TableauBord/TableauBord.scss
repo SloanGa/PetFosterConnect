@@ -1,7 +1,11 @@
 @use '../../styles/variables' as v;
 
 .content{
-    display: flex;
+
+    @media (min-width: 992px) {
+        display: flex;
+      }
+
 }
 
 .main__content{
