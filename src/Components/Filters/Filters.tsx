@@ -144,7 +144,7 @@ const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
                                     selected={selectedSize!} />
                 </fieldset>
 
-                <button className="btn__form" type="submit" aria-label="Bouton de recherche">
+                <button className="btn" type="submit" aria-label="Bouton de recherche">
                     Rechercher
                 </button>
 

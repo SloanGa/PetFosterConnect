@@ -134,27 +134,6 @@ header {
   }
 }
 
-.btn {
-  background-color: v.$tertiary;
-  color: #fff;
-  border-radius: 15px;
-  padding: 0.8rem 1rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  transition: opacity 0.3s;
 
-  &:hover {
-    background-color: v.$tertiary;
-    color: #fff;
-    opacity: 0.7;
-  }
-
-  &:focus {
-    border: 2px solid v.$secondary;
-    background-color: v.$tertiary;
-    color: #fff;
-    opacity: 0.7;
-  }
-}
 
  

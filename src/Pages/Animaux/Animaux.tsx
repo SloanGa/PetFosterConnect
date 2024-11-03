@@ -160,7 +160,7 @@ const Animaux = () => {
 
                     </section>
 
-                    <Pagination animals={animals} handleChangePage={handleChangePage} />
+                    <Pagination items={animals} handleChangePage={handleChangePage} />
                 </div>
             </main>
             <Footer />

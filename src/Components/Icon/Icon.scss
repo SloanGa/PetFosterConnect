@@ -1,20 +1,21 @@
-@use '../../styles/variables' as v; 
+@use '../../styles/variables' as v;
 
- .icon {
-   background: none;
-    border: none;
-    padding: 0;
-    width: 25px;
-    height: 25px;
-    transition: stroke 0.3s;
-    @media (min-width: 992px) {
+.icon {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  transition: stroke 0.3s;
+  @media (min-width: 992px) {
     stroke: v.$secondary-light;
     width: 30px;
     height: 30px;
-    }
+  }
 
-    img {
+  img {
     width: 30px;
     height: 30px;
-    }
-    }
+  }
+
+}
