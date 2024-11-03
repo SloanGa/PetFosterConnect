@@ -32,7 +32,7 @@ const AnimalCard = ({
 
     return (
         <>
-            <Link to={path} className="card__link" aria-label="Voir la page de cet animal">
+            <Link to={path} className="cards__list__link" aria-label="Voir la page de cet animal">
                 <article className="card">
                     <img src={src} className="card__img card-img-top" alt={alt} loading="lazy" />
 

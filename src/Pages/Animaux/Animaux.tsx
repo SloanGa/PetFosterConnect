@@ -137,7 +137,7 @@ const Animaux = () => {
                             ) : error ? (
                                 <Error error={error} />
                             ) : (
-                                <ul className="cards">
+                                <ul className="cards__list">
                                     {animalsToDisplay.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard

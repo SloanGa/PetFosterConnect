@@ -36,6 +36,26 @@ h2 {
 }
 
 
+.main__title {
+  text-align: center;
+  padding: 1em 0 0.3em 0;
+
+  @media (min-width: 992px) {
+    display: block;
+    text-align: center;
+  }
+}
+
+.intro__text {
+  margin-top: 1rem;
+  text-align: center;
+  padding: 0 2rem;
+  @media (min-width: 992px) {
+    padding: 0;
+  }
+}
+
+
 // CLASSE POUR BOUTON
 
 // .btn {

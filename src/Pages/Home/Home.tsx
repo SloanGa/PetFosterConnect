@@ -64,7 +64,7 @@ const Home = () => {
                             ) : error ? (
                                 <Error error={error} />
                             ) : (
-                                <ul className="cards">
+                                <ul className="cards__list">
                                     {homeAnimals.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard

@@ -20,7 +20,7 @@ const Associations = () => {
                 <div className="container-md">
                     <section className="intro">
                         <h1 className="main__title">Les associations</h1>
-                        <p className="intro__text__animals">
+                        <p className="intro__text">
                             Dans notre application, vous pouvez facilement rechercher des animaux en fonction de
                             plusieurs critères.
                             Que vous soyez à la recherche d'un compagnon spécifique ou que vous souhaitiez simplement
