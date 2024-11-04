@@ -177,7 +177,7 @@ const Animaux = () => {
 
                     </section>
 
-                    <Pagination items={animals} handleChangePage={handleChangePage} />
+                    <Pagination items={form ? animalsToDisplay : animals} handleChangePage={handleChangePage} />
                 </div>
             </main>
             <Footer />
