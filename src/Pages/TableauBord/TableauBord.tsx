@@ -26,8 +26,8 @@ const TableauBord = () => {
 					<h1 className="main__content__h1">Dashboard de XXX</h1>
 
 					<div className="main__content__cards__container">
-						<div className="row">
-							<div className="col-12 col-sm-6 col-md-4">
+						<div className="row gx-3 gy-3">
+							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -42,7 +42,7 @@ const TableauBord = () => {
 								/>
 							</div>
 
-							<div className="col-12 col-sm-6 col-md-4">
+							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -56,7 +56,7 @@ const TableauBord = () => {
 									isHomePage={false}
 								/>
 							</div>
-							<div className="col-12 col-sm-6 col-md-4">
+							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -70,7 +70,7 @@ const TableauBord = () => {
 									isHomePage={false}
 								/>
 							</div>
-							<div className="col-12 col-sm-6 col-md-4">
+							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									path={""}
 									src={"/src/assets/chien2.jpg"}
