@@ -14,17 +14,17 @@ import Icon from "../../Components/Icon/Icon.tsx";
 
 const Animaux = () => {
 
-    const { animals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
+    const { animals, paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
 
     /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
-        if (animals) {
-            setAnimalsToDisplay(animals);
+        if (paginatedAnimals) {
+            setAnimalsToDisplay(paginatedAnimals);
         }
-    }, [animals]);
+    }, [paginatedAnimals]);
 
     /* Logique pour la gestion du filtre  */
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
@@ -74,7 +74,6 @@ const Animaux = () => {
     /* Logique pour la gestion de la pagination  */
     const handleChangePage = async (event: React.MouseEvent<HTMLButtonElement>) => {
         const page = event.currentTarget.dataset.page;
-        console.log("test");
         try {
             setIsLoading(true);
             const response = await
@@ -83,8 +82,8 @@ const Animaux = () => {
             if (!response.ok) {
                 return setError("Une erreur est survenue, veuillez rafraîchir la page.");
             }
-            const data: IAnimal[] = await response.json();
-            setAnimalsToDisplay(data);
+            const data = await response.json();
+            setAnimalsToDisplay(data.paginatedAnimals);
 
         } catch (error) {
             setError("Une erreur est survenue, veuillez rafraîchir la page.");
@@ -120,7 +119,7 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">{`${animalsToDisplay.length} Résultats`}</h2>
+                    <h2 className="animals__section__result">{`${animals.length} Résultats`}</h2>
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
