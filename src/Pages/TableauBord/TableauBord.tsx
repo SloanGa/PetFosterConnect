@@ -9,12 +9,59 @@ import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const TableauBord = () => {
-	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	// Gestion centralisée du state de la modale : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
+
+	const [modalState, setModalState] = useState({
+		show: false,
+		animalId: null,
+	});
+	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
+	const handleShow = useCallback((animalId) => {
+		setModalState({ show: true, animalId });
+	}, []);
+	// prev permet de conserver les autres informations de state et seul show est passé à false.
+	const handleClose = useCallback(() => {
+		setModalState((prev) => ({ ...prev, show: false }));
+	}, []);
+
+	// L'event listener à la soumission du formulaire
+
+	const handleSubmit = useCallback(
+		async (event) => {
+			event.preventDefault();
+			const formData = new FormData(event.target);
+			const data = Object.fromEntries(formData.entries());
+
+			try {
+				const response = await fetch(
+					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
+					`${import.meta.env.VITE_API_URL}/association/animals/search/1`,
+					{
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							...data,
+							animalId: modalState.animalId,
+						}),
+					},
+				);
+
+				if (response.ok) {
+					handleClose();
+					// TODO ajouter une notification de succès si nécessaire
+				} else {
+					console.error("Erreur lors de la mise à jour");
+				}
+			} catch (error) {
+				console.error("Erreur:", error);
+			}
+		},
+		[modalState.animalId, handleClose],
+	);
+
 	return (
 		<>
 			<Helmet>
@@ -34,72 +81,57 @@ const TableauBord = () => {
 						<div className="row gx-8 gy-3">
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={handleShow}
+									onShowModal={() => handleShow(1)}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
 									name={"Toutou2"}
-									associationLocation={`Loire-Atlantique - 44`}
-									associationName={"SPA de Loire"}
-									animalType={"Chien"}
-									gender={"Mâle"}
-									age={"11"}
-									isHomePage={false}
+									animalId={1}
+									associationId={1}
 								/>
 							</div>
 
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={handleShow}
+									onShowModal={() => handleShow(1)}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
 									name={"Toutou2"}
-									associationLocation={`Loire-Atlantique - 44`}
-									associationName={"SPA de Loire"}
-									animalType={"Chien"}
-									gender={"Mâle"}
-									age={"11"}
-									isHomePage={false}
+									animalId={1}
+									associationId={1}
 								/>
 							</div>
 							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={handleShow}
+									onShowModal={() => handleShow(1)}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
 									name={"Toutou2"}
-									associationLocation={`Loire-Atlantique - 44`}
-									associationName={"SPA de Loire"}
-									animalType={"Chien"}
-									gender={"Mâle"}
-									age={"11"}
-									isHomePage={false}
+									animalId={1}
+									associationId={1}
 								/>
 							</div>
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={handleShow}
+									onShowModal={() => handleShow(1)}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
 									name={"Toutou2"}
-									associationLocation={`Loire-Atlantique - 44`}
-									associationName={"SPA de Loire"}
-									animalType={"Chien"}
-									gender={"Mâle"}
-									age={"11"}
-									isHomePage={false}
+									animalId={1}
+									associationId={1}
 								/>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<Modal show={show} onHide={handleClose}>
+
+			<Modal show={modalState.show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Modal heading</Modal.Title>
+					<Modal.Title>Modifier les informations de {"animalName"}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
 				<Modal.Footer>
