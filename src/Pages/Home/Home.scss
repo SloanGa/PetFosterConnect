@@ -20,7 +20,7 @@
     margin: 0 auto;
     text-align: center;
     @media (min-width: 992px) {
-      display: block;
+      //display: block;
     }
   }
 }
@@ -30,10 +30,28 @@
     gap: 5em;
     width: 100%;
     margin: auto;
-    .btn {
-      margin: 3rem auto;
-      display: block;
-      width: max-content;
-    }
+  }
+
+  .btn {
+    margin: 3rem auto;
+    display: block;
+    width: max-content;
   }
 }
+
+/* Style appliqué dans Animaux */
+
+//.cards {
+//  width: 100%;
+//
+//  @media (min-width: 992px) {
+//    flex-direction: row;
+//    justify-content: center;
+//  }
+//
+//  &__list {
+//    display: flex;
+//    flex-wrap: wrap;
+//    justify-content: center;
+//  }
+//}

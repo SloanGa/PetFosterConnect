@@ -1,3 +1,4 @@
+import "./InputWithLabel.scss";
 import { ChangeEvent } from "react";
 
 interface InputProps {
