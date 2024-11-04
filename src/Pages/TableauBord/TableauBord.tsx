@@ -133,7 +133,20 @@ const TableauBord = () => {
 				<Modal.Header closeButton>
 					<Modal.Title>Modifier les informations de {"animalName"}</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+				<Modal.Body>
+					<form></form>
+					{/* Les champs : 
+					- name
+					- gender
+					- animal_img
+					- species
+					- age
+					- size
+					- description
+					- race
+					- availability
+					- family_id ?  */}
+				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
