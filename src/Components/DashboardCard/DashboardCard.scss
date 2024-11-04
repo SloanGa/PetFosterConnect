@@ -34,16 +34,21 @@
     text-align: center;
   }
   
-.card-buttons{
+  .card-buttons {
     padding-top: 1em;
-    display:flex;
+    display: flex;
     justify-content: space-evenly;
-
-    &__button {
-        background-color: v.$secondary-light;
-        border: none;
-        padding: 0.8rem 1rem;
-        border-radius: 15px;
-        color: v.$tertiary-light;
+  
+    // Pour écraser le style des composants bootstrap, on utilise un sélecteur spécifique
+    .card-buttons__button {
+      background-color: v.$secondary-light;
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 15px;
+      color: v.$tertiary-light;
+  
+      &:hover {
+        background-color: v.$secondary;
+      }
     }
-}
+  }

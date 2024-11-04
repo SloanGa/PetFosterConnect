@@ -6,10 +6,15 @@ import DashboadCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import AppLink from "../../Components/AppLink/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 // import { Error } from "../../Components/Error/Error.tsx";
+import { Button, Modal } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
+import { useState } from "react";
 
 const TableauBord = () => {
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 	return (
 		<>
 			<Helmet>
@@ -26,9 +31,10 @@ const TableauBord = () => {
 					<h1 className="main__content__h1">Dashboard de XXX</h1>
 
 					<div className="main__content__cards__container">
-						<div className="row gx-3 gy-3">
+						<div className="row gx-8 gy-3">
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
+									onShowModal={handleShow}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -44,6 +50,7 @@ const TableauBord = () => {
 
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
+									onShowModal={handleShow}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -58,6 +65,7 @@ const TableauBord = () => {
 							</div>
 							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
+									onShowModal={handleShow}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -72,6 +80,7 @@ const TableauBord = () => {
 							</div>
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
+									onShowModal={handleShow}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -88,6 +97,20 @@ const TableauBord = () => {
 					</div>
 				</div>
 			</div>
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Modal heading</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Close
+					</Button>
+					<Button variant="primary" onClick={handleClose}>
+						Save Changes
+					</Button>
+				</Modal.Footer>
+			</Modal>
 			<Footer />
 		</>
 	);
