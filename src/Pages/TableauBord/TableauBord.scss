@@ -24,3 +24,28 @@
 
     padding-bottom: 3em;
 }
+
+  
+   .icon {
+    .img{
+      width: 300px;
+      height:300px;
+    }
+   }
+
+   .fieldset{
+    &--legend{
+      font-size: 1em;
+    }
+    &--dashboard{
+      margin-bottom: 0.5em;
+      display: flex;
+    }
+
+  }
+
+  .ckeckbox-availibility {
+    display:flex;
+  }
+  
+

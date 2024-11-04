@@ -11,10 +11,21 @@
     stroke: v.$secondary-light;
     width: 30px;
     height: 30px;
-    }
-
+    }   
+    
     img {
     width: 30px;
     height: 30px;
     }
+
+    // Si besoin de modifier le style d'un icon, passer les modifications à la fin avec le modifier
+
+    &--dashboard{
+      img {
+        width: 1em;
+        height: 1em;
+        }
+    }
+
+
     }

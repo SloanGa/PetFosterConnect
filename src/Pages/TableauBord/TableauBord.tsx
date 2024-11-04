@@ -10,6 +10,7 @@ import { Button, Modal } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
 import { useState, useCallback } from "react";
+import Icon from "../../Components/Icon/Icon.tsx";
 
 const TableauBord = () => {
 	// Gestion centralisée du state de la modale : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
@@ -131,10 +132,111 @@ const TableauBord = () => {
 
 			<Modal show={modalState.show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Modifier les informations de {"animalName"}</Modal.Title>
+					<Modal.Title>Modifier les informations</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<form></form>
+					<form>
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_name">
+								{" "}
+								Nom de l'animal :{" "}
+								<input
+									type="text"
+									id="input_name"
+									value="Toutou 1"
+									name="name"
+								/>
+							</label>
+						</fieldset>
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="img_upload">
+								Télécharger un fichier :{" "}
+								<input
+									type="file"
+									id="img_upload"
+									name="animal_img"
+									accept=".jpg, .jpeg, .png, .webp"
+								/>
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_gender">
+								{" "}
+								Genre de l'animal :{" "}
+								<input
+									type="text"
+									id="input_gender"
+									value="Mâle"
+									name="gender"
+								/>
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_species">
+								{" "}
+								Espèce de l'animal :{" "}
+								<input
+									type="text"
+									id="input_species"
+									value="Chien"
+									name="species"
+								/>
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_age">
+								{" "}
+								Age de l'animal :{" "}
+								<input type="text" id="input_age" value="2" name="age" />
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_size">
+								Sélectionner une taille :{" "}
+								<select id="input_size" name="size" defaultValue="Petit">
+									<option value="Petit">Petit</option>
+									<option value="Moyen">Moyen</option>
+									<option value="Grand">Grand</option>
+								</select>
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<label htmlFor="input_race">
+								{" "}
+								Race (optionnel) :{" "}
+								<input type="text" id="input_race" value=" " name="race" />
+							</label>
+						</fieldset>
+
+						<fieldset className="fieldset--dashboard">
+							<legend className="fieldset--legend">Disponible</legend>
+
+							<div className="ckeckbox-availibility">
+								<label htmlFor="input_availability_yes">
+									<input
+										type="checkbox"
+										id="input_availability_yes"
+										name="availability"
+										defaultChecked // "Oui" est cochée par défaut
+									/>
+									Oui
+								</label>
+								<label htmlFor="input_availability_no">
+									<input
+										type="checkbox"
+										id="input_availability_no"
+										name="availability"
+									/>
+									Non
+								</label>
+							</div>
+						</fieldset>
+					</form>
 					{/* Les champs : 
 					- name
 					- gender
@@ -145,7 +247,7 @@ const TableauBord = () => {
 					- description
 					- race
 					- availability
-					- family_id ?  */}
+					  */}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
