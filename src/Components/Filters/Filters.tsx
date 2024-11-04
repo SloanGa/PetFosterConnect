@@ -9,9 +9,10 @@ interface FiltersProps {
     animals: IAnimal[];
     handleFilter: (event: FormEvent) => void;
     isFiltersVisible: boolean;
+    setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
 }
 
-const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
+const Filters = ({ animals, handleFilter, isFiltersVisible, setForm }: FiltersProps) => {
 
     const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [associations, setAssociations] = useState<IAssociation[]>([]);
@@ -39,6 +40,7 @@ const Filters = ({ animals, handleFilter, isFiltersVisible }: FiltersProps) => {
             form.reset();
             setSelectedSize(null);
             setSelectedAge(null);
+            setForm(null);
         }
     };
 
