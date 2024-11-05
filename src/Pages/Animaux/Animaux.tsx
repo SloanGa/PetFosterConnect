@@ -8,7 +8,7 @@ import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useRef } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
 
@@ -22,6 +22,9 @@ const Animaux = () => {
     const [queryString, setQueryString] = useState("");
     const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
     const [currentPage, setCurrentPage] = useState(1);
+
+    // Section liste des animaux pour pouvoir utilise scrollIntoView au changement de page
+    const animalList = useRef(0);
 
     /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
@@ -104,6 +107,7 @@ const Animaux = () => {
             console.error("Erreur lors de la récupération des données:", error);
         } finally {
             setIsLoading(false);
+            animalList.current.scrollIntoView();
         }
     };
 
@@ -137,7 +141,7 @@ const Animaux = () => {
                         {form ? `${animalsFilterCount} Résultats` : `${animals.length} Résultats`}
                     </h2>
 
-                    <section className="animals__section">
+                    <section className="animals__section" ref={animalList}>
                         <div className="animals__section__filter">
                             <Icon
                                 ariaLabel="Ouvrir le menu de filtre"

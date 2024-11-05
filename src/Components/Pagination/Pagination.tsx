@@ -76,7 +76,7 @@ const PaginationComposant = ({
             {/* Affiche la dernière page */}
             {totalPagesNumber > 1 && (
                 <Pagination.Item
-                    onClick={() => handlePageChange(totalPagesNumber)}
+                    onClick={() => handleChangePage(totalPagesNumber)}
                     active={currentPage === totalPagesNumber}
                 >
                     {totalPagesNumber}
