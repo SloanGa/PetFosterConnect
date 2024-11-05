@@ -7,8 +7,8 @@ import { Pagination } from "react-bootstrap";
 interface PaginationProps {
     items: IAnimal[] | IAssociation[];
     handleChangePage: (page: Number) => void;
-    currentPage: Number;
-    animalsFilterCount: Number | null;
+    currentPage: number;
+    animalsFilterCount: number | null;
 }
 
 const PaginationComposant = ({

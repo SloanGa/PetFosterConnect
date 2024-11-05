@@ -7,10 +7,10 @@ import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 
 interface FiltersProps {
     animals: IAnimal[];
-    handleFilter: (event: FormEvent) => void;
+    handleFilter: (event: FormEvent<HTMLFormElement>) => void;
     isFiltersVisible: boolean;
     setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
-    setAnimalsFilterCount: React.Dispatch<React.SetStateAction<Number | null>>;
+    setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const Filters = ({

@@ -17,14 +17,14 @@ const Animaux = () => {
         useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
-    const [animalsFilterCount, setAnimalsFilterCount] = useState<Number | null>(null);
+    const [animalsFilterCount, setAnimalsFilterCount] = useState<number | null>(null);
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
     const [queryString, setQueryString] = useState("");
     const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
     const [currentPage, setCurrentPage] = useState(1);
 
     // Section liste des animaux pour pouvoir utilise scrollIntoView au changement de page
-    const animalList = useRef(0);
+    const animalList = useRef<HTMLDivElement | null>(null);
 
     /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
@@ -107,7 +107,9 @@ const Animaux = () => {
             console.error("Erreur lors de la récupération des données:", error);
         } finally {
             setIsLoading(false);
-            animalList.current.scrollIntoView();
+            if (animalList.current !== null) {
+                animalList.current.scrollIntoView();
+            }
         }
     };
 
