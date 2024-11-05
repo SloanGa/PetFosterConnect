@@ -1,61 +1,100 @@
 @use "./variables" as v;
 
 html {
-  font-family: Helvetica, sans-serif;
-  font-size: 16px;
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
 }
 
 body {
-  background-color: v.$body;
-  color: v.$main;
+    background-color: v.$body;
+    color: v.$main;
+    line-height: 1.5;
 }
 
 a {
-  font-weight: bold;
-  text-decoration: none;
-  color: inherit;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
 }
 
 h1,
 h2 {
-  font-weight: bold;
-  font-family: Arima, sans-serif;
+    font-weight: bold;
+    font-family: Arima, sans-serif;
 }
 
 h1 {
-  font-size: 1.75rem;
-  @media (min-width: 992px) {
-    font-size: 3rem;
-  }
+    font-size: 1.75rem;
+    @media (min-width: 992px) {
+        font-size: 2.5rem;
+    }
 }
 
 h2 {
-  font-size: 1.25rem;
-  @media (min-width: 992px) {
-    font-size: 1.5rem;
-  }
+    font-size: 1.25rem;
+    @media (min-width: 992px) {
+        font-size: 1.5rem;
+    }
 }
 
-
 .main__title {
-  text-align: center;
-  padding: 1em 0 0.3em 0;
-
-  @media (min-width: 992px) {
-    display: block;
     text-align: center;
-  }
+    margin: 2.5rem 0;
+
+    @media (min-width: 992px) {
+        display: block;
+        text-align: center;
+    }
 }
 
 .intro__text {
-  margin-top: 1rem;
-  text-align: center;
-  padding: 0 2rem;
-  @media (min-width: 992px) {
-    padding: 0;
-  }
+    text-align: center;
+    padding: 0 2rem;
+    @media (min-width: 992px) {
+        padding: 0;
+    }
 }
 
+// Classe pour styliser les boutons ou lien avec un style de bouton
+.btn {
+    background-color: v.$tertiary;
+    color: #fff;
+    border-radius: 15px;
+    padding: 0.8rem 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: opacity 0.3s;
+
+    &:hover {
+        background-color: v.$tertiary;
+        color: #fff;
+        opacity: 0.7;
+    }
+
+    &:focus {
+        border: 2px solid v.$secondary;
+        background-color: v.$tertiary;
+        color: #fff;
+        opacity: 0.7;
+    }
+}
+
+// Classe qui engloble les card animaux
+.cards {
+    width: 100%;
+
+    @media (min-width: 992px) {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+}
 
 // CLASSE POUR BOUTON
 
@@ -82,7 +121,7 @@ h2 {
 // }
 // }
 
-// CLASSES POUR LE HEADER 
+// CLASSES POUR LE HEADER
 
 // header {
 // padding: 1.25rem 0 0;
@@ -348,7 +387,7 @@ h2 {
 //  padding: 2em 0;
 // }
 
-// .animals__section 
+// .animals__section
 
 //@media (min-width: 992px) {
 //display: flex;

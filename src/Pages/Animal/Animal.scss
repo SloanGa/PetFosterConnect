@@ -1,21 +1,105 @@
-.section__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@use "../../styles/variables" as v;
 
-    .main__title {
-        padding: 0;
-        margin: 0;
+.main--animal {
+    .section__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        //margin-bottom: 2rem;
+        @media (min-width: 992px) {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .main__title {
+            //padding: 0;
+            margin-top: 2rem;
+            @media (min-width: 992px) {
+                margin-top: 2.5rem;
+            }
+        }
+
+        .icon {
+            width: 35px;
+            height: 35px;
+        }
     }
 
-    .icon {
-        width: 35px;
-        height: 35px;
+    .animal__identity {
+        display: flex;
+        align-items: center;
+        column-gap: 1rem;
     }
-}
 
-.header__identity {
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
+    .animal__availability {
+        font-size: 1.25rem;
+        font-weight: 300;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        @media (min-width: 992px) {
+            flex-direction: row;
+            font-size: 1.5rem;
+        }
+
+        &::before {
+            content: "";
+            display: block;
+            background-color: black;
+            width: 50%;
+            height: 1px;
+            position: relative;
+            top: 0;
+            margin: 1rem 0;
+
+            @media (min-width: 992px) {
+                left: 0;
+                top: 0;
+                width: 1px;
+                height: 50px;
+                margin: 0 1.5rem;
+                transform: translateX(0);
+            }
+        }
+    }
+
+    .animal__img {
+        height: 350px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    .animal__infos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .animal__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 0.5rem;
+        &__title {
+            font-family: Helvetica, sans-serif;
+        }
+
+        &__value {
+            background-color: v.$secondary-light;
+            color: #fff;
+            border-radius: 5px;
+            padding: 0.7rem 1rem;
+        }
+    }
+
+    .animal__description {
+        text-align: center;
+    }
 }

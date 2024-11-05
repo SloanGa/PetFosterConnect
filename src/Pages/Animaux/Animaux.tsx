@@ -139,7 +139,7 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">
+                    <h2 className="animals__number__results">
                         {form ? `${animalsFilterCount} Résultats` : `${animals.length} Résultats`}
                     </h2>
 
