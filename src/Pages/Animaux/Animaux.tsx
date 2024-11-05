@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
 import AnimalCard from "../../Components/AnimalCard/AnimalCard";
-import Pagination from "../../Components/Pagination/Pagination";
+import PaginationComposant from "../../Components/Pagination/Pagination";
 import Footer from "../../Components/Footer/Footer";
 import Filters from "../../Components/Filters/Filters.tsx";
 import "./Animaux.scss";
@@ -13,13 +13,15 @@ import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
 
 const Animaux = () => {
-
-    const { animals, paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
+    const { animals, paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL } =
+        useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
+    const [animalsFilterCount, setAnimalsFilterCount] = useState<Number | null>(null);
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
     const [queryString, setQueryString] = useState("");
     const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
+    const [currentPage, setCurrentPage] = useState(1);
 
     /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
@@ -31,8 +33,8 @@ const Animaux = () => {
     /* Logique pour la gestion du filtre  */
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        const formData = (new FormData(e.currentTarget));
+        setCurrentPage(1);
+        const formData = new FormData(e.currentTarget);
 
         const params: { [key: string]: string } = {};
 
@@ -52,7 +54,6 @@ const Animaux = () => {
                 return; // Ignore la valeur par défaut
             }
             params[key] = value;
-
         });
         /* Initialise le state Form pour verifier si on est dans le cadre d'une recherche avec filtre ou non */
         setForm(params);
@@ -62,37 +63,38 @@ const Animaux = () => {
         setQueryString(newQueryString);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`);
-
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`
+            );
             const data = await response.json();
-
+            setAnimalsFilterCount(data.totalAnimalCount);
             setAnimalsToDisplay(data.paginatedAnimals);
         } catch (error) {
             console.error("Erreur lors de la récupération des données filtrées:", error);
         }
     };
 
-
     const toggleFiltersVisibility = () => {
         setIsFiltersVisible((prev) => !prev);
     };
 
-
     /* Logique pour la gestion de la pagination  */
-    const handleChangePage = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        const page = event.currentTarget.dataset.page;
-
+    const handleChangePage = async (
+        page: Number /*event: React.MouseEvent<HTMLButtonElement>*/
+    ) => {
+        //const page = event.currentTarget.dataset.page;
+        setCurrentPage(page);
         try {
             setIsLoading(true);
 
             let response;
 
             if (!form) {
-                response = await
-                    fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
+                response = await fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
             } else {
-                response = await
-                    fetch(`${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`);
+                response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`
+                );
             }
 
             if (!response.ok) {
@@ -100,14 +102,12 @@ const Animaux = () => {
             }
             const data = await response.json();
             setAnimalsToDisplay(data.paginatedAnimals);
-
         } catch (error) {
             setError("Une erreur est survenue, veuillez rafraîchir la page.");
             console.error("Erreur lors de la récupération des données:", error);
         } finally {
             setIsLoading(false);
         }
-
     };
 
     return (
@@ -125,28 +125,38 @@ const Animaux = () => {
                     <section className="intro">
                         <h1 className="main__title">Les animaux</h1>
                         <p className="intro__text__animals">
-                            Dans notre application, vous pouvez facilement rechercher des animaux en fonction de
-                            plusieurs critères.
-                            Que vous soyez à la recherche d'un compagnon spécifique ou que vous souhaitiez simplement
-                            explorer les options disponibles, notre fonctionnalité de recherche
-                            vous permet de filtrer les résultats par type d'animal, localisation, association, genre,
-                            âge et taille. Que vous souhaitiez un petit chien dynamique ou un chat âgé et calme,
-                            PetFoster Connect vous aide à trouver l'animal qui correspond parfaitement à vos attentes !
+                            Dans notre application, vous pouvez facilement rechercher des animaux en
+                            fonction de plusieurs critères. Que vous soyez à la recherche d'un
+                            compagnon spécifique ou que vous souhaitiez simplement explorer les
+                            options disponibles, notre fonctionnalité de recherche vous permet de
+                            filtrer les résultats par type d'animal, localisation, association,
+                            genre, âge et taille. Que vous souhaitiez un petit chien dynamique ou un
+                            chat âgé et calme, PetFoster Connect vous aide à trouver l'animal qui
+                            correspond parfaitement à vos attentes !
                         </p>
                     </section>
 
                     <h2 className="animals__section__result">
-                        {form ? `${animalsToDisplay.length} Résultats` : `${animals.length} Résultats`}
+                        {form ? `${animalsFilterCount} Résultats` : `${animals.length} Résultats`}
                     </h2>
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
+                            <Icon
+                                ariaLabel="Ouvrir le menu de filtre"
+                                src="/src/assets/icons/filter.svg"
+                                alt="icône filtre"
+                                onClick={toggleFiltersVisibility}
+                                text="Filtres"
+                            />
 
-                            <Icon ariaLabel="Ouvrir le menu de filtre" src="/src/assets/icons/filter.svg"
-                                  alt="icône filtre" onClick={toggleFiltersVisibility} text="Filtres" />
-
-                            <Filters animals={animals} handleFilter={handleSubmitFilter}
-                                     isFiltersVisible={isFiltersVisible} setForm={setForm} />
+                            <Filters
+                                animals={animals}
+                                handleFilter={handleSubmitFilter}
+                                isFiltersVisible={isFiltersVisible}
+                                setForm={setForm}
+                                setAnimalsFilterCount={setAnimalsFilterCount}
+                            />
                         </div>
                         <div className="cards">
                             {isLoading ? (
@@ -174,10 +184,14 @@ const Animaux = () => {
                                 </ul>
                             )}
                         </div>
-
                     </section>
 
-                    <Pagination items={form ? animalsToDisplay : animals} handleChangePage={handleChangePage} />
+                    <PaginationComposant
+                        items={form ? animalsToDisplay : animals}
+                        currentPage={currentPage}
+                        handleChangePage={handleChangePage}
+                        animalsFilterCount={form ? animalsFilterCount : null}
+                    />
                 </div>
             </main>
             <Footer />

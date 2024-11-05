@@ -16,7 +16,6 @@ import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord";
 // import { AnimalProvider } from "./Context/AnimalContext.tsx";
 
-
 const App = () => {
     return (
         <HelmetProvider>
