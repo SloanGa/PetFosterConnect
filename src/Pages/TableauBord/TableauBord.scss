@@ -1,0 +1,68 @@
+@use '../../styles/variables' as v;
+
+.content{
+
+    @media (min-width: 992px) {
+        display: flex;
+      }
+
+}
+
+.main__content{
+    flex: 1;
+    border-left: v.$secondary-light 1px solid;
+    &__h1{
+        text-align: center;
+        margin: 2em;
+    }
+
+    &__cards__container{
+       
+        padding-left: 3em;
+        padding-right: 3em 
+    }
+
+    padding-bottom: 3em;
+}
+
+  
+   .icon {
+    .img{
+      width: 300px;
+      height:300px;
+    }
+   }
+
+   .fieldset{
+    &--legend{
+      font-size: 1em;
+    }
+    &__dashboard{
+      margin-bottom: 0.5em;
+    }
+
+  }
+
+  .ckeckbox-availibility {
+    display:flex;
+    gap: 0.5em;
+  }
+
+  .btn--form{
+    background-color: v.$secondary-light;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    color: v.$tertiary-light;
+
+    &:hover {
+      background-color: v.$secondary;
+    }
+
+    &:active, &:focus:active {
+      background-color: v.$tertiary;
+      border: none;
+    }
+  }
+  
+
