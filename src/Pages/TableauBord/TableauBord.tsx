@@ -20,11 +20,11 @@ const TableauBord = () => {
 		animalId: null,
 	});
 	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
-	const handleShow = useCallback((animalId) => {
+	const handleShowEditModal = useCallback((animalId) => {
 		setModalState({ show: true, animalId });
 	}, []);
 	// prev permet de conserver les autres informations de state et seul show est passé à false.
-	const handleClose = useCallback(() => {
+	const handleCloseEditModal = useCallback(() => {
 		setModalState((prev) => ({ ...prev, show: false }));
 	}, []);
 
@@ -51,7 +51,7 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleClose();
+					handleCloseEditModal();
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
 					console.error("Erreur lors de la mise à jour");
@@ -60,7 +60,7 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[modalState.animalId, handleClose],
+		[modalState.animalId, handleCloseEditModal],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -89,7 +89,7 @@ const TableauBord = () => {
 						<div className="row gx-8 gy-3">
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowEditModal={() => handleShow(1)}
+									onShowEditModal={() => handleShowEditModal(1)}
 									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -102,7 +102,7 @@ const TableauBord = () => {
 
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowEditModal={() => handleShow(1)}
+									onShowEditModal={() => handleShowEditModal(1)}
 									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -114,7 +114,7 @@ const TableauBord = () => {
 							</div>
 							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={() => handleShow(1)}
+									onShowEditModal={() => handleShowEditModal(1)}
 									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -126,7 +126,7 @@ const TableauBord = () => {
 							</div>
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={() => handleShow(1)}
+									onShowEditModal={() => handleShowEditModal(1)}
 									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
@@ -145,7 +145,7 @@ const TableauBord = () => {
 
 			<Modal
 				show={modalState.show}
-				onHide={handleClose}
+				onHide={handleCloseEditModal}
 				size="lg"
 				aria-labelledby="contained-modal-title-vcenter"
 				centered
@@ -263,10 +263,10 @@ const TableauBord = () => {
 					</form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button className="btn--form" onClick={handleClose}>
+					<Button className="btn--form" onClick={handleCloseEditModal}>
 						Fermer
 					</Button>
-					<Button className="btn--form" onClick={handleClose}>
+					<Button className="btn--form" onClick={handleCloseEditModal}>
 						Enregistrer
 					</Button>
 				</Modal.Footer>
