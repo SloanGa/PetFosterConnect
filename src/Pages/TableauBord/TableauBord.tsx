@@ -282,7 +282,7 @@ const TableauBord = () => {
 				centered
 			>
 				<Modal.Header closeButton>
-					<Modal.Title>Confirmation</Modal.Title>
+					<Modal.Title>Confirmation suppression</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>Voulez-vous vraiment supprimer XXX ? </Modal.Body>
 				<Modal.Footer>
