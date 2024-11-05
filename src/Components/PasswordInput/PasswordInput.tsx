@@ -21,16 +21,15 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ password, setPassword, la
 
     return (
         <>
-            <label htmlFor={label} className="form__connexion__label">{label}</label>
+            <label htmlFor={label} className="form__connexion__label form-label">{label}</label>
             <div className="password-input-container">
                 <input 
                     type={isPasswordVisible ? 'text' : 'password'}
-                    className="form__connexion__input"
+                    className="form__connexion__input form-control"
                     name="password"     
                     id={label}
                     placeholder="Votre mot de passe"
                     required 
-                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     ref={passwordInputRef}
                 />

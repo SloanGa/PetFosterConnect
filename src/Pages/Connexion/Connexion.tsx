@@ -5,6 +5,8 @@ import './Connexion.scss';
 import Header from '../../Components/Header/Header';
 import PasswordInput from '../../Components/PasswordInput/PasswordInput';
 import SubmitConnexion from '../../Components/SubmitConnexion/SubmitConnexion';
+import InputWithLabel from '../../Components/InputWithLabel/InputWithLabel';
+import { FormEvent } from 'react'; 
 import Footer from '../../Components/Footer/Footer';
 import { useState } from 'react';
 
@@ -16,7 +18,7 @@ const Connexion = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleLogin = async (event) => {
+    const handleLogin = async(event: FormEvent<HTMLFormElement>) => {
 
     {/*<!-- Éviter le rechargement du formulaire --> */}
                     
@@ -24,7 +26,7 @@ const Connexion = () => {
 
      {/*<!-- Remettre l'error à null --> */}
 
-        setError(null);
+     setError(null);
 
     {/*<!-- Appel à l'API --> */}
 
@@ -38,7 +40,9 @@ const Connexion = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Identifiants invalides'); 
+                const error = await response.json()
+                setError(error.message);
+                return 
             }
 
             const data = await response.json();
@@ -46,7 +50,6 @@ const Connexion = () => {
             console.log("Connexion réussie", data);
 
         } catch (err) {
-            setError(err.message);
             console.error("Erreur de connexion :", err);
         }
     };
@@ -82,21 +85,12 @@ const Connexion = () => {
 
         {error && <p className="form__error">{error}</p>}
 
-              {/*<!-- Input email --> */}    
+              {/*<!-- Input email --> */}   
 
-                    <label htmlFor="email" className="form__connexion__label">Votre email : </label>
-                    <input 
-                        type="email" 
-                        className="form__connexion__input"
-                        name="email"
-                        id="email" 
-                        placeholder="Votre email" 
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+              <InputWithLabel id="email" classNameLabel='form__connexion__label form-label' classNameInput='form__connexion_input form-control' type="email" name="email" ariaLabel='Votre email' placeholder={"Votre email"} text={"Votre email :"} value={email}
+            onChange={(e) => setEmail(e.target.value)} />
 
-                 {/*<!-- Input mot de passe --> */}   
+            {/*<!-- Input mot de passe --> */}   
 
                      <PasswordInput label="Votre mot de passe :" password={password} setPassword={setPassword} />
 
@@ -114,7 +108,6 @@ const Connexion = () => {
             {/*<!-- Utilisation du component Footer --> */}
 
             <Footer />
-
 
         </>
     );  

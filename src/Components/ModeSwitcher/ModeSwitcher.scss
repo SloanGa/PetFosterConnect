@@ -1,9 +1,5 @@
-.form__presentation {
-    min-height: 70vh;
-    }
-
-    .form__button {
-        min-width: 300px;
+.form__button {
+        min-width: 330px;
         color: #333; /* Couleur du texte */
         cursor: pointer; /* Curseur de la souris */
         transition: border-color 0.3s, background-color 0.3s;
@@ -16,8 +12,8 @@
     
 .form__text, .form__title {
     text-align: center;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
     }
 
 .form__connexion__description {

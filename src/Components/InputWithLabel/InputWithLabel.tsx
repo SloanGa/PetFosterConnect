@@ -6,11 +6,13 @@ interface InputProps {
     classNameInput: string;
     type: string;
     name: string;
+    id:string;
     value?: string;
     ariaLabel: string;
     placeholder?: string;
     selected?: string;
     text?: string;
+    accept? :string
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -25,12 +27,13 @@ const InputWithLabel = ({
                             text,
                             selected,
                             onChange,
+                            accept,
+                            id,
                         }: InputProps) => {
     return (
-        <label htmlFor={value} className={classNameLabel}>
-
-            <input id={value} className={classNameInput} type={type} name={name} value={value} aria-label={ariaLabel}
-                   placeholder={placeholder} checked={selected === value} onChange={onChange} /> {text}
+        <label htmlFor={id} className={classNameLabel}>
+            <input id={id} className={classNameInput} type={type} name={name} value={value} aria-label={ariaLabel}
+                   placeholder={placeholder} checked={selected === value} onChange={onChange} accept={accept} /> {text}
         </label>
     );
 };
