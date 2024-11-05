@@ -6,36 +6,24 @@ import { Pagination } from "react-bootstrap";
 
 interface PaginationProps {
     items: IAnimal[] | IAssociation[];
-    handleChangePage: (page: Number /*event: React.MouseEvent<HTMLButtonElement>*/) => void;
+    handleChangePage: (page: Number) => void;
     currentPage: Number;
-    animalFilterCount: Number | null;
+    animalsFilterCount: Number | null;
 }
 
 const PaginationComposant = ({
     items,
     handleChangePage,
     currentPage,
-    animalFilterCount,
+    animalsFilterCount,
 }: PaginationProps) => {
     /* Calcule le nombre total de pages en fonction du nombre d'animaux */
     let totalPagesNumber;
-    if (animalFilterCount) {
-        totalPagesNumber = Math.round(animalFilterCount / 6);
+    if (animalsFilterCount) {
+        totalPagesNumber = Math.round(animalsFilterCount / 6);
     } else {
         totalPagesNumber = Math.round(items.length / 6);
     }
-
-    /* Crée autant d'élément <li> <button> (bouton des pages) pour le nombre de pages calculés */
-    // const pageItems = [];
-    // for (let i = 0; i < totalPagesNumber; i++) {
-    //     pageItems.push(
-    //         <li key={i} className="page-item">
-    //             <button onClick={handleChangePage} className="page-link" data-page={i + 1}>
-    //                 {i + 1}
-    //             </button>
-    //         </li>
-    //     );
-    // }
     const pageItems = [];
     for (let page = 1; page <= totalPagesNumber; page++) {
         pageItems.push(
@@ -48,24 +36,57 @@ const PaginationComposant = ({
             </Pagination.Item>
         );
     }
-
+    if (totalPagesNumber === 1) {
+        return (
+            <Pagination>
+                <Pagination.Item disabled>1</Pagination.Item>
+            </Pagination>
+        );
+    }
     return (
         <Pagination>
             <Pagination.Prev
                 onClick={() => handleChangePage(currentPage - 1)}
                 disabled={currentPage === 1}
             />
-            {pageItems}
+            {/* Affiche la première page */}
+            <Pagination.Item onClick={() => handleChangePage(1)} active={currentPage === 1}>
+                1
+            </Pagination.Item>
+            {/* Affiche un ellipsis si nécessaire */}
+            {currentPage > 3 && <Pagination.Ellipsis />}
+            {/* Affiche la page précédente de la current page si nécessaire */}
+            {currentPage > 2 && (
+                <Pagination.Item onClick={() => handleChangePage(currentPage - 1)}>
+                    {currentPage - 1}
+                </Pagination.Item>
+            )}
+            {/* Affiche la page actuelle */}
+            {currentPage !== 1 && currentPage !== totalPagesNumber && (
+                <Pagination.Item active>{currentPage}</Pagination.Item>
+            )}
+            {/* Affiche la page suivante de la current page si nécessaire */}
+            {currentPage < totalPagesNumber - 1 && (
+                <Pagination.Item onClick={() => handleChangePage(currentPage + 1)}>
+                    {currentPage + 1}
+                </Pagination.Item>
+            )}
+            {/* Affiche un ellipsis si nécessaire */}
+            {currentPage < totalPagesNumber - 2 && <Pagination.Ellipsis />}
+            {/* Affiche la dernière page */}
+            {totalPagesNumber > 1 && (
+                <Pagination.Item
+                    onClick={() => handlePageChange(totalPagesNumber)}
+                    active={currentPage === totalPagesNumber}
+                >
+                    {totalPagesNumber}
+                </Pagination.Item>
+            )}
             <Pagination.Next
                 onClick={() => handleChangePage(currentPage + 1)}
                 disabled={currentPage === totalPagesNumber}
             />
         </Pagination>
-        // <nav aria-label="Pages de navigation">
-        //     <ul className="pagination">
-        //         {pageItems}
-        //     </ul>
-        // </nav>
     );
 };
 

@@ -79,10 +79,7 @@ const Animaux = () => {
     };
 
     /* Logique pour la gestion de la pagination  */
-    const handleChangePage = async (
-        page: Number /*event: React.MouseEvent<HTMLButtonElement>*/
-    ) => {
-        //const page = event.currentTarget.dataset.page;
+    const handleChangePage = async (page: Number) => {
         setCurrentPage(page);
         try {
             setIsLoading(true);
