@@ -17,7 +17,7 @@ interface DashboardCardProps {
 	onShowDeleteModal: () => void;
 }
 
-const AnimalCard: React.FC<DashboardCardProps> = ({
+const DashboardCard: React.FC<DashboardCardProps> = ({
 	src,
 	alt,
 	name,
@@ -70,4 +70,4 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 	);
 };
 
-export default AnimalCard;
+export default DashboardCard;
