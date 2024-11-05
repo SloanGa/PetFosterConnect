@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import './AppLink.scss';
+import "./AppLink.scss";
 
 interface LinkProps {
     to: string;

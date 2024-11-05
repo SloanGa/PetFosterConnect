@@ -14,27 +14,30 @@ import Icon from "../../Components/Icon/Icon.tsx";
 
 const Animaux = () => {
 
-    const { animals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
+    const { animals, paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL } = useFetchAnimals();
 
     const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+    const [queryString, setQueryString] = useState("");
+    const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
 
     /* Permet de set le state avec la valeurs "animals" reçu du hook useFetchAnimals */
     useEffect(() => {
-        if (animals) {
-            setAnimalsToDisplay(animals);
+        if (paginatedAnimals) {
+            setAnimalsToDisplay(paginatedAnimals);
         }
-    }, [animals]);
+    }, [paginatedAnimals, form]);
 
     /* Logique pour la gestion du filtre  */
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
+        const formData = (new FormData(e.currentTarget));
+
         const params: { [key: string]: string } = {};
 
         // Parcourir chaque entrée de FormData et ignore les ""
-        formData.forEach((value: string, key: string) => {
+        formData!.forEach((value: string, key: string) => {
             // Gérer les options par défaut
             if (key === "department_id" && value === "") {
                 return; // Ignore la valeur par défaut
@@ -49,17 +52,21 @@ const Animaux = () => {
                 return; // Ignore la valeur par défaut
             }
             params[key] = value;
+
         });
+        /* Initialise le state Form pour verifier si on est dans le cadre d'une recherche avec filtre ou non */
+        setForm(params);
 
         /* Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2... */
-        const queryString = new URLSearchParams(params).toString();
+        const newQueryString = new URLSearchParams(params).toString();
+        setQueryString(newQueryString);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/animals/search?${queryString}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`);
 
-            const data: IAnimal[] = await response.json();
+            const data = await response.json();
 
-            setAnimalsToDisplay(data);
+            setAnimalsToDisplay(data.paginatedAnimals);
         } catch (error) {
             console.error("Erreur lors de la récupération des données filtrées:", error);
         }
@@ -74,17 +81,25 @@ const Animaux = () => {
     /* Logique pour la gestion de la pagination  */
     const handleChangePage = async (event: React.MouseEvent<HTMLButtonElement>) => {
         const page = event.currentTarget.dataset.page;
-        console.log("test");
+
         try {
             setIsLoading(true);
-            const response = await
-                fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
+
+            let response;
+
+            if (!form) {
+                response = await
+                    fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
+            } else {
+                response = await
+                    fetch(`${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`);
+            }
 
             if (!response.ok) {
                 return setError("Une erreur est survenue, veuillez rafraîchir la page.");
             }
-            const data: IAnimal[] = await response.json();
-            setAnimalsToDisplay(data);
+            const data = await response.json();
+            setAnimalsToDisplay(data.paginatedAnimals);
 
         } catch (error) {
             setError("Une erreur est survenue, veuillez rafraîchir la page.");
@@ -120,7 +135,9 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">{`${animalsToDisplay.length} Résultats`}</h2>
+                    <h2 className="animals__section__result">
+                        {form ? `${animalsToDisplay.length} Résultats` : `${animals.length} Résultats`}
+                    </h2>
 
                     <section className="animals__section">
                         <div className="animals__section__filter">
@@ -129,7 +146,7 @@ const Animaux = () => {
                                   alt="icône filtre" onClick={toggleFiltersVisibility} text="Filtres" />
 
                             <Filters animals={animals} handleFilter={handleSubmitFilter}
-                                     isFiltersVisible={isFiltersVisible} />
+                                     isFiltersVisible={isFiltersVisible} setForm={setForm} />
                         </div>
                         <div className="cards">
                             {isLoading ? (
@@ -137,7 +154,7 @@ const Animaux = () => {
                             ) : error ? (
                                 <Error error={error} />
                             ) : (
-                                <ul className="cards">
+                                <ul className="cards__list">
                                     {animalsToDisplay.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard
@@ -160,7 +177,7 @@ const Animaux = () => {
 
                     </section>
 
-                    <Pagination animals={animals} handleChangePage={handleChangePage} />
+                    <Pagination items={form ? animalsToDisplay : animals} handleChangePage={handleChangePage} />
                 </div>
             </main>
             <Footer />

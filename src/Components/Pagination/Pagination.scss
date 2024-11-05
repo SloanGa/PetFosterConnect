@@ -6,17 +6,17 @@
   border: none;
   width: 30%;
   margin: 2em auto;
-}
 
-.page-link {
-  color: inherit;
-}
+  .page-item {
+    margin: 0;
 
-.page-item {
-  margin: 0
-}
+    .page-link {
+      color: inherit;
 
-.page-link:hover {
-  background-color: #baa89b;
-  color: #fff;
+      &:hover {
+        background-color: #baa89b;
+        color: #fff;
+      }
+    }
+  }
 }

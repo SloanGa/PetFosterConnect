@@ -3,6 +3,7 @@ import { IAnimal } from "../Interfaces/IAnimal.ts";
 
 const useFetchAnimals = () => {
     const [animals, setAnimals] = useState<IAnimal[]>([]);
+    const [paginatedAnimals, setPaginatedAnimals] = useState<IAnimal[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -18,8 +19,9 @@ const useFetchAnimals = () => {
                 if (!response.ok) {
                     return setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 }
-                const data: IAnimal[] = await response.json();
-                setAnimals(data);
+                const data = await response.json();
+                setAnimals(data.allAnimals);
+                setPaginatedAnimals(data.paginatedAnimals);
 
             } catch (error) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
@@ -33,7 +35,7 @@ const useFetchAnimals = () => {
         fetchAnimals();
     }, []);
 
-    return { animals, isLoading, setIsLoading, error, setError, baseURL };
+    return { animals, paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL };
 };
 
 export { useFetchAnimals };

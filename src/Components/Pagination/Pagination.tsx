@@ -1,16 +1,16 @@
-import React from "react";
 import "./Pagination.scss";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import { IAssociation } from "../../Interfaces/IAssociation.ts";
 
 interface PaginationProps {
-    animals: IAnimal[];
+    items: IAnimal[] | IAssociation[];
     handleChangePage: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Pagination = ({ animals, handleChangePage }: PaginationProps) => {
+const Pagination = ({ items, handleChangePage }: PaginationProps) => {
 
     /* Calcule le nombre total de pages en fonction du nombre d'animaux */
-    const totalPagesNumber = Math.round(animals.length / 6);
+    const totalPagesNumber = Math.round(items.length / 6);
 
     /* Crée autant d'élément <li> <button> (bouton des pages) pour le nombre de pages calculés */
     const pageItems = [];
