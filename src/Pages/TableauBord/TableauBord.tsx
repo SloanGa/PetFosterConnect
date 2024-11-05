@@ -13,7 +13,7 @@ import { useState, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
 
 const TableauBord = () => {
-	// Gestion centralisée du state de la modale : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
+	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
 
 	const [modalState, setModalState] = useState({
 		show: false,
@@ -130,13 +130,21 @@ const TableauBord = () => {
 				</div>
 			</div>
 
-			<Modal show={modalState.show} onHide={handleClose}>
+			{/* Modale pour modifier un animal */}
+
+			<Modal
+				show={modalState.show}
+				onHide={handleClose}
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+			>
 				<Modal.Header closeButton>
 					<Modal.Title>Modifier les informations</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<form>
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_name">
 								{" "}
 								Nom de l'animal :{" "}
@@ -148,7 +156,7 @@ const TableauBord = () => {
 								/>
 							</label>
 						</fieldset>
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="img_upload">
 								Télécharger un fichier :{" "}
 								<input
@@ -160,7 +168,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_gender">
 								{" "}
 								Genre de l'animal :{" "}
@@ -173,7 +181,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_species">
 								{" "}
 								Espèce de l'animal :{" "}
@@ -186,7 +194,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_age">
 								{" "}
 								Age de l'animal :{" "}
@@ -194,7 +202,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_size">
 								Sélectionner une taille :{" "}
 								<select id="input_size" name="size" defaultValue="Petit">
@@ -205,7 +213,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<label htmlFor="input_race">
 								{" "}
 								Race (optionnel) :{" "}
@@ -213,7 +221,7 @@ const TableauBord = () => {
 							</label>
 						</fieldset>
 
-						<fieldset className="fieldset--dashboard">
+						<fieldset className="fieldset__dashboard">
 							<legend className="fieldset--legend">Disponible</legend>
 
 							<div className="ckeckbox-availibility">
@@ -237,27 +245,23 @@ const TableauBord = () => {
 							</div>
 						</fieldset>
 					</form>
-					{/* Les champs : 
-					- name
-					- gender
-					- animal_img
-					- species
-					- age
-					- size
-					- description
-					- race
-					- availability
-					  */}
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
+					<Button
+						className="btn--form"
+						variant="secondary"
+						onClick={handleClose}
+					>
+						Fermer
 					</Button>
-					<Button variant="primary" onClick={handleClose}>
-						Save Changes
+					<Button className="btn--form" variant="primary" onClick={handleClose}>
+						Enregistrer
 					</Button>
 				</Modal.Footer>
 			</Modal>
+
+			{/* Modale pour confirmer la suppression d'un animal */}
+
 			<Footer />
 		</>
 	);

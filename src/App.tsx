@@ -15,7 +15,6 @@ import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/Politique
 import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord/TableauBord";
 // import { AnimalProvider } from "./Context/AnimalContext.tsx";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
 	return (

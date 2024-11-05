@@ -37,15 +37,27 @@
     &--legend{
       font-size: 1em;
     }
-    &--dashboard{
+    &__dashboard{
       margin-bottom: 0.5em;
-      display: flex;
     }
 
   }
 
   .ckeckbox-availibility {
     display:flex;
+    gap: 0.5em;
+  }
+
+  .btn--form{
+    background-color: v.$secondary-light;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    color: v.$tertiary-light;
+
+    &:hover {
+      background-color: v.$secondary;
+    }
   }
   
 
