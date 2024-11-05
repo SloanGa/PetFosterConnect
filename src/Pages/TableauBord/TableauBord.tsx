@@ -63,6 +63,13 @@ const TableauBord = () => {
 		[modalState.animalId, handleClose],
 	);
 
+	// Gestion de la modale confirmation de suppression
+
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+	const handleCloseDeleteModal = () => setShowDeleteModal(false);
+	const handleShowDeleteModal = () => setShowDeleteModal(true);
+
 	return (
 		<>
 			<Helmet>
@@ -82,7 +89,8 @@ const TableauBord = () => {
 						<div className="row gx-8 gy-3">
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={() => handleShow(1)}
+									onShowEditModal={() => handleShow(1)}
+									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -94,7 +102,8 @@ const TableauBord = () => {
 
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
-									onShowModal={() => handleShow(1)}
+									onShowEditModal={() => handleShow(1)}
+									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -106,6 +115,7 @@ const TableauBord = () => {
 							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									onShowModal={() => handleShow(1)}
+									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -117,6 +127,7 @@ const TableauBord = () => {
 							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
 								<DashboadCard
 									onShowModal={() => handleShow(1)}
+									onShowDeleteModal={() => handleShowDeleteModal()}
 									path={""}
 									src={"/src/assets/chien2.jpg"}
 									alt={"Toutou2"}
@@ -151,7 +162,7 @@ const TableauBord = () => {
 								<input
 									type="text"
 									id="input_name"
-									value="Toutou 1"
+									defaultValue="Toutou 1"
 									name="name"
 								/>
 							</label>
@@ -175,7 +186,7 @@ const TableauBord = () => {
 								<input
 									type="text"
 									id="input_gender"
-									value="Mâle"
+									defaultValue="Mâle"
 									name="gender"
 								/>
 							</label>
@@ -188,7 +199,7 @@ const TableauBord = () => {
 								<input
 									type="text"
 									id="input_species"
-									value="Chien"
+									defaultValue="Chien"
 									name="species"
 								/>
 							</label>
@@ -198,7 +209,7 @@ const TableauBord = () => {
 							<label htmlFor="input_age">
 								{" "}
 								Age de l'animal :{" "}
-								<input type="text" id="input_age" value="2" name="age" />
+								<input type="text" id="input_age" defaultValue="2" name="age" />
 							</label>
 						</fieldset>
 
@@ -206,9 +217,9 @@ const TableauBord = () => {
 							<label htmlFor="input_size">
 								Sélectionner une taille :{" "}
 								<select id="input_size" name="size" defaultValue="Petit">
-									<option value="Petit">Petit</option>
-									<option value="Moyen">Moyen</option>
-									<option value="Grand">Grand</option>
+									<option defaultValue="Petit">Petit</option>
+									<option defaultValue="Moyen">Moyen</option>
+									<option defaultValue="Grand">Grand</option>
 								</select>
 							</label>
 						</fieldset>
@@ -217,7 +228,12 @@ const TableauBord = () => {
 							<label htmlFor="input_race">
 								{" "}
 								Race (optionnel) :{" "}
-								<input type="text" id="input_race" value=" " name="race" />
+								<input
+									type="text"
+									id="input_race"
+									defaultValue=" "
+									name="race"
+								/>
 							</label>
 						</fieldset>
 
@@ -247,20 +263,38 @@ const TableauBord = () => {
 					</form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button
-						className="btn--form"
-						variant="secondary"
-						onClick={handleClose}
-					>
+					<Button className="btn--form" onClick={handleClose}>
 						Fermer
 					</Button>
-					<Button className="btn--form" variant="primary" onClick={handleClose}>
+					<Button className="btn--form" onClick={handleClose}>
 						Enregistrer
 					</Button>
 				</Modal.Footer>
 			</Modal>
 
 			{/* Modale pour confirmer la suppression d'un animal */}
+
+			<Modal
+				show={showDeleteModal}
+				onHide={handleCloseDeleteModal}
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Confirmation</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>Voulez-vous vraiment supprimer XXX ? </Modal.Body>
+				<Modal.Footer>
+					{" "}
+					<Button className="btn--form" onClick={handleCloseDeleteModal}>
+						Oui
+					</Button>
+					<Button className="btn--form" onClick={handleCloseDeleteModal}>
+						Non
+					</Button>
+				</Modal.Footer>
+			</Modal>
 
 			<Footer />
 		</>

@@ -13,7 +13,8 @@ interface DashboardCardProps {
 	animalId: number;
 	associationId: number;
 	// On passe à la fonction onShowModal les id qu'elle va pouvoir transmettre à la modale puis transmettre au back à la soumission du formulaire.
-	onShowModal: (animalId: number, associationId: number) => void;
+	onShowEditModal: (animalId: number, associationId: number) => void;
+	onShowDeleteModal: () => void;
 }
 
 const AnimalCard: React.FC<DashboardCardProps> = ({
@@ -23,7 +24,8 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 	path,
 	animalId,
 	associationId,
-	onShowModal,
+	onShowEditModal,
+	onShowDeleteModal,
 }: DashboardCardProps) => {
 	return (
 		<>
@@ -47,7 +49,7 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 							<Button
 								className="card-buttons__button"
 								// Les id sont transmis ici
-								onClick={() => onShowModal(animalId, associationId)}
+								onClick={() => onShowEditModal(animalId, associationId)}
 							>
 								Modifier
 							</Button>
@@ -55,9 +57,10 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 								Modifier
 							</button> */}
 							<Icon
-								ariaLabel={"Ouvrir le menu de connexion ou inscription"}
+								ariaLabel={"Supprimer l'animal"}
 								src={"/src/assets/icons/trash.svg"}
-								alt={"icône connexion/inscription"}
+								alt={"icône Suppression"}
+								onClick={() => onShowDeleteModal()}
 							/>
 						</div>
 					</div>

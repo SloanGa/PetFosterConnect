@@ -58,6 +58,11 @@
     &:hover {
       background-color: v.$secondary;
     }
+
+    &:active, &:focus:active {
+      background-color: v.$tertiary;
+      border: none;
+    }
   }
   
 
