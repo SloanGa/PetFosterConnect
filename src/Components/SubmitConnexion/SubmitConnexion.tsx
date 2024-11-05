@@ -1,10 +1,14 @@
-import './SubmitConnexion.scss';
+import React from 'react'; 
 
-const SubmitConnexion = ({ onClick }) => {
+interface SubmitConnexionProps{
+    onClick : (event: React.FormEvent<HTMLFormElement> )=> void
+}
+
+const SubmitConnexion = ({ onClick } : SubmitConnexionProps) => {
     return (
         <button 
             type="button" 
-            className="submitconnexion" 
+            className="btn" 
             onClick={onClick}
             aria-label='Se connecter'
         >

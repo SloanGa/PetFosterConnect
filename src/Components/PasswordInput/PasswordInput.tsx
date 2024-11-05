@@ -4,14 +4,14 @@ import './PasswordInput.scss';
 // Props PasswordInput
 
 interface PasswordInputProps {
-    password: string;
-    setPassword: (value: string) => void;
+    name: string;
     label: string; 
+    className?: string;
 }
 
 // PasswordInput component
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ password, setPassword, label }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ name, label, className }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -21,18 +21,18 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ password, setPassword, la
 
     return (
         <>
-            <label htmlFor={label} className="form__connexion__label form-label">{label}</label>
-            <div className="password-input-container">
+            <label htmlFor={name} className="label form-label">
+            
                 <input 
                     type={isPasswordVisible ? 'text' : 'password'}
-                    className="form__connexion__input form-control"
-                    name="password"     
-                    id={label}
+                    className={`input form-control ${className}`}
+                    name={name}     
+                    id={name}
                     placeholder="Votre mot de passe"
                     required 
-                    onChange={(e) => setPassword(e.target.value)}
                     ref={passwordInputRef}
                 />
+{label}
                 <button
                     type="button"
                     onClick={togglePasswordVisibility}
@@ -50,9 +50,10 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ password, setPassword, la
                         </svg>
                     )}
                 </button>
-            </div>
+            </label>
         </>
     );  
 };
 
 export default PasswordInput;
+

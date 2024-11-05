@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import './DepartmentInput.scss';
 import { IDepartment } from '../../Interfaces/IDepartment';
+
 
 const DepartmentInput = () => {
   const [departments, setDepartments] = useState<IDepartment[]>([]);
@@ -24,8 +24,8 @@ const DepartmentInput = () => {
   }, []);
 
   return (
-    <div className="department-input">
-      <label htmlFor="department_id" className="form__connexion__label form-label">Votre département *</label>
+    <div>
+      <label htmlFor="department_id" className="form__departement form-label">Votre département *</label>
       {loading ? (
         <p>Loading...</p>
       ) : (

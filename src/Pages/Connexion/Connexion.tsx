@@ -36,7 +36,7 @@ const Connexion = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                // body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
@@ -79,20 +79,21 @@ const Connexion = () => {
 
             <h1 className='main__title'>Connexion</h1>
 
-            <div className='form__connexion'>
-
-                <form method='post' action="">
+                <form className='form__connexion' method='post' action="">
 
         {error && <p className="form__error">{error}</p>}
 
               {/*<!-- Input email --> */}   
 
-              <InputWithLabel id="email" classNameLabel='form__connexion__label form-label' classNameInput='form__connexion_input form-control' type="email" name="email" ariaLabel='Votre email' placeholder={"Votre email"} text={"Votre email :"} value={email}
-            onChange={(e) => setEmail(e.target.value)} />
+              <InputWithLabel id="email" classNameLabel='label form-label' classNameInput='input form-control' type="email" name="email" ariaLabel='Votre email' placeholder={"Votre email"} text={"Votre email *"} />
 
             {/*<!-- Input mot de passe --> */}   
 
-                     <PasswordInput label="Votre mot de passe :" password={password} setPassword={setPassword} />
+            <PasswordInput 
+                    className='input__password'
+                    name='password'
+                    label="Votre mot de passe *" 
+                />
 
                     <p className='form__forgetpassword'>Mot de passe oublié ?</p>
 
@@ -101,8 +102,7 @@ const Connexion = () => {
                     <SubmitConnexion onClick={handleLogin} />
 
                 </form>
-            </div>
-
+          
             </main>
         
             {/*<!-- Utilisation du component Footer --> */}
