@@ -1,6 +1,27 @@
+.form__presentation {
+    min-height: 70vh;
+    }
+
+    .form__button {
+        min-width: 300px;
+        color: #333; /* Couleur du texte */
+        cursor: pointer; /* Curseur de la souris */
+        transition: border-color 0.3s, background-color 0.3s;
+    
+        &:hover {
+            border-color: #ffff; /* Couleur de bordure au survol */
+            background-color: #f67c22; /* Couleur de fond au survol */
+        }
+    }
+    
 .form__text, .form__title {
     text-align: center;
     margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    }
+
+.form__connexion__description {
+    margin: 1em 0;
     }
 
 .form__button {
@@ -9,7 +30,11 @@
     padding: 1em;
     border: none;
     }
- 
+
+#form__image {
+    margin-top: 1em;
+    }
+
 .btn {
     display: block;
     margin: 1em auto;

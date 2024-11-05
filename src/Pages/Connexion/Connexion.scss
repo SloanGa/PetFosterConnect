@@ -1,20 +1,44 @@
-
+.container  {
+    min-height: 100vh;
+}
 
 .form__connexion  {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
 }
 
 .form__connexion__label  {
     display: flex;
     flex-direction: column;
-    padding: 1em;
     font-weight: bold;
+    font-size: 1.2em;
 }
 
-.error {
+.form__connexion__input {
+    position: relative;
+   width: 320px;
+   padding: 0.5em;
+   margin-top: 1em;
+   margin-bottom: 1em;
+}
+
+.form__forgetpassword {
+    margin-top: 1em;
+    text-align: center;
+    font-size: 1em;
+}
+
+.material-icons {
+    position: absolute;
+    top: 1px;
+}
+
+.form__error {
     margin-top: 1em;
     font-weight: normal;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2em;
+
 }

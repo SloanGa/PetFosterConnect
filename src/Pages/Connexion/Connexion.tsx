@@ -3,6 +3,7 @@
 import { Helmet } from 'react-helmet-async';
 import './Connexion.scss';
 import Header from '../../Components/Header/Header';
+import PasswordInput from '../../Components/PasswordInput/PasswordInput';
 import SubmitConnexion from '../../Components/SubmitConnexion/SubmitConnexion';
 import Footer from '../../Components/Footer/Footer';
 import { useState } from 'react';
@@ -63,6 +64,7 @@ const Connexion = () => {
                     content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en 
                     accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
                 />
+            
 
             </Helmet>
 
@@ -70,17 +72,19 @@ const Connexion = () => {
 
             <Header />
 
+            <main className='container'>
+
             <h1 className='main__title'>Connexion</h1>
 
             <div className='form__connexion'>
 
                 <form method='post' action="">
 
-        {error && <p className="error">{error}</p>}
+        {error && <p className="form__error">{error}</p>}
 
               {/*<!-- Input email --> */}    
 
-                    <label htmlFor="email" className="form__connexion__label">Votre email</label>
+                    <label htmlFor="email" className="form__connexion__label">Votre email : </label>
                     <input 
                         type="email" 
                         className="form__connexion__input"
@@ -94,17 +98,9 @@ const Connexion = () => {
 
                  {/*<!-- Input mot de passe --> */}   
 
-                    <label htmlFor='password' className="form__connexion__label">Votre mot de passe</label>
-                    <input 
-                        type="password" 
-                        className="form__connexion__input"
-                        name="password" 
-                        id="password" 
-                        placeholder="Votre mot de passe"
-                        required 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                     <PasswordInput label="Votre mot de passe :" password={password} setPassword={setPassword} />
+
+                    <p className='form__forgetpassword'>Mot de passe oublié ?</p>
 
                     {/*<!-- Utilisation du component SubmitConnexion --> */}
 
@@ -112,11 +108,13 @@ const Connexion = () => {
 
                 </form>
             </div>
+
+            </main>
         
+            {/*<!-- Utilisation du component Footer --> */}
 
-                    {/*<!-- Utilisation du component Footer --> */}
+            <Footer />
 
-                     <Footer />
 
         </>
     );  
