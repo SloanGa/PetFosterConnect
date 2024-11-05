@@ -1,0 +1,54 @@
+@use '../../styles/variables' as v;
+
+
+  .card {
+    color: v.$main;
+    &__link {
+      transition: transform 0.3s;
+  
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+  
+    &__img {
+      height: 280px;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      object-position: top;
+    }
+  
+    &__title {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  
+    &__text {
+      font-weight: normal;
+    //   margin: 0;
+
+    }
+  }
+
+  .card-body{
+    text-align: center;
+  }
+  
+  .card-buttons {
+    padding-top: 1em;
+    display: flex;
+    justify-content: space-evenly;
+  
+    // Pour écraser le style des composants bootstrap, on utilise un sélecteur spécifique
+    .card-buttons__button {
+      background-color: v.$secondary-light;
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 15px;
+      color: v.$tertiary-light;
+  
+      &:hover {
+        background-color: v.$secondary;
+      }
+    }
+  }
