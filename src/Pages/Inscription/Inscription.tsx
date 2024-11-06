@@ -7,32 +7,40 @@ import DepartmentInput from "../../Components/DepartmentInput/DepartmentInput";
 import PasswordInput from "../../Components/PasswordInput/PasswordInput.tsx";
 import InputWithLabel from "../../Components/InputWithLabel/InputWithLabel";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Inscription = () => {
 
-    const [mode, setMode] = useState<"famille" | "association">("famille");
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [zip_code, setZip_Code] = useState("");
-    // const [department, setDepartment] = useState<number>(0); // Adjusted for number type
-    const [city, setCity] = useState("");
-    const [phone_number, setPhone_Number] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordconfirmation, setPasswordConfirmation] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [description, setDescription] = useState("");
-    const [file, setFile] = useState<File | null>(null);
+    const [mode, setMode] = useState<"family" | "association">("family");
 
+    const navigate = useNavigate();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+        const form = event.target as HTMLFormElement;
+        const data = new FormData(form);
+        data.append("role", mode);
 
-        if (password !== passwordconfirmation) {
-            setErrorMessage("Les mots de passe ne correspondent pas");
-            return;
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register/${mode}`, {
+                method: "POST",
+                body: data,
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.log(error);
+                return;
+            }
+
+            const responseData = await response.json();
+           
+            navigate("/");
+        } catch (error) {
+            console.error("Erreur de requête:", error);
+        } finally {
+
         }
-
-        console.log({ mode, name, address, zip_code, city, phone_number, password, description, file });
 
     };
 
@@ -59,7 +67,6 @@ const Inscription = () => {
                     : {mode === "famille" ? "Famille" : "Association"}</h2>
 
             </div>
-
 
             <form encType="multipart/form-data" className="form__register" onSubmit={handleSubmit}>
 
@@ -118,7 +125,6 @@ const Inscription = () => {
                     label="Votre mot de passe (confirmation) *"
                     classNameLabel="form__passwordconfirm"
                 />
-
                 {/* File Input */}
 
                 <InputWithLabel id="file" classNameLabel="form__file form-label"
@@ -129,7 +135,7 @@ const Inscription = () => {
 
                 {/* Error message */}
 
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {/*{errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}*/}
 
                 {/* Input description */}
 
@@ -153,6 +159,7 @@ const Inscription = () => {
 
             <Footer />
         </>
+
     );
 };
 
