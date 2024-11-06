@@ -9,25 +9,29 @@ interface GestionModalProps {
 	showEditModal: () => void;
 	setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
 	handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
+	animalToEdit: object;
 }
 
 const GestionModal: React.FC<GestionModalProps> = ({
 	handleCloseEditModal,
 	handleSubmit,
 	showEditModal,
+	animalToEdit,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
-	const initialValues = {
-		name: "Toutou",
-		animal_img: null, // Pour le fichier, il faut le gérer autrement
-		gender: "Mâle",
-		species: "Chien",
-		age: "2",
-		size: "Moyen",
-		race: "",
-		description: "Adorable chien", // Optionnel, vide par défaut
-		availability: true, // Peut être décoché
-	};
+	const initialValues = animalToEdit
+		? {
+				name: animalToEdit.name,
+				animal_img: null, // Pour le fichier, il faut le gérer autrement
+				gender: animalToEdit.gender ?? "Mâle",
+				species: animalToEdit.species ?? "Chien",
+				age: animalToEdit.age ?? "2",
+				size: animalToEdit.size ?? "Moyen",
+				race: animalToEdit.race ?? "",
+				description: animalToEdit.description ?? "Adorable chien",
+				availability: animalToEdit.availability ?? true,
+			}
+		: {};
 
 	// yup via valider les inputs et notamment si requis ou non
 	const validationSchema = yup.object().shape({

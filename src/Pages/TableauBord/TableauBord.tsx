@@ -16,6 +16,13 @@ import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 const TableauBord = () => {
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	const [animalToEdit, setAnimalToEdit] = useState<IAnimal | null>(null);
+
+	const baseURL = import.meta.env.VITE_API_URL;
 
 	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
 	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
@@ -46,7 +53,7 @@ const TableauBord = () => {
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/1`,
+					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/${animalToEdit.id}`,
 					{
 						method: "PATCH",
 						// headers: { "Content-Type": "formData" },
@@ -76,12 +83,6 @@ const TableauBord = () => {
 	const handleShowDeleteModal = () => setShowDeleteModal(true);
 
 	// Gestion du fetch des animaux de l'association
-
-	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-
-	const baseURL = import.meta.env.VITE_API_URL;
 
 	useEffect(() => {
 		const fetchAnimals = async () => {
@@ -149,6 +150,8 @@ const TableauBord = () => {
 										name={animal.name}
 										animalId={animal.id}
 										associationId={1}
+										animal={animal}
+										setAnimalToEdit={setAnimalToEdit}
 									/>
 								</div>
 							))}
@@ -164,6 +167,7 @@ const TableauBord = () => {
 				showEditModal={showEditModal}
 				setShowEditModal={setShowEditModal}
 				handleSubmit={handleSubmit}
+				animalToEdit={animalToEdit}
 			/>
 
 			{/* Modale pour confirmer la suppression d'un animal */}
