@@ -1,0 +1,39 @@
+.container  {
+    min-height: 59.3vh;
+}
+
+.form__connexion  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    font-family: Helvetica, sans-serif;
+
+   
+    .form__forgetpassword {
+        margin-top: 1em;
+        text-align: center;
+        font-size: 1em;
+    }
+
+    .form__error {
+        margin-top: 1em;
+        font-weight: normal;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 2em;
+    
+    }
+}
+
+.toggle-password-button {
+    position: absolute;
+    right: 10px;
+    top: 75%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+

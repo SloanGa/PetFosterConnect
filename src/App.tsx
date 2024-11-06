@@ -6,9 +6,8 @@ import Association from "./Pages/Association";
 import Animaux from "./Pages/Animaux/Animaux";
 import Animal from "./Pages/Animal";
 import Famille from "./Pages/Famille";
-import Connexion from "./Pages/Connexion";
-import InscriptionAssociation from "./Pages/InscriptionAssociation";
-import InscriptionFamille from "./Pages/InscriptionFamille";
+import Connexion from "./Pages/Connexion/Connexion.tsx";
+import Inscription from "./Pages/Inscription/Inscription.tsx";
 import MentionsLegales from "./Pages/MentionsLegales/MentionsLegales";
 import PlanDuSite from "./Pages/PlanDuSite";
 import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
@@ -28,11 +27,7 @@ const App = () => {
 					<Route path="/animaux" element={<Animaux />} />
 					<Route path="/animaux/:name-id" element={<Animal />} />
 					<Route path="/famille/:name-id" element={<Famille />} />
-					<Route path="/inscription/famille" element={<InscriptionFamille />} />
-					<Route
-						path="/inscription/association"
-						element={<InscriptionAssociation />}
-					/>
+					<Route path="/inscription" element={< Inscription />} />
 					<Route path="/connexion" element={<Connexion />} />
 					<Route path="/tableau-de-bord" element={<TableauBord />} />
 					<Route path="/mentions-legales" element={<MentionsLegales />} />
@@ -41,7 +36,6 @@ const App = () => {
 						path="/politique-confidentialite"
 						element={<PolitiqueConfidentialite />}
 					/>
-
 					{/* Page erreur redirige automatiquement vers /erreur */}
 					<Route path="*" element={<Navigate to="/erreur" replace />} />
 					<Route path="/erreur" element={<Erreur />} />

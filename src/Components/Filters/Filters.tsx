@@ -131,86 +131,41 @@ const Filters = ({
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Âge</legend>
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="0 à 2 ans"
-                        value="0-2"
-                        text="0 à 2 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="0-2" classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="0 à 2 ans"
+                                    value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="2 à 5 ans"
-                        value="2-5"
-                        text="2 à 5 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="2-5" classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="2 à 5 ans"
+                                    value="2-5" text="2 à 5 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="5 à 10 ans"
-                        value="5-10"
-                        text="5 à 10 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="5-10" classNameInput="form-check-input" type="checkbox" name="age" ariaLabel="5 à 10 ans"
+                                    value="5-10" text="5 à 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="Plus de 10 ans"
-                        value="11"
-                        text="< 10 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="11" classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="Plus de 10 ans"
+                                    value="11" text="< 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
+
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Petit"
-                        value="Petit"
-                        text="Petit"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Moyen"
-                        value="Moyen"
-                        text="Moyen"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
+                    <InputWithLabel id="small" classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Petit"
+                                    value="Petit" text="Petit" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Grand"
-                        value="Grand"
-                        text="Grand"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
+                    <InputWithLabel id="medium" classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Moyen"
+                                    value="Moyen" text="Moyen" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
+                    <InputWithLabel id="large" classNameInput="form-check-input" type="checkbox" name="size" ariaLabel="Grand"
+                                    value="Grand" text="Grand" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
                 </fieldset>
 
                 <button className="btn" type="submit" aria-label="Bouton de recherche">

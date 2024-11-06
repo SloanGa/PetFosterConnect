@@ -48,7 +48,7 @@ const Header = () => {
                                          text={"Se connecter"} />
                             </li>
                             <li>
-                                <AppLink to="/inscription/association" className="btn" title="S'inscrire"
+                                <AppLink to="/inscription" className="btn" title="S'inscrire"
                                          text={"S'inscrire"} />
                             </li>
                         </ul>
@@ -123,7 +123,7 @@ const Header = () => {
             <nav className={`header__primary__links--mobile ${isPrimaryMenuVisible ? "active" : ""}`}>
                 <ul className="nav__list">
                     <AppLink to="/connexion" className="nav__list__link" title="Se connecter" text={"Se connecter"} />
-                    <AppLink to="/inscription/association" className="btn" title="S'inscrire" text={"S'inscrire"} />
+                    <AppLink to="/inscription" className="btn" title="S'inscrire" text={"S'inscrire"} />
                 </ul>
             </nav>
         </header>

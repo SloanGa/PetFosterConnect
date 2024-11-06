@@ -1,4 +1,29 @@
+@use '../../styles/variables' as v;
+
 .form-check-input {
   margin-right: 0.5em;
   margin-top: 0;
 }
+
+.label{
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  font-weight: bold;
+  font-size: 1.2em;
+  gap:0.4em;
+}
+
+.input{
+  
+  @media (min-width: 992px) {
+    width: 300px
+    
+  }
+}
+
+
+.form-control:focus{
+  border-color : v.$primary;
+  box-shadow :none;
+ }
