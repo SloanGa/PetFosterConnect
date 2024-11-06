@@ -9,10 +9,12 @@ import InputWithLabel from "../../Components/InputWithLabel/InputWithLabel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.tsx";
+import Loading from "../../Components/Loading/Loading.tsx";
 
 
 const Inscription = () => {
     const [mode, setMode] = useState<"family" | "association">("family");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -26,7 +28,7 @@ const Inscription = () => {
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
         formData.append("role", mode);
-
+        setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register/${mode}`, {
                 method: "POST",
@@ -59,7 +61,7 @@ const Inscription = () => {
         } catch (error) {
             console.error("Erreur de requête:", error);
         } finally {
-
+            setIsLoading(false);
         }
     };
 
@@ -176,6 +178,7 @@ const Inscription = () => {
                 <button type="submit" className="btn btn__form--grid">S'inscrire</button>
             </form>
 
+            {isLoading ? <Loading /> : null}
             <Footer />
         </>
 

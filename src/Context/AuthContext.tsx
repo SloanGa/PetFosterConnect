@@ -58,10 +58,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsAuth(false);
         setUserData(null);
         localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_token_expiry");
         localStorage.removeItem("user");
     };
-
-    console.log(userData);
 
     return (
         <AuthContext.Provider value={{ isAuth, userData, login, logout }}>

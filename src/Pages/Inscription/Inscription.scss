@@ -44,8 +44,8 @@
     margin-right: 4em;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(6, auto);
-    column-gap: 20px;
     row-gap: 10px;
+    padding-bottom: 0;
   }
 
   /* Colonne de gauche */
