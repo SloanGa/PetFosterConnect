@@ -5,25 +5,25 @@
   margin-top: 0;
 }
 
-.label{
+.label {
   position: relative;
   display: flex;
   flex-direction: column-reverse;
   font-weight: bold;
   font-size: 1.2em;
-  gap:0.4em;
+  gap: 0.4em;
 }
 
-.input{
-  
+.input {
+
   @media (min-width: 992px) {
-    width: 300px
-    
+    width: 250px
+
   }
 }
 
 
-.form-control:focus{
-  border-color : v.$primary;
-  box-shadow :none;
- }
+.form-control:focus {
+  border-color: v.$primary;
+  box-shadow: none;
+}
