@@ -111,12 +111,12 @@ const Inscription = () => {
                 <PasswordInput
                     name="password"
                     label="Votre mot de passe *"
-                    className="form__password"
+                    classNameLabel="form__password"
                 />
                 <PasswordInput
                     name="confirmPassword"
                     label="Votre mot de passe (confirmation) *"
-                    className="form__passwordconfirm"
+                    classNameLabel="form__passwordconfirm"
                 />
 
                 {/* File Input */}
