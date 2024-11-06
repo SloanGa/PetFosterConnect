@@ -5,26 +5,26 @@ import Footer from "../../Components/Footer/Footer.tsx";
 import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import AppLink from "../../Components/AppLink/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
-// import { Error } from "../../Components/Error/Error.tsx";
+import { Error } from "../../Components/Error/Error.tsx";
 import { Button, Modal } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
-	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
-
 	const [showEditModal, setShowEditModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
 	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
-	const handleShowEditModal = () => setShowEditModal(true);
+	const handleShowEditModal = useCallback(() => {
+		setShowEditModal(true);
+	}, []);
 	// prev permet de conserver les autres informations de state et seul show est passé à false.
 	const handleCloseEditModal = () => setShowEditModal(false);
-
 	// L'event listener à la soumission du formulaire
-
 	const handleSubmit = useCallback(
 		async (values) => {
 			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
@@ -72,10 +72,41 @@ const TableauBord = () => {
 
 	// Gestion de la modale confirmation de suppression
 
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
-
 	const handleCloseDeleteModal = () => setShowDeleteModal(false);
 	const handleShowDeleteModal = () => setShowDeleteModal(true);
+
+	// Gestion du fetch des animaux de l'association
+
+	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	const baseURL = import.meta.env.VITE_API_URL;
+
+	useEffect(() => {
+		const fetchAnimals = async () => {
+			try {
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/?id=1`,
+				);
+
+				if (!response.ok) {
+					return setError(
+						"Une erreur est survenue, veuillez rafraîchir la page.",
+					);
+				}
+				const data = await response.json();
+				setAssociationAnimals(data);
+			} catch (error) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		fetchAnimals();
+	}, []);
 
 	return (
 		<>
@@ -104,55 +135,23 @@ const TableauBord = () => {
 
 					<div className="main__content__cards__container">
 						<div className="row gx-8 gy-3">
-							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-								<DashboardCard
-									onShowEditModal={() => handleShowEditModal(1)}
-									onShowDeleteModal={() => handleShowDeleteModal()}
-									path={""}
-									src={"/src/assets/chien2.jpg"}
-									alt={"Toutou2"}
-									name={"Toutou2"}
-									animalId={1}
-									associationId={1}
-								/>
-							</div>
-
-							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-								<DashboardCard
-									onShowEditModal={() => handleShowEditModal(1)}
-									onShowDeleteModal={() => handleShowDeleteModal()}
-									path={""}
-									src={"/src/assets/chien2.jpg"}
-									alt={"Toutou2"}
-									name={"Toutou2"}
-									animalId={1}
-									associationId={1}
-								/>
-							</div>
-							<div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
-								<DashboardCard
-									onShowEditModal={() => handleShowEditModal(1)}
-									onShowDeleteModal={() => handleShowDeleteModal()}
-									path={""}
-									src={"/src/assets/chien2.jpg"}
-									alt={"Toutou2"}
-									name={"Toutou2"}
-									animalId={1}
-									associationId={1}
-								/>
-							</div>
-							<div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-								<DashboardCard
-									onShowEditModal={() => handleShowEditModal(1)}
-									onShowDeleteModal={() => handleShowDeleteModal()}
-									path={""}
-									src={"/src/assets/chien2.jpg"}
-									alt={"Toutou2"}
-									name={"Toutou2"}
-									animalId={1}
-									associationId={1}
-								/>
-							</div>
+							{associationAnimals.map((animal) => (
+								<div
+									className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
+									key={animal.id}
+								>
+									<DashboardCard
+										onShowEditModal={() => handleShowEditModal(1)}
+										onShowDeleteModal={() => handleShowDeleteModal()}
+										path={""}
+										src={`${baseURL}${animal.url_image}`}
+										alt={animal.name}
+										name={animal.name}
+										animalId={animal.id}
+										associationId={1}
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>

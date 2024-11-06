@@ -24,7 +24,8 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		species: "Chien",
 		age: "2",
 		size: "Moyen",
-		race: "", // Optionnel, vide par défaut
+		race: "",
+		description: "Adorable chien", // Optionnel, vide par défaut
 		availability: true, // Peut être décoché
 	};
 
@@ -35,7 +36,10 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		species: yup.string().required("L'espèce de l'animal est requise"),
 		age: yup.string().required("L'âge de l'animal est requis"),
 		size: yup.string().required("La taille de l'animal est requise"),
-		race: yup.string(), // Optionnel
+		race: yup.string(),
+		description: yup
+			.string()
+			.required("La description de l'animal est requise"),
 		availability: yup.boolean(), // Optionnel
 	});
 	return (
@@ -183,6 +187,21 @@ const GestionModal: React.FC<GestionModalProps> = ({
 									placeholder="Race de l'animal"
 									name="race"
 									value={values.race}
+									onChange={handleChange}
+								/>
+							</Form.Group>
+
+							<Form.Group
+								aria-label="Entrer la description de l'animal (optionnel)"
+								className="mb-3"
+								controlId="race"
+							>
+								<Form.Label>Description</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Description de l'animal"
+									name="description"
+									value={values.description}
 									onChange={handleChange}
 								/>
 							</Form.Group>
