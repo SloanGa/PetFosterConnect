@@ -1,105 +1,133 @@
 @use "../../styles/variables" as v;
 
 .main--animal {
-    .section__header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        //margin-bottom: 2rem;
-        @media (min-width: 992px) {
-            flex-direction: row;
+    .section__animal {
+        &__header {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-        }
-
-        .main__title {
-            //padding: 0;
-            margin-top: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
             @media (min-width: 992px) {
-                margin-top: 2.5rem;
+                flex-direction: row;
+                align-items: center;
+                margin: 3rem 0;
+            }
+
+            .animal__identity {
+                display: flex;
+                align-items: center;
+                column-gap: 1rem;
+            }
+
+            .main__title {
+                margin: 0;
+            }
+
+            .icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .animal__availability {
+                font-size: 1.25rem;
+                font-weight: 300;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                @media (min-width: 992px) {
+                    flex-direction: row;
+                    font-size: 1.5rem;
+                }
+
+                &::before {
+                    content: "";
+                    display: block;
+                    background-color: black;
+                    width: 50%;
+                    height: 1px;
+                    position: relative;
+                    top: 0;
+                    margin: 1rem 0;
+
+                    @media (min-width: 992px) {
+                        left: 0;
+                        top: 0;
+                        width: 1px;
+                        height: 50px;
+                        margin: 0 1.5rem;
+                        transform: translateX(0);
+                    }
+                }
             }
         }
 
-        .icon {
-            width: 35px;
-            height: 35px;
-        }
-    }
-
-    .animal__identity {
-        display: flex;
-        align-items: center;
-        column-gap: 1rem;
-    }
-
-    .animal__availability {
-        font-size: 1.25rem;
-        font-weight: 300;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        @media (min-width: 992px) {
-            flex-direction: row;
-            font-size: 1.5rem;
-        }
-
-        &::before {
-            content: "";
-            display: block;
-            background-color: black;
-            width: 50%;
-            height: 1px;
-            position: relative;
-            top: 0;
-            margin: 1rem 0;
-
+        &__main {
+            margin-bottom: 2rem;
             @media (min-width: 992px) {
-                left: 0;
-                top: 0;
-                width: 1px;
-                height: 50px;
-                margin: 0 1.5rem;
-                transform: translateX(0);
+                display: flex;
+                column-gap: 2.5rem;
+                align-items: center;
+                margin-bottom: 3rem;
+            }
+
+            .animal__img {
+                height: 350px;
+                @media (min-width: 992px) {
+                    order: 2;
+                    width: 40%;
+                    flex: none;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            .animal__infos__data {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                justify-content: center;
+                margin: 2rem 0;
+                @media (min-width: 992px) {
+                    margin-top: 0;
+                }
+
+                &__item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    row-gap: 0.5rem;
+                }
+
+                .item__title {
+                    font-family: Helvetica, sans-serif;
+                }
+
+                .item__value {
+                    background-color: v.$secondary-light;
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 0.7rem 1rem;
+                }
+            }
+
+            .animal__description {
+                text-align: center;
             }
         }
     }
 
-    .animal__img {
-        height: 350px;
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
+    .section__association {
+        border-top: 1px solid v.$secondary-light;
+        padding-top: 2rem;
     }
+}
 
-    .animal__infos {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        justify-content: center;
-        margin: 2rem 0;
-    }
-
-    .animal__info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        row-gap: 0.5rem;
-        &__title {
-            font-family: Helvetica, sans-serif;
-        }
-
-        &__value {
-            background-color: v.$secondary-light;
-            color: #fff;
-            border-radius: 5px;
-            padding: 0.7rem 1rem;
-        }
-    }
-
-    .animal__description {
-        text-align: center;
-    }
+.map {
+    height: 200px;
+    width: 100%;
 }
