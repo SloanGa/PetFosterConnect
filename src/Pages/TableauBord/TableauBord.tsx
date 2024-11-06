@@ -16,38 +16,52 @@ import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 const TableauBord = () => {
 	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
 
-	const [modalState, setModalState] = useState({
-		show: false,
-		animalId: null,
-	});
+	const [showEditModal, setShowEditModal] = useState(false);
+
 	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
-	const handleShowEditModal = useCallback((animalId) => {
-		setModalState({ show: true, animalId });
-	}, []);
+	const handleShowEditModal = () => setShowEditModal(true);
 	// prev permet de conserver les autres informations de state et seul show est passé à false.
-	const handleCloseEditModal = useCallback(() => {
-		setModalState((prev) => ({ ...prev, show: false }));
-	}, []);
+	const handleCloseEditModal = () => setShowEditModal(false);
 
 	// L'event listener à la soumission du formulaire
 
 	const handleSubmit = useCallback(
-		async (event) => {
-			event.preventDefault();
-			const formData = new FormData(event.target);
-			const data = Object.fromEntries(formData.entries());
+		async (values) => {
+			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
+
+			const formData = new FormData();
+
+			console.log(values);
+
+			// Ici il faudra une fois la connexion faite récupérer l'id dans le token
+
+			formData.append("association_id", 1);
+
+			// on construit FormData avec les values (la première condition sert à n'insérer que des propriétés de l'objet value propre et non héritées)
+			for (const key in values) {
+				if (Object.hasOwnProperty.call(values, key)) {
+					const value = values[key];
+					if (value !== undefined && value !== null) {
+						formData.append(key, value);
+					}
+				}
+			}
+
+			// Ajouter le fichier
+			if (values.animalImage) {
+				formData.append("animalImage", values.animalImage);
+			}
+
+			console.log("Form data:", formData);
 
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-					`${import.meta.env.VITE_API_URL}/association/animals/search/1`,
+					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/12`,
 					{
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({
-							...data,
-							animalId: modalState.animalId,
-						}),
+						method: "PATCH",
+						// headers: { "Content-Type": "formData" },
+						body: formData,
 					},
 				);
 
@@ -61,7 +75,7 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[modalState.animalId, handleCloseEditModal],
+		[handleCloseEditModal],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -156,8 +170,9 @@ const TableauBord = () => {
 
 			<GestionModal
 				handleCloseEditModal={handleCloseEditModal}
-				modalState={modalState}
-				setModalState={setModalState}
+				showEditModal={showEditModal}
+				setShowEditModal={setShowEditModal}
+				handleSubmit={handleSubmit}
 			/>
 
 			{/* Modale pour confirmer la suppression d'un animal */}
