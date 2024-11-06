@@ -1,64 +1,65 @@
-{/*<!-- Imports --> */
-}
-
+import Loading from "../../Components/Loading/Loading.tsx";
 import { Helmet } from "react-helmet-async";
 import "./Connexion.scss";
 import Header from "../../Components/Header/Header";
 import PasswordInput from "../../Components/PasswordInput/PasswordInput";
-import SubmitConnexion from "../../Components/SubmitConnexion/SubmitConnexion";
 import InputWithLabel from "../../Components/InputWithLabel/InputWithLabel";
 import { FormEvent } from "react";
 import Footer from "../../Components/Footer/Footer";
 import { useState } from "react";
+import { Error } from "../../Components/Error/Error.tsx";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext.tsx";
 
 const Connexion = () => {
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    {/*<!-- Utilisation des Usestate --> */
-    }
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-
-        {/*<!-- Éviter le rechargement du formulaire --> */
-        }
-
         event.preventDefault();
+        const form = event.target as HTMLFormElement;
 
-        {/*<!-- Remettre l'error à null --> */
-        }
+        const formData = new FormData(form);
+        const formDataObject: { [key: string]: string } = {};
 
+        formData.forEach((value, key) => {
+            formDataObject[key] = value as string;
+        });
+        
+        setIsLoading(true);
         setError(null);
 
-        {/*<!-- Appel à l'API --> */
-        }
-
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/connexion`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify(formDataObject),
             });
 
             if (!response.ok) {
                 const error = await response.json();
                 setError(error.message);
+                console.log(error);
                 return;
             }
 
             const data = await response.json();
 
-            console.log("Connexion réussie", data);
+            login(data);
+            navigate("/");
 
         } catch (err) {
             console.error("Erreur de connexion :", err);
+            setError("Une erreur est survenue, veillez réessayer");
+        } finally {
+            setIsLoading(false);
         }
     };
-
     return (
         <>
 
@@ -84,9 +85,7 @@ const Connexion = () => {
 
                 <h1 className="main__title">Connexion</h1>
 
-                <form className="form__connexion" method="post" action="">
-
-                    {error && <p className="form__error">{error}</p>}
+                <form className="form__connexion" onSubmit={handleLogin}>
 
                     {/*<!-- Input email --> */}
 
@@ -106,8 +105,15 @@ const Connexion = () => {
 
                     {/*<!-- Utilisation du component SubmitConnexion --> */}
 
-                    <SubmitConnexion onClick={handleLogin} />
-
+                    <button
+                        type="submit"
+                        className="btn"
+                        aria-label="Se connecter"
+                    >
+                        Se connecter
+                    </button>
+                    {error ? <Error error={error!} /> : null}
+                    {isLoading ? <Loading /> : null}
                 </form>
 
             </main>
