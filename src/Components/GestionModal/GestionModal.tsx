@@ -18,25 +18,25 @@ const GestionModal: React.FC<GestionModalProps> = ({
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
 	const initialValues = {
-		animalName: "Toutou",
-		animalImage: null, // Pour le fichier, il faut le gérer autrement
-		animalGender: "Mâle",
-		animalSpecies: "Chien",
-		animalAge: "2",
-		animalSize: "Moyen",
-		animalRace: "", // Optionnel, vide par défaut
-		animalAvailability: true, // Peut être décoché
+		name: "Toutou",
+		animal_img: null, // Pour le fichier, il faut le gérer autrement
+		gender: "Mâle",
+		species: "Chien",
+		age: "2",
+		size: "Moyen",
+		race: "", // Optionnel, vide par défaut
+		availability: true, // Peut être décoché
 	};
 
 	// yup via valider les inputs et notamment si requis ou non
 	const validationSchema = yup.object().shape({
-		animalName: yup.string().required("Le nom de l'animal est requis"),
-		animalGender: yup.string().required("Le genre de l'animal est requis"),
-		animalSpecies: yup.string().required("L'espèce de l'animal est requise"),
-		animalAge: yup.string().required("L'âge de l'animal est requis"),
-		animalSize: yup.string().required("La taille de l'animal est requise"),
-		animalRace: yup.string(), // Optionnel
-		animalAvailability: yup.boolean(), // Optionnel
+		name: yup.string().required("Le nom de l'animal est requis"),
+		gender: yup.string().required("Le genre de l'animal est requis"),
+		species: yup.string().required("L'espèce de l'animal est requise"),
+		age: yup.string().required("L'âge de l'animal est requis"),
+		size: yup.string().required("La taille de l'animal est requise"),
+		race: yup.string(), // Optionnel
+		availability: yup.boolean(), // Optionnel
 	});
 	return (
 		<Modal
@@ -64,25 +64,25 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							<Form.Group
 								aria-label="Entrer le nom de l'animal"
 								className="mb-3"
-								controlId="animalName"
+								controlId="name"
 							>
 								<Form.Label>Nom de l'animal</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Nom de l'animal"
-									name="animalName"
-									value={values.animalName}
+									name="name"
+									value={values.name}
 									onChange={handleChange}
-									isInvalid={touched.animalName && !!errors.animalName}
+									isInvalid={touched.name && !!errors.name}
 								/>
 								<Form.Control.Feedback type="invalid">
-									{errors.animalName}
+									{errors.name}
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
 								aria-label="Télécharger l'image de l'animal"
-								controlId="animalImage"
+								controlId="animal_img"
 								className="mb-3"
 							>
 								<Form.Label>Image de l'animal</Form.Label>
@@ -92,64 +92,64 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							<Form.Group
 								aria-label="Entrer le genre de l'animal"
 								className="mb-3"
-								controlId="animalGender"
+								controlId="gender"
 							>
 								<Form.Label>Genre</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Genre de l'animal"
-									name="animalGender"
-									value={values.animalGender}
+									name="gender"
+									value={values.gender}
 									onChange={handleChange}
-									isInvalid={touched.animalGender && !!errors.animalGender}
+									isInvalid={touched.gender && !!errors.gender}
 								/>
 								<Form.Control.Feedback type="invalid">
-									{errors.animalGender}
+									{errors.gender}
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
 								aria-label="Entrer l'espèce de l'animal"
 								className="mb-3"
-								controlId="animalSpecies"
+								controlId="species"
 							>
 								<Form.Label>Espèce</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Espèce de l'animal"
-									name="animalSpecies"
-									value={values.animalSpecies}
+									name="species"
+									value={values.species}
 									onChange={handleChange}
-									isInvalid={touched.animalSpecies && !!errors.animalSpecies}
+									isInvalid={touched.species && !!errors.species}
 								/>
 								<Form.Control.Feedback type="invalid">
-									{errors.animalSpecies}
+									{errors.species}
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
 								aria-label="Entrer l'âge de l'animal"
 								className="mb-3"
-								controlId="animalAge"
+								controlId="age"
 							>
 								<Form.Label>Age</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Age de l'animal"
-									name="animalAge"
-									value={values.animalAge}
+									name="age"
+									value={values.age}
 									onChange={handleChange}
-									isInvalid={touched.animalAge && !!errors.animalAge}
+									isInvalid={touched.age && !!errors.age}
 								/>
 								<Form.Control.Feedback type="invalid">
-									{errors.animalAge}
+									{errors.age}
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Select
 								aria-label="Selectionner la taille de l'animal"
-								name="animalSize"
-								value={values.animalSize}
+								name="size"
+								value={values.size}
 								onChange={handleChange}
 							>
 								<option value="Petit">Petit</option>
@@ -160,14 +160,14 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							<Form.Group
 								aria-label="Entrer la race de l'animal (optionnel)"
 								className="mb-3"
-								controlId="animalRace"
+								controlId="race"
 							>
 								<Form.Label>Race (optionnel)</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="Race de l'animal"
-									name="animalRace"
-									value={values.animalRace}
+									name="race"
+									value={values.race}
 									onChange={handleChange}
 								/>
 							</Form.Group>
@@ -175,10 +175,10 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							<Form.Check // prettier-ignore
 								aria-label="Entrer la disponibilité de l'animal"
 								type="switch"
-								name="animalAvailability"
-								id="animalAvailability"
+								name="availability"
+								id="availability"
 								label="Disponible"
-								checked={values.animalAvailability}
+								checked={values.availability}
 								onChange={handleChange}
 							/>
 						</Form>

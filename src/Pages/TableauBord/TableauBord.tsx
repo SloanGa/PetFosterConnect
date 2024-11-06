@@ -41,7 +41,7 @@ const TableauBord = () => {
 			for (const key in values) {
 				if (Object.hasOwnProperty.call(values, key)) {
 					const value = values[key];
-					if (value !== undefined && value !== null) {
+					if (value !== undefined && value !== null && value !== "") {
 						formData.append(key, value);
 					}
 				}
