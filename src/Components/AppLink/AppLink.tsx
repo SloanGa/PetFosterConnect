@@ -8,15 +8,17 @@ interface LinkProps {
     title: string;
     text: string;
     svg?: ReactNode;
+    onClick?: () => void;
 }
 
-const AppLink = ({ to, className, title, svg, text }: LinkProps) => {
+const AppLink = ({ to, className, title, svg, text, onClick }: LinkProps) => {
     return (
         <>
             <Link
                 to={to}
                 className={className}
                 title={title}
+                onClick={onClick}
             >
                 {svg}
                 {text}

@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         // Si un utilisateur est stocké dans le localStorage, on le charge
         if (storedUser) {
-            const user = JSON.parse(storedUser);
+            const user: IUser = JSON.parse(storedUser);
             setUserData(user);
         }
     }, []);
@@ -57,12 +57,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const logout = () => {
         setIsAuth(false);
         setUserData(null);
-
-        // Supprimer les informations d'authentification du localStorage
         localStorage.removeItem("auth_token");
         localStorage.removeItem("user");
     };
 
+    console.log(userData);
 
     return (
         <AuthContext.Provider value={{ isAuth, userData, login, logout }}>

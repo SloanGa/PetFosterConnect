@@ -14,7 +14,11 @@ import { useAuth } from "../../Context/AuthContext.tsx";
 const Inscription = () => {
     const [mode, setMode] = useState<"family" | "association">("family");
     const navigate = useNavigate();
-    const { login, isAuth } = useAuth();
+    const { login } = useAuth();
+
+    const handleSetMode = () => {
+        setMode(mode === "association" ? "family" : "association");
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -35,7 +39,6 @@ const Inscription = () => {
                 return;
             }
 
-            console.log(response.headers);
             const token = response.headers.get("authorization")?.split(" ")[1];
             if (token) {
                 const expiryTime = Date.now() + 3 * 60 * 60 * 1000; // 3 heures en millisecondes
@@ -47,11 +50,12 @@ const Inscription = () => {
                 localStorage.setItem("user", JSON.stringify(data));
 
                 login(data);
+                navigate("/");
 
             } else {
                 console.log("Missing token");
             }
-            
+
         } catch (error) {
             console.error("Erreur de requête:", error);
         } finally {
@@ -76,10 +80,10 @@ const Inscription = () => {
             <div className="form__presentation">
 
                 <h1 className="main__title">Inscription</h1>
-                <ModeSwitcher mode={mode} setMode={setMode}
-                              text={mode === "famille" ? `Association ? Cliquez ici` : "Famille ? Cliquez ici"} />
+                <ModeSwitcher onClick={handleSetMode}
+                              text={mode === "family" ? "Association ? Cliquez ici" : "Famille ? Cliquez-ici"} />
                 <h2 className="form__title">Formulaire d'inscription
-                    : {mode === "famille" ? "Famille" : "Association"}</h2>
+                    : {mode === "family" ? "Famille" : "Association"}</h2>
 
             </div>
 
