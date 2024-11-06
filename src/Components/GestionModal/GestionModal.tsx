@@ -55,7 +55,14 @@ const GestionModal: React.FC<GestionModalProps> = ({
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit} // C'est notre handlesubmit ici qui est passé à Formik
 				>
-					{({ handleSubmit, handleChange, values, touched, errors }) => (
+					{({
+						handleSubmit,
+						handleChange,
+						values,
+						touched,
+						errors,
+						setFieldValue,
+					}) => (
 						<Form
 							id="edit-animal-form"
 							encType="multipart/form-data"
@@ -85,8 +92,16 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								controlId="animal_img"
 								className="mb-3"
 							>
+								{/* Pour ajouter dans les values de formik le fichier */}
 								<Form.Label>Image de l'animal</Form.Label>
-								<Form.Control type="file" />
+								<Form.Control
+									type="file"
+									name="animal_img"
+									onChange={(event) => {
+										const file = event.currentTarget.files[0];
+										setFieldValue("animal_img", file);
+									}}
+								/>
 							</Form.Group>
 
 							<Form.Group

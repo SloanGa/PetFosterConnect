@@ -33,10 +33,6 @@ const TableauBord = () => {
 
 			console.log(values);
 
-			// Ici il faudra une fois la connexion faite récupérer l'id dans le token
-
-			formData.append("association_id", 1);
-
 			// on construit FormData avec les values (la première condition sert à n'insérer que des propriétés de l'objet value propre et non héritées)
 			for (const key in values) {
 				if (Object.hasOwnProperty.call(values, key)) {
@@ -47,17 +43,10 @@ const TableauBord = () => {
 				}
 			}
 
-			// Ajouter le fichier
-			if (values.animalImage) {
-				formData.append("animalImage", values.animalImage);
-			}
-
-			console.log("Form data:", formData);
-
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/12`,
+					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/1`,
 					{
 						method: "PATCH",
 						// headers: { "Content-Type": "formData" },
@@ -67,6 +56,9 @@ const TableauBord = () => {
 
 				if (response.ok) {
 					handleCloseEditModal();
+					const updatedAnimal = await response.json(); // Récupère l'objet mis à jour
+					console.log(updatedAnimal);
+
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
 					console.error("Erreur lors de la mise à jour");
