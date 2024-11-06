@@ -8,40 +8,55 @@ import PasswordInput from "../../Components/PasswordInput/PasswordInput.tsx";
 import InputWithLabel from "../../Components/InputWithLabel/InputWithLabel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext.tsx";
+
 
 const Inscription = () => {
-
     const [mode, setMode] = useState<"family" | "association">("family");
-
     const navigate = useNavigate();
+    const { login, isAuth } = useAuth();
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const form = event.target as HTMLFormElement;
-        const data = new FormData(form);
-        data.append("role", mode);
+        const formData = new FormData(form);
+        formData.append("role", mode);
 
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register/${mode}`, {
                 method: "POST",
-                body: data,
+                body: formData,
             });
 
             if (!response.ok) {
-                const error = await response.json();
-                console.log(error);
+                const errorData = await response.json();
+                console.log("Erreur:", errorData);
                 return;
             }
 
-            const responseData = await response.json();
-           
-            navigate("/");
+            console.log(response.headers);
+            const token = response.headers.get("authorization")?.split(" ")[1];
+            if (token) {
+                const expiryTime = Date.now() + 3 * 60 * 60 * 1000; // 3 heures en millisecondes
+                localStorage.setItem("auth_token", token);
+                localStorage.setItem("auth_token_expiry", expiryTime.toString());
+
+                const data = await response.json();
+
+                localStorage.setItem("user", JSON.stringify(data));
+
+                login(data);
+
+            } else {
+                console.log("Missing token");
+            }
+            
         } catch (error) {
             console.error("Erreur de requête:", error);
         } finally {
 
         }
-
     };
 
     return (

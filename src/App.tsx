@@ -13,37 +13,38 @@ import PlanDuSite from "./Pages/PlanDuSite";
 import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
 import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord/TableauBord";
-// import { AnimalProvider } from "./Context/AnimalContext.tsx";
+import { AuthProvider } from "./Context/AuthContext.tsx";
+
 
 const App = () => {
-	return (
-		<HelmetProvider>
-			{/*<AnimalProvider>*/}
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/associations" element={<Associations />} />
-					<Route path="/association/:name" element={<Association />} />
-					<Route path="/animaux" element={<Animaux />} />
-					<Route path="/animaux/:name-id" element={<Animal />} />
-					<Route path="/famille/:name-id" element={<Famille />} />
-					<Route path="/inscription" element={< Inscription />} />
-					<Route path="/connexion" element={<Connexion />} />
-					<Route path="/tableau-de-bord" element={<TableauBord />} />
-					<Route path="/mentions-legales" element={<MentionsLegales />} />
-					<Route path="/plan-du-site" element={<PlanDuSite />} />
-					<Route
-						path="/politique-confidentialite"
-						element={<PolitiqueConfidentialite />}
-					/>
-					{/* Page erreur redirige automatiquement vers /erreur */}
-					<Route path="*" element={<Navigate to="/erreur" replace />} />
-					<Route path="/erreur" element={<Erreur />} />
-				</Routes>
-			</BrowserRouter>
-			{/*</AnimalProvider>*/}
-		</HelmetProvider>
-	);
+    return (
+        <HelmetProvider>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/associations" element={<Associations />} />
+                        <Route path="/association/:name" element={<Association />} />
+                        <Route path="/animaux" element={<Animaux />} />
+                        <Route path="/animaux/:name-id" element={<Animal />} />
+                        <Route path="/famille/:name-id" element={<Famille />} />
+                        <Route path="/inscription" element={< Inscription />} />
+                        <Route path="/connexion" element={<Connexion />} />
+                        <Route path="/tableau-de-bord" element={<TableauBord />} />
+                        <Route path="/mentions-legales" element={<MentionsLegales />} />
+                        <Route path="/plan-du-site" element={<PlanDuSite />} />
+                        <Route
+                            path="/politique-confidentialite"
+                            element={<PolitiqueConfidentialite />}
+                        />
+                        {/* Page erreur redirige automatiquement vers /erreur */}
+                        <Route path="*" element={<Navigate to="/erreur" replace />} />
+                        <Route path="/erreur" element={<Erreur />} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
+        </HelmetProvider>
+    );
 };
 
 export default App;
