@@ -202,18 +202,60 @@ const Header = () => {
             {/* <!-- Liens connexion / inscription pour version mobile (apparaît au clic sur icône user) -->  */}
             <nav className={`header__primary__links--mobile ${isPrimaryMenuVisible ? "active" : ""}`}>
                 <ul className="nav__list">
-                    <AppLink
-                        to="/connexion"
-                        className="nav__list__link"
-                        title="Se connecter"
-                        text={"Se connecter"}
-                    />
-                    <AppLink
-                        to="/inscription"
-                        className="btn"
-                        title="S'inscrire"
-                        text={"S'inscrire"}
-                    />
+                    {/* Si l'utilisateur n'est pas authentifié */}
+                    {!isAuth ? (
+                        <>
+                            <li>
+                                <AppLink
+                                    to="/connexion"
+                                    className="nav__list__link"
+                                    title="Se connecter"
+                                    text="Se connecter"
+                                />
+                            </li>
+                            <li>
+                                <AppLink
+                                    to="/inscription"
+                                    className="btn"
+                                    title="S'inscrire"
+                                    text="S'inscrire"
+                                />
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            {/* Si l'utilisateur est authentifié et est un membre de la famille */}
+                            {userData.role === "family" ? (
+                                <li>
+                                    <AppLink
+                                        to={`/famille/${userData.family.id}`}
+                                        className="nav__list__link"
+                                        title="Profil"
+                                        text="Profil"
+                                    />
+                                </li>
+                            ) : (
+                                <li>
+                                    <AppLink
+                                        to="/tableau-de-bord"
+                                        className="nav__list__link"
+                                        title="Dashboard"
+                                        text="Dashboard"
+                                    />
+                                </li>
+                            )}
+                            {/* Lien de déconnexion */}
+                            <li>
+                                <AppLink
+                                    to="/"
+                                    className="btn"
+                                    title="Se déconnecter"
+                                    text="Se déconnecter"
+                                    onClick={logout}
+                                />
+                            </li>
+                        </>
+                    )}
                 </ul>
             </nav>
         </header>

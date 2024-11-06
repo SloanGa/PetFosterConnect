@@ -44,14 +44,25 @@ const Connexion = () => {
             if (!response.ok) {
                 const error = await response.json();
                 setError(error.message);
-                console.log(error);
                 return;
             }
 
-            const data = await response.json();
+            const token = response.headers.get("authorization")?.split(" ")[1];
+            if (token) {
+                const expiryTime = Date.now() + 3 * 60 * 60 * 1000; // 3 heures en millisecondes
+                localStorage.setItem("auth_token", token);
+                localStorage.setItem("auth_token_expiry", expiryTime.toString());
 
-            login(data);
-            navigate("/");
+                const data = await response.json();
+
+                localStorage.setItem("user", JSON.stringify(data));
+
+                login(data);
+                navigate("/");
+
+            } else {
+                console.log("Missing token");
+            }
 
         } catch (err) {
             console.error("Erreur de connexion :", err);
