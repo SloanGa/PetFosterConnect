@@ -9,12 +9,10 @@ const useFetchAnimals = () => {
 
     const baseURL = import.meta.env.VITE_API_URL;
 
-
     useEffect(() => {
         const fetchAnimals = async () => {
             try {
-                const response = await
-                    fetch(`${import.meta.env.VITE_API_URL}/animals`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/animals`);
 
                 if (!response.ok) {
                     return setError("Une erreur est survenue, veuillez rafraîchir la page.");
@@ -22,7 +20,6 @@ const useFetchAnimals = () => {
                 const data = await response.json();
                 setAnimals(data.allAnimals);
                 setPaginatedAnimals(data.paginatedAnimals);
-
             } catch (error) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 console.error("Erreur lors de la récupération des données:", error);
@@ -30,7 +27,6 @@ const useFetchAnimals = () => {
                 setIsLoading(false);
             }
         };
-
 
         fetchAnimals();
     }, []);

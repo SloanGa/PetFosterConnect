@@ -11,4 +11,3 @@ export const Error = ({ error }: ErrorProps) => {
         </>
     );
 };
-

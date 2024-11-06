@@ -157,7 +157,7 @@
             }
         }
 
-        .btn {
+        .btn--demande {
             margin-top: 1rem;
         }
     }
@@ -189,4 +189,9 @@
             background-color: v.$tertiary;
         }
     }
+}
+
+.error {
+    margin: 3rem 0;
+    text-align: center;
 }
