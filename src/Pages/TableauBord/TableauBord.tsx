@@ -14,7 +14,7 @@ import Icon from "../../Components/Icon/Icon.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
-	const [showEditModal, setShowEditModal] = useState(false);
+	const [showGestionModal, setShowGestionModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -24,15 +24,15 @@ const TableauBord = () => {
 
 	const baseURL = import.meta.env.VITE_API_URL;
 
-	// Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
-	// Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
-	const handleShowEditModal = useCallback(() => {
-		setShowEditModal(true);
+	// Modale modifier
+
+	const handleShowGestionModal = useCallback(() => {
+		setShowGestionModal(true);
 	}, []);
-	// prev permet de conserver les autres informations de state et seul show est passé à false.
-	const handleCloseEditModal = () => setShowEditModal(false);
-	// L'event listener à la soumission du formulaire
-	const handleSubmit = useCallback(
+
+	const handleCloseGestionModal = () => setShowGestionModal(false);
+	// L'event listener à la soumission du formulaire éditer
+	const handleSubmitEdit = useCallback(
 		async (values) => {
 			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
 
@@ -62,7 +62,7 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleCloseEditModal();
+					handleCloseGestionModal();
 					const updatedAnimal = await response.json(); // Récupère l'objet mis à jour
 					console.log(updatedAnimal);
 
@@ -74,7 +74,7 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[handleCloseEditModal],
+		[handleCloseGestionModal],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -130,7 +130,7 @@ const TableauBord = () => {
 							ariaLabel={"Ajouter un animal"}
 							src={"/src/assets/icons/plus.svg"}
 							alt={"icône Ajout"}
-							onClick={() => onShowDeleteModal()}
+							onClick={handleShowGestionModal}
 						/>
 					</div>
 
@@ -142,7 +142,7 @@ const TableauBord = () => {
 									key={animal.id}
 								>
 									<DashboardCard
-										onShowEditModal={() => handleShowEditModal(1)}
+										onShowEditModal={() => handleShowGestionModal(1)}
 										onShowDeleteModal={() => handleShowDeleteModal()}
 										path={""}
 										src={`${baseURL}${animal.url_image}`}
@@ -151,6 +151,7 @@ const TableauBord = () => {
 										animalId={animal.id}
 										associationId={1}
 										animal={animal}
+										// On passe ce setter pour que quand on clique sur modifier, on ait en state l'animal à éditer et on lui a passé son animal
 										setAnimalToEdit={setAnimalToEdit}
 									/>
 								</div>
@@ -163,10 +164,10 @@ const TableauBord = () => {
 			{/* Modale pour modifier un animal */}
 
 			<GestionModal
-				handleCloseEditModal={handleCloseEditModal}
-				showEditModal={showEditModal}
-				setShowEditModal={setShowEditModal}
-				handleSubmit={handleSubmit}
+				handleCloseGestionModal={handleCloseGestionModal}
+				showGestionModal={showGestionModal}
+				setShowGestionModal={setShowGestionModal}
+				handleSubmitEdit={handleSubmitEdit}
 				animalToEdit={animalToEdit}
 			/>
 

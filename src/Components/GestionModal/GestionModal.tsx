@@ -5,17 +5,16 @@ import * as yup from "yup";
 import { useState } from "react";
 
 interface GestionModalProps {
-	handleCloseEditModal: () => void;
-	showEditModal: () => void;
-	setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
-	handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
+	handleCloseGestionModal: () => void;
+	showGestionModal: () => void;
+	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	animalToEdit: object;
 }
 
 const GestionModal: React.FC<GestionModalProps> = ({
-	handleCloseEditModal,
-	handleSubmit,
-	showEditModal,
+	handleCloseGestionModal,
+	handleSubmitEdit,
+	showGestionModal,
 	animalToEdit,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
@@ -23,13 +22,13 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		? {
 				name: animalToEdit.name,
 				animal_img: null, // Pour le fichier, il faut le gérer autrement
-				gender: animalToEdit.gender ?? "Mâle",
-				species: animalToEdit.species ?? "Chien",
-				age: animalToEdit.age ?? "2",
-				size: animalToEdit.size ?? "Moyen",
-				race: animalToEdit.race ?? "",
-				description: animalToEdit.description ?? "Adorable chien",
-				availability: animalToEdit.availability ?? true,
+				gender: animalToEdit.gender,
+				species: animalToEdit.species,
+				age: animalToEdit.age,
+				size: animalToEdit.size,
+				race: animalToEdit.race,
+				description: animalToEdit.description,
+				availability: animalToEdit.availability,
 			}
 		: {};
 
@@ -48,8 +47,8 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	});
 	return (
 		<Modal
-			show={showEditModal}
-			onHide={handleCloseEditModal}
+			show={showGestionModal}
+			onHide={handleCloseGestionModal}
 			size="lg"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
@@ -61,7 +60,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={handleSubmit} // C'est notre handlesubmit ici qui est passé à Formik
+					onSubmit={handleSubmitEdit} // C'est notre handlesubmit ici qui est passé à Formik
 				>
 					{({
 						handleSubmit,
@@ -74,7 +73,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 						<Form
 							id="edit-animal-form"
 							encType="multipart/form-data"
-							onSubmit={handleSubmit} // C'est le handleSubmit de formik ici
+							onSubmit={handleSubmit} // C'est le handleSubmitEdit de formik ici
 						>
 							<Form.Group
 								aria-label="Entrer le nom de l'animal"
@@ -224,7 +223,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 				</Formik>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button className="btn--form" onClick={handleCloseEditModal}>
+				<Button className="btn--form" onClick={handleCloseGestionModal}>
 					Fermer
 				</Button>
 				<Button className="btn--form" type="submit" form="edit-animal-form">
