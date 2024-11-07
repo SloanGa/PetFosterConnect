@@ -278,7 +278,10 @@ const TableauBord = () => {
 				<Modal.Header closeButton>
 					<Modal.Title>Confirmation suppression</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>Voulez-vous vraiment supprimer XXX ? </Modal.Body>
+				<Modal.Body>
+					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
+					?{" "}
+				</Modal.Body>
 				<Modal.Footer>
 					{" "}
 					<Button className="btn--form" onClick={deleteAnimal}>
