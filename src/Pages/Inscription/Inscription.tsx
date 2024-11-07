@@ -99,7 +99,7 @@ const Inscription = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                setError(errorData.message);
+                setError(errorData.error);
                 return;
             }
 
@@ -164,11 +164,12 @@ const Inscription = () => {
                     email: "",
                     password: "",
                     confirmPassword: "",
+                    file: null,
                 }}
                 validateOnBlur={true}
                 validateOnChange={true}
             >
-                {({ handleSubmit, handleChange, values, touched, errors }) => (
+                {({ setFieldValue, handleSubmit, handleChange, values, touched, errors }) => (
                     <Form encType="multipart/form-data" className="form__register" onSubmit={handleSubmit}
                           noValidate>
 
@@ -408,10 +409,17 @@ const Inscription = () => {
                             <Form.Control
                                 className="form__connexion_input"
                                 type="file"
-                                name="family_img ou association_img"
+                                name={mode === "family" ? "family_img" : "association_img"}
                                 aria-label="Votre photo de profil"
-                                placeholder="Votre photo de profil"
-                                accept=".png, .jpeg, .webp, .jpg"
+                                // placeholder="Votre photo de profil"
+                                // accept=".png, .jpeg, .webp, .jpg"
+                                accept="image/png, image/jpeg, image/webp, image/jpg"
+                                onChange={(event) => {
+                                    const fieldName = mode === "family" ? "family_img" : "association_img";
+                                    const file = event.currentTarget.files[0];
+                                    setFieldValue(fieldName, file);
+                                }}
+                                isInvalid={touched.file && !!errors.file}
                             />
                         </Form.Group>
 

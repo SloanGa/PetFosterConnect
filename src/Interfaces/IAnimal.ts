@@ -11,6 +11,7 @@ interface IAnimal {
     gender: string;
     size: string;
     description: string;
+    slug?: string;
     availability: boolean;
     url_image: string | null;
     family_id: number | null;

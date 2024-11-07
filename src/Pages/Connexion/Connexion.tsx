@@ -54,10 +54,11 @@ const Connexion = () => {
                 },
                 body: JSON.stringify(formDataObject),
             });
-
+            //
             if (!response.ok) {
                 const error = await response.json();
-                setError(error.message);
+                console.log(error);
+                setError(error.error);
                 return;
             }
 
@@ -80,7 +81,7 @@ const Connexion = () => {
 
         } catch (err) {
             console.error("Erreur de connexion :", err);
-            setError("Une erreur est survenue, veillez réessayer");
+            setError(err.message);
         } finally {
             setIsLoading(false);
         }
