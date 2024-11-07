@@ -4,29 +4,27 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 interface GestionModalProps {
-	handleCloseGestionModal: () => void;
-	showGestionModal: () => void;
-	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-	animalToEdit: object;
+	handleCloseGestionAddModal: () => void;
+	showGestionAddModal: () => void;
+	handleSubmitAdd: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
-const GestionModal: React.FC<GestionModalProps> = ({
-	handleCloseGestionModal,
-	handleSubmitEdit,
-	showGestionModal,
-	animalToEdit,
+const GestionAddModal: React.FC<GestionModalProps> = ({
+	handleCloseGestionAddModal,
+	handleSubmitAdd,
+	showGestionAddModal,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
 	const initialValues = {
-		name: animalToEdit?.name || "",
+		name: "",
 		animal_img: null,
-		gender: animalToEdit?.gender || "",
-		species: animalToEdit?.species || "",
-		age: animalToEdit?.age || "",
-		size: animalToEdit?.size || "",
-		race: animalToEdit?.race || "",
-		description: animalToEdit?.description || "",
-		availability: animalToEdit?.availability || false,
+		gender: "",
+		species: "",
+		age: "",
+		size: "",
+		race: "",
+		description: "",
+		availability: false,
 	};
 
 	// yup via valider les inputs et notamment si requis ou non
@@ -42,23 +40,27 @@ const GestionModal: React.FC<GestionModalProps> = ({
 			.required("La description de l'animal est requise"),
 		availability: yup.boolean(), // Optionnel
 	});
-
 	return (
 		<Modal
-			show={showGestionModal}
-			onHide={handleCloseGestionModal}
+			show={showGestionAddModal}
+			onHide={handleCloseGestionAddModal}
 			size="lg"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>"Modifier les informations"</Modal.Title>
+				<Modal.Title>Ajouter un animal</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={handleSubmitEdit} // C'est notre handlesubmit ici qui est passé à Formik
+					onSubmit={handleSubmitAdd}
+					validateOnBlur={true}
+					validateOnChange={true}
+					onError={(errors) => {
+						console.log("Validation Failed. Errors:", errors);
+					}}
 				>
 					{({
 						handleSubmit,
@@ -222,14 +224,25 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								checked={values.availability || false}
 								onChange={handleChange}
 							/>
+							<pre>{JSON.stringify({ errors, touched }, null, 2)}</pre>
 						</Form>
 					)}
 				</Formik>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button className="btn--form" onClick={handleCloseGestionModal}>
+				<Button className="btn--form" onClick={handleCloseGestionAddModal}>
 					Fermer
 				</Button>
+				{({ isValid, dirty }) => (
+					<Button
+						type="submit"
+						disabled={!isValid || !dirty}
+						form="edit-animal-form"
+					>
+						Enregistrer
+					</Button>
+				)}
+
 				<Button className="btn--form" type="submit" form="edit-animal-form">
 					Enregistrer
 				</Button>
@@ -238,4 +251,4 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	);
 };
 
-export default GestionModal;
+export default GestionAddModal;

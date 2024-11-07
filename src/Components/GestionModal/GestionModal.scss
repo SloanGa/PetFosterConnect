@@ -1,19 +1,5 @@
 @use '../../styles/variables' as v;
 
-.fieldset{
-    &--legend{
-      font-size: 1em;
-    }
-    &__dashboard{
-      margin-bottom: 0.5em;
-    }
-  }
-
-  .ckeckbox-availibility {
-    display:flex;
-    gap: 0.5em;
-  }
-
   .btn--form{
     background-color: v.$secondary-light;
     border: none;

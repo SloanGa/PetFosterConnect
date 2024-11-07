@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import "./DashboardCard.scss";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon";
 import { Button, Modal } from "react-bootstrap";
 
@@ -13,10 +13,9 @@ interface DashboardCardProps {
 	animalId: number;
 	associationId: number;
 	animal: object;
-	setAnimalToEdit: React.Dispatch<React.SetStateAction<IAnimal | null>>;
 
 	// On passe à la fonction onShowModal les id qu'elle va pouvoir transmettre à la modale puis transmettre au back à la soumission du formulaire.
-	onShowEditModal: (animalId: number, associationId: number) => void;
+	onShowEditModal: (animal: IAnimal) => void;
 	onShowDeleteModal: () => void;
 }
 
@@ -29,9 +28,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 	associationId,
 	onShowEditModal,
 	onShowDeleteModal,
-	setAnimalToEdit,
 	animal,
-	setAssociationAnimals,
 }: DashboardCardProps) => {
 	return (
 		<>
@@ -56,20 +53,18 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 								className="card-buttons__button"
 								// Les id sont transmis ici
 								onClick={() => {
-									onShowEditModal();
-									setAnimalToEdit(animal);
+									onShowEditModal(animal);
 								}}
 							>
 								Modifier
 							</Button>
-							{/* <button type="button" className="card-buttons__button">
-								Modifier
-							</button> */}
 							<Icon
 								ariaLabel={"Supprimer l'animal"}
 								src={"/src/assets/icons/trash.svg"}
 								alt={"icône Suppression"}
-								onClick={() => onShowDeleteModal()}
+								onClick={() => {
+									onShowDeleteModal();
+								}}
 							/>
 						</div>
 					</div>
