@@ -1,3 +1,5 @@
+@use '../../styles/variables' as v;
+
 .container {
   min-height: 59.3vh;
 }
@@ -9,30 +11,44 @@
   gap: 1em;
   font-family: Helvetica, sans-serif;
 
-
-  .form__forgetpassword {
-    margin-top: 1em;
-    text-align: center;
-    font-size: 1em;
+  .form__group__password {
+    position: relative;
   }
 
-  .form__error {
-    margin-top: 1em;
-    text-align: center;
+  .toggle-password-button {
+    position: absolute;
+    right: 10px;
+    top: 75%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .label {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
     font-weight: bold;
-    margin-bottom: 2em;
+    gap: 0.4em;
+  }
 
+  .input {
+
+    @media (min-width: 992px) {
+      width: 250px
+
+    }
+  }
+
+
+  .form-control:focus {
+    border-color: v.$primary;
+    box-shadow: none;
+  }
+
+  .btn__submit {
+    border: none;
   }
 }
-
-.toggle-password-button {
-  position: absolute;
-  right: 10px;
-  top: 75%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
