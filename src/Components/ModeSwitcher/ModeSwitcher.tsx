@@ -1,16 +1,14 @@
-import React from 'react';
+import React from "react";
 
 interface ModeSwitcherProps {
-    mode: string
-    setMode : React.Dispatch<React.SetStateAction<'famille' | 'association'>>;
     text: string;
+    onClick?: () => void;
 }
 
-const ModeSwitcher = ({ mode, setMode, text} : ModeSwitcherProps) => {
+const ModeSwitcher = ({ text, onClick }: ModeSwitcherProps) => {
 
-    return (
-        <>
-            <button className='btn' onClick={() => { mode === "association" ? setMode('famille') : setMode("association") }}>
+    return (<>
+            <button className="btn" onClick={onClick}>
                 {text}
             </button>
         </>
