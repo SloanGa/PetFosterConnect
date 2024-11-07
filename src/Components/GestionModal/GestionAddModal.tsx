@@ -179,6 +179,9 @@ const GestionAddModal: React.FC<GestionModalProps> = ({
 									value={values.size || ""}
 									onChange={handleChange}
 								>
+									<option value="" disabled>
+										Sélectionner une taille
+									</option>
 									<option value="Petit">Petit</option>
 									<option value="Moyen">Moyen</option>
 									<option value="Grand">Grand</option>
@@ -224,7 +227,7 @@ const GestionAddModal: React.FC<GestionModalProps> = ({
 								checked={values.availability || false}
 								onChange={handleChange}
 							/>
-							<pre>{JSON.stringify({ errors, touched }, null, 2)}</pre>
+							{/* <pre>{JSON.stringify({ errors, touched }, null, 2)}</pre> */}
 						</Form>
 					)}
 				</Formik>

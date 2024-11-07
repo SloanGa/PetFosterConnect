@@ -11,11 +11,11 @@ import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
 import { useState, useEffect, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
-import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
+import GestionEditModal from "../../Components/GestionModal/GestionEditModal.tsx";
 import GestionAddModal from "../../Components/GestionModal/GestionAddModal.tsx";
 
 const TableauBord = () => {
-	const [showGestionModal, setShowGestionModal] = useState(false);
+	const [showGestionEditModal, setShowGestionEditModal] = useState(false);
 	const [showGestionAddModal, setShowGestionAddModal] = useState(false);
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,13 +30,13 @@ const TableauBord = () => {
 	// Modale modifier
 
 	// ici le paramètre est optionnel
-	const handleShowGestionModal = useCallback((animal) => {
-		setShowGestionModal(true);
+	const handleShowGestionEditModal = useCallback((animal) => {
+		setShowGestionEditModal(true);
 		setAnimalToEdit(animal);
 	}, []);
 
-	const handleCloseGestionModal = useCallback(() => {
-		setShowGestionModal(false);
+	const handleCloseGestionEditModal = useCallback(() => {
+		setShowGestionEditModal(false);
 		setAnimalToEdit(null);
 	}, []);
 
@@ -76,7 +76,7 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleCloseGestionModal();
+					handleCloseGestionEditModal();
 					const updatedAnimal = await response.json(); // Récupère l'objet mis à jour
 					console.log(updatedAnimal);
 
@@ -88,17 +88,13 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[handleCloseGestionModal, animalToEdit],
+		[handleCloseGestionEditModal, animalToEdit],
 	);
 
 	// L'eventListener à la soumission du formulaire ajouter un animal
 
-	const callbackTest = useCallback(() => console.log("test"), []);
-
 	const handleSubmitAdd = useCallback(
 		async (values) => {
-			console.log("Ajouter un animal");
-
 			const formData = new FormData();
 
 			for (const key in values) {
@@ -124,7 +120,7 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleCloseGestionModal();
+					handleCloseGestionAddModal();
 					const createdAnimal = await response.json();
 					console.log(createdAnimal);
 
@@ -136,7 +132,7 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[handleCloseGestionModal],
+		[handleCloseGestionEditModal],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -206,7 +202,7 @@ const TableauBord = () => {
 									key={animal.id}
 								>
 									<DashboardCard
-										onShowEditModal={handleShowGestionModal}
+										onShowEditModal={handleShowGestionEditModal}
 										onShowDeleteModal={handleShowDeleteModal}
 										path={""}
 										src={`${baseURL}${animal.url_image}`}
@@ -226,9 +222,9 @@ const TableauBord = () => {
 
 			{/* Modale pour modifier un animal */}
 
-			<GestionModal
-				handleCloseGestionModal={handleCloseGestionModal}
-				showGestionModal={showGestionModal}
+			<GestionEditModal
+				handleCloseGestionEditModal={handleCloseGestionEditModal}
+				showGestionEditModal={showGestionEditModal}
 				handleSubmitEdit={handleSubmitEdit}
 				animalToEdit={animalToEdit}
 			/>

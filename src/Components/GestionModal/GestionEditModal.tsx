@@ -4,16 +4,16 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 interface GestionModalProps {
-	handleCloseGestionModal: () => void;
-	showGestionModal: () => void;
+	handleCloseGestionEditModal: () => void;
+	showGestionEditModal: () => void;
 	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	animalToEdit: object;
 }
 
-const GestionModal: React.FC<GestionModalProps> = ({
-	handleCloseGestionModal,
+const GestionEditModal: React.FC<GestionModalProps> = ({
+	handleCloseGestionEditModal,
 	handleSubmitEdit,
-	showGestionModal,
+	showGestionEditModal,
 	animalToEdit,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
@@ -45,14 +45,14 @@ const GestionModal: React.FC<GestionModalProps> = ({
 
 	return (
 		<Modal
-			show={showGestionModal}
-			onHide={handleCloseGestionModal}
+			show={showGestionEditModal}
+			onHide={handleCloseGestionEditModal}
 			size="lg"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>"Modifier les informations"</Modal.Title>
+				<Modal.Title>Modifier les informations</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Formik
@@ -177,12 +177,14 @@ const GestionModal: React.FC<GestionModalProps> = ({
 									value={values.size || ""}
 									onChange={handleChange}
 								>
+									<option value="" disabled>
+										Sélectionner une taille
+									</option>
 									<option value="Petit">Petit</option>
 									<option value="Moyen">Moyen</option>
 									<option value="Grand">Grand</option>
 								</Form.Select>
 							</Form.Group>
-
 							<Form.Group
 								aria-label="Entrer la race de l'animal (optionnel)"
 								className="mb-3"
@@ -227,7 +229,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 				</Formik>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button className="btn--form" onClick={handleCloseGestionModal}>
+				<Button className="btn--form" onClick={handleCloseGestionEditModal}>
 					Fermer
 				</Button>
 				<Button className="btn--form" type="submit" form="edit-animal-form">
@@ -238,4 +240,4 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	);
 };
 
-export default GestionModal;
+export default GestionEditModal;
