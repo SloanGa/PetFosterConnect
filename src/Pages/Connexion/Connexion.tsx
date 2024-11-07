@@ -2,7 +2,7 @@ import "./Connexion.scss";
 import { Helmet } from "react-helmet-async";
 import Loading from "../../Components/Loading/Loading.tsx";
 import Header from "../../Components/Header/Header";
-import { FormEvent, useRef } from "react";
+import { useRef } from "react";
 import Footer from "../../Components/Footer/Footer";
 import { useState } from "react";
 import { Error } from "../../Components/Error/Error.tsx";
@@ -57,7 +57,6 @@ const Connexion = () => {
             //
             if (!response.ok) {
                 const error = await response.json();
-                console.log(error);
                 setError(error.error);
                 return;
             }
@@ -75,8 +74,6 @@ const Connexion = () => {
                 login(data);
                 navigate("/");
 
-            } else {
-                console.log("Missing token");
             }
 
         } catch (err) {

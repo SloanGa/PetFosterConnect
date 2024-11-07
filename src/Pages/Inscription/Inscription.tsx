@@ -47,6 +47,9 @@ const Inscription = () => {
         email: yup.string().email("Veuillez entrer un email valide").required("L'email est requis"),
         password: yup.string().required("Le mot de passe est requis"),
         confirmPassword: yup.string().required("Le mot de passe est requis"),
+        family_img: yup.mixed().nullable().notRequired(),
+        association_img: yup.mixed().nullable().notRequired(),
+
     });
 
     useEffect(() => {
@@ -77,9 +80,11 @@ const Inscription = () => {
         const formData = new FormData();
 
         for (const key in values) {
-            formData.append(key, values[key]);
+            if (values[key] !== null && values[key] !== undefined) { // Vérifie que la valeur n'est pas null ou undefined
+                formData.append(key, values[key]);
+            }
         }
-
+        
         formData.append("role", mode);
 
         const department_id = formData.get("department_id");
@@ -116,8 +121,6 @@ const Inscription = () => {
                 login(data);
                 navigate("/");
 
-            } else {
-                console.log("Missing token");
             }
 
         } catch (error) {
@@ -164,7 +167,8 @@ const Inscription = () => {
                     email: "",
                     password: "",
                     confirmPassword: "",
-                    file: null,
+                    association_img: null,
+                    family_img: null,
                 }}
                 validateOnBlur={true}
                 validateOnChange={true}
@@ -402,26 +406,48 @@ const Inscription = () => {
                         </Form.Group>
 
                         {/* Input file */}
-                        <Form.Group controlId="formBasicFile" className="form__file">
-                            <Form.Label column="sm">
-                                Votre photo de profil
-                            </Form.Label>
-                            <Form.Control
-                                className="form__connexion_input"
-                                type="file"
-                                name={mode === "family" ? "family_img" : "association_img"}
-                                aria-label="Votre photo de profil"
-                                // placeholder="Votre photo de profil"
-                                // accept=".png, .jpeg, .webp, .jpg"
-                                accept="image/png, image/jpeg, image/webp, image/jpg"
-                                onChange={(event) => {
-                                    const fieldName = mode === "family" ? "family_img" : "association_img";
-                                    const file = event.currentTarget.files[0];
-                                    setFieldValue(fieldName, file);
-                                }}
-                                isInvalid={touched.file && !!errors.file}
-                            />
-                        </Form.Group>
+
+                        {mode === "family" ?
+                            /* mode = family */
+                            (<Form.Group controlId="formBasicFile" className="form__file">
+                                <Form.Label column="sm">
+                                    Votre photo de profil
+                                </Form.Label>
+                                <Form.Control
+                                    className="form__connexion_input"
+                                    type="file"
+                                    name="family_img"
+                                    aria-label="Votre photo de profil"
+                                    accept="image/png, image/jpeg, image/webp, image/jpg"
+                                    onChange={(event) => {
+                                        const file = event.currentTarget.files[0];
+                                        console.log(file);
+                                        setFieldValue("family_img", file);
+                                    }}
+
+                                />
+                            </Form.Group>) :
+
+                            /* mode = association */
+                            <Form.Group controlId="formBasicFile" className="form__file">
+                                <Form.Label column="sm">
+                                    Votre photo de profil
+                                </Form.Label>
+                                <Form.Control
+                                    className="form__connexion_input"
+                                    type="file"
+                                    name="association_img"
+                                    aria-label="Votre photo de profil"
+                                    accept="image/png, image/jpeg, image/webp, image/jpg"
+                                    onChange={(event) => {
+                                        const file = event.currentTarget.files[0];
+                                        console.log(file);
+                                        setFieldValue("association_img", file);
+                                    }}
+
+                                />
+                            </Form.Group>}
+
 
                         <Form.Group controlId="formBaseTextArea" className="form__description">
                             <Form.Label column="sm">Votre description</Form.Label>
