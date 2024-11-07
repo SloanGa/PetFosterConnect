@@ -18,7 +18,7 @@
   .toggle-password-button {
     position: absolute;
     right: 10px;
-    top: 75%;
+    top: 73%;
     transform: translateY(-50%);
     background: none;
     border: none;
@@ -28,8 +28,6 @@
 
   .label {
     position: relative;
-    display: flex;
-    flex-direction: column-reverse;
     font-weight: bold;
     gap: 0.4em;
   }
@@ -50,5 +48,12 @@
 
   .btn__submit {
     border: none;
+
+    &:focus:active {
+      border: 2px solid v.$secondary;
+      background-color: v.$tertiary;
+      color: #fff;
+      opacity: 0.7;
+    }
   }
 }
