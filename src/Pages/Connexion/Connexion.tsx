@@ -36,17 +36,12 @@ const Connexion = () => {
     };
 
     /* Handler de soumission du formulaire */
-    const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const form = event.target as HTMLFormElement;
+    const handleLogin = async (values: { email: string; password: string }) => {
 
-        const formData = new FormData(form);
-
-        const formDataObject: { [key: string]: string } = {};
-
-        formData.forEach((value, key) => {
-            formDataObject[key] = value as string;
-        });
+        const formDataObject = {
+            email: values.email,
+            password: values.password,
+        };
 
         setIsLoading(true);
         setError(null);
@@ -108,9 +103,11 @@ const Connexion = () => {
                     validationSchema={schema}
                     onSubmit={handleLogin}
                     initialValues={{ email: "", password: "" }}
+                    validateOnBlur={true}
+                    validateOnChange={true}
                 >
                     {({ handleSubmit, handleChange, values, touched, errors }) => (
-                        <Form className="form__connexion" onSubmit={handleSubmit} noValidate>
+                        <Form className="form__connexion" onSubmit={handleSubmit}>
                             {/* Input email */}
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label column="sm" className="label">
@@ -122,7 +119,7 @@ const Connexion = () => {
                                     name="email"
                                     aria-label="Votre email"
                                     placeholder="Votre email"
-                                    value={values.email}
+                                    value={values.email || ""}
                                     onChange={handleChange}
                                     isInvalid={touched.email && !!errors.email}
                                 />
@@ -143,7 +140,7 @@ const Connexion = () => {
                                     aria-label="Votre mot de passe"
                                     placeholder="Votre mot de passe"
                                     ref={passwordInputRef}
-                                    value={values.password}
+                                    value={values.password || ""}
                                     onChange={handleChange}
                                     isInvalid={touched.password && !!errors.password}
                                 />

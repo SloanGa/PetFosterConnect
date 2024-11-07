@@ -21,6 +21,7 @@ const Inscription = () => {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isValide, setIsValide] = useState<boolean | null>(true);
 
     const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -31,8 +32,21 @@ const Inscription = () => {
     const { Formik } = formik;
 
     const schema = yup.object().shape({
+        name: yup.string().required("Le nom est requis"),
+        address: yup.string().required("Une adresse valide est requise"),
+        zip_code: yup
+            .string()
+            .matches(/^[0-9]{5}$/, "Le code postal doit être un nombre de 5 chiffres")
+            .required("Le code postal est requis"),
+        city: yup.string().required("La ville est requise"),
+        // department_id: yup.string().required("Le département est requis").notOneOf([" "], "Le département est requis"),
+        phone_number: yup
+            .string()
+            .matches(/^[0-9]{10}$/, "Le numéro de téléphone doit être un nombre de 10 chiffres")
+            .required("Le numéro de téléphone est requis"),
         email: yup.string().email("Veuillez entrer un email valide").required("L'email est requis"),
         password: yup.string().required("Le mot de passe est requis"),
+        confirmPassword: yup.string().required("Le mot de passe est requis"),
     });
 
     useEffect(() => {
@@ -59,12 +73,23 @@ const Inscription = () => {
         setMode(mode === "association" ? "family" : "association");
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmitForm = async (values) => {
+        const formData = new FormData();
 
-        const form = event.target as HTMLFormElement;
-        const formData = new FormData(form);
+        for (const key in values) {
+            formData.append(key, values[key]);
+        }
+
         formData.append("role", mode);
+
+        const department_id = formData.get("department_id");
+
+        /* Gestion manuelle de l'affichage de l'erreur en cas de département non choisi */
+        if (!department_id) {
+            setIsValide(false);
+            return;
+        }
+
         setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register/${mode}`, {
@@ -74,7 +99,7 @@ const Inscription = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.log("Erreur:", errorData);
+                setError(errorData.message);
                 return;
             }
 
@@ -128,16 +153,29 @@ const Inscription = () => {
 
             <Formik
                 validationSchema={schema}
-                onSubmit={handleSubmit}
-                initialValues={{ email: "", password: "" }}
+                onSubmit={handleSubmitForm}
+                initialValues={{
+                    name: "",
+                    address: "",
+                    zip_code: "",
+                    department_id: "",
+                    city: "",
+                    phone_number: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                }}
+                validateOnBlur={true}
+                validateOnChange={true}
             >
                 {({ handleSubmit, handleChange, values, touched, errors }) => (
-                    <Form encType="multipart/form-data" className="form__register" onSubmit={handleSubmit} noValidate>
+                    <Form encType="multipart/form-data" className="form__register" onSubmit={handleSubmit}
+                          noValidate>
 
                         {/* Input name */}
                         <Form.Group controlId="formBasicName" className="form__name">
                             <Form.Label column="sm">
-                                Votre Nom
+                                Votre Nom *
                             </Form.Label>
                             <Form.Control
                                 className="form__connexion_input"
@@ -155,29 +193,29 @@ const Inscription = () => {
                         </Form.Group>
 
                         {/* Input adresse */}
-                        <Form.Group controlId="formBasicAdress" className="form__adress">
+                        <Form.Group controlId="formBasicAddress" className="form__address">
                             <Form.Label column="sm">
-                                Votre Adresse
+                                Votre Adresse *
                             </Form.Label>
                             <Form.Control
                                 className="form__connexion_input"
                                 type="text"
-                                name="adress"
+                                name="address"
                                 aria-label="Votre adresse"
                                 placeholder="Votre adresse"
-                                value={values.adress}
+                                value={values.address}
                                 onChange={handleChange}
-                                isInvalid={touched.adress && !!errors.adress}
+                                isInvalid={touched.address && !!errors.address}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {errors.adress as string}
+                                {errors.address as string}
                             </Form.Control.Feedback>
                         </Form.Group>
 
                         {/* Input city */}
                         <Form.Group controlId="formBasicCity" className="form__city">
                             <Form.Label column="sm">
-                                Votre Ville
+                                Votre Ville *
                             </Form.Label>
                             <Form.Control
                                 className="form__connexion_input"
@@ -197,7 +235,7 @@ const Inscription = () => {
                         {/* Input zip_code */}
                         <Form.Group controlId="formBasicZipcode" className="form__zipcode">
                             <Form.Label column="sm">
-                                Votre code postal
+                                Votre code postal *
                             </Form.Label>
                             <Form.Control
                                 className="form__connexion_input"
@@ -217,7 +255,9 @@ const Inscription = () => {
                         {/* Input departments */}
                         <Form.Group controlId="formBasicDepartments" className="form__departement">
                             <Form.Label column="sm">Votre département *</Form.Label>
-                            <Form.Control as="select" name="department_id">
+                            <Form.Control as="select" name="department_id" className={!isValide ? "is-invalid" : ""}
+                                          onChange={handleChange}
+                                          isInvalid={touched.department && !!errors.department}>
                                 <option value="">Tous les départements</option>
                                 {departments.map((department) => (
                                     <option key={department.id} value={department.id}>
@@ -225,12 +265,15 @@ const Inscription = () => {
                                     </option>
                                 ))}
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.department_id as string}
+                            </Form.Control.Feedback>
                         </Form.Group>
 
                         {/* Input phone_number */}
                         <Form.Group controlId="formBasicPhoneNumber">
                             <Form.Label column="sm" className="form__number">
-                                Votre numéro de téléphone
+                                Votre numéro de téléphone *
                             </Form.Label>
                             <Form.Control
                                 className="form__connexion_input"
@@ -250,7 +293,7 @@ const Inscription = () => {
                         {/* Input email */}
                         <Form.Group controlId="formBasicEmail" className="form__email">
                             <Form.Label column="sm" className="label">
-                                Votre email
+                                Votre email *
                             </Form.Label>
                             <Form.Control
                                 className="input"
@@ -270,7 +313,7 @@ const Inscription = () => {
                         {/* Input mot de passe */}
                         <Form.Group controlId="formBasicPassword" className="form__password">
                             <Form.Label column="sm" className="label">
-                                Votre mot de passe
+                                Votre mot de passe *
                             </Form.Label>
                             <Form.Control
                                 className="input input__password"
@@ -315,7 +358,7 @@ const Inscription = () => {
                         {/* Input confirme mot de passe */}
                         <Form.Group controlId="formBasicConfirmPassword" className="form__passwordconfirm">
                             <Form.Label column="sm" className="label">
-                                Confirmez votre mot de passe
+                                Confirmez votre mot de passe *
                             </Form.Label>
                             <Form.Control
                                 className="input input__password"
@@ -382,18 +425,18 @@ const Inscription = () => {
 
 
                         {/* Bouton submit */}
-                        <Button type="submit" aria-label="Se connecter" className="btn__form--grid btn__submit">
-                            Se connecter
+                        <Button type="submit" aria-label="S'inscrire" className="btn__form--grid btn__submit">
+                            S'inscrire
                         </Button>
 
                         {/* Erreur et loading */}
-                        {error && <Error error={error} classNameForm="error__form" />}
-                        {isLoading && <Loading />}
                     </Form>
                 )}
             </Formik>
+            {error && <Error error={error} classNameForm="error__form" />}
+            {isLoading && <Loading />}
 
-            {isLoading ? <Loading /> : null}
+
             <Footer />
         </>
 
