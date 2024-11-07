@@ -13,6 +13,7 @@ import { useAuth } from "../../Context/AuthContext.tsx";
 
 const Connexion = () => {
     const [error, setError] = useState<string | null>(null);
+    const [formErrors, setFormErrors] = useState({ email: false, password: false });
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -23,12 +24,25 @@ const Connexion = () => {
         const form = event.target as HTMLFormElement;
 
         const formData = new FormData(form);
+
         const formDataObject: { [key: string]: string } = {};
 
         formData.forEach((value, key) => {
             formDataObject[key] = value as string;
         });
-        
+
+        const newErrors = {
+            email: !formDataObject.email,
+            password: !formDataObject.password,
+        };
+
+        setFormErrors(newErrors);
+
+        if (newErrors.email || newErrors.password) {
+            setError("Veuillez remplir les champs requis *");
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
 
@@ -99,15 +113,15 @@ const Connexion = () => {
                 <form className="form__connexion" onSubmit={handleLogin}>
 
                     {/*<!-- Input email --> */}
-
-                    <InputWithLabel id="email" classNameLabel="label form-label" classNameInput="input form-control"
+                    <InputWithLabel id="email" classNameLabel="label form-label "
+                                    classNameInput={`input form-control ${formErrors.email ? "is-invalid" : ""}`}
                                     type="email" name="email" ariaLabel="Votre email" placeholder={"Votre email"}
                                     text={"Votre email *"} />
 
                     {/*<!-- Input mot de passe --> */}
 
                     <PasswordInput
-                        classNameInput="input__password input"
+                        classNameInput={`input__password input ${formErrors.password ? "is-invalid" : ""}`}
                         name="password"
                         label="Votre mot de passe *"
                     />
@@ -123,7 +137,7 @@ const Connexion = () => {
                     >
                         Se connecter
                     </button>
-                    {error ? <Error error={error!} /> : null}
+                    {error ? <Error error={error!} classNameForm="error__form" /> : null}
                     {isLoading ? <Loading /> : null}
                 </form>
 

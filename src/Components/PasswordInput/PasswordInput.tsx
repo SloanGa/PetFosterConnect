@@ -21,7 +21,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ name, label, classNameLab
     };
 
     return (
-        <>
+        <div className="form-group">
             <label htmlFor={name} className={`label form-label ${classNameLabel}`}>
 
                 <input
@@ -30,7 +30,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ name, label, classNameLab
                     name={name}
                     id={name}
                     placeholder="Votre mot de passe"
-                    required
                     ref={passwordInputRef}
                 />
                 {label}
@@ -54,7 +53,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ name, label, classNameLab
                     )}
                 </button>
             </label>
-        </>
+        </div>
     );
 };
 
