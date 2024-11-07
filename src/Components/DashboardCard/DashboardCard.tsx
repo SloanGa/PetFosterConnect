@@ -63,7 +63,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 								src={"/src/assets/icons/trash.svg"}
 								alt={"icône Suppression"}
 								onClick={() => {
-									onShowDeleteModal();
+									onShowDeleteModal(animal);
 								}}
 							/>
 						</div>

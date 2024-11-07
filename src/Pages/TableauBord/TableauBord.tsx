@@ -24,6 +24,7 @@ const TableauBord = () => {
 	const [error, setError] = useState<string | null>(null);
 
 	const [animalToEdit, setAnimalToEdit] = useState<IAnimal | null>(null);
+	const [animalToDelete, setAnimalToDelete] = useState<IAnimal | null>(null);
 
 	const baseURL = import.meta.env.VITE_API_URL;
 
@@ -126,19 +127,49 @@ const TableauBord = () => {
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
-					console.error("Erreur lors de la mise à jour");
+					console.error("Erreur lors de la création");
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
 		},
-		[handleCloseGestionEditModal],
+		[handleCloseGestionAddModal],
 	);
 
 	// Gestion de la modale confirmation de suppression
 
-	const handleCloseDeleteModal = () => setShowDeleteModal(false);
-	const handleShowDeleteModal = () => setShowDeleteModal(true);
+	const handleShowDeleteModal = useCallback((animal) => {
+		setShowDeleteModal(true);
+		setAnimalToDelete(animal);
+	}, []);
+
+	const handleCloseDeleteModal = useCallback((animal) => {
+		setShowDeleteModal(false);
+		setAnimalToDelete(null);
+	}, []);
+
+	const deleteAnimal = useCallback(async () => {
+		try {
+			const response = await fetch(
+				// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
+				`${import.meta.env.VITE_API_URL}/dashboard/association/animals/${animalToDelete.id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				handleCloseDeleteModal();
+				console.log("animal supprimé");
+
+				// TODO ajouter une notification de succès si nécessaire
+			} else {
+				console.error("Erreur lors de la suppression");
+			}
+		} catch (error) {
+			console.error("Erreur:", error);
+		}
+	}, [animalToDelete, handleCloseDeleteModal]);
 
 	// Gestion du fetch des animaux de l'association
 
@@ -250,7 +281,7 @@ const TableauBord = () => {
 				<Modal.Body>Voulez-vous vraiment supprimer XXX ? </Modal.Body>
 				<Modal.Footer>
 					{" "}
-					<Button className="btn--form" onClick={handleCloseDeleteModal}>
+					<Button className="btn--form" onClick={deleteAnimal}>
 						Oui
 					</Button>
 					<Button className="btn--form" onClick={handleCloseDeleteModal}>
