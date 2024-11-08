@@ -47,18 +47,18 @@ const TableauBord = () => {
 
 	const handleCloseGestionModal = useCallback(() => {
 		setShowGestionModal(false);
+		setToastMessage("");
 	}, []);
 
 	const baseURL = import.meta.env.VITE_API_URL;
 
 	// L'event listener à la soumission du formulaire éditer
+
 	const handleSubmitEdit = useCallback(
 		async (values) => {
-			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
-
 			const formData = new FormData();
 
-			// on construit FormData avec les values (la première condition sert à n'insérer que des propriétés de l'objet value propre et non héritées)
+			// On construit FormData avec les valeurs du formulaire
 			for (const key in values) {
 				if (Object.hasOwnProperty.call(values, key)) {
 					const value = values[key];
@@ -69,10 +69,10 @@ const TableauBord = () => {
 			}
 
 			let timer: NodeJS.Timeout | undefined;
+			let updatedAnimal;
 
 			try {
 				const response = await fetch(
-					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
 					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/${animalToEdit.id}`,
 					{
 						method: "PATCH",
@@ -81,24 +81,25 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
+					updatedAnimal = await response.json(); // on récupère updatedAnimal ici
 					setToastMessage("Animal édité avec succès");
 					toggleToast();
 
 					timer = setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-
-					const updatedAnimal = await response.json();
 					console.log(updatedAnimal);
-
-					// TODO ajouter une notification de succès si nécessaire
 				} else {
-					setToastMessage("Erreur lors de la mise à jour :");
+					updatedAnimal = await response.json();
+
+					setToastMessage(
+						updatedAnimal.error || "Erreur lors de la mise à jour",
+					);
 					toggleToast();
 
-					timer = setTimeout(() => {
-						handleCloseGestionModal();
-					}, 1000);
+					// timer = setTimeout(() => {
+					// 	handleCloseGestionModal();
+					// }, 1000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
@@ -126,10 +127,11 @@ const TableauBord = () => {
 				}
 			}
 
-			let timer: NodeJS.Timeout | undefined;
-
 			// Avec l'authentification, le back vient gérer à la place.
 			formData.append("association_id", 1);
+
+			let timer: NodeJS.Timeout | undefined;
+			let createdAnimal;
 
 			try {
 				const response = await fetch(
@@ -142,17 +144,18 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
+					createdAnimal = await response.json(); // on récupère updatedAnimal ici
 					setToastMessage("Animal ajouté avec succès");
 					toggleToast();
 					timer = setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-					const createdAnimal = await response.json();
 					console.log(createdAnimal);
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
-					setToastMessage("Erreur lors de la création");
+					createdAnimal = await response.json();
+					setToastMessage(createdAnimal.error || "Erreur lors de la création");
 					toggleToast();
 					timer = setTimeout(() => {
 						handleCloseGestionModal();
@@ -204,9 +207,9 @@ const TableauBord = () => {
 			} else {
 				setToastMessage("Erreur lors de la suppression");
 				toggleToast();
-				timer = setTimeout(() => {
-					handleCloseDeleteModal();
-				}, 1000);
+				// timer = setTimeout(() => {
+				// 	handleCloseDeleteModal();
+				// }, 1000);
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
