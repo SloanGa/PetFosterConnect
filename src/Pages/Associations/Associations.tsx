@@ -6,45 +6,40 @@ import Footer from "../../Components/Footer/Footer";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
 import Icon from "../../Components/Icon/Icon.tsx";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import AssociationsFilters from "../../Components/Filters/AssociationsFilters.tsx";
 import AnimalCard from "../../Components/AnimalCard/AnimalCard.tsx";
+import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
 
 
 const Associations = () => {
+    const {
+        associations,
+        paginatedAssociations,
+        error,
+        isLoading,
+        baseURL,
+        setIsLoading,
+        setError,
+    } = useFetchAssociations();
+
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-    const [associations, setAssociations] = useState<IAssociation[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
+    const [queryString, setQueryString] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [associationsFilterCount, setAssociationsFilterCount] = useState<number | null>(null);
+    const [associationsToDisplay, setAssociationsToDisplay] = useState<IAssociation[]>([]);
 
-    const baseURL = import.meta.env.VITE_API_URL;
+    // Section liste des associations pour pouvoir utilise scrollIntoView au changement de page
+    const associationList = useRef<HTMLDivElement | null>(null);
 
+    /* Permet de set le state avec la valeurs "associations" reçu du hook useFetchAnimals */
     useEffect(() => {
-            const fetchAssociations = async () => {
-                setIsLoading(true);
-                try {
-                    const response = await
-                        fetch(`${import.meta.env.VITE_API_URL}/associations`);
-
-                    if (!response.ok) {
-                        setIsLoading(false);
-                        return setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                    }
-                    const data = await response.json();
-                    setAssociations(data);
-
-                } catch (error) {
-                    setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                    console.error("Erreur lors de la récupération des données:", error);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            fetchAssociations();
-        },
-        []);
+        if (paginatedAssociations) {
+            setAssociationsToDisplay(paginatedAssociations);
+        }
+    }, [paginatedAssociations, form]);
 
     /* Logique pour la gestion du filtre  */
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
@@ -55,6 +50,38 @@ const Associations = () => {
 
     const toggleFiltersVisibility = () => {
         setIsFiltersVisible((prev) => !prev);
+    };
+
+    /* Logique pour la gestion de la pagination  */
+    const handleChangePage = async (page: Number) => {
+        setCurrentPage(page);
+        try {
+            setIsLoading(true);
+
+            let response;
+
+            if (!form) {
+                response = await fetch(`${import.meta.env.VITE_API_URL}/associations?page=${page}`);
+            } else {
+                response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/associations/search?${queryString}&page=${page}`,
+                );
+            }
+
+            if (!response.ok) {
+                return setError("Une erreur est survenue, veuillez rafraîchir la page.");
+            }
+            const data = await response.json();
+            setAssociationsToDisplay(data.paginatedAssociations);
+        } catch (error) {
+            setError("Une erreur est survenue, veuillez rafraîchir la page.");
+            console.error("Erreur lors de la récupération des données:", error);
+        } finally {
+            setIsLoading(false);
+            if (associationList.current !== null) {
+                associationList.current.scrollIntoView();
+            }
+        }
     };
 
     return (
@@ -105,7 +132,7 @@ const Associations = () => {
                                 <Error error={error} />
                             ) : (
                                 <ul className="cards__list">
-                                    {associations.map((association) => (
+                                    {associationsToDisplay.map((association) => (
                                         <li key={association.id}>
                                             <AnimalCard
                                                 path={`/association/${association.slug}`}
@@ -121,7 +148,12 @@ const Associations = () => {
                             )}
                         </div>
                     </section>
-
+                    <PaginationComposant
+                        items={form ? associationsToDisplay : associations}
+                        currentPage={currentPage}
+                        handleChangePage={handleChangePage}
+                        animalsFilterCount={form ? associationsFilterCount : null}
+                    />
 
                 </div>
             </main>

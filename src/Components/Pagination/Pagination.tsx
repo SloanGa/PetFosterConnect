@@ -20,9 +20,9 @@ const PaginationComposant = ({
     /* Calcule le nombre total de pages en fonction du nombre d'animaux */
     let totalPagesNumber;
     if (animalsFilterCount) {
-        totalPagesNumber = Math.round(animalsFilterCount / 6);
+        totalPagesNumber = Math.ceil(animalsFilterCount / 6);
     } else {
-        totalPagesNumber = Math.round(items.length / 6);
+        totalPagesNumber = Math.ceil(items.length / 6);
     }
     const pageItems = [];
     for (let page = 1; page <= totalPagesNumber; page++) {
@@ -33,7 +33,7 @@ const PaginationComposant = ({
                 onClick={() => handleChangePage(page)}
             >
                 {page}
-            </Pagination.Item>
+            </Pagination.Item>,
         );
     }
     if (totalPagesNumber === 1) {

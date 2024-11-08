@@ -84,7 +84,7 @@ const Inscription = () => {
                 formData.append(key, values[key]);
             }
         }
-        
+
         formData.append("role", mode);
 
         const department_id = formData.get("department_id");
@@ -441,7 +441,6 @@ const Inscription = () => {
                                     accept="image/png, image/jpeg, image/webp, image/jpg"
                                     onChange={(event) => {
                                         const file = event.currentTarget.files[0];
-                                        console.log(file);
                                         setFieldValue("association_img", file);
                                     }}
 
