@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
@@ -14,6 +14,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 import "./Animal.scss";
+import { useAuth } from "../../Context/AuthContext.tsx";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -27,6 +28,8 @@ const Animal = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [animal, setAnimal] = useState<IAnimal | undefined>(undefined);
+
+    const [isFamilyConnected, setIsFamilyConnected] = useState(false);
 
     // Pour la modale de confirmation d'envoi d'une demande
     const [show, setShow] = useState(false);
@@ -51,6 +54,16 @@ const Animal = () => {
         };
         fetchAnimal();
     }, []);
+
+    const { isAuth, userData } = useAuth();
+
+    useEffect(() => {
+        if (isAuth && userData?.family) {
+            setIsFamilyConnected(true);
+        } else {
+            setIsFamilyConnected(false);
+        }
+    }, [isAuth, userData]);
 
     const handleClickConfirmBtn = async () => {
         handleClose();
