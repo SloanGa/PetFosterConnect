@@ -18,8 +18,10 @@ import "./Animal.scss";
 const baseURL = import.meta.env.VITE_API_URL;
 
 const Animal = () => {
-    const slug = useParams();
-    const animalId = slug["name-id"]?.split("-")[1];
+    const { slug } = useParams();
+    // Récupérer l'id de l'animal
+    const arraySlug = slug!.split("-");
+    const animalId = arraySlug![arraySlug!.length - 1];
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -136,7 +138,10 @@ const Animal = () => {
                             </section>
                             <section className="section__association">
                                 <div className="map__container">
-                                    <Map />
+                                    <Map
+                                        longitude={animal!.association.longitude}
+                                        latitude={animal!.association.latitude}
+                                    />
                                 </div>
                                 <div className="association__infos">
                                     <AppLink

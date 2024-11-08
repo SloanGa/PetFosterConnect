@@ -171,7 +171,7 @@ const Animaux = () => {
                                     {animalsToDisplay.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard
-                                                path={`/animaux/${animal.name}-${animal.id}`}
+                                                path={`/animaux/${animal.slug}`}
                                                 src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
                                                 name={animal.name}

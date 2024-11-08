@@ -23,10 +23,10 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/associations" element={<Associations />} />
-                        <Route path="/association/:name" element={<Association />} />
+                        <Route path="/association/:slug" element={<Association />} />
                         <Route path="/animaux" element={<Animaux />} />
-                        <Route path="/animaux/:name-id" element={<Animal />} />
-                        <Route path="/famille/:name-id" element={<Famille />} />
+                        <Route path="/animaux/:slug" element={<Animal />} />
+                        <Route path="/famille/:slug" element={<Famille />} />
                         <Route path="/inscription" element={<Inscription />} />
                         <Route path="/connexion" element={<Connexion />} />
                         <Route path="/tableau-de-bord" element={<TableauBord />} />
