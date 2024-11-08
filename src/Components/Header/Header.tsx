@@ -57,7 +57,7 @@ const Header = () => {
                             {!isAuth ? (
                                 <>
                                     <li>
-                                        <AppLink
+                                        <NavigationLink
                                             to="/connexion"
                                             className="nav__list__link"
                                             title="Se connecter"
@@ -65,7 +65,7 @@ const Header = () => {
                                         />
                                     </li>
                                     <li>
-                                        <AppLink
+                                        <NavigationLink
                                             to="/inscription"
                                             className="btn"
                                             title="S'inscrire"
@@ -78,7 +78,7 @@ const Header = () => {
                                     {/* Si l'utilisateur est authentifié et est un membre de la famille */}
                                     {userData.role === "family" ? (
                                         <li>
-                                            <AppLink
+                                            <NavigationLink
                                                 to={`/famille/${userData.family.id}`}
                                                 className="nav__list__link"
                                                 title="Profil"
@@ -87,7 +87,7 @@ const Header = () => {
                                         </li>
                                     ) : (
                                         <li>
-                                            <AppLink
+                                            <NavigationLink
                                                 to="/tableau-de-bord"
                                                 className="nav__list__link"
                                                 title="Dashboard"
@@ -114,9 +114,9 @@ const Header = () => {
             <div className={`header__secondary ${isSecondaryMenuVisible ? "active" : ""}`}>
                 <nav>
                     <ul className="nav__list">
-                        <AppLink
+                        <NavigationLink
                             to="/"
-                            className="nav__list__link active"
+                            className="nav__list__link"
                             title="Page d'accueil"
                             svg={
                                 <svg
@@ -139,7 +139,7 @@ const Header = () => {
                             text="Accueil"
                         />
 
-                        <AppLink
+                        <NavigationLink
                             to="/animaux"
                             className="nav__list__link"
                             title="Page des animaux"
@@ -166,7 +166,7 @@ const Header = () => {
                             text={"Les animaux"}
                         />
 
-                        <AppLink
+                        <NavigationLink
                             to="/associations"
                             className="nav__list__link"
                             title="Page des associations"
@@ -204,7 +204,7 @@ const Header = () => {
                     {!isAuth ? (
                         <>
                             <li>
-                                <AppLink
+                                <NavigationLink
                                     to="/connexion"
                                     className="nav__list__link"
                                     title="Se connecter"
@@ -212,7 +212,7 @@ const Header = () => {
                                 />
                             </li>
                             <li>
-                                <AppLink
+                                <NavigationLink
                                     to="/inscription"
                                     className="btn"
                                     title="S'inscrire"
@@ -225,7 +225,7 @@ const Header = () => {
                             {/* Si l'utilisateur est authentifié et est un membre de la famille */}
                             {userData.role === "family" ? (
                                 <li>
-                                    <AppLink
+                                    <NavigationLink
                                         to={`/famille/${userData.family.id}`}
                                         className="nav__list__link"
                                         title="Profil"
@@ -234,7 +234,7 @@ const Header = () => {
                                 </li>
                             ) : (
                                 <li>
-                                    <AppLink
+                                    <NavigationLink
                                         to="/tableau-de-bord"
                                         className="nav__list__link"
                                         title="Dashboard"
