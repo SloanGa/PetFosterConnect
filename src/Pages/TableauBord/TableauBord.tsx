@@ -68,6 +68,8 @@ const TableauBord = () => {
 				}
 			}
 
+			console.log("animalToEdit", animalToEdit);
+
 			let timer: NodeJS.Timeout | undefined;
 			let updatedAnimal;
 
@@ -85,10 +87,16 @@ const TableauBord = () => {
 					setToastMessage("Animal édité avec succès");
 					toggleToast();
 
+					setAssociationAnimals((prevAnimals) =>
+						prevAnimals.map((animal) =>
+							animal.id === updatedAnimal.id ? updatedAnimal : animal,
+						),
+					);
+
 					timer = setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-					console.log(updatedAnimal);
+					console.log("Animal Maj", updatedAnimal);
 				} else {
 					updatedAnimal = await response.json();
 
@@ -151,7 +159,6 @@ const TableauBord = () => {
 						...prevAnimals,
 						createdAnimal,
 					]);
-					// console.log(createdAnimal);
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
@@ -176,7 +183,8 @@ const TableauBord = () => {
 
 	// Gestion de la modale confirmation de suppression
 
-	const handleShowDeleteModal = useCallback((animal) => {
+	const handleShowDeleteModal = useCallback((animal: IAnimal) => {
+		console.log("Animal à supprimer", animal);
 		setShowDeleteModal(true);
 		setAnimalToDelete(animal);
 		setToastMessage("");
@@ -203,6 +211,11 @@ const TableauBord = () => {
 			if (response.ok) {
 				setToastMessage("Animal Supprimé");
 				toggleToast();
+				console.log(associationAnimals);
+				setAssociationAnimals((prevAnimals) =>
+					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
+				);
+
 				timer = setTimeout(() => {
 					handleCloseDeleteModal();
 				}, 1000);
@@ -217,7 +230,7 @@ const TableauBord = () => {
 		return () => {
 			if (timer) clearTimeout(timer);
 		};
-	}, [animalToDelete, handleCloseDeleteModal, toggleToast]);
+	}, [associationAnimals, animalToDelete, handleCloseDeleteModal, toggleToast]);
 
 	// Gestion du fetch des animaux de l'association
 
