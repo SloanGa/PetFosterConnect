@@ -139,7 +139,7 @@ const Animaux = () => {
                         </p>
                     </section>
 
-                    <h2 className="animals__section__result">
+                    <h2 className="animals__number__results">
                         {form ? `${animalsFilterCount} Résultats` : `${animals.length} Résultats`}
                     </h2>
 
@@ -171,7 +171,7 @@ const Animaux = () => {
                                     {animalsToDisplay.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard
-                                                path={`/animaux/${animal.name}-${animal.id}`}
+                                                path={`/animaux/${animal.slug}`}
                                                 src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
                                                 name={animal.name}

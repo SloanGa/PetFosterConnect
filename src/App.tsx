@@ -4,7 +4,7 @@ import Home from "./Pages/Home/Home.tsx";
 import Associations from "./Pages/Associations/Associations.tsx";
 import Association from "./Pages/Association";
 import Animaux from "./Pages/Animaux/Animaux";
-import Animal from "./Pages/Animal";
+import Animal from "./Pages/Animal/Animal.tsx";
 import Famille from "./Pages/Famille";
 import Connexion from "./Pages/Connexion/Connexion.tsx";
 import Inscription from "./Pages/Inscription/Inscription.tsx";
@@ -15,7 +15,6 @@ import Erreur from "./Pages/Erreur";
 import TableauBord from "./Pages/TableauBord/TableauBord";
 import { AuthProvider } from "./Context/AuthContext.tsx";
 
-
 const App = () => {
     return (
         <HelmetProvider>
@@ -24,11 +23,11 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/associations" element={<Associations />} />
-                        <Route path="/association/:name" element={<Association />} />
+                        <Route path="/association/:slug" element={<Association />} />
                         <Route path="/animaux" element={<Animaux />} />
-                        <Route path="/animaux/:name-id" element={<Animal />} />
-                        <Route path="/famille/:name-id" element={<Famille />} />
-                        <Route path="/inscription" element={< Inscription />} />
+                        <Route path="/animaux/:slug" element={<Animal />} />
+                        <Route path="/famille/:slug" element={<Famille />} />
+                        <Route path="/inscription" element={<Inscription />} />
                         <Route path="/connexion" element={<Connexion />} />
                         <Route path="/tableau-de-bord" element={<TableauBord />} />
                         <Route path="/mentions-legales" element={<MentionsLegales />} />
