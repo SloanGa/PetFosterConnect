@@ -9,12 +9,17 @@ import Icon from "../../Components/Icon/Icon.tsx";
 import { FormEvent, useEffect, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import AssociationsFilters from "../../Components/Filters/AssociationsFilters.tsx";
+import AnimalCard from "../../Components/AnimalCard/AnimalCard.tsx";
+
 
 const Associations = () => {
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
     const [associations, setAssociations] = useState<IAssociation[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
+
+    const baseURL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
             const fetchAssociations = async () => {
@@ -78,23 +83,42 @@ const Associations = () => {
                     </section>
 
                     <h2 className="associations__section__result">
-                        {/*{form ? `${animalsFilterCount} Résultats` : `${animals.length} Résultats`}*/}
+                        {form ? `${associations.length} Résultats` : `${associations.length} Résultats`}
                     </h2>
 
                     <section className="associations__section">
-                        {/*<div className="associations__section__filter">*/}
-                        <Icon
-                            ariaLabel="Ouvrir le menu de filtre"
-                            src="/src/assets/icons/filter.svg"
-                            alt="icône filtre"
-                            onClick={toggleFiltersVisibility}
-                            text="Filtres"
-                        />
-                        <AssociationsFilters associations={associations} handleFilter={handleSubmitFilter}
-                                             isFilterVisible={isFiltersVisible} />
-
+                        <div className="associations__section__filter">
+                            <Icon
+                                ariaLabel="Ouvrir le menu de filtre"
+                                src="/src/assets/icons/filter.svg"
+                                alt="icône filtre"
+                                onClick={toggleFiltersVisibility}
+                                text="Filtres"
+                            />
+                            <AssociationsFilters associations={associations} handleFilter={handleSubmitFilter}
+                                                 isFiltersVisible={isFiltersVisible} />
+                        </div>
                         <div className="cards">
-
+                            {isLoading ? (
+                                <Loading />
+                            ) : error ? (
+                                <Error error={error} />
+                            ) : (
+                                <ul className="cards__list">
+                                    {associations.map((association) => (
+                                        <li key={association.id}>
+                                            <AnimalCard
+                                                path={`/association/${association.slug}`}
+                                                src={`${baseURL}${association.url_image!}`}
+                                                alt={association.name}
+                                                name={association.name}
+                                                associationLocation={`${association.department.name} (${association.department.code})`}
+                                                isHomePage={true}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </section>
 

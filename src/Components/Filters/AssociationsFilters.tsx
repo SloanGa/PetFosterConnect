@@ -3,13 +3,13 @@ import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 
-interface AssociationsFiltersProps{
-    isFilterVisible: boolean;
+interface AssociationsFiltersProps {
+    isFiltersVisible: boolean;
     handleFilter: (event: FormEvent<HTMLFormElement>) => void;
     associations: IAssociation[];
 }
 
-const AssociationsFilters = ({ isFiltersVisible, handleFilter, associations } : AssociationsFiltersProps) => {
+const AssociationsFilters = ({ isFiltersVisible, handleFilter, associations }: AssociationsFiltersProps) => {
     const { departments } = useFetchDepartments();
     const { animals } = useFetchAnimals();
 
