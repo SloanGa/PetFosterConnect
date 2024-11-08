@@ -96,10 +96,6 @@ const TableauBord = () => {
 						updatedAnimal.error || "Erreur lors de la mise à jour",
 					);
 					toggleToast();
-
-					// timer = setTimeout(() => {
-					// 	handleCloseGestionModal();
-					// }, 1000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
@@ -207,9 +203,6 @@ const TableauBord = () => {
 			} else {
 				setToastMessage("Erreur lors de la suppression");
 				toggleToast();
-				// timer = setTimeout(() => {
-				// 	handleCloseDeleteModal();
-				// }, 1000);
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
@@ -236,6 +229,7 @@ const TableauBord = () => {
 				}
 				const data = await response.json();
 				setAssociationAnimals(data);
+				setIsLoading(false);
 			} catch (error) {
 				setError("Une erreur est survenue, veuillez rafraîchir la page.");
 				console.error("Erreur lors de la récupération des données:", error);
@@ -281,15 +275,19 @@ const TableauBord = () => {
 									className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
 									key={animal.id}
 								>
-									<DashboardCard
-										onShowDeleteModal={handleShowDeleteModal}
-										onShowGestionModal={handleShowGestionModal}
-										path={""}
-										src={`${baseURL}${animal.url_image}`}
-										alt={animal.name}
-										name={animal.name}
-										animal={animal}
-									/>
+									{isLoading ? (
+										<Loading />
+									) : (
+										<DashboardCard
+											onShowDeleteModal={handleShowDeleteModal}
+											onShowGestionModal={handleShowGestionModal}
+											path={""}
+											src={`${baseURL}${animal.url_image}`}
+											alt={animal.name}
+											name={animal.name}
+											animal={animal}
+										/>
+									)}
 								</div>
 							))}
 						</div>
