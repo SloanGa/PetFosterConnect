@@ -6,66 +6,56 @@ import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import AppLink from "../../Components/AppLink/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
 import { useState, useEffect, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
-import GestionEditModal from "../../Components/GestionModal/GestionEditModal.tsx";
-import GestionAddModal from "../../Components/GestionModal/GestionAddModal.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
 	const [showGestionModal, setShowGestionModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
-		setShowGestionModal(true);
-		setAnimalToEdit(animal || null);
-	}, []);
-
-	const handleCloseGestionModal = () => setShowGestionModal(false);
-
-	const [showGestionEditModal, setShowGestionEditModal] = useState(false);
-	const [showGestionAddModal, setShowGestionAddModal] = useState(false);
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
+	// states qui permettent de gérer quel animal est à éditer ou supprimer
+
 	const [animalToEdit, setAnimalToEdit] = useState<IAnimal | null>(null);
 	const [animalToDelete, setAnimalToDelete] = useState<IAnimal | null>(null);
 
+	// state de gestion du toast de message erreur ou succès formulaire
+
+	const [toastMessage, setToastMessage] = useState("");
+	const [showToast, setShowToast] = useState(false);
+
+	const toggleToast = useCallback(() => {
+		setShowToast(true);
+	}, []);
+
+	// handler de la modale de gestion
+	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
+		setShowGestionModal(true);
+		setAnimalToEdit(animal || null);
+		setToastMessage("");
+		setShowToast(false);
+	}, []);
+
+	const handleCloseGestionModal = useCallback(() => {
+		setShowGestionModal(false);
+	}, []);
+
 	const baseURL = import.meta.env.VITE_API_URL;
-
-	// Modale modifier
-
-	// ici le paramètre est optionnel
-	const handleShowGestionEditModal = useCallback((animal) => {
-		setShowGestionEditModal(true);
-		setAnimalToEdit(animal);
-	}, []);
-
-	const handleCloseGestionEditModal = useCallback(() => {
-		setShowGestionEditModal(false);
-		setAnimalToEdit(null);
-	}, []);
-
-	const handleShowGestionAddModal = useCallback(() => {
-		setShowGestionAddModal(true);
-	}, []);
-
-	const handleCloseGestionAddModal = useCallback(() => {
-		setShowGestionAddModal(false);
-	}, []);
 
 	// L'event listener à la soumission du formulaire éditer
 	const handleSubmitEdit = useCallback(
 		async (values) => {
 			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
 
-			console.log("values:", values);
 			const formData = new FormData();
 
 			// on construit FormData avec les values (la première condition sert à n'insérer que des propriétés de l'objet value propre et non héritées)
@@ -78,7 +68,7 @@ const TableauBord = () => {
 				}
 			}
 
-			console.log("formData :", formData);
+			let timer: NodeJS.Timeout | undefined;
 
 			try {
 				const response = await fetch(
@@ -91,27 +81,40 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					// handleCloseGestionEditModal();
-					handleCloseGestionModal();
-					const updatedAnimal = await response.json(); // Récupère l'objet mis à jour
+					setToastMessage("Animal édité avec succès");
+					toggleToast();
+
+					timer = setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
+
+					const updatedAnimal = await response.json();
 					console.log(updatedAnimal);
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
-					console.error("Erreur lors de la mise à jour");
+					setToastMessage("Erreur lors de la mise à jour :");
+					toggleToast();
+
+					timer = setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
+
+			return () => {
+				if (timer) clearTimeout(timer);
+			};
 		},
-		[handleCloseGestionModal, animalToEdit],
+		[handleCloseGestionModal, animalToEdit, toggleToast],
 	);
 
 	// L'eventListener à la soumission du formulaire ajouter un animal
 
 	const handleSubmitAdd = useCallback(
 		async (values) => {
-			console.log("values: ", values);
 			const formData = new FormData();
 
 			for (const key in values) {
@@ -123,10 +126,10 @@ const TableauBord = () => {
 				}
 			}
 
+			let timer: NodeJS.Timeout | undefined;
+
 			// Avec l'authentification, le back vient gérer à la place.
 			formData.append("association_id", 1);
-
-			console.log("formData: ", formData);
 
 			try {
 				const response = await fetch(
@@ -139,20 +142,31 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					// handleCloseGestionAddModal();
-					handleCloseGestionModal();
+					setToastMessage("Animal ajouté avec succès");
+					toggleToast();
+					timer = setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
 					const createdAnimal = await response.json();
 					console.log(createdAnimal);
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
-					console.error("Erreur lors de la création");
+					setToastMessage("Erreur lors de la création");
+					toggleToast();
+					timer = setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
+
+			return () => {
+				if (timer) clearTimeout(timer);
+			};
 		},
-		[handleCloseGestionAddModal],
+		[handleCloseGestionModal, toggleToast],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -160,6 +174,8 @@ const TableauBord = () => {
 	const handleShowDeleteModal = useCallback((animal) => {
 		setShowDeleteModal(true);
 		setAnimalToDelete(animal);
+		setToastMessage("");
+		setShowToast(false);
 	}, []);
 
 	const handleCloseDeleteModal = useCallback((animal) => {
@@ -177,18 +193,29 @@ const TableauBord = () => {
 				},
 			);
 
-			if (response.ok) {
-				handleCloseDeleteModal();
-				console.log("Animal supprimé");
+			let timer: NodeJS.Timeout | undefined;
 
-				// TODO ajouter une notification de succès si nécessaire
+			if (response.ok) {
+				setToastMessage("Animal Supprimé");
+				toggleToast();
+				timer = setTimeout(() => {
+					handleCloseDeleteModal();
+				}, 1000);
 			} else {
-				console.error("Erreur lors de la suppression");
+				setToastMessage("Erreur lors de la suppression");
+				toggleToast();
+				timer = setTimeout(() => {
+					handleCloseDeleteModal();
+				}, 1000);
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
 		}
-	}, [animalToDelete, handleCloseDeleteModal]);
+
+		return () => {
+			if (timer) clearTimeout(timer);
+		};
+	}, [animalToDelete, handleCloseDeleteModal, toggleToast]);
 
 	// Gestion du fetch des animaux de l'association
 
@@ -239,7 +266,6 @@ const TableauBord = () => {
 							src={"/src/assets/icons/plus.svg"}
 							alt={"icône Ajout"}
 							onClick={() => {
-								// handleShowGestionAddModal();
 								handleShowGestionModal();
 							}}
 						/>
@@ -253,7 +279,6 @@ const TableauBord = () => {
 									key={animal.id}
 								>
 									<DashboardCard
-										onShowEditModal={handleShowGestionEditModal}
 										onShowDeleteModal={handleShowDeleteModal}
 										onShowGestionModal={handleShowGestionModal}
 										path={""}
@@ -261,7 +286,6 @@ const TableauBord = () => {
 										alt={animal.name}
 										name={animal.name}
 										animal={animal}
-										// On passe ce setter pour que quand on clique sur modifier, on ait en state l'animal à éditer et on lui a passé son animal
 									/>
 								</div>
 							))}
@@ -270,7 +294,7 @@ const TableauBord = () => {
 				</div>
 			</div>
 
-			{/* Modale pour modifier un animal */}
+			{/* Modale pour modifier ou créer un animal */}
 
 			<GestionModal
 				handleCloseGestionModal={handleCloseGestionModal}
@@ -279,19 +303,9 @@ const TableauBord = () => {
 				handleSubmitEdit={handleSubmitEdit}
 				handleSubmitAdd={handleSubmitAdd}
 				animalToEdit={animalToEdit}
-			/>
-
-			<GestionEditModal
-				handleCloseGestionEditModal={handleCloseGestionEditModal}
-				showGestionEditModal={showGestionEditModal}
-				handleSubmitEdit={handleSubmitEdit}
-				animalToEdit={animalToEdit}
-			/>
-
-			<GestionAddModal
-				handleCloseGestionAddModal={handleCloseGestionAddModal}
-				showGestionAddModal={showGestionAddModal}
-				handleSubmitAdd={handleSubmitAdd}
+				showToast={showToast}
+				toggleToast={toggleToast}
+				toastMessage={toastMessage}
 			/>
 
 			{/* Modale pour confirmer la suppression d'un animal */}
@@ -307,6 +321,11 @@ const TableauBord = () => {
 					<Modal.Title>Confirmation suppression</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
+					<div className="modal__toast d-flex justify-content-center mb-3">
+						<Toast show={showToast} onClose={toggleToast}>
+							<Toast.Body>{toastMessage}</Toast.Body>
+						</Toast>
+					</div>
 					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
 					?{" "}
 				</Modal.Body>

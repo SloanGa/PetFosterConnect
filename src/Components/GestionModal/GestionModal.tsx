@@ -1,5 +1,5 @@
 import "./GestionModal.scss";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
@@ -11,6 +11,9 @@ interface GestionModalProps {
 	handleSubmitAdd: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	animalToEdit: object;
 	callbackTest: () => void;
+	showToast: boolean;
+	toggleToast: () => void;
+	toastMessage: string;
 }
 
 const GestionModal: React.FC<GestionModalProps> = ({
@@ -20,6 +23,9 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	showGestionModal,
 	animalToEdit,
 	callbackTest,
+	showToast,
+	toggleToast,
+	toastMessage,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
 	const initialValues = {
@@ -56,6 +62,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 			size="lg"
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
+			dialogClassName="custom-modal-dialog"
 		>
 			<Modal.Header closeButton>
 				<Modal.Title>
@@ -63,6 +70,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+				<div className="modal__toast d-flex justify-content-center mb-1">
+					<Toast show={showToast} onClose={toggleToast}>
+						<Toast.Body>{toastMessage}</Toast.Body>
+					</Toast>
+				</div>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
@@ -233,7 +245,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								checked={values.availability || false}
 								onChange={handleChange}
 							/>
-							<pre>{JSON.stringify({ errors, touched }, null, 2)}</pre>
 						</Form>
 					)}
 				</Formik>
