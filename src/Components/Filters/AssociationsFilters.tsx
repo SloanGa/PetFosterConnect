@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import { FormEvent } from "react";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
@@ -7,9 +7,12 @@ interface AssociationsFiltersProps {
     isFiltersVisible: boolean;
     handleFilter: (event: FormEvent<HTMLFormElement>) => void;
     associations: IAssociation[];
+    setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
 }
 
-const AssociationsFilters = ({ isFiltersVisible, handleFilter, associations }: AssociationsFiltersProps) => {
+const AssociationsFilters = ({
+                                 isFiltersVisible, handleFilter, associations, setForm,
+                             }: AssociationsFiltersProps) => {
     const { departments } = useFetchDepartments();
     const { animals } = useFetchAnimals();
 
@@ -21,6 +24,7 @@ const AssociationsFilters = ({ isFiltersVisible, handleFilter, associations }: A
         const form = e.currentTarget.form;
         if (form) {
             form.reset();
+            setForm(null);
         }
     };
 

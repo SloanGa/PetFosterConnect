@@ -44,7 +44,6 @@ const Associations = () => {
     /* Logique pour la gestion du filtre  */
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("submit");
         setCurrentPage(1);
 
         const formData = new FormData(e.currentTarget);
@@ -61,7 +60,7 @@ const Associations = () => {
         /* Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2... */
         const newQueryString = new URLSearchParams(params).toString();
         setQueryString(newQueryString);
-       
+
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/associations/search?${newQueryString}`,
@@ -136,7 +135,7 @@ const Associations = () => {
                     </section>
 
                     <h2 className="associations__section__result">
-                        {form ? `${associations.length} Résultats` : `${associations.length} Résultats`}
+                        {form ? `${associationsFilterCount} Résultats` : `${associations.length} Résultats`}
                     </h2>
 
                     <section className="associations__section">
@@ -149,7 +148,7 @@ const Associations = () => {
                                 text="Filtres"
                             />
                             <AssociationsFilters associations={associations} handleFilter={handleSubmitFilter}
-                                                 isFiltersVisible={isFiltersVisible} />
+                                                 isFiltersVisible={isFiltersVisible} setForm={setForm} />
                         </div>
                         <div className="cards">
                             {isLoading ? (
