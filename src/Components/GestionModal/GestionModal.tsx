@@ -27,7 +27,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	toggleToast,
 	toastMessage,
 }) => {
-	// remplace les defaultValue sur les inputs du formulaire/géré par Formik
+	// remplace les defaultValue sur les inputs du formulaire/géré par Formik mais est aussi obligatoire pour la validation - pour que ce soit des champs contrôlés
 	const initialValues = {
 		name: animalToEdit?.name || "",
 		animal_img: null,
@@ -44,6 +44,9 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	const validationSchema = yup.object().shape({
 		name: yup.string().required("Le nom de l'animal est requis"),
 		gender: yup.string().required("Le genre de l'animal est requis"),
+		animal_img: animalToEdit
+			? yup.mixed().nullable().notRequired()
+			: yup.mixed().nullable().required("L'image de l'animal est requise"),
 		species: yup.string().required("L'espèce de l'animal est requise"),
 		age: yup.string().required("L'âge de l'animal est requis"),
 		size: yup.string().required("La taille de l'animal est requise"),
@@ -51,7 +54,9 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		description: yup
 			.string()
 			.required("La description de l'animal est requise"),
-		availability: yup.boolean(), // Optionnel
+		availability: animalToEdit
+			? yup.boolean().notRequired()
+			: yup.boolean().required("Vous devez spécifier la disponibilité"),
 	});
 
 	const handleSubmitAction = animalToEdit ? handleSubmitEdit : handleSubmitAdd;
@@ -79,6 +84,8 @@ const GestionModal: React.FC<GestionModalProps> = ({
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={animalToEdit ? handleSubmitEdit : handleSubmitAdd}
+					validateOnBlur={false}
+					validateOnChange={false}
 				>
 					{({
 						handleSubmit,
@@ -117,7 +124,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								controlId="animal_img"
 								className="mb-3"
 							>
-								{/* Pour ajouter dans les values de formik le fichier */}
 								<Form.Label>Image de l'animal</Form.Label>
 								<Form.Control
 									type="file"
@@ -126,7 +132,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 										const file = event.currentTarget.files[0];
 										setFieldValue("animal_img", file);
 									}}
+									isInvalid={!!errors.animal_img}
 								/>
+								<Form.Control.Feedback type="invalid">
+									{errors.animal_img}
+								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
@@ -196,6 +206,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 									name="size"
 									value={values.size || ""}
 									onChange={handleChange}
+									isInvalid={!!errors.size}
 								>
 									<option value="" disabled>
 										Sélectionner une taille
@@ -204,6 +215,9 @@ const GestionModal: React.FC<GestionModalProps> = ({
 									<option value="Moyen">Moyen</option>
 									<option value="Grand">Grand</option>
 								</Form.Select>
+								<Form.Control.Feedback type="invalid">
+									{errors.size}
+								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
@@ -224,27 +238,45 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							<Form.Group
 								aria-label="Entrer la description de l'animal (optionnel)"
 								className="mb-3"
-								controlId="race"
+								controlId="description"
 							>
 								<Form.Label>Description</Form.Label>
 								<Form.Control
-									type="text"
+									as="textarea"
+									className="form__description"
 									placeholder="Description de l'animal"
 									name="description"
 									value={values.description || ""}
 									onChange={handleChange}
+									isInvalid={!!errors.description}
 								/>
+								<Form.Control.Feedback type="invalid">
+									{errors.description}
+								</Form.Control.Feedback>
 							</Form.Group>
 
-							<Form.Check // prettier-ignore
-								aria-label="Entrer la disponibilité de l'animal"
-								type="switch"
-								name="availability"
-								id="availability"
-								label="Disponible"
-								checked={values.availability || false}
-								onChange={handleChange}
-							/>
+							<Form.Group className="mb-3">
+								<Form.Label>Disponibilité</Form.Label>
+								<div className="d-flex align-items-center">
+									<Form.Check
+										type="switch"
+										id="availability"
+										name="availability"
+										checked={values.availability || false}
+										onChange={handleChange}
+										isInvalid={!!errors.availability}
+										aria-label="Changer la disponibilité de l'animal"
+									/>
+									<span className="ms-2">
+										{values.availability ? "Disponible" : "Non disponible"}
+									</span>
+								</div>
+								{errors.availability && (
+									<Form.Text className="text-danger">
+										{errors.availability}
+									</Form.Text>
+								)}
+							</Form.Group>
 						</Form>
 					)}
 				</Formik>
