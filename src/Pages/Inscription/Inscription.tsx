@@ -48,31 +48,11 @@ const Inscription = () => {
         password: yup.string().required("Le mot de passe est requis"),
         confirmPassword: yup.string().required("Le mot de passe est requis"),
         email_association: yup.string().required("Votre email d'association est requis"),
-        family_img: yup.mixed().nullable().notRequired().test(
-            "fileSize",
-            "La taille maximale du fichier est de 5MB",
-            (value) => {
-                if (!value) return false;
-
-                // Vérifier si la taille du fichier est inférieure ou égale à 5MB
-                return value.size <= FILE_SIZE;
-            },
-        ),
+        family_img: yup.mixed().nullable().notRequired(),
         association_img: yup
             .mixed()
             .nullable()
-            .required("Une image est requise")
-            .test(
-                "fileSize",
-                "La taille maximale du fichier est de 5MB",
-                (value) => {
-                    if (!value) return false;
-
-                    // Vérifier si la taille du fichier est inférieure ou égale à 5MB
-                    return value.size <= FILE_SIZE;
-                },
-            ),
-
+            .required("Une image est requise"),
     });
 
     useEffect(() => {
@@ -498,7 +478,8 @@ const Inscription = () => {
                                             aria-label="Votre photo de profil"
                                             accept="image/png, image/jpeg, image/webp, image/jpg"
                                             onChange={(event) => {
-                                                const file = event.currentTarget.files[0];
+                                                const file = event.currentTarget.files[0] || null;
+                                                console.log(file);
                                                 setFieldValue("association_img", file);
                                             }}
                                             isInvalid={touched.association_img && !!errors.association_img}
