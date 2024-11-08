@@ -68,6 +68,7 @@
                 display: flex;
                 column-gap: 2.5rem;
                 align-items: center;
+                justify-content: space-between;
                 margin-bottom: 3rem;
             }
 
@@ -176,17 +177,17 @@
     }
 }
 
+.map__container {
+    @media (min-width: 992px) {
+        width: 50%;
+    }
+}
+
 .map {
     height: 200px;
     width: 100%;
     @media (min-width: 992px) {
         height: 100%;
-    }
-}
-
-.map__container {
-    @media (min-width: 992px) {
-        width: 50%;
     }
 }
 
@@ -207,4 +208,8 @@
 .error {
     margin: 3rem 0;
     text-align: center;
+}
+
+.alert {
+    margin-top: 1rem;
 }
