@@ -1,0 +1,158 @@
+@use '../../styles/variables' as v;
+
+.form__register {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 20px;
+
+  .toggle-password-button {
+    position: absolute;
+    right: 10px;
+    top: 73%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column-reverse;
+  font-weight: bold;
+}
+
+.form__presentation {
+  display: block;
+  text-align: center;
+}
+
+.form__title {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.form-control:focus {
+  border-color: v.$primary;
+  box-shadow: none;
+}
+
+
+/* Form Field Grid Areas - Mobile Layout (full-width form fields) */
+.form__name,
+.form__address,
+.form__zipcode,
+.form__city,
+.form__number,
+.form__department,
+.form__description,
+.form__password,
+.form__passwordconfirm,
+.form__file {
+  width: 100%; /* full width for all fields on mobile */
+}
+
+@media (min-width: 768px) {
+  .form__register {
+    display: grid;
+    margin-left: 4em;
+    margin-right: 4em;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, auto);
+    row-gap: 10px;
+    padding-bottom: 0;
+  }
+
+  /* Colonne de gauche */
+  .form__name {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .form__address {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  .form__city {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+
+  .form__zipcode {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+  }
+
+  .form__department {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+  }
+
+  /* Colonne du milieu */
+  .form__number {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .form__email {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  .form__passwordconfirm {
+    position: relative;
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+  }
+
+  .form__password {
+    position: relative;
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    width: 100%;
+  }
+
+  .form__file {
+    grid-column: 2 / 3;
+    grid-row: 5 / 6;
+  }
+
+  /* Colonne de droite */
+  .form__description {
+    grid-column: 3 / 4;
+    grid-row: 1 / 6;
+    resize: none;
+    height: 100%;
+  }
+}
+
+.btn__form--grid {
+  border: 1px solid transparent;
+  color: #fff;
+  border-radius: 15px;
+  padding: 0.8rem 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: opacity 0.3s;
+  grid-column: 2 / 3;
+  grid-row: 6 / 7;
+  display: block;
+  margin: 1em auto;
+  width: 70%;
+
+  &:focus:active {
+    border: 2px solid v.$secondary;
+    background-color: v.$tertiary;
+    color: #fff;
+    opacity: 0.7;
+  }
+}
+
+
+
+
+
