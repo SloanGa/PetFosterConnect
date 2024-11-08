@@ -10,12 +10,11 @@ interface DashboardCardProps {
 	src: string;
 	alt: string;
 	name: string;
-	animalId: number;
-	associationId: number;
 	animal: object;
 
 	// On passe à la fonction onShowModal les id qu'elle va pouvoir transmettre à la modale puis transmettre au back à la soumission du formulaire.
 	onShowEditModal: (animal: IAnimal) => void;
+	onShowGestionModal: (animal: IAnimal) => void;
 	onShowDeleteModal: () => void;
 }
 
@@ -24,10 +23,9 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 	alt,
 	name,
 	path,
-	animalId,
-	associationId,
 	onShowEditModal,
 	onShowDeleteModal,
+	onShowGestionModal,
 	animal,
 }: DashboardCardProps) => {
 	return (
@@ -55,7 +53,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 								className="card-buttons__button"
 								// Les id sont transmis ici
 								onClick={() => {
-									onShowEditModal(animal);
+									onShowGestionModal(animal);
+									// onShowEditModal(animal);
 								}}
 							>
 								Modifier

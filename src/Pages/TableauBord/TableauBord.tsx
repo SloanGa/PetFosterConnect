@@ -13,12 +13,23 @@ import { useState, useEffect, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
 import GestionEditModal from "../../Components/GestionModal/GestionEditModal.tsx";
 import GestionAddModal from "../../Components/GestionModal/GestionAddModal.tsx";
+import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
+	const [showGestionModal, setShowGestionModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
+		setShowGestionModal(true);
+		setAnimalToEdit(animal || null);
+	}, []);
+
+	const handleCloseGestionModal = () => setShowGestionModal(false);
+
 	const [showGestionEditModal, setShowGestionEditModal] = useState(false);
 	const [showGestionAddModal, setShowGestionAddModal] = useState(false);
 	// state qui permet de gérer si on a une modale edit ou créer un animal
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -54,6 +65,7 @@ const TableauBord = () => {
 		async (values) => {
 			// ici on ne récupère plus le formulaire via event.target mais values qui est passé par formik - les valeurs représentent les valeurs actuelles du formulaire
 
+			console.log("values:", values);
 			const formData = new FormData();
 
 			// on construit FormData avec les values (la première condition sert à n'insérer que des propriétés de l'objet value propre et non héritées)
@@ -66,6 +78,8 @@ const TableauBord = () => {
 				}
 			}
 
+			console.log("formData :", formData);
+
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
@@ -77,7 +91,8 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleCloseGestionEditModal();
+					// handleCloseGestionEditModal();
+					handleCloseGestionModal();
 					const updatedAnimal = await response.json(); // Récupère l'objet mis à jour
 					console.log(updatedAnimal);
 
@@ -89,13 +104,14 @@ const TableauBord = () => {
 				console.error("Erreur:", error);
 			}
 		},
-		[handleCloseGestionEditModal, animalToEdit],
+		[handleCloseGestionModal, animalToEdit],
 	);
 
 	// L'eventListener à la soumission du formulaire ajouter un animal
 
 	const handleSubmitAdd = useCallback(
 		async (values) => {
+			console.log("values: ", values);
 			const formData = new FormData();
 
 			for (const key in values) {
@@ -110,6 +126,8 @@ const TableauBord = () => {
 			// Avec l'authentification, le back vient gérer à la place.
 			formData.append("association_id", 1);
 
+			console.log("formData: ", formData);
+
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
@@ -121,7 +139,8 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					handleCloseGestionAddModal();
+					// handleCloseGestionAddModal();
+					handleCloseGestionModal();
 					const createdAnimal = await response.json();
 					console.log(createdAnimal);
 
@@ -160,7 +179,7 @@ const TableauBord = () => {
 
 			if (response.ok) {
 				handleCloseDeleteModal();
-				console.log("animal supprimé");
+				console.log("Animal supprimé");
 
 				// TODO ajouter une notification de succès si nécessaire
 			} else {
@@ -220,7 +239,8 @@ const TableauBord = () => {
 							src={"/src/assets/icons/plus.svg"}
 							alt={"icône Ajout"}
 							onClick={() => {
-								handleShowGestionAddModal();
+								// handleShowGestionAddModal();
+								handleShowGestionModal();
 							}}
 						/>
 					</div>
@@ -235,12 +255,11 @@ const TableauBord = () => {
 									<DashboardCard
 										onShowEditModal={handleShowGestionEditModal}
 										onShowDeleteModal={handleShowDeleteModal}
+										onShowGestionModal={handleShowGestionModal}
 										path={""}
 										src={`${baseURL}${animal.url_image}`}
 										alt={animal.name}
 										name={animal.name}
-										animalId={animal.id}
-										associationId={1}
 										animal={animal}
 										// On passe ce setter pour que quand on clique sur modifier, on ait en state l'animal à éditer et on lui a passé son animal
 									/>
@@ -252,6 +271,15 @@ const TableauBord = () => {
 			</div>
 
 			{/* Modale pour modifier un animal */}
+
+			<GestionModal
+				handleCloseGestionModal={handleCloseGestionModal}
+				showGestionModal={showGestionModal}
+				setShowGestionModal={setShowGestionModal}
+				handleSubmitEdit={handleSubmitEdit}
+				handleSubmitAdd={handleSubmitAdd}
+				animalToEdit={animalToEdit}
+			/>
 
 			<GestionEditModal
 				handleCloseGestionEditModal={handleCloseGestionEditModal}
