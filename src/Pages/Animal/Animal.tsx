@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Map from "../../Components/Map/Map";
@@ -55,6 +56,17 @@ const Animal = () => {
 
     return (
         <>
+            <Helmet>
+                <title> {animal ? `${animal.name} | ` : ""}PetFoster Connect</title>
+                <meta
+                    name="description"
+                    content={
+                        animal
+                            ? `Aidez l'association ${animal.association?.name} en devenant la famille d'accueil de ${animal.name} en attendant son adoption définitive.`
+                            : "PetFoster Connect - Devenez une famille d'accueil pour des animaux en attente d'adoption."
+                    }
+                />
+            </Helmet>
             <Header />
             <main className="main--animal">
                 <div className="container">
