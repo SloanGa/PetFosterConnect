@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Map from "../../Components/Map/Map";
-import AppLink from "../../Components/AppLink/AppLink";
+import AppLink from "../../Components/Links/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading";
 import { Error } from "../../Components/Error/Error.tsx";
 import { useAuth } from "../../Context/AuthContext.tsx";

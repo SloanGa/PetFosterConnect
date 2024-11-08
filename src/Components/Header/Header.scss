@@ -48,9 +48,19 @@ header {
                 color: v.$secondary;
             }
 
-            &__link:hover,
-            &__link:focus {
-                color: inherit;
+            &__link {
+                transition: color 0.5s;
+                &:hover,
+                &:focus {
+                    color: v.$secondary-light;
+                }
+
+                &--current {
+                    color: v.$secondary-light;
+                }
+            }
+
+            .btn--current {
                 opacity: 0.5;
             }
         }
@@ -122,13 +132,14 @@ header {
             }
         }
 
-        &.active {
+        &--current {
             color: v.$secondary-light;
             @media (min-width: 992px) {
                 color: v.$primary-light;
             }
 
             .icon {
+                stroke: v.$secondary-light;
                 @media (min-width: 992px) {
                     stroke: v.$primary-light;
                 }
