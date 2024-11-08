@@ -46,7 +46,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 					<div className="card-body">
 						<h3 className="card__title card-title">{name}</h3>
 						<p className="card__text">
-							Demande en cours : {animal.requests.length}
+							Demande en cours :{" "}
+							{animal.requests ? animal.requests.length : "0"}
 						</p>
 						<div className="card-buttons">
 							<Button

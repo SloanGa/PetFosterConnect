@@ -140,17 +140,23 @@ const TableauBord = () => {
 				);
 
 				if (response.ok) {
-					createdAnimal = await response.json(); // on récupère updatedAnimal ici
+					createdAnimal = await response.json();
+
 					setToastMessage("Animal ajouté avec succès");
 					toggleToast();
 					timer = setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-					console.log(createdAnimal);
+					setAssociationAnimals((prevAnimals) => [
+						...prevAnimals,
+						createdAnimal,
+					]);
+					// console.log(createdAnimal);
 
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
 					createdAnimal = await response.json();
+
 					setToastMessage(createdAnimal.error || "Erreur lors de la création");
 					toggleToast();
 					timer = setTimeout(() => {
@@ -229,7 +235,6 @@ const TableauBord = () => {
 				}
 				const data = await response.json();
 				setAssociationAnimals(data);
-				setIsLoading(false);
 			} catch (error) {
 				setError("Une erreur est survenue, veuillez rafraîchir la page.");
 				console.error("Erreur lors de la récupération des données:", error);
@@ -270,14 +275,14 @@ const TableauBord = () => {
 
 					<div className="main__content__cards__container">
 						<div className="row gx-8 gy-3">
-							{associationAnimals.map((animal) => (
-								<div
-									className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
-									key={animal.id}
-								>
-									{isLoading ? (
-										<Loading />
-									) : (
+							{isLoading ? (
+								<Loading />
+							) : (
+								associationAnimals.map((animal) => (
+									<div
+										className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
+										key={animal.id}
+									>
 										<DashboardCard
 											onShowDeleteModal={handleShowDeleteModal}
 											onShowGestionModal={handleShowGestionModal}
@@ -287,9 +292,9 @@ const TableauBord = () => {
 											name={animal.name}
 											animal={animal}
 										/>
-									)}
-								</div>
-							))}
+									</div>
+								))
+							)}
 						</div>
 					</div>
 				</div>
