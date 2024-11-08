@@ -160,7 +160,7 @@ const Animal = () => {
                                     <AppLink
                                         // TODO : slug de l'association
                                         to={"/association/toto"}
-                                        className={"btn association__name"}
+                                        className={"association__name association__link"}
                                         title={"Aller sur la page de l'association"}
                                         text={animal!.association.name}
                                     />
@@ -193,17 +193,27 @@ const Animal = () => {
                                             contact@SPA.com
                                         </a>
                                     </div>
-                                    {/* Si utilisateur connecté */}
-                                    <button className="btn btn--demande" onClick={handleShow}>
-                                        Faire une demande d'accueil
-                                    </button>
-                                    {/* Si utilisateur non connecté */}
-                                    {/* <AppLink
-                                to={"/inscription/famille"}
-                                className={"btn btn--demande"}
-                                title={"S'inscrire pour faire une demande"}
-                                text={"Faire une demande d'accueil"}
-                            /> */}
+                                    {animal?.availability === false ? (
+                                        //Animal non disponible
+                                        <button className="btn btn--disabled" disabled>
+                                            Animal indisponible
+                                        </button>
+                                    ) : isFamilyConnected ? (
+                                        //Famille connectée
+                                        <button className="btn btn--demande" onClick={handleShow}>
+                                            Faire une demande d'accueil
+                                        </button>
+                                    ) : (
+                                        //Famille non connectée
+                                        <AppLink
+                                            to={"/inscription"}
+                                            className={
+                                                "association__link association__link--underline"
+                                            }
+                                            title={"S'inscrire pour faire une demande d'accueil"}
+                                            text={"S'inscrire pour faire une demande d'accueil"}
+                                        />
+                                    )}
                                 </div>
                             </section>
                         </>

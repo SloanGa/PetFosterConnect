@@ -143,8 +143,8 @@
 
         .association {
             &__name {
-                background-color: v.$secondary-light;
-                margin-bottom: 0.5rem;
+                font-size: 1.25rem;
+                text-transform: uppercase;
             }
 
             &__link {
@@ -154,11 +154,24 @@
                 &:hover {
                     color: v.$secondary-light;
                 }
+
+                &--underline {
+                    text-decoration: underline;
+                    color: v.$tertiary;
+                }
             }
         }
 
         .btn--demande {
             margin-top: 1rem;
+        }
+
+        .btn--disabled {
+            margin-top: 1rem;
+            background-color: #e5e5e5;
+            color: #717171;
+            border: none;
+            font-weight: 500;
         }
     }
 }
