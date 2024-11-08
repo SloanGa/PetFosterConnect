@@ -45,8 +45,34 @@ const Associations = () => {
     const handleSubmitFilter = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("submit");
-    };
+        setCurrentPage(1);
 
+        const formData = new FormData(e.currentTarget);
+        const params: { [key: string]: string } = {};
+
+        formData.forEach((value: string, key: string) => {
+            if (value !== "") {
+                params[key] = value;
+            }
+        });
+        /* Initialise le state Form pour verifier si on est dans le cadre d'une recherche avec filtre ou non */
+        setForm(params);
+
+        /* Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2... */
+        const newQueryString = new URLSearchParams(params).toString();
+        setQueryString(newQueryString);
+       
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/associations/search?${newQueryString}`,
+            );
+            const data = await response.json();
+            setAssociationsFilterCount(data.totalAssociationCount);
+            setAssociationsToDisplay(data.paginatedAssociations);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données filtrées:", error);
+        }
+    };
 
     const toggleFiltersVisibility = () => {
         setIsFiltersVisible((prev) => !prev);

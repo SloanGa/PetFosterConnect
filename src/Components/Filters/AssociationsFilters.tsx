@@ -33,7 +33,7 @@ const AssociationsFilters = ({ isFiltersVisible, handleFilter, associations }: A
                 <label className="filters__form__description" htmlFor="name">
                     Nom d'association
                 </label>
-                <select className="form-select" id="name" name="species">
+                <select className="form-select" id="name" name="association_id">
                     <option value="">Tous les nom</option>
                     {associations.map((association) => (
                         <option key={association.name} value={association.id}>
