@@ -33,11 +33,16 @@ const InputWithLabel = ({
                         }: InputProps) => {
     const isCheckbox = type === "checkbox";
     return (
-        <label htmlFor={id} className={classNameLabel}>
-            <input id={id} className={classNameInput} type={type} name={name} value={value} aria-label={ariaLabel}
-                   placeholder={placeholder} checked={isCheckbox ? selected === value : undefined} onChange={onChange}
-                   accept={accept} /> {text}
-        </label>
+        <>
+
+            <label htmlFor={id} className={classNameLabel}>
+                <input id={id} className={classNameInput} type={type} name={name} value={value} aria-label={ariaLabel}
+                       placeholder={placeholder} checked={isCheckbox ? selected === value : undefined}
+                       onChange={onChange}
+                       accept={accept} /> {text}
+            </label>
+
+        </>
     );
 };
 

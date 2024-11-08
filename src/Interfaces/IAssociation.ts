@@ -8,8 +8,11 @@ interface IAssociation {
     department_id: number;
     department: IDepartment;
     city: string;
+    longitude: number;
+    latitude: number;
     phone_number: string;
     description: string | null;
+    slug?: string;
     url_image: string | null;
     created_at: Date;
     updated_at: Date;
