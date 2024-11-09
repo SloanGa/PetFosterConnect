@@ -3,17 +3,19 @@ import { Modal, Button, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
+import { IAnimal } from "../../Interfaces/IAnimal.ts";
 
 interface GestionModalProps {
 	handleCloseGestionModal: () => void;
 	showGestionModal: () => void;
 	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	handleSubmitAdd: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-	animalToEdit: object;
+	animalToEdit: IAnimal | null;
 	callbackTest: () => void;
 	showToast: boolean;
 	toggleToast: () => void;
 	toastMessage: string;
+	toastClassname: string;
 }
 
 const GestionModal: React.FC<GestionModalProps> = ({
@@ -26,6 +28,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	showToast,
 	toggleToast,
 	toastMessage,
+	toastClassname,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik mais est aussi obligatoire pour la validation - pour que ce soit des champs contrôlés
 	const initialValues = {
@@ -40,13 +43,53 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		availability: animalToEdit?.availability || false,
 	};
 
+	// Les filtres pour la validation de l'image
+
+	const FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+	const SUPPORTED_FORMATS = [
+		"image/jpg",
+		"image/jpeg",
+		"image/webp",
+		"image/png",
+	];
+
 	// yup via valider les inputs et notamment si requis ou non
 	const validationSchema = yup.object().shape({
 		name: yup.string().required("Le nom de l'animal est requis"),
 		gender: yup.string().required("Le genre de l'animal est requis"),
 		animal_img: animalToEdit
-			? yup.mixed().nullable().notRequired()
-			: yup.mixed().nullable().required("L'image de l'animal est requise"),
+			? yup
+					.mixed()
+					.nullable()
+					.notRequired()
+					.test("fileSize", "L'image ne doit pas dépasser 5 MB", (value) => {
+						if (!value) return true;
+						return value.size <= FILE_SIZE;
+					})
+					.test(
+						"fileFormat",
+						"Format non supporté. Utilisez JPG, JPEG, WEBP ou PNG",
+						(value) => {
+							if (!value) return true;
+							return SUPPORTED_FORMATS.includes(value.type);
+						},
+					)
+			: yup
+					.mixed()
+					.nullable()
+					.required("L'image de l'animal est requise")
+					.test("fileSize", "L'image ne doit pas dépasser 5 MB", (value) => {
+						if (!value) return true;
+						return value.size <= FILE_SIZE;
+					})
+					.test(
+						"fileFormat",
+						"Format non supporté. Utilisez JPG, JPEG, WEBP ou PNG",
+						(value) => {
+							if (!value) return true;
+							return SUPPORTED_FORMATS.includes(value.type);
+						},
+					),
 		species: yup.string().required("L'espèce de l'animal est requise"),
 		age: yup.string().required("L'âge de l'animal est requis"),
 		size: yup.string().required("La taille de l'animal est requise"),
@@ -75,11 +118,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<div className="modal__toast d-flex justify-content-center mb-1">
-					<Toast show={showToast} onClose={toggleToast}>
-						<Toast.Body>{toastMessage}</Toast.Body>
-					</Toast>
-				</div>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
@@ -280,6 +318,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 						</Form>
 					)}
 				</Formik>
+				<div className="toast__modal d-flex justify-content-center mb-1">
+					<Toast show={showToast} onClose={toggleToast}>
+						<Toast.Body>{toastMessage}</Toast.Body>
+					</Toast>
+				</div>
 			</Modal.Body>
 			<Modal.Footer>
 				<Button className="btn--form" onClick={handleCloseGestionModal}>

@@ -3,9 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
-import AppLink from "../../Components/AppLink/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
-import { Error } from "../../Components/Error/Error.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
@@ -33,7 +31,8 @@ const TableauBord = () => {
 	const [toastMessage, setToastMessage] = useState("");
 	const [showToast, setShowToast] = useState(false);
 
-	const toggleToast = useCallback(() => {
+	const toggleToast = useCallback((message) => {
+		setToastMessage(message);
 		setShowToast(true);
 	}, []);
 
@@ -68,14 +67,11 @@ const TableauBord = () => {
 				}
 			}
 
-			console.log("animalToEdit", animalToEdit);
-
-			let timer: NodeJS.Timeout | undefined;
 			let updatedAnimal;
 
 			try {
 				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/${animalToEdit.id}`,
+					`${baseURL}/dashboard/association/animals/${animalToEdit.id}`,
 					{
 						method: "PATCH",
 						body: formData,
@@ -84,8 +80,8 @@ const TableauBord = () => {
 
 				if (response.ok) {
 					updatedAnimal = await response.json(); // on récupère updatedAnimal ici
-					setToastMessage("Animal édité avec succès");
-					toggleToast();
+
+					toggleToast("Animal édité avec succès");
 
 					setAssociationAnimals((prevAnimals) =>
 						prevAnimals.map((animal) =>
@@ -93,25 +89,16 @@ const TableauBord = () => {
 						),
 					);
 
-					timer = setTimeout(() => {
+					setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-					console.log("Animal Maj", updatedAnimal);
 				} else {
 					updatedAnimal = await response.json();
-
-					setToastMessage(
-						updatedAnimal.error || "Erreur lors de la mise à jour",
-					);
-					toggleToast();
+					toggleToast(updatedAnimal.error || "Erreur lors de la mise à jour");
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
-
-			return () => {
-				if (timer) clearTimeout(timer);
-			};
 		},
 		[handleCloseGestionModal, animalToEdit, toggleToast],
 	);
@@ -134,13 +121,12 @@ const TableauBord = () => {
 			// Avec l'authentification, le back vient gérer à la place.
 			formData.append("association_id", 1);
 
-			let timer: NodeJS.Timeout | undefined;
 			let createdAnimal;
 
 			try {
 				const response = await fetch(
 					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/`,
+					`${baseURL}/dashboard/association/animals/`,
 					{
 						method: "POST",
 						body: formData,
@@ -150,9 +136,8 @@ const TableauBord = () => {
 				if (response.ok) {
 					createdAnimal = await response.json();
 
-					setToastMessage("Animal ajouté avec succès");
-					toggleToast();
-					timer = setTimeout(() => {
+					toggleToast("Animal ajouté avec succès");
+					setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
 					setAssociationAnimals((prevAnimals) => [
@@ -163,20 +148,15 @@ const TableauBord = () => {
 					// TODO ajouter une notification de succès si nécessaire
 				} else {
 					createdAnimal = await response.json();
+					toggleToast(createdAnimal.error || "Erreur lors de la création");
 
-					setToastMessage(createdAnimal.error || "Erreur lors de la création");
-					toggleToast();
-					timer = setTimeout(() => {
+					setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
-
-			return () => {
-				if (timer) clearTimeout(timer);
-			};
 		},
 		[handleCloseGestionModal, toggleToast],
 	);
@@ -184,14 +164,13 @@ const TableauBord = () => {
 	// Gestion de la modale confirmation de suppression
 
 	const handleShowDeleteModal = useCallback((animal: IAnimal) => {
-		console.log("Animal à supprimer", animal);
 		setShowDeleteModal(true);
 		setAnimalToDelete(animal);
 		setToastMessage("");
 		setShowToast(false);
 	}, []);
 
-	const handleCloseDeleteModal = useCallback((animal) => {
+	const handleCloseDeleteModal = useCallback(() => {
 		setShowDeleteModal(false);
 		setAnimalToDelete(null);
 	}, []);
@@ -200,18 +179,14 @@ const TableauBord = () => {
 		try {
 			const response = await fetch(
 				// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-				`${import.meta.env.VITE_API_URL}/dashboard/association/animals/${animalToDelete.id}`,
+				`${baseURL}/dashboard/association/animals/${animalToDelete.id}`,
 				{
 					method: "DELETE",
 				},
 			);
 
-			let timer: NodeJS.Timeout | undefined;
-
 			if (response.ok) {
-				setToastMessage("Animal Supprimé");
-				toggleToast();
-				console.log(associationAnimals);
+				toggleToast("Animal supprimé");
 				setAssociationAnimals((prevAnimals) =>
 					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
 				);
@@ -220,8 +195,7 @@ const TableauBord = () => {
 					handleCloseDeleteModal();
 				}, 1000);
 			} else {
-				setToastMessage("Erreur lors de la suppression");
-				toggleToast();
+				toggleToast("Erreur lors de la suppression");
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
@@ -340,13 +314,13 @@ const TableauBord = () => {
 					<Modal.Title>Confirmation suppression</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className="modal__toast d-flex justify-content-center mb-3">
+					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
+					?{" "}
+					<div className="modal__toast d-flex justify-content-center mt-3">
 						<Toast show={showToast} onClose={toggleToast}>
 							<Toast.Body>{toastMessage}</Toast.Body>
 						</Toast>
 					</div>
-					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
-					?{" "}
 				</Modal.Body>
 				<Modal.Footer>
 					{" "}
