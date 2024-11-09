@@ -12,11 +12,10 @@ import Form from "react-bootstrap/Form";
 import * as formik from "formik";
 import * as yup from "yup";
 import { Error } from "../../Components/Error/Error.tsx";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 
 
 const Inscription = () => {
-    const [departments, setDepartments] = useState<IDepartment[]>([]);
     const [mode, setMode] = useState<"family" | "association">("family");
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +26,7 @@ const Inscription = () => {
 
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { departments } = useFetchDepartments();
 
     /* Validation des inputs */
     const { Formik } = formik;
@@ -54,21 +54,6 @@ const Inscription = () => {
             .nullable()
             .required("Une image est requise"),
     });
-
-    useEffect(() => {
-        const fetchDepartments = async () => {
-
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/departments`);
-                const data = await response.json();
-                setDepartments(data);
-            } catch (error) {
-                console.error("Error fetching departments:", error);
-            }
-        };
-
-        fetchDepartments();
-    }, []);
 
     /* Toggle affichage du mot de passe */
     const togglePasswordVisibility = () => {

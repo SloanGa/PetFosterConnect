@@ -1,9 +1,9 @@
 import "./Filters.scss";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
 import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
+import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 
 interface FiltersProps {
     animals: IAnimal[];
@@ -20,12 +20,13 @@ const Filters = ({
                      setForm,
                      setAnimalsFilterCount,
                  }: FiltersProps) => {
-    const [departments, setDepartments] = useState<IDepartment[]>([]);
+
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
     const { associations } = useFetchAssociations();
-    
+    const { departments } = useFetchDepartments();
+
     /* Permet de retourner un tableau des type et genre sans les dupliquer */
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
     const uniqueGender = [...new Set(animals.map((animal) => animal.gender))];
@@ -51,21 +52,6 @@ const Filters = ({
             setAnimalsFilterCount(null);
         }
     };
-
-    useEffect(() => {
-        const fetchFilterData = async () => {
-            try {
-                const response = await
-                    fetch(`${import.meta.env.VITE_API_URL}/departments`);
-                const departments = await response.json();
-                setDepartments(departments);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchFilterData();
-    }, []);
 
     return (
         <div className={`filters ${isFiltersVisible ? "active" : ""}`}>
