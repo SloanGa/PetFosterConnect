@@ -76,7 +76,7 @@ const AssociationsFilters = ({
                 </button>
 
                 <button
-                    className="btn__form--reinit"
+                    className=" btn btn--form-reinit"
                     type="button"
                     aria-label="Bouton de reinitialisation du formulaire"
                     onClick={handleResetForm}
