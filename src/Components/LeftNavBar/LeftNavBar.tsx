@@ -8,7 +8,7 @@ const LeftNavBar = () => {
 				<ul className="left__nav__list">
 					<li className="left__nav__list__item">
 						<NavigationLink
-							to="/gestion-des-animaux"
+							to="/tableau-de-bord"
 							className="left__nav__list__link"
 							title="Page gestion des animaux"
 							text="Gestion des animaux"
@@ -16,7 +16,7 @@ const LeftNavBar = () => {
 					</li>
 					<li>
 						<NavigationLink
-							to="/liste-des-demandes"
+							to="/tableau-de-bord/demandes"
 							className="left__nav__list__link"
 							title="Page liste des demandes"
 							text="Listes des demandes"
@@ -24,7 +24,7 @@ const LeftNavBar = () => {
 					</li>
 					<li>
 						<NavigationLink
-							to="/profil-association"
+							to="/tableau-de-bord/profil-association"
 							className="left__nav__list__link"
 							title="Page profil association"
 							text="Votre profil"
