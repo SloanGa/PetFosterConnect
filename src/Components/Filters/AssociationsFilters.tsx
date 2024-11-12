@@ -11,13 +11,15 @@ interface AssociationsFiltersProps {
 }
 
 const AssociationsFilters = ({
-                                 isFiltersVisible, handleFilter, associations, setForm,
-                             }: AssociationsFiltersProps) => {
+    isFiltersVisible,
+    handleFilter,
+    associations,
+    setForm,
+}: AssociationsFiltersProps) => {
     const { departments } = useFetchDepartments();
     const { animals } = useFetchAnimals();
 
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
-
 
     /* Reinitialise le formulaire */
     const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,15 +32,12 @@ const AssociationsFilters = ({
 
     return (
         <div className={`filters ${isFiltersVisible ? "active" : ""}`}>
-            <form
-                className="filters__form"
-                onSubmit={handleFilter}
-            >
+            <form className="filters__form" onSubmit={handleFilter}>
                 <label className="filters__form__description" htmlFor="name">
                     Nom d'association
                 </label>
                 <select className="form-select" id="name" name="association_id">
-                    <option value="">Tous les nom</option>
+                    <option value="">Tous les noms</option>
                     {associations.map((association) => (
                         <option key={association.name} value={association.id}>
                             {association.name}
@@ -70,7 +69,6 @@ const AssociationsFilters = ({
                     ))}
                 </select>
 
-
                 <button className="btn" type="submit" aria-label="Bouton de recherche">
                     Rechercher
                 </button>
@@ -87,6 +85,5 @@ const AssociationsFilters = ({
         </div>
     );
 };
-
 
 export default AssociationsFilters;

@@ -11,6 +11,7 @@ interface IAssociation {
     longitude: number;
     latitude: number;
     phone_number: string;
+    email_association: string;
     description: string | null;
     slug?: string;
     url_image: string | null;
