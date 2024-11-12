@@ -58,7 +58,7 @@ const Animal = () => {
     }, []);
 
     const { isAuth, userData } = useAuth();
-    const isFamilyConnected = isAuth && !!userData?.family; // POur convertir userData.family en booléen
+    const isFamilyConnected = isAuth && !!userData?.family; // Pour convertir userData.family en booléen
 
     const handleClickConfirmBtn = async () => {
         if (!isFamilyConnected) {
@@ -216,18 +216,17 @@ const Animal = () => {
                                             {animal!.association.phone_number}
                                         </a>
                                     </div>
-                                    {/* <div>
+                                    <div>
                                         <span>Mail : </span>
-                                        //TODO : ajouter mail asso sur table asso
                                         <a
-                                            href="mailto:contact@SPA.com"
+                                            href={`mailto:${animal!.association.email_association}`}
                                             className="association__link"
                                             title="Envoyer un mail à l'association"
                                             aria-label="Envoyer un mail à l'association"
                                         >
-                                            contact@SPA.com
+                                            {animal!.association.email_association}
                                         </a>
-                                    </div> */}
+                                    </div>
                                     {!animal!.availability ? (
                                         // Si l'animal est indisponible
                                         <button className="btn btn--indisponible" disabled>
