@@ -1,4 +1,4 @@
-//import "./ManageAnimal.scss";
+import "./ManageAnimal.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
@@ -243,27 +243,30 @@ const ManageAnimal = () => {
 	}, []);
 
 	return (
-		<>
-			<div className="main__content__add-animal">
-				Ajouter un animal{" "}
+		<div className="manage-animal">
+			<button
+				className="btn btn--add-animal"
+				type="button"
+				onClick={() => {
+					handleShowGestionModal();
+				}}
+			>
+				<span>Ajouter un animal</span>
 				<Icon
 					ariaLabel={"Ajouter un animal"}
 					src={"/src/assets/icons/plus.svg"}
 					alt={"icône Ajout"}
-					onClick={() => {
-						handleShowGestionModal();
-					}}
 				/>
-			</div>
+			</button>
 
-			<div className="main__content__cards__container">
+			<div className="manage-animal__cards__container">
 				<div className="row gx-8 gy-3">
 					{isLoading ? (
 						<Loading />
 					) : (
 						associationAnimals.map((animal) => (
 							<div
-								className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
+								className="manage-animal__cards__container__card col-12 col-sm-6 col-md-4"
 								key={animal.id}
 							>
 								<DashboardCard
@@ -326,7 +329,7 @@ const ManageAnimal = () => {
 					</Button>
 				</Modal.Footer>
 			</Modal>
-		</>
+		</div>
 	);
 };
 
