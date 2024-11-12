@@ -1,88 +1,69 @@
-@use '../../styles/variables' as v;
-
+@use "../../styles/variables" as v;
 
 .animals__section {
-  &__filter {
-    padding-top: 2.5em;
-    position: relative;
-  }
-
-  &result {
-    padding: 1.5em 0 0 1.25em;
-  }
-
-  .btn:focus {
-    border: 1px solid transparent;
-    background-color: v.$tertiary;
-    color: #fff;
-    opacity: 0.7;
-  }
+    &__filter {
+        padding-top: 1.5rem;
+        position: relative;
+        @media (min-width: 992px) {
+            padding-top: 0;
+            width: 32%;
+        }
+    }
 }
-
 
 .filters {
-  display: none;
-  width: 100%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  position: absolute;
-  left: 0;
-  z-index: 1;
-  margin-top: 1em;
-  background-color: v.$body;
-  font-family: Helvetica, sans-serif;
+    display: none;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    left: 0;
+    z-index: 1;
 
-  &.active {
-    display: block;
-  }
+    background-color: v.$body;
+    font-family: Helvetica, sans-serif;
 
-  @media (min-width: 992px) {
-    display: flex;
-    position: relative;
-    box-shadow: none;
-  }
-
-  &__form {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    margin: 1em auto;
-    gap: 1em;
     @media (min-width: 992px) {
-      margin: 0;
-      width: 100%;
+        display: flex;
+        position: relative;
+        box-shadow: none;
+        margin-top: 1rem;
     }
 
-    &__description {
-      font-size: 1em;
-      font-weight: bold;
+    &.active {
+        display: block;
     }
 
-    &__fieldset {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
+    &__form {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        margin: 1em auto;
+        gap: 1em;
+        @media (min-width: 992px) {
+            margin: 0;
+            width: 100%;
+        }
+
+        &__description {
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        &__fieldset {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
     }
-  }
 
-  .btn__form--reinit {
-    border: 1px solid transparent;
-    background-color: v.$secondary-light;
-    color: #fff;
-    border-radius: 15px;
-    padding: 0.8rem 1rem;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: opacity 0.3s;
+    .btn--form-reinit {
+        background-color: v.$secondary-light;
 
-
-    &:hover {
-      background-color: v.$secondary-light;
-      color: #fff;
-      opacity: 0.7;
+        &:hover,
+        &:focus {
+            background-color: v.$secondary-light;
+            //color: #fff;
+            //opacity: 0.7;
+        }
     }
-
-  }
-
 }
-
-

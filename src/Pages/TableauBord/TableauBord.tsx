@@ -2,6 +2,7 @@ import "./TableauBord.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
+
 import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
@@ -12,6 +13,7 @@ import Icon from "../../Components/Icon/Icon.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
+
 	const [showGestionModal, setShowGestionModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -161,7 +163,8 @@ const TableauBord = () => {
 		[handleCloseGestionModal, toggleToast],
 	);
 
-	// Gestion de la modale confirmation de suppression
+
+    // Gestion de la modale confirmation de suppression
 
 	const handleShowDeleteModal = useCallback((animal: IAnimal) => {
 		setShowDeleteModal(true);
@@ -233,20 +236,21 @@ const TableauBord = () => {
 		fetchAnimals();
 	}, []);
 
-	return (
-		<>
-			<Helmet>
-				<title>Tableau de bord | PetFoster Connect</title>
-				<meta
-					name="description"
-					content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
-				/>
-			</Helmet>
-			<Header />
-			<div className="content">
-				<LeftNavBar />
-				<div className="main__content">
-					<h1 className="main__content__h1">Dashboard de XXX</h1>
+
+    return (
+        <>
+            <Helmet>
+                <title>Tableau de bord | PetFoster Connect</title>
+                <meta
+                    name="description"
+                    content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                />
+            </Helmet>
+            <Header />
+            <div className="content">
+                <LeftNavBar />
+                <div className="main__content">
+                    <h1 className="main__content__h1">Dashboard de XXX</h1>
 
 					<div className="main__content__add-animal">
 						Ajouter un animal{" "}
@@ -301,7 +305,7 @@ const TableauBord = () => {
 				toastMessage={toastMessage}
 			/>
 
-			{/* Modale pour confirmer la suppression d'un animal */}
+            {/* Modale pour confirmer la suppression d'un animal */}
 
 			<Modal
 				show={showDeleteModal}
@@ -333,9 +337,10 @@ const TableauBord = () => {
 				</Modal.Footer>
 			</Modal>
 
-			<Footer />
-		</>
-	);
+
+            <Footer />
+        </>
+    );
 };
 
 export default TableauBord;

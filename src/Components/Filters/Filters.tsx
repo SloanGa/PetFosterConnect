@@ -1,9 +1,9 @@
 import "./Filters.scss";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
-import { IAssociation } from "../../Interfaces/IAssociation.ts";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
 import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
+import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
+import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 
 interface FiltersProps {
     animals: IAnimal[];
@@ -14,16 +14,18 @@ interface FiltersProps {
 }
 
 const Filters = ({
-    animals,
-    handleFilter,
-    isFiltersVisible,
-    setForm,
-    setAnimalsFilterCount,
-}: FiltersProps) => {
-    const [departments, setDepartments] = useState<IDepartment[]>([]);
-    const [associations, setAssociations] = useState<IAssociation[]>([]);
+                     animals,
+                     handleFilter,
+                     isFiltersVisible,
+                     setForm,
+                     setAnimalsFilterCount,
+                 }: FiltersProps) => {
+
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+    const { associations } = useFetchAssociations();
+    const { departments } = useFetchDepartments();
 
     /* Permet de retourner un tableau des type et genre sans les dupliquer */
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
@@ -50,27 +52,6 @@ const Filters = ({
             setAnimalsFilterCount(null);
         }
     };
-
-    useEffect(() => {
-        const fetchFilterData = async () => {
-            try {
-                const [response1, response2] = await Promise.all([
-                    fetch(`${import.meta.env.VITE_API_URL}/departments`),
-                    fetch(`${import.meta.env.VITE_API_URL}/associations`),
-                ]);
-
-                const departments = await response1.json();
-                const associations = await response2.json();
-
-                setDepartments(departments);
-                setAssociations(associations);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchFilterData();
-    }, []);
 
     return (
         <div className={`filters ${isFiltersVisible ? "active" : ""}`}>
@@ -131,86 +112,47 @@ const Filters = ({
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Âge</legend>
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="0 à 2 ans"
-                        value="0-2"
-                        text="0 à 2 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="0-2" classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="0 à 2 ans"
+                                    value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="2 à 5 ans"
-                        value="2-5"
-                        text="2 à 5 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="2-5" classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="2 à 5 ans"
+                                    value="2-5" text="2 à 5 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="5 à 10 ans"
-                        value="5-10"
-                        text="5 à 10 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="5-10" classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="5 à 10 ans"
+                                    value="5-10" text="5 à 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="age"
-                        ariaLabel="Plus de 10 ans"
-                        value="11"
-                        text="< 10 ans"
-                        onChange={handleAgeCheckBoxChange}
-                        selected={selectedAge!}
-                    />
+                    <InputWithLabel id="11" classNameInput="form-check-input" type="checkbox" name="age"
+                                    ariaLabel="Plus de 10 ans"
+                                    value="11" text="< 10 ans" onChange={handleAgeCheckBoxChange}
+                                    selected={selectedAge!} />
+
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Petit"
-                        value="Petit"
-                        text="Petit"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Moyen"
-                        value="Moyen"
-                        text="Moyen"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
+                    <InputWithLabel id="small" classNameInput="form-check-input" type="checkbox" name="size"
+                                    ariaLabel="Petit"
+                                    value="Petit" text="Petit" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
 
-                    <InputWithLabel
-                        classNameInput="form-check-input"
-                        type="checkbox"
-                        name="size"
-                        ariaLabel="Grand"
-                        value="Grand"
-                        text="Grand"
-                        onChange={handleSizeCheckBoxChange}
-                        selected={selectedSize!}
-                    />
+                    <InputWithLabel id="medium" classNameInput="form-check-input" type="checkbox" name="size"
+                                    ariaLabel="Moyen"
+                                    value="Moyen" text="Moyen" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
+                    <InputWithLabel id="large" classNameInput="form-check-input" type="checkbox" name="size"
+                                    ariaLabel="Grand"
+                                    value="Grand" text="Grand" onChange={handleSizeCheckBoxChange}
+                                    selected={selectedSize!} />
+
                 </fieldset>
 
                 <button className="btn" type="submit" aria-label="Bouton de recherche">
@@ -218,7 +160,7 @@ const Filters = ({
                 </button>
 
                 <button
-                    className="btn__form--reinit"
+                    className="btn btn--form-reinit"
                     type="button"
                     aria-label="Bouton de reinitialisation du formulaire"
                     onClick={handleResetForm}

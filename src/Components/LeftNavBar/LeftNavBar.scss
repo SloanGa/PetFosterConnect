@@ -1,47 +1,45 @@
-@use '../../styles/variables' as v;
+@use "../../styles/variables" as v;
 
-.left__nav{
+.left__nav {
+    &__list {
+        display: flex;
+        flex-direction: column;
+        flex-basis: content;
+        row-gap: 1em;
+        align-items: center;
+        margin-top: 2em;
+        border-bottom: solid 1px v.$secondary-light;
 
-    &__list{
-           display: flex;
-           flex-direction: column;
-            flex-basis: content;
-            row-gap: 1em;
-            align-items: center;
-            margin-top: 2em; 
-            border-bottom: solid 1px v.$secondary-light;
+        padding-bottom: 2em;
 
-            padding-bottom: 2em;
-
-           &__link{
+        &__link {
             text-transform: uppercase;
             color: v.$main;
+
             &:hover {
                 color: v.$secondary-light;
                 opacity: 0.7;
             }
-        } 
+
+            &--current {
+                color: v.$secondary-light;
+            }
+        }
     }
-
-
-
-
 
     @media (min-width: 992px) {
         padding-right: 2em;
         padding-left: 2em;
         padding-top: 4em;
-    
 
-        &__list{ 
-            padding-top: 3em; 
-            height: 20em; 
+        &__list {
+            padding-top: 3em;
+            height: 20em;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
 
-            border: none; 
+            border: none;
         }
-        }
-    
+    }
 }

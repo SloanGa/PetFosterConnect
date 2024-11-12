@@ -1,5 +1,5 @@
 import "./LeftNavBar.scss";
-import AppLink from "../AppLink/AppLink.tsx";
+import NavigationLink from "../Links/NavLink.tsx";
 
 const LeftNavBar = () => {
 	return (
@@ -7,7 +7,7 @@ const LeftNavBar = () => {
 			<nav className="left__nav">
 				<ul className="left__nav__list">
 					<li className="left__nav__list__item">
-						<AppLink
+						<NavigationLink
 							to="/gestion-des-animaux"
 							className="left__nav__list__link"
 							title="Page gestion des animaux"
@@ -15,7 +15,7 @@ const LeftNavBar = () => {
 						/>
 					</li>
 					<li>
-						<AppLink
+						<NavigationLink
 							to="/liste-des-demandes"
 							className="left__nav__list__link"
 							title="Page liste des demandes"
@@ -23,7 +23,7 @@ const LeftNavBar = () => {
 						/>
 					</li>
 					<li>
-						<AppLink
+						<NavigationLink
 							to="/profil-association"
 							className="left__nav__list__link"
 							title="Page profil association"

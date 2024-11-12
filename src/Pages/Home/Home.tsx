@@ -3,14 +3,13 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import AnimalCard from "../../Components/AnimalCard/AnimalCard.tsx";
-import AppLink from "../../Components/AppLink/AppLink.tsx";
+import AppLink from "../../Components/Links/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 
 const Home = () => {
-
     const { animals, isLoading, error, baseURL } = useFetchAnimals();
 
     const getRandomizeAnimals = (animals: IAnimal[], count: number): IAnimal[] => {
@@ -46,15 +45,15 @@ const Home = () => {
                         <h1 className="main__title">PetFoster Connect</h1>
 
                         <p className="intro__text">
-                            La plateforme qui met en liaison familles d’accueil et associations afin de
-                            proposer aux animaux un foyer temporaire dans l’attente de leur adoption.
-                            Que vous soyez une famille d’accueil ou une association, inscrivez-vous en
-                            quelques clics.
+                            La plateforme qui met en liaison familles d’accueil et associations afin
+                            de proposer aux animaux un foyer temporaire dans l’attente de leur
+                            adoption. Que vous soyez une famille d’accueil ou une association,
+                            inscrivez-vous en quelques clics.
                         </p>
                     </section>
 
                     <section className="animals__section__home">
-                        <h2 className="animals__section__title">Découvrez nos animaux à accueillir</h2>
+                        <h2 className="section__title">Découvrez nos animaux à accueillir</h2>
 
                         {/*<!-- Cards des animaux --> */}
 
@@ -68,7 +67,7 @@ const Home = () => {
                                     {homeAnimals.map((animal) => (
                                         <li key={animal.id}>
                                             <AnimalCard
-                                                path={`/animaux/${animal.name}-${animal.id}`}
+                                                path={`/animaux/${animal.slug}`}
                                                 src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
                                                 name={animal.name}
@@ -80,14 +79,16 @@ const Home = () => {
                                 </ul>
                             )}
                         </div>
-                        <AppLink to={"/animaux"} className={"btn"} title={"Voir les animaux"}
-                                 text={"Voir tous les animaux"} />
-
+                        <AppLink
+                            to={"/animaux"}
+                            className={"btn"}
+                            title={"Voir les animaux"}
+                            text={"Voir tous les animaux"}
+                        />
                     </section>
                 </div>
             </main>
             <Footer />
-
         </>
     );
 };

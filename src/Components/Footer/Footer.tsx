@@ -1,3 +1,5 @@
+import NavigationLink from "../Links/NavLink";
+
 import "./Footer.scss";
 
 const Footer = () => {
@@ -6,17 +8,33 @@ const Footer = () => {
             <nav>
                 <ul className="footer__nav__list">
                     <li>
-                        <a className="footer__nav__link" href="/mentions-legales">Mentions légales</a>
+                        <NavigationLink
+                            to={"/mentions-legales"}
+                            className={"footer__nav__link"}
+                            text={"Mentions légales"}
+                            title={"Aller sur la page des mentions légales"}
+                        />
                     </li>
                     <li>
-                        <a className="footer__nav__link" href="/politique-confidentialite">Politique de
-                            confidentialité</a>
+                        <NavigationLink
+                            to={"/politique-confidentialite"}
+                            className={"footer__nav__link"}
+                            text={"Politique de confidentialité"}
+                            title={"Aller sur la page Politique de confidentialité"}
+                        />
                     </li>
                     <li>
-                        <a className="footer__nav__link" href="/plan-du-site">Plan du site</a>
+                        <NavigationLink
+                            to={"/plan-du-site"}
+                            className={"footer__nav__link"}
+                            text={"Plan du site"}
+                            title={"Aller sur la page Plan du site"}
+                        />
                     </li>
                     <li>
-                        <a className="footer__nav__link" href="mailto:contact@petfosterconnect.com">Contact</a>
+                        <a className="footer__nav__link" href="mailto:contact@petfosterconnect.com">
+                            Contact
+                        </a>
                     </li>
                 </ul>
             </nav>
