@@ -64,10 +64,9 @@ const Animaux = () => {
         /* Convertir l'objet de paramètres en query string sous la forme : param1=value1&param2=value2... */
         const newQueryString = new URLSearchParams(params).toString();
         setQueryString(newQueryString);
-
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`
+                `${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`,
             );
             const data = await response.json();
             setAnimalsFilterCount(data.totalAnimalCount);
@@ -93,7 +92,7 @@ const Animaux = () => {
                 response = await fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
             } else {
                 response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`
+                    `${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`,
                 );
             }
 
