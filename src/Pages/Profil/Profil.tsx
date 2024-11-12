@@ -8,6 +8,9 @@ import Map from "../../Components/Map/Map.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
+import { FormEvent, useState } from "react";
+import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
+import { FormikValues } from "formik";
 
 
 interface ProfilProps {
@@ -20,7 +23,11 @@ interface ProfilProps {
 
 
 const Profil = ({ entity, baseURL, isLoading, error, isLegitimate }: ProfilProps) => {
-
+    // Pour la modale de confirmation d'envoi d'une demande
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
 
     return (
         <>
@@ -89,7 +96,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate }: ProfilProps
                                 </div>
                                 {!isLegitimate ?
                                     <div className="btn__container">
-                                        <button className=" btn btn--profil">Modifier le profil</button>
+                                        <button className=" btn btn--profil" onClick={handleShow}>Modifier le profil</button>
                                     </div> : null}
                             </section>
                             <section className="section__map">
@@ -116,6 +123,8 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate }: ProfilProps
             </main>
 
             <Footer />
+            
+            <GestionEditEntityModal show={show} handleClose={handleClose}  entityToEdit={entity}/>
         </>
     );
 };
