@@ -8,11 +8,9 @@ import Map from "../../Components/Map/Map.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
 import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
-import association from "../Association/Association.tsx";
-
 
 interface ProfilProps {
     entity: IAssociation | IFamily | null;
@@ -33,6 +31,29 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = () => setShowDelete(true);
+
+    const [userHasFamily, setUserHasFamily] = useState(""); // IUser
+
+    /* TODO Entity.id a passer via les props de Family */
+    
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/user/${entity?.id}`);
+    //
+    //             const data = await response.json();
+    //
+    //             setUserHasFamily(data);
+    //
+    //             console.log(data);
+    //
+    //         } catch {
+    //
+    //         }
+    //     };
+    //     fetchUser();
+    //
+    // }, []);
 
 
     return (
@@ -87,7 +108,10 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
                                                     className="item__title"
                                                 >
                                                     {entity!.email_association}
-                                                </a>) : null}{/* TODO adresse user family*/}
+                                                </a>) : <a
+                                                    href={`mailto:${userHasFamily.email}`}
+                                                    className="item__title"
+                                                > {userHasFamily.email} </a>}
                                             </div>
                                             <NavLink
                                                 to={`/animaux?association_id=${entity?.id}`}
@@ -104,7 +128,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
                                     <div className="btn__container">
                                         <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
                                         </button>
-                                        <button className=" btn btn--delete--profil"
+                                        <button className=" btn btn--profil"
                                                 onClick={handleShowDelete}>Supprimer le
                                             profil
                                         </button>
