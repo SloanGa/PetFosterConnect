@@ -77,7 +77,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate }: ProfilProps
                                                 </a>) : null}{/* TODO adresse user family*/}
                                             </div>
                                             <NavLink
-                                                to="/animaux"
+                                                to={`/animaux?association_id=${entity?.id}`}
                                                 title={`Page des animaux de l'association ${entity!.name}`}
                                                 text="Voir les animaux"
                                                 className="btn btn--entity"
