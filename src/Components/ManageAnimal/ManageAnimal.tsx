@@ -181,8 +181,6 @@ const ManageAnimal = () => {
 
 	const deleteAnimal = useCallback(async () => {
 		try {
-			console.log("test");
-
 			const token = localStorage.getItem("auth_token");
 			const response = await fetch(
 				`${baseURL}/dashboard/association/animals/${animalToDelete.id}`,
@@ -193,7 +191,6 @@ const ManageAnimal = () => {
 					},
 				},
 			);
-			console.log(await response.json());
 
 			if (response.ok) {
 				toggleToast("Animal supprimé");
@@ -201,7 +198,7 @@ const ManageAnimal = () => {
 					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
 				);
 
-				const timer = setTimeout(() => {
+				setTimeout(() => {
 					handleCloseDeleteModal();
 				}, 1000);
 			} else {
@@ -210,10 +207,6 @@ const ManageAnimal = () => {
 		} catch (error) {
 			console.error("Erreur:", error);
 		}
-
-		return () => {
-			if (timer) clearTimeout(timer);
-		};
 	}, [animalToDelete, handleCloseDeleteModal, toggleToast]);
 
 	// Gestion du fetch des animaux de l'association

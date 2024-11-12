@@ -2,15 +2,8 @@ import "./TableauBord.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
-
-//import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
-//import Loading from "../../Components/Loading/Loading.tsx";
-//import { Button, Modal, Toast } from "react-bootstrap";
-//import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import { useEffect } from "react";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-//import { useState, useEffect, useCallback } from "react";
-//import Icon from "../../Components/Icon/Icon.tsx";
-//import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 import { useAuth } from "../../Context/AuthContext.tsx";
 import { Navigate, Routes, Route } from "react-router-dom";
 import ManageAnimal from "../../Components/ManageAnimal/ManageAnimal.tsx";
@@ -19,9 +12,18 @@ import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
 const TableauBord = () => {
 	const { isAuth, userData } = useAuth();
 	const isAssociationConnected = isAuth && !!userData?.association;
-	if (!isAssociationConnected) {
-		return <Navigate to="/connexion" />;
-	}
+	console.log(isAssociationConnected);
+
+	useEffect(() => {
+		const storedUser = localStorage.getItem("user");
+
+		if (!storedUser || !(storedUser.role === "association")) {
+			return <Navigate to="/connexion" />;
+		}
+	}, []);
+	// if (!isAssociationConnected) {
+	// 	return <Navigate to="/connexion" />;
+	// }
 	return (
 		<>
 			<Helmet>
