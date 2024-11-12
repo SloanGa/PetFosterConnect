@@ -2,21 +2,27 @@ import "./GestionModal.scss";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import * as yup from "yup";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
+import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 
 interface GestionModalProps {
     show: boolean;
     handleClose: () => void;
     entityToEdit: IAssociation | IFamily | null;
+    setAssociation: React.Dispatch<React.SetStateAction<IAssociation | null>>;
 }
 
 const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                                                  show,
                                                                  handleClose,
                                                                  entityToEdit,
+                                                                 setAssociation,
                                                              }) => {
+
+    const { departments } = useFetchDepartments();
+    const [isSubmit, setIsSubmit] = useState(false);
 
     const initialValues = {
         name: entityToEdit?.name || "",
@@ -24,29 +30,46 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
         zip_code: entityToEdit?.zip_code || "",
         city: entityToEdit?.city || "",
         department_id: entityToEdit?.department_id || "",
-        url_image: entityToEdit?.url_image || "",
         phone_number: entityToEdit?.phone_number || "",
         description: entityToEdit?.description || "",
         // Inclure email_association seulement si l'entité est une association
         email_association: entityToEdit && "email_association" in entityToEdit ? entityToEdit.email_association : "",
+        family_img: entityToEdit?.family_img || "",
+        association_img: entityToEdit && "email_association" in entityToEdit ? entityToEdit.association_img : "",
     };
 
+    const fetchedURL = entityToEdit && "email_association" in entityToEdit ? `${import.meta.env.VITE_API_URL}/dashboard/association/profile` : `${import.meta.env.VITE_API_URL}/family`;
 
-    const validationSchema = yup.object().shape({
-        name: yup.string().required("Le nom de l'animal est requis"),
-        gender: yup.string().required("Le genre de l'animal est requis"),
-        species: yup.string().required("L'espèce de l'animal est requise"),
-        age: yup.string().required("L'âge de l'animal est requis"),
-        size: yup.string().required("La taille de l'animal est requise"),
-        race: yup.string(),
-        description: yup
-            .string()
-            .required("La description de l'animal est requise"),
-        availability: yup.boolean(), // Optionnel
-    });
+    const handleSubmitEdit = async (values) => {
+        const formData = new FormData();
 
-    const handleSubmitEdit = (values) => {
-        console.log(values);
+        for (const key in values) {
+            if (values[key] !== null && values[key] !== undefined && values[key] !== "") {
+                formData.append(key, values[key]);
+            }
+        }
+
+        try {
+
+            const response = await fetch(fetchedURL, {
+                method: "PATCH",
+                headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.log(error);
+                return;
+            }
+
+            const data = await response.json();
+            setAssociation(data);
+
+
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -63,8 +86,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
             <Modal.Body>
                 <Formik
                     initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmitEdit} // C'est notre handlesubmit ici qui est passé à Formik
+                    onSubmit={handleSubmitEdit}
                 >
                     {({
                           handleSubmit,
@@ -80,137 +102,169 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                             onSubmit={handleSubmit} // C'est le handleSubmitEdit de formik ici
                         >
                             <Form.Group
-                                aria-label="Entrer le nom de l'animal"
+                                aria-label="Modifier le nom"
                                 className="mb-3"
                                 controlId="name"
                             >
-                                <Form.Label>Nom de l'animal</Form.Label>
+                                <Form.Label>Nom</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Nom de l'animal"
+                                    placeholder="Nom"
                                     name="name"
                                     value={values.name || ""}
                                     onChange={handleChange}
-                                    isInvalid={touched.name && !!errors.name}
                                 />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.name}
-                                </Form.Control.Feedback>
+
                             </Form.Group>
 
-                            <Form.Group
-                                aria-label="Télécharger l'image de l'animal"
-                                controlId="animal_img"
-                                className="mb-3"
-                            >
-                                {/* Pour ajouter dans les values de formik le fichier */}
-                                <Form.Label>Image de l'animal</Form.Label>
+                            {/* Input adresse */}
+                            <Form.Group controlId="formBasicAddress" className="form__address">
+                                <Form.Label column="sm">
+                                    Votre Adresse *
+                                </Form.Label>
                                 <Form.Control
-                                    type="file"
-                                    name="animal_img"
-                                    onChange={(event) => {
-                                        const file = event.currentTarget.files[0];
-                                        setFieldValue("animal_img", file);
-                                    }}
-                                />
-                            </Form.Group>
-
-                            <Form.Group
-                                aria-label="Entrer le genre de l'animal"
-                                className="mb-3"
-                                controlId="gender"
-                            >
-                                <Form.Label>Genre</Form.Label>
-                                <Form.Control
+                                    className="form__connexion_input"
                                     type="text"
-                                    placeholder="Genre de l'animal"
-                                    name="gender"
-                                    value={values.gender || ""}
+                                    name="address"
+                                    aria-label="Votre adresse"
+                                    placeholder="Votre adresse"
+                                    value={values.address}
                                     onChange={handleChange}
-                                    isInvalid={touched.gender && !!errors.gender}
                                 />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.gender}
-                                </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Form.Group
-                                aria-label="Entrer l'espèce de l'animal"
-                                className="mb-3"
-                                controlId="species"
-                            >
-                                <Form.Label>Espèce</Form.Label>
+                            {/* Input zip_code */}
+                            <Form.Group controlId="formBasicZipcode" className="form__zipcode">
+                                <Form.Label column="sm">
+                                    Votre code postal *
+                                </Form.Label>
                                 <Form.Control
+                                    className="form__connexion_input"
                                     type="text"
-                                    placeholder="Espèce de l'animal"
-                                    name="species"
-                                    value={values.species || ""}
+                                    name="zip_code"
+                                    aria-label="Votre code postal"
+                                    placeholder="Votre code postal"
+                                    value={values.zip_code}
                                     onChange={handleChange}
-                                    isInvalid={touched.species && !!errors.species}
                                 />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.species}
-                                </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Form.Group
-                                aria-label="Entrer l'âge de l'animal"
-                                className="mb-3"
-                                controlId="age"
-                            >
-                                <Form.Label>Age</Form.Label>
+
+                            {/* Input city */}
+                            <Form.Group controlId="formBasicCity" className="form__city">
+                                <Form.Label column="sm">
+                                    Votre Ville *
+                                </Form.Label>
                                 <Form.Control
+                                    className="form__connexion_input"
                                     type="text"
-                                    placeholder="Age de l'animal"
-                                    name="age"
-                                    value={values.age || ""}
+                                    name="city"
+                                    aria-label="Votre ville"
+                                    placeholder="Votre ville"
+                                    value={values.city}
                                     onChange={handleChange}
-                                    isInvalid={touched.age && !!errors.age}
                                 />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.age}
-                                </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Form.Group
-                                aria-label="Selectionner la taille de l'animal"
-                                className="mb-3"
-                                controlId="size"
-                            >
-                                <Form.Label>Taille</Form.Label>
-                                <Form.Select
-                                    name="size"
-                                    value={values.size || ""}
-                                    onChange={handleChange}
+
+                            {/*/!* Input departments *!/*/}
+                            <Form.Group controlId="formBasicDepartments" className="form__departement">
+                                <Form.Label column="sm">Votre département *</Form.Label>
+                                <Form.Control as="select" name="department_id"
+                                              onChange={handleChange}
                                 >
-                                    <option value="" disabled>
-                                        Sélectionner une taille
-                                    </option>
-                                    <option value="Petit">Petit</option>
-                                    <option value="Moyen">Moyen</option>
-                                    <option value="Grand">Grand</option>
-                                </Form.Select>
+                                    <option value={entityToEdit!.department_id}>{entityToEdit?.department.name}</option>
+                                    {departments.map((department) => (
+                                        <option key={department.id} value={department.id}>
+                                            {department.name}
+                                        </option>
+                                    ))}
+                                </Form.Control>
                             </Form.Group>
-                            <Form.Group
-                                aria-label="Entrer la race de l'animal (optionnel)"
-                                className="mb-3"
-                                controlId="race"
-                            >
-                                <Form.Label>Race (optionnel)</Form.Label>
+
+
+                            {entityToEdit && "email_association" in entityToEdit ? (
+                                <Form.Group controlId="formBasicEmailAsso">
+                                    <Form.Label column="sm" className="form__emailAsso">
+                                        Votre adresse mail d'association *
+                                    </Form.Label>
+                                    <Form.Control
+                                        className="form__connexion_input"
+                                        type="text"
+                                        name="email_association"
+                                        aria-label="Votre adresse mail d'association"
+                                        placeholder="Votre adresse mail d'association"
+                                        value={values.email_association}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>) : null}
+
+
+                            {/* Input phone_number */}
+                            <Form.Group controlId="formBasicPhoneNumber">
+                                <Form.Label column="sm" className="form__number">
+                                    Votre numéro de téléphone *
+                                </Form.Label>
                                 <Form.Control
+                                    className="form__connexion_input"
                                     type="text"
-                                    placeholder="Race de l'animal"
-                                    name="race"
-                                    value={values.race || ""}
+                                    name="phone_number"
+                                    aria-label="Votre numéro de téléphone"
+                                    placeholder="Votre numéro de téléphone"
+                                    value={values.phone_number}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
+
+                            {/* Input file */}
+
+                            {entityToEdit && "email_association" in entityToEdit ?
+                                /* mode = family */
+                                (<Form.Group controlId="formBasicFile" className="form__file">
+                                    <Form.Label column="sm">
+                                        Votre photo de profil
+                                    </Form.Label>
+                                    <Form.Control
+                                        className="form__connexion_input"
+                                        type="file"
+                                        name="family_img"
+                                        aria-label="Votre photo de profil"
+                                        accept="image/png, image/jpeg, image/webp, image/jpg"
+                                        onChange={(event) => {
+                                            const file = event.currentTarget.files[0];
+                                            console.log(file);
+                                            setFieldValue("association_img", file);
+                                        }}
+                                    />
+                                </Form.Group>) :
+
+                                /* mode = association */
+                                <Form.Group controlId="formBasicFile" className="form__file">
+                                    <Form.Label column="sm">
+                                        Votre photo de profil *
+                                    </Form.Label>
+                                    <Form.Control
+                                        className="form__connexion_input"
+                                        type="file"
+                                        name="association_img"
+                                        aria-label="Votre photo de profil"
+                                        accept="image/png, image/jpeg, image/webp, image/jpg"
+                                        onChange={(event) => {
+                                            const file = event.currentTarget.files[0] || null;
+                                            console.log(file);
+                                            setFieldValue("family_img", file);
+                                        }}
+                                    />
+                                </Form.Group>}
+
+
                             <Form.Group
-                                aria-label="Entrer la description de l'animal (optionnel)"
+                                aria-label="Votre description"
+                                controlId="description"
                                 className="mb-3"
-                                controlId="race"
                             >
+
                                 <Form.Label>Description</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -221,15 +275,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                 />
                             </Form.Group>
 
-                            <Form.Check // prettier-ignore
-                                aria-label="Entrer la disponibilité de l'animal"
-                                type="switch"
-                                name="availability"
-                                id="availability"
-                                label="Disponible"
-                                checked={values.availability || false}
-                                onChange={handleChange}
-                            />
                         </Form>
                     )}
                 </Formik>

@@ -40,14 +40,15 @@ const Association = () => {
             }
         };
         fetchAssociation();
-    }, []);
+    }, [setAssociation]);
+
 
     const { isAuth, userData } = useAuth();
     const isAssociationLegitimate = isAuth && userData?.association?.id === associationId;
 
 
     return <Profil entity={association} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isAssociationLegitimate} />;
+                   isLegitimate={isAssociationLegitimate} setAssociation={setAssociation} />;
 };
 
 
