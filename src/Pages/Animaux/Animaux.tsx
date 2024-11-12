@@ -147,7 +147,6 @@ const Animaux = () => {
         }
     }, [associationId]);
 
-
     return (
         <>
             <Helmet>
@@ -194,6 +193,8 @@ const Animaux = () => {
                                 isFiltersVisible={isFiltersVisible}
                                 setForm={setForm}
                                 setAnimalsFilterCount={setAnimalsFilterCount}
+                                associationId={associationId!}
+                                setAssociationId={setAssociationId}
                             />
                         </div>
                         <div className="cards">
