@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.removeItem("auth_token");
         localStorage.removeItem("auth_token_expiry");
         localStorage.removeItem("user");
-        window.location.reload();
+        window.location.href = "/";
     };
 
     return (

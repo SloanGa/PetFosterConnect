@@ -8,8 +8,10 @@ import Map from "../../Components/Map/Map.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
+import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
+import association from "../Association/Association.tsx";
 
 
 interface ProfilProps {
@@ -24,9 +26,13 @@ interface ProfilProps {
 
 const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociation }: ProfilProps) => {
     // Pour la modale de confirmation d'envoi d'une demande
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [showEdit, setShowEdit] = useState(false);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = () => setShowEdit(true);
+
+    const [showDelete, setShowDelete] = useState(false);
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
 
 
     return (
@@ -96,7 +102,11 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
                                 </div>
                                 {!isLegitimate ?
                                     <div className="btn__container">
-                                        <button className=" btn btn--profil" onClick={handleShow}>Modifier le profil
+                                        <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
+                                        </button>
+                                        <button className=" btn btn--delete--profil"
+                                                onClick={handleShowDelete}>Supprimer le
+                                            profil
                                         </button>
                                     </div> : null}
                             </section>
@@ -125,8 +135,11 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
 
             <Footer />
 
-            <GestionEditEntityModal show={show} handleClose={handleClose} entityToEdit={entity}
+            <GestionEditEntityModal show={showEdit} handleClose={handleCloseEdit} entityToEdit={entity}
                                     setAssociation={setAssociation} />
+
+            <GestionModalDeleteEntity handleCloseDelete={handleCloseDelete} showDelete={showDelete}
+                                      entityToDelete={entity} />
         </>
     );
 };

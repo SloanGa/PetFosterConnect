@@ -95,10 +95,10 @@
     .btn__container {
       display: flex;
       justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
 
       .btn--profil {
-
-        margin-bottom: 1.5em;
         background-color: v.$secondary-light;
 
         &:hover,
@@ -106,6 +106,7 @@
           background-color: v.$secondary-light;
         }
       }
+
     }
 
   }
