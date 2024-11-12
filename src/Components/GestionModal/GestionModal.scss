@@ -1,0 +1,27 @@
+@use '../../styles/variables' as v;
+
+  .btn--form{
+    background-color: v.$secondary-light;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    color: v.$tertiary-light;
+
+    &:hover {
+      background-color: v.$secondary;
+    }
+
+    &:active, &:focus:active {
+      background-color: v.$tertiary;
+      border: none;
+    }
+  }
+
+  .custom-modal-dialog {
+    margin-top: 10em;
+  }
+
+  .form__description{
+    resize:none;
+  }
+  

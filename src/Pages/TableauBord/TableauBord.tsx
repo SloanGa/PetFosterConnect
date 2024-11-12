@@ -2,73 +2,240 @@ import "./TableauBord.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
-import DashboadCard from "../../Components/DashboardCard/DashboardCard.tsx";
-import AppLink from "../../Components/Links/AppLink.tsx";
+
+import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
-// import { Error } from "../../Components/Error/Error.tsx";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
+import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 
 const TableauBord = () => {
-    // Gestion centralisée du state de la modale modifier : est-ce qu'elle est visible, à quelle association et quel animal elle est associée.
 
-    const [modalState, setModalState] = useState({
-        show: false,
-        animalId: null,
-    });
-    // Quand on ouvre la modale, on lui transmet également l'id de l'association et de l'animal
-    const handleShowEditModal = useCallback((animalId) => {
-        setModalState({ show: true, animalId });
-    }, []);
-    // prev permet de conserver les autres informations de state et seul show est passé à false.
-    const handleCloseEditModal = useCallback(() => {
-        setModalState((prev) => ({ ...prev, show: false }));
-    }, []);
+	const [showGestionModal, setShowGestionModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    // L'event listener à la soumission du formulaire
+	// state qui permet de gérer si on a une modale edit ou créer un animal
 
-    const handleSubmit = useCallback(
-        async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-            try {
-                const response = await fetch(
-                    // En attendant l'authentification, on passe pour le test en dur l'id de l'association.
-                    `${import.meta.env.VITE_API_URL}/association/animals/search/1`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            ...data,
-                            animalId: modalState.animalId,
-                        }),
-                    }
-                );
+	// states qui permettent de gérer quel animal est à éditer ou supprimer
 
-                if (response.ok) {
-                    handleCloseEditModal();
-                    // TODO ajouter une notification de succès si nécessaire
-                } else {
-                    console.error("Erreur lors de la mise à jour");
-                }
-            } catch (error) {
-                console.error("Erreur:", error);
-            }
-        },
-        [modalState.animalId, handleCloseEditModal]
-    );
+	const [animalToEdit, setAnimalToEdit] = useState<IAnimal | null>(null);
+	const [animalToDelete, setAnimalToDelete] = useState<IAnimal | null>(null);
+
+	// state de gestion du toast de message erreur ou succès formulaire
+
+	const [toastMessage, setToastMessage] = useState("");
+	const [showToast, setShowToast] = useState(false);
+
+	const toggleToast = useCallback((message) => {
+		setToastMessage(message);
+		setShowToast(true);
+	}, []);
+
+	// handler de la modale de gestion
+	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
+		setShowGestionModal(true);
+		setAnimalToEdit(animal || null);
+		setToastMessage("");
+		setShowToast(false);
+	}, []);
+
+	const handleCloseGestionModal = useCallback(() => {
+		setShowGestionModal(false);
+		setToastMessage("");
+	}, []);
+
+	const baseURL = import.meta.env.VITE_API_URL;
+
+	// L'event listener à la soumission du formulaire éditer
+
+	const handleSubmitEdit = useCallback(
+		async (values) => {
+			const formData = new FormData();
+
+			// On construit FormData avec les valeurs du formulaire
+			for (const key in values) {
+				if (Object.hasOwnProperty.call(values, key)) {
+					const value = values[key];
+					if (value !== undefined && value !== null && value !== "") {
+						formData.append(key, value);
+					}
+				}
+			}
+
+			let updatedAnimal;
+
+			try {
+				const response = await fetch(
+					`${baseURL}/dashboard/association/animals/${animalToEdit.id}`,
+					{
+						method: "PATCH",
+						body: formData,
+					},
+				);
+
+				if (response.ok) {
+					updatedAnimal = await response.json(); // on récupère updatedAnimal ici
+
+					toggleToast("Animal édité avec succès");
+
+					setAssociationAnimals((prevAnimals) =>
+						prevAnimals.map((animal) =>
+							animal.id === updatedAnimal.id ? updatedAnimal : animal,
+						),
+					);
+
+					setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
+				} else {
+					updatedAnimal = await response.json();
+					toggleToast(updatedAnimal.error || "Erreur lors de la mise à jour");
+				}
+			} catch (error) {
+				console.error("Erreur:", error);
+			}
+		},
+		[handleCloseGestionModal, animalToEdit, toggleToast],
+	);
+
+	// L'eventListener à la soumission du formulaire ajouter un animal
+
+	const handleSubmitAdd = useCallback(
+		async (values) => {
+			const formData = new FormData();
+
+			for (const key in values) {
+				if (Object.hasOwnProperty.call(values, key)) {
+					const value = values[key];
+					if (value !== undefined && value !== null && value !== "") {
+						formData.append(key, value);
+					}
+				}
+			}
+
+			// Avec l'authentification, le back vient gérer à la place.
+			formData.append("association_id", 1);
+
+			let createdAnimal;
+
+			try {
+				const response = await fetch(
+					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
+					`${baseURL}/dashboard/association/animals/`,
+					{
+						method: "POST",
+						body: formData,
+					},
+				);
+
+				if (response.ok) {
+					createdAnimal = await response.json();
+
+					toggleToast("Animal ajouté avec succès");
+					setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
+					setAssociationAnimals((prevAnimals) => [
+						...prevAnimals,
+						createdAnimal,
+					]);
+
+					// TODO ajouter une notification de succès si nécessaire
+				} else {
+					createdAnimal = await response.json();
+					toggleToast(createdAnimal.error || "Erreur lors de la création");
+
+					setTimeout(() => {
+						handleCloseGestionModal();
+					}, 1000);
+				}
+			} catch (error) {
+				console.error("Erreur:", error);
+			}
+		},
+		[handleCloseGestionModal, toggleToast],
+	);
+
 
     // Gestion de la modale confirmation de suppression
 
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const handleShowDeleteModal = useCallback((animal: IAnimal) => {
+		setShowDeleteModal(true);
+		setAnimalToDelete(animal);
+		setToastMessage("");
+		setShowToast(false);
+	}, []);
 
-    const handleCloseDeleteModal = () => setShowDeleteModal(false);
-    const handleShowDeleteModal = () => setShowDeleteModal(true);
+	const handleCloseDeleteModal = useCallback(() => {
+		setShowDeleteModal(false);
+		setAnimalToDelete(null);
+	}, []);
+
+	const deleteAnimal = useCallback(async () => {
+		try {
+			const response = await fetch(
+				// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
+				`${baseURL}/dashboard/association/animals/${animalToDelete.id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				toggleToast("Animal supprimé");
+				setAssociationAnimals((prevAnimals) =>
+					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
+				);
+
+				timer = setTimeout(() => {
+					handleCloseDeleteModal();
+				}, 1000);
+			} else {
+				toggleToast("Erreur lors de la suppression");
+			}
+		} catch (error) {
+			console.error("Erreur:", error);
+		}
+
+		return () => {
+			if (timer) clearTimeout(timer);
+		};
+	}, [associationAnimals, animalToDelete, handleCloseDeleteModal, toggleToast]);
+
+	// Gestion du fetch des animaux de l'association
+
+	useEffect(() => {
+		const fetchAnimals = async () => {
+			try {
+				const response = await fetch(
+					`${import.meta.env.VITE_API_URL}/dashboard/association/animals/?id=1`,
+				);
+
+				if (!response.ok) {
+					return setError(
+						"Une erreur est survenue, veuillez rafraîchir la page.",
+					);
+				}
+				const data = await response.json();
+				setAssociationAnimals(data);
+			} catch (error) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		fetchAnimals();
+	}, []);
+
 
     return (
         <>
@@ -85,211 +252,91 @@ const TableauBord = () => {
                 <div className="main__content">
                     <h1 className="main__content__h1">Dashboard de XXX</h1>
 
-                    <div className="main__content__cards__container">
-                        <div className="row gx-8 gy-3">
-                            <div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-                                <DashboadCard
-                                    onShowEditModal={() => handleShowEditModal(1)}
-                                    onShowDeleteModal={() => handleShowDeleteModal()}
-                                    path={""}
-                                    src={"/src/assets/chien2.jpg"}
-                                    alt={"Toutou2"}
-                                    name={"Toutou2"}
-                                    animalId={1}
-                                    associationId={1}
-                                />
-                            </div>
+					<div className="main__content__add-animal">
+						Ajouter un animal{" "}
+						<Icon
+							ariaLabel={"Ajouter un animal"}
+							src={"/src/assets/icons/plus.svg"}
+							alt={"icône Ajout"}
+							onClick={() => {
+								handleShowGestionModal();
+							}}
+						/>
+					</div>
 
-                            <div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-                                <DashboadCard
-                                    onShowEditModal={() => handleShowEditModal(1)}
-                                    onShowDeleteModal={() => handleShowDeleteModal()}
-                                    path={""}
-                                    src={"/src/assets/chien2.jpg"}
-                                    alt={"Toutou2"}
-                                    name={"Toutou2"}
-                                    animalId={1}
-                                    associationId={1}
-                                />
-                            </div>
-                            <div className=" main__content__cards__container__card col-12 col-sm-6 col-md-4">
-                                <DashboadCard
-                                    onShowEditModal={() => handleShowEditModal(1)}
-                                    onShowDeleteModal={() => handleShowDeleteModal()}
-                                    path={""}
-                                    src={"/src/assets/chien2.jpg"}
-                                    alt={"Toutou2"}
-                                    name={"Toutou2"}
-                                    animalId={1}
-                                    associationId={1}
-                                />
-                            </div>
-                            <div className="main__content__cards__container__card col-12 col-sm-6 col-md-4">
-                                <DashboadCard
-                                    onShowEditModal={() => handleShowEditModal(1)}
-                                    onShowDeleteModal={() => handleShowDeleteModal()}
-                                    path={""}
-                                    src={"/src/assets/chien2.jpg"}
-                                    alt={"Toutou2"}
-                                    name={"Toutou2"}
-                                    animalId={1}
-                                    associationId={1}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<div className="main__content__cards__container">
+						<div className="row gx-8 gy-3">
+							{isLoading ? (
+								<Loading />
+							) : (
+								associationAnimals.map((animal) => (
+									<div
+										className="main__content__cards__container__card col-12 col-sm-6 col-md-4"
+										key={animal.id}
+									>
+										<DashboardCard
+											onShowDeleteModal={handleShowDeleteModal}
+											onShowGestionModal={handleShowGestionModal}
+											path={""}
+											src={`${baseURL}${animal.url_image}`}
+											alt={animal.name}
+											name={animal.name}
+											animal={animal}
+										/>
+									</div>
+								))
+							)}
+						</div>
+					</div>
+				</div>
+			</div>
 
-            {/* Modale pour modifier un animal */}
+			{/* Modale pour modifier ou créer un animal */}
 
-            <Modal
-                show={modalState.show}
-                onHide={handleCloseEditModal}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Modifier les informations</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <form>
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_name">
-                                {" "}
-                                Nom de l'animal :{" "}
-                                <input
-                                    type="text"
-                                    id="input_name"
-                                    defaultValue="Toutou 1"
-                                    name="name"
-                                />
-                            </label>
-                        </fieldset>
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="img_upload">
-                                Télécharger un fichier :{" "}
-                                <input
-                                    type="file"
-                                    id="img_upload"
-                                    name="animal_img"
-                                    accept=".jpg, .jpeg, .png, .webp"
-                                />
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_gender">
-                                {" "}
-                                Genre de l'animal :{" "}
-                                <input
-                                    type="text"
-                                    id="input_gender"
-                                    defaultValue="Mâle"
-                                    name="gender"
-                                />
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_species">
-                                {" "}
-                                Espèce de l'animal :{" "}
-                                <input
-                                    type="text"
-                                    id="input_species"
-                                    defaultValue="Chien"
-                                    name="species"
-                                />
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_age">
-                                {" "}
-                                Age de l'animal :{" "}
-                                <input type="text" id="input_age" defaultValue="2" name="age" />
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_size">
-                                Sélectionner une taille :{" "}
-                                <select id="input_size" name="size" defaultValue="Petit">
-                                    <option defaultValue="Petit">Petit</option>
-                                    <option defaultValue="Moyen">Moyen</option>
-                                    <option defaultValue="Grand">Grand</option>
-                                </select>
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <label htmlFor="input_race">
-                                {" "}
-                                Race (optionnel) :{" "}
-                                <input type="text" id="input_race" defaultValue=" " name="race" />
-                            </label>
-                        </fieldset>
-
-                        <fieldset className="fieldset__dashboard">
-                            <legend className="fieldset--legend">Disponible</legend>
-
-                            <div className="ckeckbox-availibility">
-                                <label htmlFor="input_availability_yes">
-                                    <input
-                                        type="checkbox"
-                                        id="input_availability_yes"
-                                        name="availability"
-                                        defaultChecked // "Oui" est cochée par défaut
-                                    />
-                                    Oui
-                                </label>
-                                <label htmlFor="input_availability_no">
-                                    <input
-                                        type="checkbox"
-                                        id="input_availability_no"
-                                        name="availability"
-                                    />
-                                    Non
-                                </label>
-                            </div>
-                        </fieldset>
-                    </form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button className="btn--form" onClick={handleCloseEditModal}>
-                        Fermer
-                    </Button>
-                    <Button className="btn--form" onClick={handleCloseEditModal}>
-                        Enregistrer
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+			<GestionModal
+				handleCloseGestionModal={handleCloseGestionModal}
+				showGestionModal={showGestionModal}
+				setShowGestionModal={setShowGestionModal}
+				handleSubmitEdit={handleSubmitEdit}
+				handleSubmitAdd={handleSubmitAdd}
+				animalToEdit={animalToEdit}
+				showToast={showToast}
+				toggleToast={toggleToast}
+				toastMessage={toastMessage}
+			/>
 
             {/* Modale pour confirmer la suppression d'un animal */}
 
-            <Modal
-                show={showDeleteModal}
-                onHide={handleCloseDeleteModal}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirmation suppression</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Voulez-vous vraiment supprimer XXX ? </Modal.Body>
-                <Modal.Footer>
-                    {" "}
-                    <Button className="btn--form" onClick={handleCloseDeleteModal}>
-                        Oui
-                    </Button>
-                    <Button className="btn--form" onClick={handleCloseDeleteModal}>
-                        Non
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+			<Modal
+				show={showDeleteModal}
+				onHide={handleCloseDeleteModal}
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Confirmation suppression</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
+					?{" "}
+					<div className="modal__toast d-flex justify-content-center mt-3">
+						<Toast show={showToast} onClose={toggleToast}>
+							<Toast.Body>{toastMessage}</Toast.Body>
+						</Toast>
+					</div>
+				</Modal.Body>
+				<Modal.Footer>
+					{" "}
+					<Button className="btn--form" onClick={deleteAnimal}>
+						Oui
+					</Button>
+					<Button className="btn--form" onClick={handleCloseDeleteModal}>
+						Non
+					</Button>
+				</Modal.Footer>
+			</Modal>
+
 
             <Footer />
         </>

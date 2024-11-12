@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import "./DashboardCard.scss";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon";
 import { Button, Modal } from "react-bootstrap";
 
@@ -10,22 +10,23 @@ interface DashboardCardProps {
 	src: string;
 	alt: string;
 	name: string;
-	animalId: number;
-	associationId: number;
+	animal: object;
+
 	// On passe à la fonction onShowModal les id qu'elle va pouvoir transmettre à la modale puis transmettre au back à la soumission du formulaire.
-	onShowEditModal: (animalId: number, associationId: number) => void;
+	onShowEditModal: (animal: IAnimal) => void;
+	onShowGestionModal: (animal: IAnimal) => void;
 	onShowDeleteModal: () => void;
 }
 
-const AnimalCard: React.FC<DashboardCardProps> = ({
+const DashboardCard: React.FC<DashboardCardProps> = ({
 	src,
 	alt,
 	name,
 	path,
-	animalId,
-	associationId,
 	onShowEditModal,
 	onShowDeleteModal,
+	onShowGestionModal,
+	animal,
 }: DashboardCardProps) => {
 	return (
 		<>
@@ -44,23 +45,28 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 
 					<div className="card-body">
 						<h3 className="card__title card-title">{name}</h3>
-						<p className="card__text">Demande en cours : 2</p>
+						<p className="card__text">
+							Demande en cours :{" "}
+							{animal.requests ? animal.requests.length : "0"}
+						</p>
 						<div className="card-buttons">
 							<Button
 								className="card-buttons__button"
 								// Les id sont transmis ici
-								onClick={() => onShowEditModal(animalId, associationId)}
+								onClick={() => {
+									onShowGestionModal(animal);
+									// onShowEditModal(animal);
+								}}
 							>
 								Modifier
 							</Button>
-							{/* <button type="button" className="card-buttons__button">
-								Modifier
-							</button> */}
 							<Icon
 								ariaLabel={"Supprimer l'animal"}
 								src={"/src/assets/icons/trash.svg"}
 								alt={"icône Suppression"}
-								onClick={() => onShowDeleteModal()}
+								onClick={() => {
+									onShowDeleteModal(animal);
+								}}
 							/>
 						</div>
 					</div>
@@ -70,4 +76,4 @@ const AnimalCard: React.FC<DashboardCardProps> = ({
 	);
 };
 
-export default AnimalCard;
+export default DashboardCard;
