@@ -187,7 +187,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							>
 								<Form.Label>Genre</Form.Label>
 								<Form.Select
-									name="genre"
+									name="gender"
 									value={values.gender || ""}
 									onChange={handleChange}
 									isInvalid={!!errors.gender}
