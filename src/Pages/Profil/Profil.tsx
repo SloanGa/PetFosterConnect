@@ -19,12 +19,11 @@ interface ProfilProps {
     isLoading: boolean;
     error: string | null;
     isLegitimate: boolean;
-    setAssociation?: React.Dispatch<React.SetStateAction<IAssociation | null>>;
-    setFamily?: React.Dispatch<React.SetStateAction<IFamily | null>>;
+    setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
 }
 
 
-const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociation }: ProfilProps) => {
+const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity }: ProfilProps) => {
     // Pour la modale de confirmation d'envoi d'une demande
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -163,7 +162,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
             <Footer />
 
             <GestionEditEntityModal show={showEdit} handleClose={handleCloseEdit} entityToEdit={entity}
-                                    setAssociation={setAssociation!} />
+                                    setEntity={setEntity} />
 
             <GestionModalDeleteEntity handleCloseDelete={handleCloseDelete} showDelete={showDelete}
                                       entityToDelete={entity} />

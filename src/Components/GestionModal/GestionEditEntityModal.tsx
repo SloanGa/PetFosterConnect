@@ -12,14 +12,14 @@ interface GestionModalProps {
     show: boolean;
     handleClose: () => void;
     entityToEdit: IAssociation | IFamily | null;
-    setAssociation: React.Dispatch<React.SetStateAction<IAssociation | null>>;
+    setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
 }
 
 const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                                                  show,
                                                                  handleClose,
                                                                  entityToEdit,
-                                                                 setAssociation,
+                                                                 setEntity,
                                                              }) => {
 
     const { departments } = useFetchDepartments();
@@ -42,7 +42,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
     };
 
     const fetchedURL = entityToEdit && "email_association" in entityToEdit ? `${import.meta.env.VITE_API_URL}/dashboard/association/profile` : `${import.meta.env.VITE_API_URL}/family`;
-
+    
     const handleSubmitEdit = async (values) => {
         const formData = new FormData();
 
@@ -68,7 +68,8 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
             }
 
             const data = await response.json();
-            setAssociation(data);
+
+            setEntity(data);
             const alert = {
                 message: "Modifications prises en compte.",
                 type: "success",

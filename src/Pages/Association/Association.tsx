@@ -41,7 +41,7 @@ const Association = () => {
 
 
     return <Profil entity={association} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isAssociationLegitimate} setAssociation={setAssociation} />;
+                   isLegitimate={isAssociationLegitimate} setEntity={setAssociation} />;
 };
 
 
