@@ -264,7 +264,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                         accept="image/png, image/jpeg, image/webp, image/jpg"
                                         onChange={(event) => {
                                             const file = event.currentTarget.files[0];
-                                            console.log(file);
                                             setFieldValue("association_img", file);
                                         }}
                                     />
@@ -283,7 +282,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                         accept="image/png, image/jpeg, image/webp, image/jpg"
                                         onChange={(event) => {
                                             const file = event.currentTarget.files[0] || null;
-                                            console.log(file);
                                             setFieldValue("family_img", file);
                                         }}
                                     />

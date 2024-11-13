@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IFamily } from "../Interfaces/IFamily.ts";
 import { useAuth } from "../Context/AuthContext.tsx";
 import Profil from "./Profil/Profil.tsx";
+import { IUser } from "../Interfaces/IUser.ts";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -14,19 +15,33 @@ const Famille = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [family, setFamily] = useState<IFamily | null>(null);
+    const [userHasFamily, setUserHasFamily] = useState<IUser | null>(null);
 
 
     useEffect(() => {
-        const fetchFamily = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(`${baseURL}/family/${familyId}`, {
-                    headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
-                });
-                if (!response.ok) {
-                    return setError("Une erreur est survenue, veuillez rafraîchir la page.");
+                // Exécute les deux requêtes en parallèle
+                const [familyResponse, userResponse] = await Promise.all([
+                    fetch(`${baseURL}/family/${familyId}`, {
+                        headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
+                    }),
+                    fetch(`${import.meta.env.VITE_API_URL}/auth/family/${familyId}`),
+                ]);
+
+                if (!familyResponse.ok || !userResponse.ok) {
+                    setError("Une erreur est survenue, veuillez rafraîchir la page.");
+                    setIsLoading(false);
+                    return;
                 }
-                const data = await response.json();
-                setFamily(data);
+
+                const [familyData, userData] = await Promise.all([
+                    familyResponse.json(),
+                    userResponse.json(),
+                ]);
+
+                setFamily(familyData);
+                setUserHasFamily(userData);
             } catch (err) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 console.error("Erreur lors de la récupération des données:", err);
@@ -34,8 +49,9 @@ const Famille = () => {
                 setIsLoading(false);
             }
         };
-        fetchFamily();
-    }, [setFamily]);
+
+        fetchData();
+    }, [familyId, setFamily]);
 
 
     const { isAuth, userData } = useAuth();
@@ -43,7 +59,7 @@ const Famille = () => {
 
 
     return <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isFamilyLegitimate} setEntity={setFamily} entityId={parseInt(familyId)} />;
+                   isLegitimate={isFamilyLegitimate} setEntity={setFamily} userHasEntity={userHasFamily} />;
 };
 
 

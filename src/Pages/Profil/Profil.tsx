@@ -34,18 +34,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, us
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = () => setShowDelete(true);
-
-
-   
-
-    /* TODO Entity.id a passer via les props de Family */
-
-    // const fetchedURL = entity && "email_association" in entity ? `${import.meta.env.VITE_API_URL}/auth/association/${entityId}` : `${import.meta.env.VITE_API_URL}/auth/family/${entityId}`;
-    // console.log(fetchedURL);
-
-   
-
-
+    
     return (
         <>
             <Helmet>
