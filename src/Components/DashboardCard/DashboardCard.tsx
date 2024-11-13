@@ -30,48 +30,55 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 }: DashboardCardProps) => {
 	return (
 		<>
-			<Link
-				to={path}
-				className="card__link"
-				aria-label="Voir la page de cet animal"
-			>
-				<article className="card">
-					<img
-						src={src}
-						className="card__img card-img-top"
-						alt={alt}
-						loading="lazy"
-					/>
+			<article className="card">
+				<Link to={path} aria-label="Voir la page de cet animal">
+					<div className="card__img-container">
+						<img
+							src={src}
+							className="card__img card-img-top"
+							alt={alt}
+							loading="lazy"
+						/>
 
-					<div className="card-body">
-						<h3 className="card__title card-title">{name}</h3>
-						<p className="card__text">
-							Demande en cours :{" "}
-							{animal.requests ? animal.requests.length : "0"}
-						</p>
-						<div className="card-buttons">
-							<Button
-								className="card-buttons__button"
-								// Les id sont transmis ici
-								onClick={() => {
-									onShowGestionModal(animal);
-									// onShowEditModal(animal);
-								}}
-							>
-								Modifier
-							</Button>
-							<Icon
-								ariaLabel={"Supprimer l'animal"}
-								src={"/src/assets/icons/trash.svg"}
-								alt={"icône Suppression"}
-								onClick={() => {
-									onShowDeleteModal(animal);
-								}}
-							/>
+						<div
+							className={
+								animal.availability
+									? "card__img-overlay--inactive"
+									: "card__img-overlay--active"
+							}
+						>
+							<span>{animal.family_id ? "En famille" : "Indisponible"}</span>
 						</div>
 					</div>
-				</article>
-			</Link>
+				</Link>
+
+				<div className="card-body">
+					<h3 className="card__title card-title">{name}</h3>
+					<p className="card__text">
+						Demande en cours : {animal.requests ? animal.requests.length : "0"}
+					</p>
+					<div className="card-buttons">
+						<Button
+							className="card-buttons__button"
+							// Les id sont transmis ici
+							onClick={() => {
+								onShowGestionModal(animal);
+								// onShowEditModal(animal);
+							}}
+						>
+							Modifier
+						</Button>
+						<Icon
+							ariaLabel={"Supprimer l'animal"}
+							src={"/src/assets/icons/trash.svg"}
+							alt={"icône Suppression"}
+							onClick={() => {
+								onShowDeleteModal(animal);
+							}}
+						/>
+					</div>
+				</div>
+			</article>
 		</>
 	);
 };
