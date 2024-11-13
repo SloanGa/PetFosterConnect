@@ -39,11 +39,11 @@ const Famille = () => {
 
 
     const { isAuth, userData } = useAuth();
-    const isAssociationLegitimate = isAuth && userData?.family?.id === familyId;
+    const isFamilyLegitimate = isAuth && userData.family_id === parseInt(familyId);
 
 
     return <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isAssociationLegitimate} setFamily={setFamily} />;
+                   isLegitimate={isFamilyLegitimate} setFamily={setFamily} />;
 };
 
 

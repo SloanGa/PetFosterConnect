@@ -37,7 +37,7 @@ const Association = () => {
 
 
     const { isAuth, userData } = useAuth();
-    const isAssociationLegitimate = isAuth && userData?.association?.id === associationId;
+    const isAssociationLegitimate = isAuth && userData?.association_id === parseInt(associationId);
 
 
     return <Profil entity={association} baseURL={baseURL} isLoading={isLoading} error={error}

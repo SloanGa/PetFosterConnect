@@ -128,7 +128,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
                                         </div>
                                     </div>
                                 </div>
-                                {!isLegitimate ?
+                                {isLegitimate ?
                                     <div className="btn__container">
                                         <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
                                         </button>
