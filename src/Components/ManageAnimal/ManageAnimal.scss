@@ -1,33 +1,34 @@
+@use "../../styles/variables" as v;
 
-@use '../../styles/variables' as v;
-
-.manage-animal{
-    &__cards__container{
+.manage-animal {
+    &__cards__container {
         padding-left: 3em;
-        padding-right: 3em; 
+        padding-right: 3em;
     }
 
-    .btn--add-animal{
+    .btn--add-animal {
         display: flex;
         align-items: center;
-        column-gap: .5rem;
+        column-gap: 0.5rem;
         margin: 0 auto 2rem;
+        background-color: v.$secondary-light;
     }
 
-    .btn--form{
+    .btn--form {
         background-color: v.$secondary-light;
         border: none;
         padding: 0.8rem 1rem;
         border-radius: 15px;
         color: v.$tertiary-light;
-    
+
         &:hover {
-          background-color: v.$secondary;
+            background-color: v.$secondary;
         }
-    
-        &:active, &:focus:active {
-          background-color: v.$tertiary;
-          border: none;
+
+        &:active,
+        &:focus:active {
+            background-color: v.$tertiary;
+            border: none;
         }
-      }
+    }
 }
