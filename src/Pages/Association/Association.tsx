@@ -1,14 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import Header from "../../Components/Header/Header.tsx";
-import Loading from "../../Components/Loading/Loading.tsx";
-import { Error } from "../../Components/Error/Error.tsx";
-import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { useAuth } from "../../Context/AuthContext.tsx";
-import NavLink from "../../Components/Links/NavLink.tsx";
-import Map from "../../Components/Map/Map.tsx";
 import Profil from "../Profil/Profil.tsx";
 
 const baseURL = import.meta.env.VITE_API_URL;

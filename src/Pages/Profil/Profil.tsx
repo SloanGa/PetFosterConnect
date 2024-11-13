@@ -20,7 +20,7 @@ interface ProfilProps {
     error: string | null;
     isLegitimate: boolean;
     setAssociation?: React.Dispatch<React.SetStateAction<IAssociation | null>>;
-    setFamily? : React.Dispatch<React.SetStateAction<IFamily | null>>;
+    setFamily?: React.Dispatch<React.SetStateAction<IFamily | null>>;
 }
 
 
@@ -35,11 +35,10 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
     const handleShowDelete = () => setShowDelete(true);
 
 
-
     const [userHasFamily, setUserHasFamily] = useState(""); // IUser
 
     /* TODO Entity.id a passer via les props de Family */
-    
+
     // useEffect(() => {
     //     const fetchUser = async () => {
     //         try {
@@ -117,14 +116,15 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
                                                     className="item__title"
                                                 > {userHasFamily.email} </a>}
                                             </div>
-                                            <NavLink
+                                            {entity && "email_association" in entity ? <NavLink
                                                 to={`/animaux?association_id=${entity?.id}`}
                                                 title={`Page des animaux de l'association ${entity!.name}`}
                                                 text="Voir les animaux"
                                                 className="btn btn--entity"
                                             >
                                                 Voir les animaux
-                                            </NavLink>
+                                            </NavLink> : null}
+
                                         </div>
                                     </div>
                                 </div>
@@ -154,11 +154,6 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
 
                             </section>
 
-                            {alert && (
-                                <Alert variant={alert.type} dismissible className="alert">
-                                    {alert.message}
-                                </Alert>
-                            )}
                         </>
                     )}
 
