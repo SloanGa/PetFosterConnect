@@ -1,5 +1,6 @@
+@use "../../styles/variables" as v;
+
 .manage-request {
-    padding: 0 3rem;
     .request {
         &__header {
             display: flex;
@@ -13,20 +14,38 @@
                 border-radius: 50%;
             }
         }
+    }
 
-        table {
-            width: 100%;
-        }
+    table,
+    th,
+    td {
+        border: 1px solid #d1d1d1; /* Applique une bordure noire par défaut */
+        border-collapse: collapse; /* S'assure que les bordures sont bien fusionnées */
+    }
 
-        td,
-        th {
-            border: 1px solid rgb(194, 194, 194);
-            padding: 1rem;
-            text-align: center;
-        }
+    th {
+        font-weight: 700;
+        vertical-align: middle;
+    }
 
-        .min {
-            width: min-content;
+    .family__link,
+    .link {
+        text-decoration: underline;
+        transition: opacity 0.3s;
+
+        &:hover {
+            opacity: 0.7;
         }
+    }
+
+    .edit,
+    .edit img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .btn--save-status {
+        background-color: v.$secondary-light;
+        padding: 0.5rem 0.8rem;
     }
 }
