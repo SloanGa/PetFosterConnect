@@ -22,8 +22,6 @@ const ManageAnimal = () => {
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
-	// const [isLoading, setIsLoading] = useState(true);
-	// const [error, setError] = useState<string | null>(null);
 
 	// states qui permettent de gérer quel animal est à éditer ou supprimer
 
@@ -66,7 +64,7 @@ const ManageAnimal = () => {
 		}
 	}, [paginatedAnimals]);
 
-	const handleChangePage = async (page: Number) => {
+	const handleChangePage = async (page: number) => {
 		setCurrentPage(page);
 		try {
 			setIsLoading(true);
@@ -110,8 +108,6 @@ const ManageAnimal = () => {
 		setShowGestionModal(false);
 		setToastMessage("");
 	}, []);
-
-	// const baseURL = import.meta.env.VITE_API_URL;
 
 	// L'event listener à la soumission du formulaire éditer
 
@@ -268,41 +264,6 @@ const ManageAnimal = () => {
 			console.error("Erreur:", error);
 		}
 	}, [animalToDelete, handleCloseDeleteModal, toggleToast]);
-
-	// Gestion du fetch des animaux de l'association
-
-	// useEffect(() => {
-	// 	const fetchAnimals = async () => {
-	// 		const limit = 10;
-	// 		try {
-	// 			const token = localStorage.getItem("auth_token");
-	// 			const response = await fetch(
-	// 				`${import.meta.env.VITE_API_URL}/animals?page=${currentPage}&limit=${limit}`,
-	// 				{
-	// 					headers: {
-	// 						Authorization: `Bearer ${token}`,
-	// 					},
-	// 				},
-	// 			);
-
-	// 			if (!response.ok) {
-	// 				return setError(
-	// 					"Une erreur est survenue, veuillez rafraîchir la page.",
-	// 				);
-	// 			}
-	// 			const data = await response.json();
-
-	// 			setAssociationAnimals(data.allAnimals);
-	// 		} catch (error) {
-	// 			setError("Une erreur est survenue, veuillez rafraîchir la page.");
-	// 			console.error("Erreur lors de la récupération des données:", error);
-	// 		} finally {
-	// 			setIsLoading(false);
-	// 		}
-	// 	};
-
-	// 	fetchAnimals();
-	// }, [setError]);
 
 	return (
 		<div className="manage-animal">
