@@ -2,6 +2,17 @@
 
 .main--entity {
   .section__entity {
+
+    .description {
+      text-align: center;
+      padding-bottom: 1.5em;
+      font-family: Arima, sans-serif;
+      font-size: 1.4em;
+      @media (min-width: 992px) {
+        font-size: 2em;
+      }
+    }
+
     &__header {
       display: flex;
       flex-direction: column;
@@ -16,7 +27,7 @@
 
       .entity__identity {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         column-gap: 1rem;
       }
@@ -37,6 +48,11 @@
       .icon {
         width: 35px;
         height: 35px;
+
+        &--title {
+          width: 50px;
+          height: 50px;
+        }
       }
 
     }
@@ -58,6 +74,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-bottom: 2em;
         @media (min-width: 992px) {
           order: 2;
           width: 40%;
@@ -65,6 +82,7 @@
         }
 
         img {
+          border-radius: 50%;
           width: 250px;
           height: 250px;
           object-fit: cover;
@@ -84,7 +102,17 @@
           flex-direction: column;
           align-items: center;
           row-gap: 0.5rem;
+          font-size: 1.1em;
         }
+
+        .infos__container {
+          display: flex;
+          align-items: center;
+          gap: 0.8em;
+
+        }
+
+
       }
 
       .entity__description {
@@ -113,7 +141,7 @@
 
 }
 
-.section__map {
+.section__bottom {
   border-top: 1px solid #baa89b;
   padding-top: 2rem;
 
@@ -129,6 +157,13 @@
     width: 100%;
     @media (min-width: 992px) {
       height: 100%;
+    }
+  }
+
+  .request {
+    &__title {
+      text-align: center;
+      padding-bottom: 1em;
     }
   }
 }
