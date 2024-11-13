@@ -43,7 +43,7 @@ const Famille = () => {
 
 
     return <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isFamilyLegitimate} setEntity={setFamily} />;
+                   isLegitimate={isFamilyLegitimate} setEntity={setFamily} entityId={parseInt(familyId)} />;
 };
 
 

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
 import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
 import Alert from "react-bootstrap/Alert";
+import { IUser } from "../../Interfaces/IUser.ts";
 
 interface ProfilProps {
     entity: IAssociation | IFamily | null;
@@ -20,10 +21,11 @@ interface ProfilProps {
     error: string | null;
     isLegitimate: boolean;
     setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
+    entityId: number;
 }
 
 
-const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity }: ProfilProps) => {
+const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, entityId }: ProfilProps) => {
     // Pour la modale de confirmation d'envoi d'une demande
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -34,28 +36,31 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity }: 
     const handleShowDelete = () => setShowDelete(true);
 
 
-    const [userHasFamily, setUserHasFamily] = useState(""); // IUser
+    const [userHasEntity, setUserHasEntity] = useState<IUser | null>(null); // IUser
 
     /* TODO Entity.id a passer via les props de Family */
 
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/user/${entity?.id}`);
-    //
-    //             const data = await response.json();
-    //
-    //             setUserHasFamily(data);
-    //
-    //             console.log(data);
-    //
-    //         } catch {
-    //
-    //         }
-    //     };
-    //     fetchUser();
-    //
-    // }, []);
+    const fetchedURL = entity && "email_association" in entity ? `${import.meta.env.VITE_API_URL}/auth/association/${entityId}` : `${import.meta.env.VITE_API_URL}/auth/family/${entityId}`;
+
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(fetchedURL);
+
+                const data = await response.json();
+
+                setUserHasEntity(data);
+
+                console.log(data);
+
+            } catch {
+
+            }
+        };
+        fetchUser();
+
+    }, []);
 
 
     return (
@@ -111,9 +116,9 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity }: 
                                                 >
                                                     {entity!.email_association}
                                                 </a>) : <a
-                                                    href={`mailto:${userHasFamily.email}`}
+                                                    href={`mailto:${userHasEntity?.email}`}
                                                     className="item__title"
-                                                > {userHasFamily.email} </a>}
+                                                > {userHasEntity?.email} </a>}
                                             </div>
                                             {entity && "email_association" in entity ? <NavLink
                                                 to={`/animaux?association_id=${entity?.id}`}
@@ -127,7 +132,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity }: 
                                         </div>
                                     </div>
                                 </div>
-                                {isLegitimate ?
+                                {!isLegitimate ?
                                     <div className="btn__container">
                                         <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
                                         </button>
