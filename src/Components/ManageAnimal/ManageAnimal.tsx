@@ -231,7 +231,7 @@ const ManageAnimal = () => {
 				}
 				const data = await response.json();
 				console.log(data);
-				setAssociationAnimals(data);
+				setAssociationAnimals(data.allAnimals);
 			} catch (error) {
 				setError("Une erreur est survenue, veuillez rafraîchir la page.");
 				console.error("Erreur lors de la récupération des données:", error);
@@ -269,7 +269,7 @@ const ManageAnimal = () => {
 								<DashboardCard
 									onShowDeleteModal={handleShowDeleteModal}
 									onShowGestionModal={handleShowGestionModal}
-									path={""}
+									path={`/animaux/${animal.slug}`}
 									src={`${baseURL}${animal.url_image}`}
 									alt={animal.name}
 									name={animal.name}
