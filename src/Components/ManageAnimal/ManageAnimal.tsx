@@ -269,7 +269,7 @@ const ManageAnimal = () => {
 								<DashboardCard
 									onShowDeleteModal={handleShowDeleteModal}
 									onShowGestionModal={handleShowGestionModal}
-									path={""}
+									path={`/animaux/${animal.slug}`}
 									src={`${baseURL}${animal.url_image}`}
 									alt={animal.name}
 									name={animal.name}
