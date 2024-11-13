@@ -7,18 +7,21 @@ import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import Alert from "react-bootstrap/Alert";
+import { IUser } from "../../Interfaces/IUser.ts";
 
 interface GestionModalProps {
     show: boolean;
     handleClose: () => void;
     entityToEdit: IAssociation | IFamily | null;
     setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
+    userToEdit: IUser | null;
 }
 
 const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                                                  show,
                                                                  handleClose,
                                                                  entityToEdit,
+                                                                 userToEdit,
                                                                  setEntity,
                                                              }) => {
 
@@ -35,14 +38,17 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
         department_id: entityToEdit?.department_id || "",
         phone_number: entityToEdit?.phone_number || "",
         description: entityToEdit?.description || "",
+        email: userToEdit?.email || "",
+        password: "",
+        confirmPassword: "",
         // Inclure email_association seulement si l'entité est une association
         email_association: entityToEdit && "email_association" in entityToEdit ? entityToEdit.email_association : "",
-        family_img: entityToEdit?.family_img || "",
-        association_img: entityToEdit && "email_association" in entityToEdit ? entityToEdit.association_img : "",
+        family_img: null,
+        association_img: null,
     };
 
     const fetchedURL = entityToEdit && "email_association" in entityToEdit ? `${import.meta.env.VITE_API_URL}/dashboard/association/profile` : `${import.meta.env.VITE_API_URL}/family`;
-    
+
     const handleSubmitEdit = async (values) => {
         const formData = new FormData();
 
@@ -62,19 +68,30 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 
             if (!response.ok) {
                 const error = await response.json();
-                setAlert(error);
-                console.log(error);
+                const alert = {
+                    message: error.error,
+                    type: "danger",
+                };
+                setAlert(alert);
+
+                setTimeout(() => {
+                    setAlert(null);
+                }, 2000);
                 return;
             }
 
             const data = await response.json();
-
             setEntity(data);
             const alert = {
                 message: "Modifications prises en compte.",
                 type: "success",
             };
             setAlert(alert);
+
+            setTimeout(() => {
+                handleClose();
+                setAlert(null);
+            }, 1500);
 
         } catch (error) {
             const alert = {
@@ -83,11 +100,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 type: "danger",
             };
             setAlert(alert);
-        } finally {
-            setTimeout(() => {
-                handleClose();
-                setAlert(null);
-            }, 1500);
         }
     };
 
@@ -290,6 +302,54 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                     placeholder="Description de l'animal"
                                     name="description"
                                     value={values.description || ""}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+
+                            <p className="info__form">Informations utilisateur</p>
+                            {/* Input email */}
+                            <Form.Group controlId="formBasicEmail" className="form__email">
+                                <Form.Label column="sm" className="label">
+                                    Votre email *
+                                </Form.Label>
+                                <Form.Control
+                                    className="input"
+                                    type="email"
+                                    name="email"
+                                    aria-label="Votre email"
+                                    placeholder="Votre email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+
+                            {/* Input mot de passe */}
+                            <Form.Group controlId="formBasicPassword" className="form__password">
+                                <Form.Label column="sm" className="label">
+                                    Votre mot de passe
+                                </Form.Label>
+                                <Form.Control
+                                    className="input input__password"
+                                    type={"password"}
+                                    name="password"
+                                    aria-label="Votre mot de passe"
+                                    placeholder="Votre mot de passe"
+                                    onChange={handleChange}
+                                />
+
+                            </Form.Group>
+
+                            {/* Input confirme mot de passe */}
+                            <Form.Group controlId="formBasicConfirmPassword" className="form__passwordconfirm">
+                                <Form.Label column="sm" className="label">
+                                    Confirmez votre mot de passe
+                                </Form.Label>
+                                <Form.Control
+                                    className="input input__password"
+                                    type={"password"}
+                                    name="confirmPassword"
+                                    aria-label="Confirmez votre mot de passe"
+                                    placeholder="Confirmez votre mot de passe"
                                     onChange={handleChange}
                                 />
                             </Form.Group>

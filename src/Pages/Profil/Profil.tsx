@@ -21,11 +21,11 @@ interface ProfilProps {
     error: string | null;
     isLegitimate: boolean;
     setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
-    entityId: number;
+    userHasEntity : IUser | null
 }
 
 
-const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, entityId }: ProfilProps) => {
+const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, userHasEntity }: ProfilProps) => {
     // Pour la modale de confirmation d'envoi d'une demande
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -36,31 +36,14 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, en
     const handleShowDelete = () => setShowDelete(true);
 
 
-    const [userHasEntity, setUserHasEntity] = useState<IUser | null>(null); // IUser
+   
 
     /* TODO Entity.id a passer via les props de Family */
 
-    const fetchedURL = entity && "email_association" in entity ? `${import.meta.env.VITE_API_URL}/auth/association/${entityId}` : `${import.meta.env.VITE_API_URL}/auth/family/${entityId}`;
+    // const fetchedURL = entity && "email_association" in entity ? `${import.meta.env.VITE_API_URL}/auth/association/${entityId}` : `${import.meta.env.VITE_API_URL}/auth/family/${entityId}`;
+    // console.log(fetchedURL);
 
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(fetchedURL);
-
-                const data = await response.json();
-
-                setUserHasEntity(data);
-
-                console.log(data);
-
-            } catch {
-
-            }
-        };
-        fetchUser();
-
-    }, []);
+   
 
 
     return (
@@ -132,7 +115,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, en
                                         </div>
                                     </div>
                                 </div>
-                                {!isLegitimate ?
+                                {isLegitimate ?
                                     <div className="btn__container">
                                         <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
                                         </button>
@@ -167,7 +150,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, en
             <Footer />
 
             <GestionEditEntityModal show={showEdit} handleClose={handleCloseEdit} entityToEdit={entity}
-                                    setEntity={setEntity} />
+                                    setEntity={setEntity} userToEdit={userHasEntity} />
 
             <GestionModalDeleteEntity handleCloseDelete={handleCloseDelete} showDelete={showDelete}
                                       entityToDelete={entity} />
