@@ -16,10 +16,10 @@ import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimal
 import PaginationComposant from "../../Components/Pagination/Pagination";
 
 const ManageAnimal = () => {
+	// state qui permet de gérer si on a une modale edit ou créer un animal
+
 	const [showGestionModal, setShowGestionModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
 
@@ -85,6 +85,7 @@ const ManageAnimal = () => {
 			}
 			const data = await response.json();
 			setAnimalsToDisplay(data.paginatedAnimals);
+			xs;
 		} catch (error) {
 			setError("Une erreur est survenue, veuillez rafraîchir la page.");
 			console.error("Erreur lors de la récupération des données:", error);
@@ -144,7 +145,7 @@ const ManageAnimal = () => {
 
 					toggleToast("Animal édité avec succès");
 
-					setAssociationAnimals((prevAnimals) =>
+					setAnimalsToDisplay((prevAnimals) =>
 						prevAnimals.map((animal) =>
 							animal.id === updatedAnimal.id ? updatedAnimal : animal,
 						),
@@ -182,7 +183,6 @@ const ManageAnimal = () => {
 			try {
 				const token = localStorage.getItem("auth_token");
 				const response = await fetch(
-					// En attendant l'authentification, on passe pour le test en dur l'id de l'association.
 					`${baseURL}/dashboard/association/animals/`,
 					{
 						method: "POST",
@@ -200,12 +200,6 @@ const ManageAnimal = () => {
 					setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
-					setAssociationAnimals((prevAnimals) => [
-						...prevAnimals,
-						createdAnimal,
-					]);
-
-					// TODO ajouter une notification de succès si nécessaire
 				} else {
 					createdAnimal = await response.json();
 					toggleToast(createdAnimal.error || "Erreur lors de la création");
@@ -250,7 +244,7 @@ const ManageAnimal = () => {
 
 			if (response.ok) {
 				toggleToast("Animal supprimé");
-				setAssociationAnimals((prevAnimals) =>
+				setAnimalsToDisplay((prevAnimals) =>
 					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
 				);
 
