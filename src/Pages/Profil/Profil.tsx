@@ -11,6 +11,7 @@ import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useEffect, useState } from "react";
 import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
 import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
+import Alert from "react-bootstrap/Alert";
 
 interface ProfilProps {
     entity: IAssociation | IFamily | null;
@@ -18,7 +19,8 @@ interface ProfilProps {
     isLoading: boolean;
     error: string | null;
     isLegitimate: boolean;
-    setAssociation: React.Dispatch<React.SetStateAction<IAssociation | null>>;
+    setAssociation?: React.Dispatch<React.SetStateAction<IAssociation | null>>;
+    setFamily? : React.Dispatch<React.SetStateAction<IFamily | null>>;
 }
 
 
@@ -31,6 +33,8 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = () => setShowDelete(true);
+
+
 
     const [userHasFamily, setUserHasFamily] = useState(""); // IUser
 
@@ -150,7 +154,11 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
 
                             </section>
 
-
+                            {alert && (
+                                <Alert variant={alert.type} dismissible className="alert">
+                                    {alert.message}
+                                </Alert>
+                            )}
                         </>
                     )}
 
@@ -160,7 +168,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setAssociatio
             <Footer />
 
             <GestionEditEntityModal show={showEdit} handleClose={handleCloseEdit} entityToEdit={entity}
-                                    setAssociation={setAssociation} />
+                                    setAssociation={setAssociation!} />
 
             <GestionModalDeleteEntity handleCloseDelete={handleCloseDelete} showDelete={showDelete}
                                       entityToDelete={entity} />

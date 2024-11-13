@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
+import Alert from "react-bootstrap/Alert";
 
 interface GestionModalProps {
     show: boolean;
@@ -23,6 +24,8 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 
     const { departments } = useFetchDepartments();
     const [isSubmit, setIsSubmit] = useState(false);
+    const [alert, setAlert] = useState<{ message: string; type: string } | null>(null);
+
 
     const initialValues = {
         name: entityToEdit?.name || "",
@@ -59,16 +62,31 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 
             if (!response.ok) {
                 const error = await response.json();
+                setAlert(error);
                 console.log(error);
                 return;
             }
 
             const data = await response.json();
             setAssociation(data);
-
+            const alert = {
+                message: "Modifications prises en compte.",
+                type: "success",
+            };
+            setAlert(alert);
 
         } catch (error) {
-            console.log(error);
+            const alert = {
+                message:
+                    "Une erreur s'est produite, votre demande n'a pas abouti. Veuillez réessayer.",
+                type: "danger",
+            };
+            setAlert(alert);
+        } finally {
+            setTimeout(() => {
+                handleClose();
+                setAlert(null);
+            }, 1500);
         }
     };
 
@@ -278,6 +296,11 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                         </Form>
                     )}
                 </Formik>
+                {alert && (
+                    <Alert variant={alert.type} dismissible className="alert">
+                        {alert.message}
+                    </Alert>
+                )}
             </Modal.Body>
             <Modal.Footer>
                 <Button className="btn--form" onClick={handleClose}>
@@ -288,6 +311,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 </Button>
             </Modal.Footer>
         </Modal>
+
     );
 };
 
