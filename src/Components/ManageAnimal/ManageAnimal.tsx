@@ -8,10 +8,12 @@ import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Icon from "../../Components/Icon/Icon.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 import { useAuth } from "../../Context/AuthContext.tsx";
+import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimals.ts";
+import PaginationComposant from "../../Components/Pagination/Pagination";
 
 const ManageAnimal = () => {
 	const [showGestionModal, setShowGestionModal] = useState(false);
@@ -20,8 +22,8 @@ const ManageAnimal = () => {
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+	// const [isLoading, setIsLoading] = useState(true);
+	// const [error, setError] = useState<string | null>(null);
 
 	// states qui permettent de gérer quel animal est à éditer ou supprimer
 
@@ -38,6 +40,64 @@ const ManageAnimal = () => {
 		setShowToast(true);
 	}, []);
 
+	// Gestion de la pagination
+
+	const token = localStorage.getItem("auth_token");
+
+	const {
+		paginatedAnimals,
+		isLoading,
+		setIsLoading,
+		error,
+		setError,
+		baseURL,
+		totalCount,
+	} = useFetchAssociationAnimals(token);
+
+	const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
+
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const animalList = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (paginatedAnimals) {
+			setAnimalsToDisplay(paginatedAnimals);
+		}
+	}, [paginatedAnimals]);
+
+	const handleChangePage = async (page: Number) => {
+		setCurrentPage(page);
+		try {
+			setIsLoading(true);
+
+			const response = await fetch(
+				`${import.meta.env.VITE_API_URL}/dashboard/association/animals?page=${page}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			);
+
+			if (!response.ok) {
+				return setError(
+					"Une erreur est survenue, veuillez rafraîchir la page.",
+				);
+			}
+			const data = await response.json();
+			setAnimalsToDisplay(data.paginatedAnimals);
+		} catch (error) {
+			setError("Une erreur est survenue, veuillez rafraîchir la page.");
+			console.error("Erreur lors de la récupération des données:", error);
+		} finally {
+			setIsLoading(false);
+			if (animalList.current !== null) {
+				animalList.current.scrollIntoView();
+			}
+		}
+	};
+
 	// handler de la modale de gestion
 	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
 		setShowGestionModal(true);
@@ -51,7 +111,7 @@ const ManageAnimal = () => {
 		setToastMessage("");
 	}, []);
 
-	const baseURL = import.meta.env.VITE_API_URL;
+	// const baseURL = import.meta.env.VITE_API_URL;
 
 	// L'event listener à la soumission du formulaire éditer
 
@@ -211,37 +271,38 @@ const ManageAnimal = () => {
 
 	// Gestion du fetch des animaux de l'association
 
-	useEffect(() => {
-		const fetchAnimals = async () => {
-			try {
-				const token = localStorage.getItem("auth_token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					},
-				);
+	// useEffect(() => {
+	// 	const fetchAnimals = async () => {
+	// 		const limit = 10;
+	// 		try {
+	// 			const token = localStorage.getItem("auth_token");
+	// 			const response = await fetch(
+	// 				`${import.meta.env.VITE_API_URL}/animals?page=${currentPage}&limit=${limit}`,
+	// 				{
+	// 					headers: {
+	// 						Authorization: `Bearer ${token}`,
+	// 					},
+	// 				},
+	// 			);
 
-				if (!response.ok) {
-					return setError(
-						"Une erreur est survenue, veuillez rafraîchir la page.",
-					);
-				}
-				const data = await response.json();
-				console.log(data);
-				setAssociationAnimals(data);
-			} catch (error) {
-				setError("Une erreur est survenue, veuillez rafraîchir la page.");
-				console.error("Erreur lors de la récupération des données:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
+	// 			if (!response.ok) {
+	// 				return setError(
+	// 					"Une erreur est survenue, veuillez rafraîchir la page.",
+	// 				);
+	// 			}
+	// 			const data = await response.json();
 
-		fetchAnimals();
-	}, []);
+	// 			setAssociationAnimals(data.allAnimals);
+	// 		} catch (error) {
+	// 			setError("Une erreur est survenue, veuillez rafraîchir la page.");
+	// 			console.error("Erreur lors de la récupération des données:", error);
+	// 		} finally {
+	// 			setIsLoading(false);
+	// 		}
+	// 	};
+
+	// 	fetchAnimals();
+	// }, [setError]);
 
 	return (
 		<div className="manage-animal">
@@ -261,7 +322,7 @@ const ManageAnimal = () => {
 					{isLoading ? (
 						<Loading />
 					) : (
-						associationAnimals.map((animal) => (
+						animalsToDisplay.map((animal) => (
 							<div
 								className="manage-animal__cards__container__card col-12 col-sm-6 col-md-4"
 								key={animal.id}
@@ -280,6 +341,12 @@ const ManageAnimal = () => {
 					)}
 				</div>
 			</div>
+
+			<PaginationComposant
+				items={totalCount}
+				currentPage={currentPage}
+				handleChangePage={handleChangePage}
+			/>
 
 			{/* Modale pour modifier ou créer un animal */}
 
