@@ -55,7 +55,16 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 				<div className="card-body">
 					<h3 className="card__title card-title">{name}</h3>
 					<p className="card__text">
-						Demande en cours : {animal.requests ? animal.requests.length : "0"}
+						{animal.family ? (
+							<Link
+								to={`/famille/${animal.family.slug}`}
+								className="family-profile-link"
+							>
+								Voir le profil de la famille {animal.family.name}
+							</Link>
+						) : (
+							`Demande en cours :  ${animal.requests ? animal.requests.length : "0"}`
+						)}
 					</p>
 					<div className="card-buttons">
 						<Button
@@ -63,7 +72,6 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 							// Les id sont transmis ici
 							onClick={() => {
 								onShowGestionModal(animal);
-								// onShowEditModal(animal);
 							}}
 						>
 							Modifier
