@@ -2,7 +2,6 @@ import { Table, Form } from "react-bootstrap";
 import "./ManageRequest.scss";
 import Icon from "../Icon/Icon";
 import { useEffect, useState } from "react";
-import { IAnimal } from "../../Interfaces/IAnimal";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -30,18 +29,20 @@ const ManageRequest = () => {
                         ...request,
                         formattedDate: new Date(request.created_at).toLocaleDateString("fr-FR"),
                     }));
+
                     // On groupe les demandes par animaux
-                    const groupedRequests = requests.reduce((acc, request) => {
-                        const animalGroup = acc.find(
-                            (group) => group[0].animal_id === request.animal_id
-                        );
-                        if (animalGroup) {
-                            animalGroup.push(request);
+                    let groupedRequests = [];
+                    requests.forEach((request) => {
+                        if (request.animal_id in groupedRequests) {
+                            groupedRequests[request.animal_id].requests.push(request);
                         } else {
-                            acc.push([request]);
+                            groupedRequests[request.animal_id] = {
+                                animal: request.animal,
+                                requests: [request],
+                            };
                         }
-                        return acc;
-                    }, []);
+                    });
+
                     setRequests(groupedRequests);
                 } else {
                     // Afficher une erreur
@@ -68,16 +69,16 @@ const ManageRequest = () => {
     return (
         <div className="manage-request">
             {requests.map((animalGroup) => (
-                <section className="request" key={animalGroup[0].animal.id}>
+                <section className="request" key={animalGroup.animal.id}>
                     <div className="request__header">
                         <img
-                            src={`${baseURL}${animalGroup[0].animal.url_image}`}
+                            src={`${baseURL}${animalGroup.animal.url_image}`}
                             alt=""
                             loading="lazy"
                         />
                         <h2>
                             <a href="/animaux/oscar-1" className="link">
-                                {animalGroup[0].animal.name}
+                                {animalGroup.animal.name}
                             </a>
                         </h2>
                     </div>
@@ -93,7 +94,7 @@ const ManageRequest = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {animalGroup.map((request, index) => (
+                            {animalGroup.requests.map((request, index) => (
                                 <tr key={request.id}>
                                     <td>{request.id}</td>
                                     <td>
