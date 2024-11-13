@@ -42,7 +42,7 @@ const TableauBord = () => {
                 <LeftNavBar />
                 <main className="main__content">
                     <h1 className="main__title">
-                        Dashboard de {userData ? userData.association.name : "XXX"}
+                    Tableau de bord | {userData ? userData.association.name : "XXX"}
                     </h1>
                     <Routes>
                         <Route path="/" element={<ManageAnimal />} />
