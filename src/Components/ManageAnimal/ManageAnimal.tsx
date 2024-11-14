@@ -4,6 +4,8 @@ import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 
 import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
+import { Error } from "../../Components/Error/Error.tsx";
+
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
@@ -276,6 +278,8 @@ const ManageAnimal = () => {
 				<div className="row gx-8 gy-3">
 					{isLoading ? (
 						<Loading />
+					) : error ? (
+						<Error error={error} />
 					) : (
 						animalsToDisplay.map((animal) => (
 							<div
