@@ -1,21 +1,28 @@
-import { Table, Form, Toast, ToastBody } from "react-bootstrap";
+import { Table, Form, Toast } from "react-bootstrap";
 import "./ManageRequest.scss";
 import Icon from "../Icon/Icon";
-import { useEffect, useState } from "react";
+import { Error } from "../Error/Error";
+import { useCallback, useEffect, useState } from "react";
+import Loading from "../Loading/Loading";
 
 const baseURL = import.meta.env.VITE_API_URL;
 const statusList = ["En attente", "Acceptée", "Refusée", "Terminée"];
 
 const ManageRequest = () => {
     const [requests, setRequests] = useState([]);
-    // Faire interface
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Pour savoir quelle ligne de tableau est à éditer
     const [editingItem, setEditingItem] = useState<number | null>(null);
 
+    // Enregistrer le nouveau statut
     const [selectedStatus, setSelectedStatus] = useState("");
 
-    const [toastAnimalId, setToastAnimalId] = useState<null | number>(null);
-    const [toastData, setToastData] = useState<object | null>(null);
+    // Identifier le toast à afficher
+    const [toastAnimalId, setToastAnimalId] = useState<number | null>(null);
+    const [toastData, setToastData] = useState<{ message: string; color: string } | null>(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -54,10 +61,14 @@ const ManageRequest = () => {
                     });
                     setRequests(groupedRequests);
                 } else {
-                    // Afficher une erreur
+                    console.error(await response.json());
+                    setError("Une erreur est survenue, veuillez rafraîchir la page");
                 }
             } catch (error) {
                 console.error(error);
+                setError("Une erreur est survenue, veuillez rafraîchir la page");
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -71,68 +82,86 @@ const ManageRequest = () => {
         }
     };
 
-    const handleClickOnSaveNewStatus = async (request) => {
-        console.log(selectedStatus);
-        const previousStatus = request.status;
-        if (previousStatus === selectedStatus) {
-            setEditingItem(null);
-            setSelectedStatus("");
-            return;
-        }
-        try {
-            const token = localStorage.getItem("auth_token");
-            const response = await fetch(`${baseURL}/dashboard/association/request/${request.id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ status: selectedStatus }),
-            });
-            const updatedRequest = await response.json();
-            if (response.ok) {
-                setRequests((prevRequests) => {
-                    return prevRequests.map((animalGroup) => {
-                        // Si ce n'est pas le bon groupe d'animal, on le retourne tel quel
-                        if (animalGroup.animal.id !== updatedRequest.animal_id) {
-                            return animalGroup;
-                        }
-                        // Si c'est le bon groupe, on met à jour la requête concernée
-                        return {
-                            ...animalGroup,
-                            requests: animalGroup.requests.map((request) => {
-                                if (request.id === updatedRequest.id) {
-                                    return {
-                                        ...request,
-                                        status: selectedStatus,
-                                    };
-                                }
-                                return request;
-                            }),
-                        };
+    const handleClickOnSaveNewStatus = useCallback(
+        async (request) => {
+            const previousStatus = request.status;
+            if (previousStatus === selectedStatus) {
+                setEditingItem(null);
+                setSelectedStatus("");
+                return;
+            }
+            try {
+                const token = localStorage.getItem("auth_token");
+                const response = await fetch(
+                    `${baseURL}/dashboard/association/request/${request.id}`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ status: selectedStatus }),
+                    }
+                );
+                const updatedRequest = await response.json();
+                if (response.ok) {
+                    setRequests((prevRequests) => {
+                        return prevRequests.map((animalGroup) => {
+                            // Si ce n'est pas le bon groupe d'animal, on le retourne tel quel
+                            if (animalGroup.animal.id !== updatedRequest.animal_id) {
+                                return animalGroup;
+                            }
+                            // Si c'est le bon groupe, on met à jour la requête concernée
+                            return {
+                                ...animalGroup,
+                                requests: animalGroup.requests.map((request) => {
+                                    if (request.id === updatedRequest.id) {
+                                        return {
+                                            ...request,
+                                            status: selectedStatus,
+                                        };
+                                    }
+                                    return request;
+                                }),
+                            };
+                        });
                     });
-                });
-                setToastAnimalId(updatedRequest.animal_id);
-                setToastData({
-                    message: "Statut mis à jour avec succès",
-                    color: "success",
-                });
-            } else {
-                setToastAnimalId(updatedRequest.animal_id);
+                    setToastAnimalId(updatedRequest.animal_id);
+                    setToastData({
+                        message: "Statut mis à jour avec succès",
+                        color: "success",
+                    });
+                } else {
+                    console.error(updatedRequest); // Contient le message d'erreur de l'API
+                    setToastAnimalId(request.animal_id);
+                    setToastData({
+                        message:
+                            "Erreur lors de la mise à jour du statut. Veuillez rafraîchir la page et réessayer.",
+                        color: "danger",
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                setToastAnimalId(request.animal_id);
                 setToastData({
                     message:
                         "Erreur lors de la mise à jour du statut. Veuillez rafraîchir la page et réessayer.",
                     color: "danger",
                 });
+            } finally {
+                setEditingItem(null);
             }
-            setEditingItem(null);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+        },
+        [selectedStatus]
+    );
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <div className="manage-request">
+            {error && <Error error={error} />}
             {requests.map((animalGroup) => (
                 <section className="request" key={animalGroup.animal.id}>
                     <div className="request__header">
@@ -153,7 +182,7 @@ const ManageRequest = () => {
                         delay={3000}
                         autohide
                         bg={toastData?.color}
-                        className={"mb-2"}
+                        className={"mb-2 text-white"}
                     >
                         <Toast.Body>{toastData?.message}</Toast.Body>
                     </Toast>
