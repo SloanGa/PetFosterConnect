@@ -1,3 +1,5 @@
+import { IUser } from "./IUser";
+
 interface IFamily {
     id: number;
     name: string;
@@ -11,6 +13,7 @@ interface IFamily {
     url_image: string | null;
     created_at: Date;
     updated_at: Date;
+    user?: IUser;
 }
 
 export { IFamily };

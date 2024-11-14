@@ -4,12 +4,14 @@ import Icon from "../Icon/Icon";
 import { Error } from "../Error/Error";
 import { useCallback, useEffect, useState } from "react";
 import Loading from "../Loading/Loading";
+import { IAnimal } from "../../Interfaces/IAnimal";
+import IRequest from "../../Interfaces/IRequest";
 
 const baseURL = import.meta.env.VITE_API_URL;
 const statusList = ["En attente", "Acceptée", "Refusée", "Terminée"];
 
 const ManageRequest = () => {
-    const [requests, setRequests] = useState([]);
+    const [requests, setRequests] = useState<{ animal: IAnimal; requests: IRequest[] }[]>([]);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -28,7 +30,7 @@ const ManageRequest = () => {
         const fetchRequests = async () => {
             try {
                 const token = localStorage.getItem("auth_token");
-                const response = await fetch(`${baseURL}/dashboard/association/request`, {
+                const response = await fetch(`${baseURL}/requests/associations`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -36,14 +38,14 @@ const ManageRequest = () => {
                 if (response.ok) {
                     let requests = await response.json();
                     // Formater la date en jour/mois/année
-                    requests = requests.map((request) => ({
+                    requests = requests.map((request: IRequest) => ({
                         ...request,
                         formattedDate: new Date(request.created_at).toLocaleDateString("fr-FR"),
                     }));
 
                     // On groupe les demandes par animaux
-                    let groupedRequests = [];
-                    requests.forEach((request) => {
+                    let groupedRequests: { animal: IAnimal; requests: IRequest[] }[] = [];
+                    requests.forEach((request: IRequest) => {
                         let animalFound = false;
                         for (let group of groupedRequests) {
                             if (request.animal_id === group.animal.id) {
@@ -83,7 +85,7 @@ const ManageRequest = () => {
     };
 
     const handleClickOnSaveNewStatus = useCallback(
-        async (request) => {
+        async (request: IRequest) => {
             const previousStatus = request.status;
             if (previousStatus === selectedStatus) {
                 setEditingItem(null);
@@ -92,17 +94,14 @@ const ManageRequest = () => {
             }
             try {
                 const token = localStorage.getItem("auth_token");
-                const response = await fetch(
-                    `${baseURL}/dashboard/association/request/${request.id}`,
-                    {
-                        method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ status: selectedStatus }),
-                    }
-                );
+                const response = await fetch(`${baseURL}/requests/associations/${request.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ status: selectedStatus }),
+                });
                 const updatedRequest = await response.json();
                 if (response.ok) {
                     setRequests((prevRequests) => {
@@ -210,9 +209,11 @@ const ManageRequest = () => {
                                         </a>
                                     </td>
                                     <td>
-                                        {/* TODO Ajouter user dans le back pour recup mail */}
-                                        <a href={`mailto:dupont@gmail.com`} className="link">
-                                            dupont@gmail.com
+                                        <a
+                                            href={`mailto:${request.family.user!.email}`}
+                                            className="link"
+                                        >
+                                            {request.family.user!.email}
                                         </a>
                                     </td>
                                     <td>{request.formattedDate}</td>
