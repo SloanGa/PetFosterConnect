@@ -1,0 +1,57 @@
+@use "../../styles/variables" as v;
+
+.manage-request {
+    .request {
+        margin: 2rem 0;
+
+        &__header {
+            display: flex;
+            align-items: center;
+            column-gap: 1rem;
+            margin-bottom: 1rem;
+            img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #d1d1d1; /* Applique une bordure noire par défaut */
+        border-collapse: collapse; /* S'assure que les bordures sont bien fusionnées */
+    }
+
+    th {
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    .family__link,
+    .link {
+        text-decoration: underline;
+        transition: opacity 0.3s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    .edit,
+    .edit img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .btn--save-status {
+        background-color: v.$secondary-light;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .to {
+        background-color: rgba(2, 116, 2, 0.663);
+    }
+}

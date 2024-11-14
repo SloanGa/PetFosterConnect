@@ -17,10 +17,9 @@ const Icon = ({ ariaLabel, className, src, alt, text, onClick }: IconProps) => {
                 onClick={onClick}
                 type="button"
                 // permet d'appliquer des styles particuliers à l'icon si besoin en passant en props une classe supplémentaire
-                className={`icon ${className}`}
+                className={className ? `icon ${className}` : "icon"}
                 aria-label={ariaLabel}
             >
-               
                 <img src={src} alt={alt} />
                 <span>{text}</span>
             </button>

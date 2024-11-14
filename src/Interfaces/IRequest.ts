@@ -1,7 +1,7 @@
 import { IAssociation } from "./IAssociation.ts";
 import { IAnimal } from "./IAnimal.ts";
 import { IFamily } from "./IFamily.ts";
-import { IUser } from "./IUser.ts";
+
 
 interface IRequest {
     id: number;
@@ -14,8 +14,8 @@ interface IRequest {
     family: IFamily;
     created_at: string;
     updated_at: string;
-    user ?: IUser;
-    user_id? : number;
+    formattedDate?: string;
 }
 
 export default IRequest;
+

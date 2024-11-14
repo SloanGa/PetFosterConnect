@@ -36,7 +36,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 		animal_img: null,
 		gender: animalToEdit?.gender || "",
 		species: animalToEdit?.species || "",
-		age: animalToEdit?.age || "",
+		age: animalToEdit?.age || 0,
 		size: animalToEdit?.size || "",
 		race: animalToEdit?.race || "",
 		description: animalToEdit?.description || "",
@@ -91,7 +91,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 						},
 					),
 		species: yup.string().required("L'espèce de l'animal est requise"),
-		age: yup.string().required("L'âge de l'animal est requis"),
+		age: yup
+			.number()
+			.nullable()
+			.min(0)
+			.required("L'âge de l'animal est requis"),
 		size: yup.string().required("La taille de l'animal est requise"),
 		race: yup.string(),
 		description: yup
@@ -108,7 +112,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 			show={showGestionModal}
 			onHide={handleCloseGestionModal}
 			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
 			centered
 			dialogClassName="custom-modal-dialog"
 		>
@@ -183,14 +186,18 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								controlId="gender"
 							>
 								<Form.Label>Genre</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Genre de l'animal"
+								<Form.Select
 									name="gender"
 									value={values.gender || ""}
 									onChange={handleChange}
-									isInvalid={touched.gender && !!errors.gender}
-								/>
+									isInvalid={!!errors.gender}
+								>
+									<option value="" disabled>
+										Sélectionner un genre
+									</option>
+									<option value="Femelle">Femelle</option>
+									<option value="Mâle">Mâle</option>
+								</Form.Select>
 								<Form.Control.Feedback type="invalid">
 									{errors.gender}
 								</Form.Control.Feedback>
@@ -202,30 +209,35 @@ const GestionModal: React.FC<GestionModalProps> = ({
 								controlId="species"
 							>
 								<Form.Label>Espèce</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Espèce de l'animal"
+								<Form.Select
 									name="species"
 									value={values.species || ""}
 									onChange={handleChange}
-									isInvalid={touched.species && !!errors.species}
-								/>
+									isInvalid={!!errors.species}
+								>
+									<option value="" disabled>
+										Sélectionner une espèce
+									</option>
+									<option value="Chat">Chat</option>
+									<option value="Chien">Chien</option>
+								</Form.Select>
 								<Form.Control.Feedback type="invalid">
-									{errors.species}
+									{errors.gender}
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							<Form.Group
-								aria-label="Entrer l'âge de l'animal"
+								aria-label="Entrer l'âge de l'animal (en année(s))"
 								className="mb-3"
 								controlId="age"
 							>
-								<Form.Label>Age</Form.Label>
+								<Form.Label>Âge (en année(s))</Form.Label>
 								<Form.Control
-									type="text"
-									placeholder="Age de l'animal"
+									type="number"
+									placeholder="Exemple : 2"
 									name="age"
-									value={values.age || ""}
+									value={values.age || 0}
+									min="0"
 									onChange={handleChange}
 									isInvalid={touched.age && !!errors.age}
 								/>
@@ -235,7 +247,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 							</Form.Group>
 
 							<Form.Group
-								aria-label="Selectionner la taille de l'animal"
+								aria-label="Sélectionner la taille de l'animal"
 								className="mb-3"
 								controlId="size"
 							>
