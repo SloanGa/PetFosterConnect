@@ -2,7 +2,6 @@ import { HelmetProvider } from "react-helmet-async";
 import "./Erreur.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
-import { useRef } from "react";
 import Footer from "../../Components/Footer/Footer";
 
 const Erreur = () => {

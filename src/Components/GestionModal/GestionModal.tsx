@@ -106,7 +106,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 			: yup.boolean().required("Vous devez spécifier la disponibilité"),
 	});
 
-	const handleSubmitAction = animalToEdit ? handleSubmitEdit : handleSubmitAdd;
 	return (
 		<Modal
 			show={showGestionModal}

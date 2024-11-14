@@ -87,7 +87,6 @@ const ManageAnimal = () => {
 			}
 			const data = await response.json();
 			setAnimalsToDisplay(data.paginatedAnimals);
-			xs;
 		} catch (error) {
 			setError("Une erreur est survenue, veuillez rafraîchir la page.");
 			console.error("Erreur lors de la récupération des données:", error);

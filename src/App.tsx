@@ -14,6 +14,7 @@ import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/Politique
 import Erreur from "./Pages/Erreur/Erreur.tsx";
 import TableauBord from "./Pages/TableauBord/TableauBord";
 import { AuthProvider } from "./Context/AuthContext.tsx";
+import ResetPassword from "./Pages/ResetPassword/ResetPassword.tsx";
 
 const App = () => {
 	return (
@@ -35,6 +36,10 @@ const App = () => {
 						<Route
 							path="/politique-confidentialite"
 							element={<PolitiqueConfidentialite />}
+						/>
+						<Route
+							path="/reinitialisation-mot-de-passe"
+							element={<ResetPassword />}
 						/>
 						{/* Page erreur redirige automatiquement vers /erreur */}
 						<Route path="*" element={<Navigate to="/erreur" replace />} />
