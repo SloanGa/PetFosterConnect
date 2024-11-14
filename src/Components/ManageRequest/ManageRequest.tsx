@@ -1,17 +1,21 @@
-import { Table, Form } from "react-bootstrap";
+import { Table, Form, Toast, ToastBody } from "react-bootstrap";
 import "./ManageRequest.scss";
 import Icon from "../Icon/Icon";
 import { useEffect, useState } from "react";
 
 const baseURL = import.meta.env.VITE_API_URL;
+const statusList = ["En attente", "Acceptée", "Refusée", "Terminée"];
 
 const ManageRequest = () => {
-    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+    const [requests, setRequests] = useState([]);
+    // Faire interface
+
+    const [editingItem, setEditingItem] = useState<number | null>(null);
 
     const [selectedStatus, setSelectedStatus] = useState("");
 
-    const [requests, setRequests] = useState([]);
-    // Faire interface
+    const [toastAnimalId, setToastAnimalId] = useState<null | number>(null);
+    const [toastData, setToastData] = useState<object | null>(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -60,15 +64,71 @@ const ManageRequest = () => {
         fetchRequests();
     }, []);
 
-    const handleClickOnEditStatus = (index: number, status: string) => {
-        setEditingIndex(index === editingIndex ? null : index);
-        if (index !== editingIndex) {
+    const handleClickOnEditStatus = (requestId: number, status: string) => {
+        setEditingItem(requestId === editingItem ? null : requestId);
+        if (requestId !== editingItem) {
             setSelectedStatus(status);
         }
     };
 
-    const handleClickOnSaveNewStatus = () => {
+    const handleClickOnSaveNewStatus = async (request) => {
         console.log(selectedStatus);
+        const previousStatus = request.status;
+        if (previousStatus === selectedStatus) {
+            setEditingItem(null);
+            setSelectedStatus("");
+            return;
+        }
+        try {
+            const token = localStorage.getItem("auth_token");
+            const response = await fetch(`${baseURL}/dashboard/association/request/${request.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ status: selectedStatus }),
+            });
+            const updatedRequest = await response.json();
+            if (response.ok) {
+                setRequests((prevRequests) => {
+                    return prevRequests.map((animalGroup) => {
+                        // Si ce n'est pas le bon groupe d'animal, on le retourne tel quel
+                        if (animalGroup.animal.id !== updatedRequest.animal_id) {
+                            return animalGroup;
+                        }
+                        // Si c'est le bon groupe, on met à jour la requête concernée
+                        return {
+                            ...animalGroup,
+                            requests: animalGroup.requests.map((request) => {
+                                if (request.id === updatedRequest.id) {
+                                    return {
+                                        ...request,
+                                        status: selectedStatus,
+                                    };
+                                }
+                                return request;
+                            }),
+                        };
+                    });
+                });
+                setToastAnimalId(updatedRequest.animal_id);
+                setToastData({
+                    message: "Statut mis à jour avec succès",
+                    color: "success",
+                });
+            } else {
+                setToastAnimalId(updatedRequest.animal_id);
+                setToastData({
+                    message:
+                        "Erreur lors de la mise à jour du statut. Veuillez rafraîchir la page et réessayer.",
+                    color: "danger",
+                });
+            }
+            setEditingItem(null);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -87,6 +147,16 @@ const ManageRequest = () => {
                             </a>
                         </h2>
                     </div>
+                    <Toast
+                        onClose={() => setToastAnimalId(null)}
+                        show={toastAnimalId === animalGroup.animal.id}
+                        delay={3000}
+                        autohide
+                        bg={toastData?.color}
+                        className={"mb-2"}
+                    >
+                        <Toast.Body>{toastData?.message}</Toast.Body>
+                    </Toast>
                     <Table striped bordered responsive className={"text-center"}>
                         <thead>
                             <tr>
@@ -99,7 +169,7 @@ const ManageRequest = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {animalGroup.requests.map((request, index) => (
+                            {animalGroup.requests.map((request) => (
                                 <tr key={request.id}>
                                     <td>{request.id}</td>
                                     <td>
@@ -118,26 +188,28 @@ const ManageRequest = () => {
                                     </td>
                                     <td>{request.formattedDate}</td>
                                     <td>
-                                        {editingIndex === index ? (
+                                        {editingItem === request.id ? (
                                             <Form.Select
                                                 name="status"
-                                                value={selectedStatus}
+                                                defaultValue={request.status}
                                                 onChange={(e) => setSelectedStatus(e.target.value)}
                                             >
-                                                <option value="En attente">En attente</option>
-                                                <option value="Acceptée">Acceptée</option>
-                                                <option value="Refusée">Refusée</option>
+                                                {statusList.map((status, index) => (
+                                                    <option value={status} key={index}>
+                                                        {status}
+                                                    </option>
+                                                ))}
                                             </Form.Select>
                                         ) : (
                                             <span>{request.status}</span>
                                         )}
                                     </td>
-                                    {editingIndex === index ? (
+                                    {editingItem === request.id ? (
                                         <td>
                                             <button
                                                 type="button"
                                                 className="btn btn--save-status"
-                                                onClick={handleClickOnSaveNewStatus}
+                                                onClick={() => handleClickOnSaveNewStatus(request)}
                                             >
                                                 Ok
                                             </button>
@@ -149,7 +221,10 @@ const ManageRequest = () => {
                                                 src={"/src/assets/icons/pen.svg"}
                                                 alt={"icône modifier"}
                                                 onClick={() =>
-                                                    handleClickOnEditStatus(index, request.status)
+                                                    handleClickOnEditStatus(
+                                                        request.id,
+                                                        request.status
+                                                    )
                                                 }
                                             />
                                         </td>
