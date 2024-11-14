@@ -11,7 +11,7 @@ import Inscription from "./Pages/Inscription/Inscription.tsx";
 import MentionsLegales from "./Pages/MentionsLegales/MentionsLegales";
 import PlanDuSite from "./Pages/PlanDuSite";
 import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
-import Erreur from "./Pages/Erreur";
+import Erreur from "./Pages/Erreur/Erreur.tsx";
 import TableauBord from "./Pages/TableauBord/TableauBord";
 import { AuthProvider } from "./Context/AuthContext.tsx";
 
