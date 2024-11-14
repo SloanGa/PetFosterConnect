@@ -33,16 +33,21 @@ const ManageRequest = () => {
                     // On groupe les demandes par animaux
                     let groupedRequests = [];
                     requests.forEach((request) => {
-                        if (request.animal_id in groupedRequests) {
-                            groupedRequests[request.animal_id].requests.push(request);
-                        } else {
-                            groupedRequests[request.animal_id] = {
+                        let animalFound = false;
+                        for (let group of groupedRequests) {
+                            if (request.animal_id === group.animal.id) {
+                                group.requests.push(request);
+                                animalFound = true;
+                                break;
+                            }
+                        }
+                        if (animalFound === false) {
+                            groupedRequests.push({
                                 animal: request.animal,
                                 requests: [request],
-                            };
+                            });
                         }
                     });
-
                     setRequests(groupedRequests);
                 } else {
                     // Afficher une erreur
@@ -77,7 +82,7 @@ const ManageRequest = () => {
                             loading="lazy"
                         />
                         <h2>
-                            <a href="/animaux/oscar-1" className="link">
+                            <a href={`/animaux/${animalGroup.animal.slug}`} className="link">
                                 {animalGroup.animal.name}
                             </a>
                         </h2>
@@ -107,7 +112,7 @@ const ManageRequest = () => {
                                     </td>
                                     <td>
                                         {/* TODO Ajouter user dans le back pour recup mail */}
-                                        <a href={`mailto:{dupont@gmail.com}`} className="link">
+                                        <a href={`mailto:dupont@gmail.com`} className="link">
                                             dupont@gmail.com
                                         </a>
                                     </td>
