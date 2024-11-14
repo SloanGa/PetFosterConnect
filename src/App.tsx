@@ -9,7 +9,7 @@ import Famille from "./Pages/Famille";
 import Connexion from "./Pages/Connexion/Connexion.tsx";
 import Inscription from "./Pages/Inscription/Inscription.tsx";
 import MentionsLegales from "./Pages/MentionsLegales/MentionsLegales";
-import PlanDuSite from "./Pages/PlanDuSite";
+import PlanDuSite from "./Pages/PlanDuSite/PlanDuSite";
 import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/PolitiqueConfidentialite";
 import Erreur from "./Pages/Erreur/Erreur.tsx";
 import TableauBord from "./Pages/TableauBord/TableauBord";
