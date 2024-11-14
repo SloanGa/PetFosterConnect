@@ -1,4 +1,6 @@
+import { IDepartment } from "./IDepartment.ts";
 import { IUser } from "./IUser";
+
 
 interface IFamily {
     id: number;
@@ -6,6 +8,7 @@ interface IFamily {
     address: string;
     zip_code: string;
     department_id: number;
+    department: IDepartment;
     city: string;
     slug?: string;
     phone_number: string;

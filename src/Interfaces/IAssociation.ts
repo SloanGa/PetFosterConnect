@@ -7,6 +7,7 @@ interface IAssociation {
     zip_code: string;
     department_id: number;
     department: IDepartment;
+    email_association: string;
     city: string;
     longitude: number;
     latitude: number;

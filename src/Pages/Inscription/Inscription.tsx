@@ -31,6 +31,8 @@ const Inscription = () => {
     /* Validation des inputs */
     const { Formik } = formik;
 
+    const isAssociation = mode === "association";
+
     const schema = yup.object().shape({
         name: yup.string().required("Le nom est requis"),
         address: yup.string().required("Une adresse valide est requise"),
@@ -47,12 +49,14 @@ const Inscription = () => {
         email: yup.string().email("Veuillez entrer un email valide").required("L'email est requis"),
         password: yup.string().required("Le mot de passe est requis"),
         confirmPassword: yup.string().required("Le mot de passe est requis"),
-        email_association: yup.string().required("Votre email d'association est requis"),
-        family_img: yup.mixed().nullable().notRequired(),
-        association_img: yup
+        email_association: isAssociation ? yup.string().required("Votre email d'association est requis") : yup.string().nullable(),
+        association_img: isAssociation ? yup
             .mixed()
             .nullable()
-            .required("Une image est requise"),
+            .required("Une image est requise") : yup
+            .mixed()
+            .nullable(),
+        family_img: yup.mixed().nullable().notRequired(),
     });
 
     /* Toggle affichage du mot de passe */
@@ -66,10 +70,10 @@ const Inscription = () => {
 
     const handleSubmitForm = async (values: any) => {
         const formData = new FormData();
-
         for (const key in values) {
-            if (values[key] !== null && values[key] !== undefined) { // Vérifie que la valeur n'est pas null ou undefined
+            if (values[key] !== null && values[key] !== undefined && values[key] !== "") { // Vérifie que la valeur n'est pas null ou undefined
                 formData.append(key, values[key]);
+                console.log(values[key]);
             }
         }
 
@@ -166,6 +170,8 @@ const Inscription = () => {
 
                     <Form encType="multipart/form-data" className="form__register" onSubmit={handleSubmit}
                           noValidate>
+                        {/*<pre>{JSON.stringify(errors, null, 2)}</pre>*/}
+                        {/*<pre>{JSON.stringify(touched, null, 2)}</pre>*/}
                         <div className="container__register">
                             <div className="user__register">
                                 <p className="info__form">Informations utilisateur</p>
@@ -441,7 +447,6 @@ const Inscription = () => {
                                             accept="image/png, image/jpeg, image/webp, image/jpg"
                                             onChange={(event) => {
                                                 const file = event.currentTarget.files[0];
-                                                console.log(file);
                                                 setFieldValue("family_img", file);
                                             }}
                                             isInvalid={touched.family_img && !!errors.family_img}
@@ -449,36 +454,36 @@ const Inscription = () => {
                                         <Form.Control.Feedback type="invalid">
                                             {errors.family_img as string}
                                         </Form.Control.Feedback>
-                                    </Form.Group>) :
+                                    </Form.Group>) : (
 
-                                    /* mode = association */
-                                    <Form.Group controlId="formBasicFile" className="form__file">
-                                        <Form.Label column="sm">
-                                            Votre photo de profil *
-                                        </Form.Label>
-                                        <Form.Control
-                                            className="form__connexion_input"
-                                            type="file"
-                                            name="association_img"
-                                            aria-label="Votre photo de profil"
-                                            accept="image/png, image/jpeg, image/webp, image/jpg"
-                                            onChange={(event) => {
-                                                const file = event.currentTarget.files[0] || null;
-                                                console.log(file);
-                                                setFieldValue("association_img", file);
-                                            }}
-                                            isInvalid={touched.association_img && !!errors.association_img}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.association_img as string}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>}
+                                        /* mode = association */
+                                        <Form.Group controlId="formBasicFile" className="form__file">
+                                            <Form.Label column="sm">
+                                                Votre photo de profil *
+                                            </Form.Label>
+                                            <Form.Control
+                                                className="form__connexion_input"
+                                                type="file"
+                                                name="association_img"
+                                                aria-label="Votre photo de profil"
+                                                accept="image/png, image/jpeg, image/webp, image/jpg"
+                                                onChange={(event) => {
+                                                    const file = event.currentTarget.files[0] || null;
+                                                    setFieldValue("association_img", file);
+                                                }}
+                                                isInvalid={touched.association_img && !!errors.association_img}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.association_img as string}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>)}
                             </div>
                         </div>
 
 
                         {/* Bouton submit */}
-                        <Button type="submit" aria-label="S'inscrire" className="btn__form--grid btn__submit">
+                        <Button type="submit" aria-label="S'inscrire"
+                                className="btn__form--grid btn__submit">
                             S'inscrire
                         </Button>
 

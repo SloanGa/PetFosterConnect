@@ -2,6 +2,7 @@ import { IAssociation } from "./IAssociation.ts";
 import { IAnimal } from "./IAnimal.ts";
 import { IFamily } from "./IFamily.ts";
 
+
 interface IRequest {
     id: number;
     status: string;
@@ -17,3 +18,4 @@ interface IRequest {
 }
 
 export default IRequest;
+

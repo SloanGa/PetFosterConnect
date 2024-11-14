@@ -4,6 +4,7 @@ import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
+import { useNavigate } from "react-router-dom";
 
 interface FiltersProps {
     animals: IAnimal[];
@@ -11,6 +12,8 @@ interface FiltersProps {
     isFiltersVisible: boolean;
     setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
     setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
+    associationId: string;
+    setAssociationId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Filters = ({
@@ -19,6 +22,8 @@ const Filters = ({
                      isFiltersVisible,
                      setForm,
                      setAnimalsFilterCount,
+                     associationId,
+                     setAssociationId,
                  }: FiltersProps) => {
 
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
@@ -26,6 +31,8 @@ const Filters = ({
 
     const { associations } = useFetchAssociations();
     const { departments } = useFetchDepartments();
+
+    const navigate = useNavigate();
 
     /* Permet de retourner un tableau des type et genre sans les dupliquer */
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
@@ -45,11 +52,15 @@ const Filters = ({
     const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         const form = e.currentTarget.form;
         if (form) {
+
             form.reset();
             setSelectedSize(null);
             setSelectedAge(null);
             setForm(null);
             setAnimalsFilterCount(null);
+            setAssociationId(null);
+            navigate("/animaux");
+
         }
     };
 
