@@ -14,6 +14,7 @@ const NavigationLink = ({ to, className, title, svg, text, onClick }: NavLinkPro
     return (
         <NavLink
             to={to}
+            end
             className={({ isActive }) =>
                 isActive ? `${className} ${className}--current` : `${className}`
             }
