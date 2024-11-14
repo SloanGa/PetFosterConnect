@@ -18,7 +18,14 @@ const Erreur = () => {
 			</Helmet>
 			<Header />
 			<main className="container">
-				<h1 className="main__title">Page non trouvée</h1>
+				<h1 className="main__title">Oups, cette page a pris a fuite ! </h1>
+				<img className="image__404" src="public/3818850.jpg" alt="" />
+				<p className="text__404">
+					Il semble que la page que vous cherchez ait trouvé une famille
+					d'accueil temporaire ailleurs. Revenez à la page d'accueil pour
+					découvrir comment nous aidons les animaux à trouver le foyer qu'ils
+					méritent.
+				</p>
 			</main>
 			<Footer />
 		</>
