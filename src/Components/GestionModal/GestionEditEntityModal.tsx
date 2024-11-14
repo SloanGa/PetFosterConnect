@@ -26,7 +26,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                                              }) => {
 
     const { departments } = useFetchDepartments();
-    const [isSubmit, setIsSubmit] = useState(false);
     const [alert, setAlert] = useState<{ message: string; type: string } | null>(null);
 
 

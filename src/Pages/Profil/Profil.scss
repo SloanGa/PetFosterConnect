@@ -165,6 +165,20 @@
       text-align: center;
       padding-bottom: 1em;
     }
+
+    .status {
+      &--validee {
+        color: v.$primary-light;
+      }
+
+      &--rejetee {
+        color: darkred;
+      }
+
+      &--en-attente {
+        color: v.$secondary
+      }
+    }
   }
 }
 

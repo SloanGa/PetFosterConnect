@@ -8,13 +8,14 @@ import Map from "../../Components/Map/Map.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
 import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
-import Alert from "react-bootstrap/Alert";
 import { IUser } from "../../Interfaces/IUser.ts";
 import { Table } from "react-bootstrap";
 import Icon from "../../Components/Icon/Icon.tsx";
+import IRequest from "../../Interfaces/IRequest.ts";
+import GestionModalDeleteRequest from "../../Components/GestionModal/GestionModalDeleteRequest.tsx";
 
 interface ProfilProps {
     entity: IAssociation | IFamily | null;
@@ -24,18 +25,55 @@ interface ProfilProps {
     isLegitimate: boolean;
     setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
     userHasEntity: IUser | null;
+    requestData?: IRequest[] | null;
+    selectedRequest?: number;
+    setIsDeleteRequest?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 
-const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, userHasEntity }: ProfilProps) => {
-    // Pour la modale de confirmation d'envoi d'une demande
+const Profil = ({
+                    entity,
+                    baseURL,
+                    isLoading,
+                    error,
+                    isLegitimate,
+                    setEntity,
+                    userHasEntity,
+                    requestData,
+                    setIsDeleteRequest,
+                }: ProfilProps) => {
+
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
-    const [showDelete, setShowDelete] = useState(false);
-    const handleCloseDelete = () => setShowDelete(false);
-    const handleShowDelete = () => setShowDelete(true);
+    const [showDeleteProfil, setShowDeleteProfil] = useState(false);
+    const handleCloseDeleteProfil = () => setShowDeleteProfil(false);
+    const handleShowDeleteProfil = () => setShowDeleteProfil(true);
+
+    const [selectedRequest, setSelectedRequest] = useState<number | null>(null);
+    const [showDeleteRequest, setShowDeleteRequest] = useState(false);
+
+    const handleCloseDeleteRequest = () => setShowDeleteRequest(false);
+    const handleShowDeleteRequest = (id: number) => {
+        setSelectedRequest(id);
+        setShowDeleteRequest(true);
+    };
+
+    /* Fonction pour convertir la date */
+    function formatDate(dateFromDB: string): string {
+        const date = new Date(dateFromDB);
+        return date.toLocaleDateString("fr-FR");
+    }
+
+    /* Fonction pour normaliser le texte (supprimer les accents et remplacer les espaces par des tirets) */
+    const normalizeStatus = (status: string) => {
+        return status
+            .normalize("NFD") // Décompose les caractères accentués
+            .replace(/[\u0300-\u036f]/g, "") // Supprime les diacritiques (accents)
+            .replace(/\s+/g, "-") // Remplace les espaces par des tirets
+            .toLowerCase(); // Convertit en minuscule
+    };
 
     return (
         <>
@@ -46,9 +84,7 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, us
                 <meta
                     name="description"
                     content={
-                        entity
-                            ? `Aidez l'association ${entity.name} en devenant la famille d'accueil d'un de leurs animaux.`
-                            : "PetFoster Connect - Devenez une famille d'accueil pour des animaux en attente d'adoption."
+                        "PetFoster Connect - Profil."
                     }
                 />
             </Helmet>
@@ -135,74 +171,84 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, us
                                         <button className=" btn btn--profil" onClick={handleShowEdit}>Modifier le profil
                                         </button>
                                         <button className=" btn btn--profil"
-                                                onClick={handleShowDelete}>Supprimer le
+                                                onClick={handleShowDeleteProfil}>Supprimer le
                                             profil
                                         </button>
                                     </div> : null}
                             </section>
                             <section className="section__bottom">
                                 {/* Vérifie si c'est une association ou une famille à afficher */}
-                                {entity && "email_association" in entity ? (<>
+                                {entity && "email_association" in entity ? (
+                                    <>
                                         <div className="map__container map__container--entity">
                                             <Map
-                                                longitude={entity!.longitude}
-                                                latitude={entity!.latitude}
+                                                longitude={entity.longitude}
+                                                latitude={entity.latitude}
                                             />
-
                                         </div>
-
                                     </>
                                 ) : (
-                                    <div className="request">
-                                        <h2 className="request__title">Demande en cours </h2>
-                                        <Table striped bordered responsive className={"text-center"}>
-                                            <thead>
-                                            <tr>
-                                                <th>N°</th>
-                                                <th>Nom animal</th>
-                                                <th>Email association</th>
-                                                <th>Date de la demande</th>
-                                                <th>Statut de la demande</th>
-                                                {isLegitimate ? <th>Supprimer</th> : null}
-
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {[1, 2, 3].map((request, index) => (
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>
-                                                        <a href="/animaux/oscar-1" className="link">
-                                                            Oscar
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="mailto:contact@animalrescue.fr" className="link">
-                                                            contact@animalrescue.fr
-                                                        </a>
-                                                    </td>
-                                                    <td>01/11/2024</td>
-                                                    <td>
-                                                        <span>En attente</span>
-                                                    </td>
-                                                    <td className="delete">
-                                                        {isLegitimate ? (
-                                                            <Icon
-                                                                ariaLabel={"Supprimer la demande"}
-                                                                src={"/src/assets/icons/trash.svg"}
-                                                                alt={"icône supprimer"}
-                                                                onClick={() => console.log("test")}
-                                                            />
-                                                        ) : null}
-                                                    </td>
+                                    isLegitimate && (
+                                        <div className="request">
+                                            <h2 className="request__title">Demande en cours</h2>
+                                            <Table striped bordered responsive className="text-center">
+                                                <thead>
+                                                <tr>
+                                                    <th>Nom animal</th>
+                                                    <th>Association</th>
+                                                    <th>Email association</th>
+                                                    <th>Date de la demande</th>
+                                                    <th>Statut de la demande</th>
+                                                    {isLegitimate ? <th>Supprimer</th> : null}
                                                 </tr>
-                                            ))}
-                                            </tbody>
-                                        </Table>
-                                    </div>
+                                                </thead>
+                                                <tbody>
+                                                {requestData?.map((request) => (
+                                                    <tr key={request.id}>
+                                                        <td>
+                                                            <a href="/animaux/oscar-1" className="link">
+                                                                {request.animal?.name}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href={`/association/${request.association?.slug}`}
+                                                               className="link">
+                                                                {request.association?.name}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a
+                                                                href={`mailto:${request.association?.email_association}`}
+                                                                className="link"
+                                                            >
+                                                                {request.association?.email_association}
+                                                            </a>
+                                                        </td>
+                                                        <td>{formatDate(request.created_at)}</td>
+                                                        <td>
+                                                            <span
+                                                                className={`status status--${normalizeStatus(request.status)}`}>{request.status}
+                                                            </span>
+                                                        </td>
+                                                        <td className="delete">
+                                                            {request.status !== "Validée" ? (
+                                                                <Icon
+                                                                    ariaLabel="Supprimer la demande"
+                                                                    src="/src/assets/icons/trash.svg"
+                                                                    alt="icône supprimer"
+                                                                    onClick={() => handleShowDeleteRequest(request.id)}
+                                                                />
+                                                            ) : null}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    )
                                 )}
-
                             </section>
+
 
                         </>
                     )}
@@ -215,8 +261,11 @@ const Profil = ({ entity, baseURL, isLoading, error, isLegitimate, setEntity, us
             <GestionEditEntityModal show={showEdit} handleClose={handleCloseEdit} entityToEdit={entity}
                                     setEntity={setEntity} userToEdit={userHasEntity} />
 
-            <GestionModalDeleteEntity handleCloseDelete={handleCloseDelete} showDelete={showDelete}
+            <GestionModalDeleteEntity handleCloseDelete={handleCloseDeleteProfil} showDelete={showDeleteProfil}
                                       entityToDelete={entity} />
+
+            <GestionModalDeleteRequest handleCloseDelete={handleCloseDeleteRequest} showDelete={showDeleteRequest}
+                                       selectedRequest={selectedRequest!} setIsDeleteRequest={setIsDeleteRequest} />
         </>
     );
 };
