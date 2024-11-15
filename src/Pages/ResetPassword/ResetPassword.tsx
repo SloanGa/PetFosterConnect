@@ -16,12 +16,14 @@ const ResetPassword = () => {
 
 	const location = useLocation();
 	const [decodedToken, setDecodedToken] = useState<object | null>(null);
-	const [email, setEmail] = useState<string | null>(null);
+	// const [email, setEmail] = useState<string | null>(null);
+	const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const queryParams = new URLSearchParams(location.search);
 			const tokenFromUrl = queryParams.get("token");
+			setTokenFromURL(tokenFromUrl);
 
 			if (tokenFromUrl) {
 				console.log("Token récupéré:", tokenFromUrl);
@@ -55,9 +57,9 @@ const ResetPassword = () => {
 		fetchData();
 	}, [location, baseURL]);
 
-	useEffect(() => {
-		console.log("decodedToken mis à jour:", decodedToken);
-	}, [decodedToken]);
+	// useEffect(() => {
+	// 	console.log("decodedToken mis à jour:", decodedToken);
+	// }, [decodedToken]);
 
 	const initialValues = {
 		email: "",
@@ -115,9 +117,40 @@ const ResetPassword = () => {
 
 		[],
 	);
-	const handleSubmitResetPassword = useCallback(() => {
-		console.log("Reset Password");
-	}, []);
+	const handleSubmitResetPassword = useCallback(
+		async (values: { password: string; confirmPassword: string }) => {
+			const formDataObject = {
+				password: values.password,
+				confirmPassword: values.confirmPassword,
+			};
+			console.log("Reset Password", formDataObject);
+
+			try {
+				const response = await fetch(
+					`${baseURL}/auth/updatepassword/${decodedToken.email}`,
+					{
+						method: "PATCH",
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${tokenFromUrl}`,
+						},
+						body: JSON.stringify(formDataObject),
+					},
+				);
+
+				if (response.ok) {
+					const data = await response.json();
+					console.log(data);
+				} else {
+					const errorData = await response.json();
+					console.log(errorData);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[],
+	);
 	return (
 		<>
 			<Helmet>
