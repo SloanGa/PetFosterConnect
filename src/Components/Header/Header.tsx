@@ -90,8 +90,8 @@ const Header = () => {
                                             <NavigationLink
                                                 to="/tableau-de-bord"
                                                 className="nav__list__link"
-                                                title="Dashboard"
-                                                text="Dashboard"
+                                                title="Tableau de bord"
+                                                text="Tableau de bord"
                                             />
                                         </li>
                                     )}
@@ -237,8 +237,8 @@ const Header = () => {
                                     <NavigationLink
                                         to="/tableau-de-bord"
                                         className="nav__list__link"
-                                        title="Dashboard"
-                                        text="Dashboard"
+                                        title="Tableau de bord"
+                                        text="Tableau de bord"
                                     />
                                 </li>
                             )}

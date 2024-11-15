@@ -128,6 +128,7 @@
         @media (min-width: 992px) {
             display: flex;
             justify-content: space-around;
+            flex-wrap: wrap;
         }
 
         .association__infos {

@@ -71,7 +71,7 @@ const Animal = () => {
             animal_id: animal?.id,
         };
         try {
-            const response = await fetch(`${baseURL}/animals/request`, {
+            const response = await fetch(`${baseURL}/requests/family`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

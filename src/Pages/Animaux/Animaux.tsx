@@ -11,6 +11,7 @@ import { Error } from "../../Components/Error/Error.tsx";
 import { FormEvent, useEffect, useState, useRef } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
+import { useLocation } from "react-router-dom";
 
 const Animaux = () => {
 	const {

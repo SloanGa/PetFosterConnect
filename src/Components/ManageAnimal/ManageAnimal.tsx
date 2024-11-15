@@ -18,6 +18,7 @@ import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimal
 import PaginationComposant from "../../Components/Pagination/Pagination";
 
 const ManageAnimal = () => {
+
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [showGestionModal, setShowGestionModal] = useState(false);
