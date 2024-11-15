@@ -2,6 +2,7 @@ import "./Connexion.scss";
 import { Helmet } from "react-helmet-async";
 import Loading from "../../Components/Loading/Loading.tsx";
 import Header from "../../Components/Header/Header";
+import { Link } from "react-router-dom";
 import { useRef } from "react";
 import Footer from "../../Components/Footer/Footer";
 import { useState } from "react";
@@ -188,9 +189,16 @@ const Connexion = () => {
 							</Form.Group>
 
 							{/* Mot de passe oublié */}
-							<a className="form__forget__password" href="">
+							<a
+								className="form__forget__password"
+								href="http://localhost:5173/reinitialisation-mot-de-passe"
+							>
 								Mot de passe oublié ?{" "}
 							</a>
+							<Link
+								to="/reinitialisation-mot-de-passe"
+								title="Aller vers la page réinitialiser le mot de passe"
+							/>
 
 							{/* Bouton submit */}
 							<Button
