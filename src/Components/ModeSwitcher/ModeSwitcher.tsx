@@ -1,17 +1,31 @@
-import React from "react";
+import "./ModeSwitcher.scss";
 
 interface ModeSwitcherProps {
-    text: string;
-    onClick?: () => void;
+    mode: string;
+    handleSwitchFamilyMode: () => void;
+    handleSwitchAssociationMode: () => void;
 }
 
-const ModeSwitcher = ({ text, onClick }: ModeSwitcherProps) => {
-
-    return (<>
-            <button className="btn" onClick={onClick}>
-                {text}
+const ModeSwitcher = ({
+    mode,
+    handleSwitchFamilyMode,
+    handleSwitchAssociationMode,
+}: ModeSwitcherProps) => {
+    return (
+        <div className="switcher__group">
+            <button
+                className={mode === "association" ? "btn" : "btn btn--disabled"}
+                onClick={handleSwitchAssociationMode}
+            >
+                Association
             </button>
-        </>
+            <button
+                className={mode === "family" ? "btn" : "btn btn--disabled"}
+                onClick={handleSwitchFamilyMode}
+            >
+                Famille
+            </button>
+        </div>
     );
 };
 

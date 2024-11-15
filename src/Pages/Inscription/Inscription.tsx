@@ -61,8 +61,16 @@ const Inscription = () => {
         family_img: yup.mixed().nullable().notRequired(),
     });
 
-    const handleSetMode = () => {
-        setMode(mode === "association" ? "family" : "association");
+    // const handleSetMode = () => {
+    //     setMode(mode === "association" ? "family" : "association");
+    // };
+
+    const handleSwitchFamilyMode = () => {
+        setMode("family");
+    };
+
+    const handleSwitchAssociationMode = () => {
+        setMode("association");
     };
 
     const handleSubmitForm = async (values: any) => {
@@ -127,16 +135,10 @@ const Inscription = () => {
                 <div className="form__presentation">
                     <h1 className="main__title">Inscription</h1>
                     <ModeSwitcher
-                        onClick={handleSetMode}
-                        text={
-                            mode === "family"
-                                ? "Association ? Cliquez ici"
-                                : "Famille ? Cliquez-ici"
-                        }
+                        handleSwitchFamilyMode={handleSwitchFamilyMode}
+                        handleSwitchAssociationMode={handleSwitchAssociationMode}
+                        mode={mode}
                     />
-                    <h2 className="form__title">
-                        Formulaire d'inscription : {mode === "family" ? "Famille" : "Association"}
-                    </h2>
                 </div>
 
                 <Formik
