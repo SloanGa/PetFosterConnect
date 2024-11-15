@@ -21,19 +21,22 @@ const useFetchAssociationAnimals = (token: string | null) => {
                     }
                 );
 
-                if (!response.ok) {
-                    return setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                }
-                const data = await response.json();
-                setPaginatedAnimals(data.paginatedAnimals);
-                setTotalCount(data.totalCount);
-            } catch (error) {
-                setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                console.error("Erreur lors de la récupération des données:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+				if (!response.ok) {
+					return setError(
+						"Une erreur est survenue, veuillez rafraîchir la page.",
+					);
+				}
+				const data = await response.json();
+				setPaginatedAnimals(data.paginatedAnimals);
+				setTotalCount(data.totalCount);
+			} catch (error) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
 
         fetchAnimals();
     }, [token]);

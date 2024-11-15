@@ -3,19 +3,16 @@ import { useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon";
 import { Button } from "react-bootstrap";
-import "./DashboardCard.scss";
+
 
 interface DashboardCardProps {
-    path: string;
-    src: string;
-    alt: string;
-    name: string;
-    animal: IAnimal;
+	path: string;
+	src: string;
+	alt: string;
+	name: string;
+	animal: Ianimal;
 
-    // On passe à la fonction onShowModal les id qu'elle va pouvoir transmettre à la modale puis transmettre au back à la soumission du formulaire.
-    onShowEditModal: (animal: IAnimal) => void;
-    onShowGestionModal: (animal: IAnimal) => void;
-    onShowDeleteModal: () => void;
+	onShowGestionModal: (animal: IAnimal) => void;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
