@@ -2,6 +2,8 @@ import "./LeftNavBar.scss";
 import NavigationLink from "../Links/NavLink.tsx";
 
 const LeftNavBar = () => {
+	const storedUser = JSON.parse(localStorage.getItem("user"));
+	console.log(storedUser.association.slug);
 	return (
 		<div>
 			<nav className="left__nav">
@@ -24,7 +26,7 @@ const LeftNavBar = () => {
 					</li>
 					<li>
 						<NavigationLink
-							to="/tableau-de-bord/profil-association"
+							to={`/tableau-de-bord/profil-association/${storedUser.association.slug}`}
 							className="left__nav__list__link"
 							title="Page profil association"
 							text="Votre profil"
