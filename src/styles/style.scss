@@ -80,6 +80,24 @@ h2 {
     }
 }
 
+// Icone afficher/masquer password
+// /!\ Mettre l'input password en position relative
+.icon.icon--eye {
+    position: absolute;
+    right: 10px;
+    top: 73%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
 // Classe qui engloble les card animaux
 .cards {
     width: 100%;
