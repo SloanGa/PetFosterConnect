@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-import "./AnimalCard.scss";
-import { IDepartment } from "../../Interfaces/IDepartment.ts";
+import "./Card.scss";
 
 interface CardProps {
     path: string;
@@ -13,28 +12,45 @@ interface CardProps {
     animalType?: string;
     gender?: string;
     age?: number;
+    availability?: boolean;
     isHomePage: boolean;
 }
 
-const AnimalCard = ({
-                        src,
-                        alt,
-                        name,
-                        associationLocation,
-                        associationName,
-                        animalType,
-                        gender,
-                        age,
-                        path,
-                        isHomePage,
-
-                    }: CardProps) => {
-
+const Card = ({
+    src,
+    alt,
+    name,
+    associationLocation,
+    associationName,
+    animalType,
+    gender,
+    age,
+    availability,
+    path,
+    isHomePage,
+}: CardProps) => {
     return (
         <>
             <Link to={path} className="cards__list__link" aria-label="Voir la page de cet animal">
                 <article className="card">
-                    <img src={src} className="card__img card-img-top" alt={alt} loading="lazy" />
+                    <div className="card__img__container">
+                        <img
+                            src={src}
+                            className="card__img card-img-top"
+                            alt={alt}
+                            loading="lazy"
+                        />
+
+                        <div
+                            className={
+                                availability === false
+                                    ? "card__img__overlay--active"
+                                    : "card__img__overlay--inactive"
+                            }
+                        >
+                            <span>Indisponible</span>
+                        </div>
+                    </div>
 
                     <div className="card-body text-center">
                         <h3 className="card__title card-title">{name}</h3>
@@ -51,7 +67,9 @@ const AnimalCard = ({
                                 <div className="card__description">
                                     <span>{animalType}</span>
                                     <span>{gender}</span>
-                                    <span>{`${age} ans`}</span>
+                                    <span>
+                                        {age} {age! > 1 ? "ans" : "an"}
+                                    </span>
                                 </div>
                             </>
                         )}
@@ -62,4 +80,4 @@ const AnimalCard = ({
     );
 };
 
-export default AnimalCard;
+export default Card;

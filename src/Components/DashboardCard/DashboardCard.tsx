@@ -38,7 +38,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         <>
             <article className="card">
                 <Link to={path} aria-label="Voir la page de cet animal">
-                    <div className="card__img-container">
+                    <div className="card__img__container">
                         <img
                             src={src}
                             className="card__img card-img-top"
@@ -49,8 +49,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
                         <div
                             className={
                                 animal.availability
-                                    ? "card__img-overlay--inactive"
-                                    : "card__img-overlay--active"
+                                    ? "card__img__overlay--inactive"
+                                    : "card__img__overlay--active"
                             }
                         >
                             <span>{animal.family_id ? "En famille" : "Indisponible"}</span>
