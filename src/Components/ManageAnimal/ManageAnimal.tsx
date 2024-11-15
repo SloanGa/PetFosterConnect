@@ -24,7 +24,6 @@ const ManageAnimal = () => {
 
 	// state de gestion du toast de message erreur ou succès formulaire
 
-	const [toastMessage, setToastMessage] = useState("");
 	const [showToast, setShowToast] = useState(false);
 	const [toastData, setToastData] = useState<{
 		message: string;
@@ -32,7 +31,6 @@ const ManageAnimal = () => {
 	} | null>(null);
 
 	const toggleToast = useCallback((message, color) => {
-		setToastMessage(message);
 		setToastData({ message: message, color: color });
 		setShowToast(true);
 	}, []);
@@ -99,13 +97,12 @@ const ManageAnimal = () => {
 	const handleShowGestionModal = useCallback((animal?: IAnimal) => {
 		setShowGestionModal(true);
 		setAnimalToEdit(animal || null);
-		setToastMessage("");
 		setShowToast(false);
+		setToastData(null);
 	}, []);
 
 	const handleCloseGestionModal = useCallback(() => {
 		setShowGestionModal(false);
-		setToastMessage("");
 	}, []);
 
 	// L'event listener à la soumission du formulaire éditer
@@ -222,7 +219,7 @@ const ManageAnimal = () => {
 	const handleShowDeleteModal = useCallback((animal: IAnimal) => {
 		setShowDeleteModal(true);
 		setAnimalToDelete(animal);
-		setToastMessage("");
+		setToastData(null);
 		setShowToast(false);
 	}, []);
 
@@ -317,7 +314,6 @@ const ManageAnimal = () => {
 				animalToEdit={animalToEdit}
 				showToast={showToast}
 				toggleToast={toggleToast}
-				toastMessage={toastMessage}
 				toastData={toastData}
 			/>
 
@@ -338,7 +334,7 @@ const ManageAnimal = () => {
 					?{" "}
 					<div className="modal__toast d-flex justify-content-center mt-3">
 						<Toast show={showToast} onClose={toggleToast} bg={toastData?.color}>
-							<Toast.Body>{toastMessage}</Toast.Body>
+							<Toast.Body>{toastData?.message}</Toast.Body>
 						</Toast>
 					</div>
 				</Modal.Body>

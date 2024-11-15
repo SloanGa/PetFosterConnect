@@ -2,7 +2,6 @@ import "./GestionModal.scss";
 import { Modal, Button, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 
 interface GestionModalProps {
@@ -11,11 +10,8 @@ interface GestionModalProps {
 	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	handleSubmitAdd: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 	animalToEdit: IAnimal | null;
-	callbackTest: () => void;
 	showToast: boolean;
 	toggleToast: () => void;
-	toastMessage: string;
-	toastClassname: string;
 	toastData: {
 		message: string;
 		color: string;
@@ -31,8 +27,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	callbackTest,
 	showToast,
 	toggleToast,
-	toastMessage,
-	toastClassname,
 	toastData,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik mais est aussi obligatoire pour la validation - pour que ce soit des champs contrôlés
