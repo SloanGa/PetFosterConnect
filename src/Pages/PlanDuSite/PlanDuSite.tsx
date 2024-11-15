@@ -18,6 +18,8 @@ const PlanDuSite = () => {
 
             <main>
 
+                <div className="mapsite__presentation">
+
                 <h1 className="main__title">Plan du site</h1>
                 
                 <section>
@@ -34,16 +36,8 @@ const PlanDuSite = () => {
                     </ul>
                 </section>
 
-                <section>
-                <h2 className="main__information">Pages spécifiques</h2>
-                    <ul className="main__information__list">
-                        <li className="main__information__list__link__second" > Détails d'une association </li>
-                        <li className="main__information__list__link__second" > Détails d'un animal</li>
-                        <li className="main__information__list__link__second">Détails d'une famille d'accueil</li>
-                        <li className="main__information__list__link__second" > Tableau de bord</li>
-                    </ul>
-                </section>
-
+                </div>
+                
             </main>
 
             <Footer />

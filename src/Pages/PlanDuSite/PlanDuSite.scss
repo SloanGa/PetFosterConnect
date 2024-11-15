@@ -1,5 +1,10 @@
 @use '../../styles/variables' as v;
 
+
+.mapsite__presentation {
+    min-height: 59.3vh;
+ }
+
 .main__information {
    display: block;
    margin: auto;

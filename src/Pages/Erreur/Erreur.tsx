@@ -19,7 +19,7 @@ const Erreur = () => {
 			<Header />
 			<main className="container">
 				<h1 className="main__title">Oups, cette page a pris la fuite ! </h1>
-				<img className="image__404" src="public/3818850.jpg" alt="" />
+				<img className="image__404" src="public/3818850.jpg" alt="Image d'erreur pour page non trouvée" />
 				<p className="text__404">
 					Il semble que la page que vous cherchez ait trouvé une famille
 					d'accueil temporaire ailleurs. Revenez à la page d'accueil pour
