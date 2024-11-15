@@ -8,7 +8,7 @@ import { IAnimal } from "../../Interfaces/IAnimal";
 import IRequest from "../../Interfaces/IRequest";
 
 const baseURL = import.meta.env.VITE_API_URL;
-const statusList = ["En attente", "Acceptée", "Refusée", "Terminée"];
+const statusList = ["En attente", "Acceptée", "Refusée", "Terminée"]; // Si changement à mettre à jour dans le back (API) également (requestController)
 
 const ManageRequest = () => {
     const [requests, setRequests] = useState<{ animal: IAnimal; requests: IRequest[] }[]>([]);
@@ -127,15 +127,21 @@ const ManageRequest = () => {
                     });
                     setToastAnimalId(updatedRequest.animal_id);
                     setToastData({
-                        message: "Statut mis à jour avec succès",
+                        message:
+                            "Statut mis à jour avec succès, pensez à mettre à jour le statut de l'animal.",
                         color: "success",
                     });
                 } else {
                     console.error(updatedRequest); // Contient le message d'erreur de l'API
                     setToastAnimalId(request.animal_id);
+                    let errorMessage =
+                        "Erreur lors de la mise à jour du statut. Veuillez rafraîchir la page et réessayer.";
+                    if (response.status === 400) {
+                        errorMessage =
+                            "Une demande est déjà acceptée pour cet animal, veuillez d'abord mettre à jour son statut puis réessayer.";
+                    }
                     setToastData({
-                        message:
-                            "Erreur lors de la mise à jour du statut. Veuillez rafraîchir la page et réessayer.",
+                        message: errorMessage,
                         color: "danger",
                     });
                 }
@@ -178,14 +184,14 @@ const ManageRequest = () => {
                     <Toast
                         onClose={() => setToastAnimalId(null)}
                         show={toastAnimalId === animalGroup.animal.id}
-                        delay={3000}
+                        delay={5000}
                         autohide
                         bg={toastData?.color}
                         className={"mb-2 text-white"}
                     >
                         <Toast.Body>{toastData?.message}</Toast.Body>
                     </Toast>
-                    <Table striped bordered responsive className={"text-center"}>
+                    <Table bordered responsive className={"text-center"}>
                         <thead>
                             <tr>
                                 <th>N°</th>
@@ -198,7 +204,10 @@ const ManageRequest = () => {
                         </thead>
                         <tbody>
                             {animalGroup.requests.map((request) => (
-                                <tr key={request.id}>
+                                <tr
+                                    key={request.id}
+                                    className={request.status === "Terminée" ? "table-active" : ""}
+                                >
                                     <td>{request.id}</td>
                                     <td>
                                         <a
