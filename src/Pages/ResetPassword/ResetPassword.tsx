@@ -20,7 +20,7 @@ const ResetPassword = () => {
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
     const baseURL = import.meta.env.VITE_API_URL;
-    const [isRequestReset, setIsRequestReset] = useState(false);
+    const [isRequestReset, setIsRequestReset] = useState(true);
 
     // Gestion récupération du resetToken
 
@@ -167,7 +167,7 @@ const ResetPassword = () => {
                 />
             </Helmet>
             <Header />
-            <main className="container">
+            <main className="container main--reset-password">
                 <h1 className="main__title">Réinitialiser le mot de passe </h1>
                 <Formik
                     initialValues={initialValues}

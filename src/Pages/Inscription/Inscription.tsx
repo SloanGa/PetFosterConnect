@@ -123,351 +123,369 @@ const Inscription = () => {
             </Helmet>
 
             <Header />
+            <div className="container main--register">
+                <div className="form__presentation">
+                    <h1 className="main__title">Inscription</h1>
+                    <ModeSwitcher
+                        onClick={handleSetMode}
+                        text={
+                            mode === "family"
+                                ? "Association ? Cliquez ici"
+                                : "Famille ? Cliquez-ici"
+                        }
+                    />
+                    <h2 className="form__title">
+                        Formulaire d'inscription : {mode === "family" ? "Famille" : "Association"}
+                    </h2>
+                </div>
 
-            <div className="form__presentation">
-                <h1 className="main__title">Inscription</h1>
-                <ModeSwitcher
-                    onClick={handleSetMode}
-                    text={mode === "family" ? "Association ? Cliquez ici" : "Famille ? Cliquez-ici"}
-                />
-                <h2 className="form__title">
-                    Formulaire d'inscription : {mode === "family" ? "Famille" : "Association"}
-                </h2>
-            </div>
-
-            <Formik
-                validationSchema={schema}
-                onSubmit={handleSubmitForm}
-                initialValues={{
-                    name: "",
-                    address: "",
-                    zip_code: "",
-                    department_id: "",
-                    city: "",
-                    phone_number: "",
-                    email: "",
-                    password: "",
-                    confirmPassword: "",
-                    email_association: "",
-                    association_img: null,
-                    family_img: null,
-                }}
-                validateOnBlur={true}
-                validateOnChange={true}
-            >
-                {({ setFieldValue, handleSubmit, handleChange, values, touched, errors }) => (
-                    <Form
-                        encType="multipart/form-data"
-                        className="form__register"
-                        onSubmit={handleSubmit}
-                        noValidate
-                    >
-                        <div className="container__register">
-                            <div className="user__register">
-                                {/* Input email */}
-                                <Form.Group controlId="formBasicEmail" className="form__email">
-                                    <Form.Label column="sm" className="label">
-                                        Email *
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="input"
-                                        type="email"
-                                        name="email"
-                                        placeholder="Adresse email"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        isInvalid={touched.email && !!errors.email}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.email as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                {/* Input mot de passe */}
-                                <Form.Group
-                                    controlId="formBasicPassword"
-                                    className="form__password"
-                                >
-                                    <Form.Label column="sm" className="label">
-                                        Mot de passe *
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="input input__password"
-                                        type={isPasswordVisible ? "text" : "password"}
-                                        name="password"
-                                        placeholder="Mot de passe"
-                                        ref={passwordInputRef}
-                                        value={values.password}
-                                        onChange={handleChange}
-                                        isInvalid={touched.password && !!errors.password}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password as string}
-                                    </Form.Control.Feedback>
-
-                                    {!errors.password && (
-                                        <Icon
-                                            ariaLabel="Afficher ou Masquer le password"
-                                            className="icon--eye"
-                                            src={
-                                                isPasswordVisible
-                                                    ? "src/assets/icons/visible-password.svg"
-                                                    : "src/assets/icons/hidden-password.svg"
-                                            }
-                                            alt=""
-                                            onClick={() => {
-                                                isPasswordVisible
-                                                    ? setIsPasswordVisible(false)
-                                                    : setIsPasswordVisible(true);
-                                            }}
-                                        />
-                                    )}
-                                </Form.Group>
-
-                                {/* Input confirme mot de passe */}
-                                <Form.Group
-                                    controlId="formBasicConfirmPassword"
-                                    className="form__passwordconfirm"
-                                >
-                                    <Form.Label column="sm" className="label">
-                                        Confirmez votre mot de passe *
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="input input__password"
-                                        type={isConfirmPasswordVisible ? "text" : "password"}
-                                        name="confirmPassword"
-                                        placeholder="Confirmez votre mot de passe"
-                                        ref={passwordInputRef}
-                                        value={values.confirmPassword}
-                                        onChange={handleChange}
-                                        isInvalid={
-                                            touched.confirmPassword && !!errors.confirmPassword
-                                        }
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.confirmPassword as string}
-                                    </Form.Control.Feedback>
-
-                                    {!errors.confirmPassword && (
-                                        <Icon
-                                            ariaLabel="Afficher ou Masquer le password"
-                                            className="icon--eye"
-                                            src={
-                                                isConfirmPasswordVisible
-                                                    ? "src/assets/icons/visible-password.svg"
-                                                    : "src/assets/icons/hidden-password.svg"
-                                            }
-                                            alt=""
-                                            onClick={() => {
-                                                isConfirmPasswordVisible
-                                                    ? setIsConfirmPasswordVisible(false)
-                                                    : setIsConfirmPasswordVisible(true);
-                                            }}
-                                        />
-                                    )}
-                                </Form.Group>
-                                {/* Input name */}
-                                <Form.Group controlId="formBasicName" className="form__name">
-                                    {mode === "family" ? (
-                                        <Form.Label column="sm">Nom de famille *</Form.Label>
-                                    ) : (
-                                        <Form.Label column="sm">Nom de l'association *</Form.Label>
-                                    )}
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="text"
-                                        name="name"
-                                        placeholder="Nom"
-                                        value={values.name}
-                                        onChange={handleChange}
-                                        isInvalid={touched.name && !!errors.name}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.name as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                {/* Input file */}
-                                {mode === "family" ? (
-                                    /* mode = family */
-                                    <Form.Group controlId="formBasicFile" className="form__file">
-                                        <Form.Label column="sm">Photo de profil</Form.Label>
-                                        <Form.Control
-                                            className="form__connexion_input"
-                                            type="file"
-                                            name="family_img"
-                                            accept="image/png, image/jpeg, image/webp, image/jpg"
-                                            onChange={(event) => {
-                                                const file = event.currentTarget.files[0];
-                                                setFieldValue("family_img", file);
-                                            }}
-                                            isInvalid={touched.family_img && !!errors.family_img}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.family_img as string}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                ) : (
-                                    /* mode = association */
-                                    <Form.Group controlId="formBasicFile" className="form__file">
-                                        <Form.Label column="sm">
-                                            Photo ou logo de l'association *
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={handleSubmitForm}
+                    initialValues={{
+                        name: "",
+                        address: "",
+                        zip_code: "",
+                        department_id: "",
+                        city: "",
+                        phone_number: "",
+                        email: "",
+                        password: "",
+                        confirmPassword: "",
+                        email_association: "",
+                        association_img: null,
+                        family_img: null,
+                    }}
+                    validateOnBlur={false}
+                    validateOnChange={false}
+                >
+                    {({ setFieldValue, handleSubmit, handleChange, values, touched, errors }) => (
+                        <Form
+                            encType="multipart/form-data"
+                            className="form__register"
+                            onSubmit={handleSubmit}
+                            noValidate
+                        >
+                            <div className="container__register">
+                                <div className="form__column">
+                                    {/* Input email */}
+                                    <Form.Group controlId="formBasicEmail" className="form__email">
+                                        <Form.Label column="sm" className="label">
+                                            Email *
                                         </Form.Label>
                                         <Form.Control
-                                            className="form__connexion_input"
-                                            type="file"
-                                            name="association_img"
-                                            accept="image/png, image/jpeg, image/webp, image/jpg"
-                                            onChange={(event) => {
-                                                const file = event.currentTarget.files[0] || null;
-                                                setFieldValue("association_img", file);
-                                            }}
+                                            className="input"
+                                            type="email"
+                                            name="email"
+                                            placeholder="Adresse email"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            isInvalid={touched.email && !!errors.email}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.email as string}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    {/* Input mot de passe */}
+                                    <Form.Group
+                                        controlId="formBasicPassword"
+                                        className="form__password"
+                                    >
+                                        <Form.Label column="sm" className="label">
+                                            Mot de passe *
+                                        </Form.Label>
+                                        <Form.Control
+                                            className="input input__password"
+                                            type={isPasswordVisible ? "text" : "password"}
+                                            name="password"
+                                            placeholder="Mot de passe"
+                                            ref={passwordInputRef}
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            isInvalid={touched.password && !!errors.password}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.password as string}
+                                        </Form.Control.Feedback>
+
+                                        {!errors.password && (
+                                            <Icon
+                                                ariaLabel="Afficher ou Masquer le password"
+                                                className="icon--eye"
+                                                src={
+                                                    isPasswordVisible
+                                                        ? "src/assets/icons/visible-password.svg"
+                                                        : "src/assets/icons/hidden-password.svg"
+                                                }
+                                                alt=""
+                                                onClick={() => {
+                                                    isPasswordVisible
+                                                        ? setIsPasswordVisible(false)
+                                                        : setIsPasswordVisible(true);
+                                                }}
+                                            />
+                                        )}
+                                    </Form.Group>
+
+                                    {/* Input confirme mot de passe */}
+                                    <Form.Group
+                                        controlId="formBasicConfirmPassword"
+                                        className="form__passwordconfirm"
+                                    >
+                                        <Form.Label column="sm" className="label">
+                                            Confirmez votre mot de passe *
+                                        </Form.Label>
+                                        <Form.Control
+                                            className="input input__password"
+                                            type={isConfirmPasswordVisible ? "text" : "password"}
+                                            name="confirmPassword"
+                                            placeholder="Confirmez votre mot de passe"
+                                            ref={passwordInputRef}
+                                            value={values.confirmPassword}
+                                            onChange={handleChange}
                                             isInvalid={
-                                                touched.association_img && !!errors.association_img
+                                                touched.confirmPassword && !!errors.confirmPassword
                                             }
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            {errors.association_img as string}
+                                            {errors.confirmPassword as string}
+                                        </Form.Control.Feedback>
+
+                                        {!errors.confirmPassword && (
+                                            <Icon
+                                                ariaLabel="Afficher ou Masquer le password"
+                                                className="icon--eye"
+                                                src={
+                                                    isConfirmPasswordVisible
+                                                        ? "src/assets/icons/visible-password.svg"
+                                                        : "src/assets/icons/hidden-password.svg"
+                                                }
+                                                alt=""
+                                                onClick={() => {
+                                                    isConfirmPasswordVisible
+                                                        ? setIsConfirmPasswordVisible(false)
+                                                        : setIsConfirmPasswordVisible(true);
+                                                }}
+                                            />
+                                        )}
+                                    </Form.Group>
+                                    {/* Input name */}
+                                    <Form.Group controlId="formBasicName" className="form__name">
+                                        {mode === "family" ? (
+                                            <Form.Label column="sm">Nom de famille *</Form.Label>
+                                        ) : (
+                                            <Form.Label column="sm">
+                                                Nom de l'association *
+                                            </Form.Label>
+                                        )}
+                                        <Form.Control
+                                            className="form__connexion_input"
+                                            type="text"
+                                            name="name"
+                                            placeholder="Nom"
+                                            value={values.name}
+                                            onChange={handleChange}
+                                            isInvalid={touched.name && !!errors.name}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.name as string}
                                         </Form.Control.Feedback>
                                     </Form.Group>
-                                )}
-                            </div>
+                                    {/* Input file */}
+                                    {mode === "family" ? (
+                                        /* mode = family */
+                                        <Form.Group
+                                            controlId="formBasicFile"
+                                            className="form__file"
+                                        >
+                                            <Form.Label column="sm">Photo de profil</Form.Label>
+                                            <Form.Control
+                                                className="form__connexion_input"
+                                                type="file"
+                                                name="family_img"
+                                                accept="image/png, image/jpeg, image/webp, image/jpg"
+                                                onChange={(event) => {
+                                                    const file = event.currentTarget.files[0];
+                                                    setFieldValue("family_img", file);
+                                                }}
+                                                isInvalid={
+                                                    touched.family_img && !!errors.family_img
+                                                }
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.family_img as string}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    ) : (
+                                        /* mode = association */
+                                        <Form.Group
+                                            controlId="formBasicFile"
+                                            className="form__file"
+                                        >
+                                            <Form.Label column="sm">
+                                                Photo ou logo de l'association *
+                                            </Form.Label>
+                                            <Form.Control
+                                                className="form__connexion_input"
+                                                type="file"
+                                                name="association_img"
+                                                accept="image/png, image/jpeg, image/webp, image/jpg"
+                                                onChange={(event) => {
+                                                    const file =
+                                                        event.currentTarget.files[0] || null;
+                                                    setFieldValue("association_img", file);
+                                                }}
+                                                isInvalid={
+                                                    touched.association_img &&
+                                                    !!errors.association_img
+                                                }
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.association_img as string}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    )}
+                                </div>
 
-                            <div className="entity__register">
-                                {/* Input adresse */}
-                                <Form.Group controlId="formBasicAddress" className="form__address">
-                                    <Form.Label column="sm">Adresse *</Form.Label>
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="text"
-                                        name="address"
-                                        placeholder="Adresse"
-                                        value={values.address}
-                                        onChange={handleChange}
-                                        isInvalid={touched.address && !!errors.address}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.address as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                {/* Input zip_code */}
-                                <Form.Group controlId="formBasicZipcode" className="form__zipcode">
-                                    <Form.Label column="sm">Code postal *</Form.Label>
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="text"
-                                        name="zip_code"
-                                        placeholder="Code postal"
-                                        value={values.zip_code}
-                                        onChange={handleChange}
-                                        isInvalid={touched.zip_code && !!errors.zip_code}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.zip_code as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                {/* Input city */}
-                                <Form.Group controlId="formBasicCity" className="form__city">
-                                    <Form.Label column="sm">Ville *</Form.Label>
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="text"
-                                        name="city"
-                                        placeholder="Ville"
-                                        value={values.city}
-                                        onChange={handleChange}
-                                        isInvalid={touched.city && !!errors.city}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.city as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                {/* Input departments */}
-                                <Form.Group
-                                    controlId="formBasicDepartments"
-                                    className="form__departement"
-                                >
-                                    <Form.Label column="sm">Département *</Form.Label>
-                                    <Form.Select
-                                        name="department_id"
-                                        value={values.department_id}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.department_id}
+                                <div className="form__column">
+                                    {/* Input adresse */}
+                                    <Form.Group
+                                        controlId="formBasicAddress"
+                                        className="form__address"
                                     >
-                                        <option value="">Tous les départements</option>
-                                        {departments.map((department) => (
-                                            <option key={department.id} value={department.id}>
-                                                {department.name}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.department_id as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+                                        <Form.Label column="sm">Adresse *</Form.Label>
+                                        <Form.Control
+                                            className="form__connexion_input"
+                                            type="text"
+                                            name="address"
+                                            placeholder="Adresse"
+                                            value={values.address}
+                                            onChange={handleChange}
+                                            isInvalid={touched.address && !!errors.address}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.address as string}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                                {/* Input email asso */}
-                                {mode === "association" ? (
-                                    <Form.Group controlId="formBasicEmailAsso">
-                                        <Form.Label column="sm" className="form__emailAsso">
-                                            Mail de contact de l'association *
+                                    {/* Input zip_code */}
+                                    <Form.Group
+                                        controlId="formBasicZipcode"
+                                        className="form__zipcode"
+                                    >
+                                        <Form.Label column="sm">Code postal *</Form.Label>
+                                        <Form.Control
+                                            className="form__connexion_input"
+                                            type="text"
+                                            name="zip_code"
+                                            placeholder="Code postal"
+                                            value={values.zip_code}
+                                            onChange={handleChange}
+                                            isInvalid={touched.zip_code && !!errors.zip_code}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.zip_code as string}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    {/* Input city */}
+                                    <Form.Group controlId="formBasicCity" className="form__city">
+                                        <Form.Label column="sm">Ville *</Form.Label>
+                                        <Form.Control
+                                            className="form__connexion_input"
+                                            type="text"
+                                            name="city"
+                                            placeholder="Ville"
+                                            value={values.city}
+                                            onChange={handleChange}
+                                            isInvalid={touched.city && !!errors.city}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.city as string}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    {/* Input departments */}
+                                    <Form.Group
+                                        controlId="formBasicDepartments"
+                                        className="form__departement"
+                                    >
+                                        <Form.Label column="sm">Département *</Form.Label>
+                                        <Form.Select
+                                            name="department_id"
+                                            value={values.department_id}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.department_id}
+                                        >
+                                            <option value="">Tous les départements</option>
+                                            {departments.map((department) => (
+                                                <option key={department.id} value={department.id}>
+                                                    {department.name}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.department_id as string}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    {/* Input email asso */}
+                                    {mode === "association" ? (
+                                        <Form.Group controlId="formBasicEmailAsso">
+                                            <Form.Label column="sm" className="form__emailAsso">
+                                                Mail de contact de l'association *
+                                            </Form.Label>
+                                            <Form.Control
+                                                className="form__connexion_input"
+                                                type="text"
+                                                name="email_association"
+                                                placeholder="Email de contact"
+                                                value={values.email_association}
+                                                onChange={handleChange}
+                                                isInvalid={
+                                                    touched.email_association &&
+                                                    !!errors.email_association
+                                                }
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.email_association as string}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    ) : null}
+
+                                    {/* Input phone_number */}
+                                    <Form.Group controlId="formBasicPhoneNumber">
+                                        <Form.Label column="sm" className="form__number">
+                                            Numéro de téléphone *
                                         </Form.Label>
                                         <Form.Control
                                             className="form__connexion_input"
                                             type="text"
-                                            name="email_association"
-                                            placeholder="Email de contact"
-                                            value={values.email_association}
+                                            name="phone_number"
+                                            placeholder="Numéro de téléphone"
+                                            value={values.phone_number}
                                             onChange={handleChange}
                                             isInvalid={
-                                                touched.email_association &&
-                                                !!errors.email_association
+                                                touched.phone_number && !!errors.phone_number
                                             }
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            {errors.email_association as string}
+                                            {errors.phone_number as string}
                                         </Form.Control.Feedback>
                                     </Form.Group>
-                                ) : null}
-
-                                {/* Input phone_number */}
-                                <Form.Group controlId="formBasicPhoneNumber">
-                                    <Form.Label column="sm" className="form__number">
-                                        Numéro de téléphone *
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="text"
-                                        name="phone_number"
-                                        placeholder="Numéro de téléphone"
-                                        value={values.phone_number}
-                                        onChange={handleChange}
-                                        isInvalid={touched.phone_number && !!errors.phone_number}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.phone_number as string}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+                                </div>
                             </div>
-                        </div>
-
-                        {/* Bouton submit */}
-                        <Button
-                            type="submit"
-                            aria-label="S'inscrire"
-                            className="btn__form--grid btn__submit"
-                        >
-                            S'inscrire
-                        </Button>
-
-                        {/* Erreur et loading */}
-                    </Form>
-                )}
-            </Formik>
-            {error && <Error error={error} classNameForm="error__form" />}
-            {isLoading && <Loading />}
+                            <button type="submit" aria-label="S'inscrire" className="btn">
+                                S'inscrire
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
+                <span>Champs requis*</span>
+                {error && <Error error={error} classNameForm="error__form" />}
+                {isLoading && <Loading />}
+            </div>
 
             <Footer />
         </>

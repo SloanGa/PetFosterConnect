@@ -93,7 +93,7 @@ const Connexion = () => {
             </Helmet>
 
             <Header />
-            <main className="container">
+            <main className="container main--connexion">
                 <h1 className="main__title">Connexion</h1>
 
                 <Formik

@@ -65,7 +65,7 @@ const Header = () => {
                                         />
                                     </li>
                                     <li>
-                                        <NavigationLink
+                                        <AppLink
                                             to="/inscription"
                                             className="btn"
                                             title="S'inscrire"
