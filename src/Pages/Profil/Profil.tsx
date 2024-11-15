@@ -206,7 +206,8 @@ const Profil = ({
                                                 {requestData?.map((request) => (
                                                     <tr key={request.id}>
                                                         <td>
-                                                            <a href="/animaux/oscar-1" className="link">
+                                                            <a href={`/animaux/${request.animal?.slug}`}
+                                                                className="link">
                                                                 {request.animal?.name}
                                                             </a>
                                                         </td>

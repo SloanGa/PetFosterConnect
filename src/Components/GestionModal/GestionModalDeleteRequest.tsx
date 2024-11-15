@@ -76,7 +76,7 @@ const GestionModalDeleteRequest = ({
                 <Modal.Title>Confirmez-vous cette demande ?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Si vous confirmez, votre demande sera définitivement supprimé.
+                Si vous confirmez, votre demande sera définitivement supprimée.
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseDelete} className={"btn--cancel"}>

@@ -229,7 +229,7 @@ const Animal = () => {
                                         </a>
                                     </div>
                                     {!animal!.availability ? (
-                                        // Si l'animal est indisponible
+                                           // Si l'animal est indisponible
                                         <button className="btn btn--indisponible" disabled>
                                             Animal indisponible
                                         </button>

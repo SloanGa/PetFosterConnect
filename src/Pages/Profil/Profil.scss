@@ -161,6 +161,7 @@
   }
 
   .request {
+
     &__title {
       text-align: center;
       padding-bottom: 1em;
@@ -176,7 +177,7 @@
       }
 
       &--en-attente {
-        color: v.$secondary
+        color: v.$secondary;
       }
     }
   }
