@@ -6,9 +6,15 @@ import { useEffect, useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import { Button, Form, Toast } from "react-bootstrap";
+import Icon from "../../Components/Icon/Icon.tsx";
 import { Formik } from "formik";
 import * as yup from "yup";
 const ResetPassword = () => {
+	// Gestion toggle password/string
+
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+		useState(false);
 	const baseURL = import.meta.env.VITE_API_URL;
 	const [isRequestReset, setIsRequestReset] = useState(true);
 
@@ -218,14 +224,14 @@ const ResetPassword = () => {
 								<>
 									<Form.Group
 										aria-label="Entrer le nouveau mot de passe"
-										className="mb-3"
+										className="mb-3 form__group__password"
 										controlId="password"
 									>
 										<Form.Label>
 											Veuillez entrer votre nouveau mot de passe
 										</Form.Label>
 										<Form.Control
-											type="password"
+											type={isPasswordVisible ? "text" : "password"}
 											placeholder="Mot de passe"
 											name="password"
 											value={values.password}
@@ -235,18 +241,36 @@ const ResetPassword = () => {
 										<Form.Control.Feedback type="invalid">
 											{errors.password}
 										</Form.Control.Feedback>
+
+										{!errors.password && (
+											<Icon
+												ariaLabel="Afficher ou Masquer le password"
+												className="reset-password__eye"
+												src={
+													isPasswordVisible
+														? "src/assets/icons/hidden-password.svg"
+														: "src/assets/icons/visible-password.svg"
+												}
+												alt=""
+												onClick={() => {
+													isPasswordVisible
+														? setIsPasswordVisible(false)
+														: setIsPasswordVisible(true);
+												}}
+											/>
+										)}
 									</Form.Group>
 
 									<Form.Group
 										aria-label="Confirmer le mot de passe"
-										className="mb-3"
+										className="mb-3 form__group__password"
 										controlId="confirmPassword"
 									>
 										<Form.Label>
 											Veuillez confirmer votre mot de passe
 										</Form.Label>
 										<Form.Control
-											type="password"
+											type={isConfirmPasswordVisible ? "text" : "password"}
 											placeholder="Confirmation Mot de passe"
 											name="confirmPassword"
 											value={values.confirmPassword}
@@ -258,6 +282,23 @@ const ResetPassword = () => {
 										<Form.Control.Feedback type="invalid">
 											{errors.confirmPassword}
 										</Form.Control.Feedback>
+										{!errors.confirmPassword && (
+											<Icon
+												ariaLabel="Afficher ou Masquer le password"
+												className="reset-password__eye"
+												src={
+													isConfirmPasswordVisible
+														? "src/assets/icons/hidden-password.svg"
+														: "src/assets/icons/visible-password.svg"
+												}
+												alt=""
+												onClick={() => {
+													isConfirmPasswordVisible
+														? setIsConfirmPasswordVisible(false)
+														: setIsConfirmPasswordVisible(true);
+												}}
+											/>
+										)}
 									</Form.Group>
 								</>
 							)}
