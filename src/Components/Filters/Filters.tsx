@@ -1,5 +1,5 @@
 import "./Filters.scss";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
@@ -12,20 +12,17 @@ interface FiltersProps {
     isFiltersVisible: boolean;
     setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
     setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
-    associationId: string;
-    setAssociationId: React.Dispatch<React.SetStateAction<string | null>>;
+    //setAssociationId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Filters = ({
-                     animals,
-                     handleFilter,
-                     isFiltersVisible,
-                     setForm,
-                     setAnimalsFilterCount,
-                     associationId,
-                     setAssociationId,
-                 }: FiltersProps) => {
-
+    animals,
+    handleFilter,
+    isFiltersVisible,
+    setForm,
+    setAnimalsFilterCount,
+    //setAssociationId,
+}: FiltersProps) => {
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
@@ -52,15 +49,13 @@ const Filters = ({
     const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         const form = e.currentTarget.form;
         if (form) {
-
             form.reset();
             setSelectedSize(null);
             setSelectedAge(null);
             setForm(null);
             setAnimalsFilterCount(null);
-            setAssociationId(null);
+            //setAssociationId(null);
             navigate("/animaux");
-
         }
     };
 
@@ -72,6 +67,15 @@ const Filters = ({
                 action={`${import.meta.env.VITE_API_URL}/animals/search`}
                 onSubmit={handleFilter}
             >
+                <label className="filters__form__description" htmlFor="availability">
+                    Disponibilité
+                </label>
+                <select className="form-select" id="availability" name="availability">
+                    <option value="">Toutes les disponibilités</option>
+                    <option value="true">Disponible</option>
+                    <option value="false">Indisponible</option>
+                </select>
+
                 <label className="filters__form__description" htmlFor="species">
                     Type
                 </label>
@@ -123,47 +127,93 @@ const Filters = ({
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Âge</legend>
 
-                    <InputWithLabel id="0-2" classNameInput="form-check-input" type="checkbox" name="age"
-                                    ariaLabel="0 à 2 ans"
-                                    value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
-                                    selected={selectedAge!} />
+                    <InputWithLabel
+                        id="0-2"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="age"
+                        ariaLabel="0 à 2 ans"
+                        value="0-2"
+                        text="0 à 2 ans"
+                        onChange={handleAgeCheckBoxChange}
+                        selected={selectedAge!}
+                    />
 
-                    <InputWithLabel id="2-5" classNameInput="form-check-input" type="checkbox" name="age"
-                                    ariaLabel="2 à 5 ans"
-                                    value="2-5" text="2 à 5 ans" onChange={handleAgeCheckBoxChange}
-                                    selected={selectedAge!} />
+                    <InputWithLabel
+                        id="2-5"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="age"
+                        ariaLabel="2 à 5 ans"
+                        value="2-5"
+                        text="2 à 5 ans"
+                        onChange={handleAgeCheckBoxChange}
+                        selected={selectedAge!}
+                    />
 
-                    <InputWithLabel id="5-10" classNameInput="form-check-input" type="checkbox" name="age"
-                                    ariaLabel="5 à 10 ans"
-                                    value="5-10" text="5 à 10 ans" onChange={handleAgeCheckBoxChange}
-                                    selected={selectedAge!} />
+                    <InputWithLabel
+                        id="5-10"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="age"
+                        ariaLabel="5 à 10 ans"
+                        value="5-10"
+                        text="5 à 10 ans"
+                        onChange={handleAgeCheckBoxChange}
+                        selected={selectedAge!}
+                    />
 
-                    <InputWithLabel id="11" classNameInput="form-check-input" type="checkbox" name="age"
-                                    ariaLabel="Plus de 10 ans"
-                                    value="11" text="< 10 ans" onChange={handleAgeCheckBoxChange}
-                                    selected={selectedAge!} />
-
+                    <InputWithLabel
+                        id="11"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="age"
+                        ariaLabel="Plus de 10 ans"
+                        value="11"
+                        text="< 10 ans"
+                        onChange={handleAgeCheckBoxChange}
+                        selected={selectedAge!}
+                    />
                 </fieldset>
 
                 <fieldset className="filters__form__fieldset">
                     <legend className="filters__form__description">Taille</legend>
 
+                    <InputWithLabel
+                        id="small"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="size"
+                        ariaLabel="Petit"
+                        value="Petit"
+                        text="Petit"
+                        onChange={handleSizeCheckBoxChange}
+                        selected={selectedSize!}
+                    />
 
-                    <InputWithLabel id="small" classNameInput="form-check-input" type="checkbox" name="size"
-                                    ariaLabel="Petit"
-                                    value="Petit" text="Petit" onChange={handleSizeCheckBoxChange}
-                                    selected={selectedSize!} />
+                    <InputWithLabel
+                        id="medium"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="size"
+                        ariaLabel="Moyen"
+                        value="Moyen"
+                        text="Moyen"
+                        onChange={handleSizeCheckBoxChange}
+                        selected={selectedSize!}
+                    />
 
-                    <InputWithLabel id="medium" classNameInput="form-check-input" type="checkbox" name="size"
-                                    ariaLabel="Moyen"
-                                    value="Moyen" text="Moyen" onChange={handleSizeCheckBoxChange}
-                                    selected={selectedSize!} />
-
-                    <InputWithLabel id="large" classNameInput="form-check-input" type="checkbox" name="size"
-                                    ariaLabel="Grand"
-                                    value="Grand" text="Grand" onChange={handleSizeCheckBoxChange}
-                                    selected={selectedSize!} />
-
+                    <InputWithLabel
+                        id="large"
+                        classNameInput="form-check-input"
+                        type="checkbox"
+                        name="size"
+                        ariaLabel="Grand"
+                        value="Grand"
+                        text="Grand"
+                        onChange={handleSizeCheckBoxChange}
+                        selected={selectedSize!}
+                    />
                 </fieldset>
 
                 <button className="btn" type="submit" aria-label="Bouton de recherche">

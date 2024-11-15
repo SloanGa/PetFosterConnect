@@ -47,14 +47,21 @@ const PaginationComposant = ({
                 disabled={currentPage === 1}
             />
             {/* Affiche la première page */}
-            <Pagination.Item onClick={() => handleChangePage(1)} active={currentPage === 1}>
+            <Pagination.Item
+                onClick={() => handleChangePage(1)}
+                active={currentPage === 1}
+                onMouseDown={(e) => e.preventDefault() /* Supprime le focus au clic*/}
+            >
                 1
             </Pagination.Item>
             {/* Affiche un ellipsis si nécessaire */}
             {currentPage > 3 && <Pagination.Ellipsis />}
             {/* Affiche la page précédente de la current page si nécessaire */}
             {currentPage > 2 && (
-                <Pagination.Item onClick={() => handleChangePage(currentPage - 1)}>
+                <Pagination.Item
+                    onClick={() => handleChangePage(currentPage - 1)}
+                    onMouseDown={(e) => e.preventDefault() /* Supprime le focus au clic*/}
+                >
                     {currentPage - 1}
                 </Pagination.Item>
             )}
@@ -64,7 +71,10 @@ const PaginationComposant = ({
             )}
             {/* Affiche la page suivante de la current page si nécessaire */}
             {currentPage < totalPagesNumber - 1 && (
-                <Pagination.Item onClick={() => handleChangePage(currentPage + 1)}>
+                <Pagination.Item
+                    onClick={() => handleChangePage(currentPage + 1)}
+                    onMouseDown={(e) => e.preventDefault() /* Supprime le focus au clic*/}
+                >
                     {currentPage + 1}
                 </Pagination.Item>
             )}
@@ -75,6 +85,7 @@ const PaginationComposant = ({
                 <Pagination.Item
                     onClick={() => handleChangePage(totalPagesNumber)}
                     active={currentPage === totalPagesNumber}
+                    onMouseDown={(e) => e.preventDefault() /* Supprime le focus au clic*/}
                 >
                     {totalPagesNumber}
                 </Pagination.Item>

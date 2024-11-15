@@ -2,7 +2,7 @@ import "./Home.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
-import AnimalCard from "../../Components/AnimalCard/AnimalCard.tsx";
+import Card from "../../Components/Card/Card.tsx";
 import AppLink from "../../Components/Links/AppLink.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
@@ -13,8 +13,10 @@ const Home = () => {
     const { animals, isLoading, error, baseURL } = useFetchAnimals();
 
     const getRandomizeAnimals = (animals: IAnimal[], count: number): IAnimal[] => {
+        // les animaux disponibles seulement
+        const availableAnimals = animals.filter((animal) => animal.availability === true);
         // Trie le tableau dans un ordre aléatoire
-        const shuffledAnimals = animals.sort(() => 0.5 - Math.random());
+        const shuffledAnimals = availableAnimals.sort(() => 0.5 - Math.random());
         //Retourne un tableau avec "count" element (ici 3)
         return shuffledAnimals.slice(0, count);
     };
@@ -23,7 +25,7 @@ const Home = () => {
 
     return (
         <>
-            {/*Composant qui gere les meta données*/}
+            {/*Composant qui gère les meta données*/}
             <Helmet>
                 <title>Page d'accueil | PetFoster Connect</title>
                 <meta
@@ -66,7 +68,7 @@ const Home = () => {
                                 <ul className="cards__list">
                                     {homeAnimals.map((animal) => (
                                         <li key={animal.id}>
-                                            <AnimalCard
+                                            <Card
                                                 path={`/animaux/${animal.slug}`}
                                                 src={`${baseURL}${animal.url_image!}`}
                                                 alt={animal.name}
