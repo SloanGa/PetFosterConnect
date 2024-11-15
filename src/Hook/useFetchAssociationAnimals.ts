@@ -27,7 +27,6 @@ const useFetchAssociationAnimals = (token: string | null) => {
 					);
 				}
 				const data = await response.json();
-				console.log(data);
 				setPaginatedAnimals(data.paginatedAnimals);
 				setTotalCount(data.totalCount);
 			} catch (error) {

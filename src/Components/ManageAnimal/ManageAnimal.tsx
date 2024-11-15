@@ -1,7 +1,4 @@
 import "./ManageAnimal.scss";
-import { Helmet } from "react-helmet-async";
-import Header from "../../Components/Header/Header.tsx";
-import Footer from "../../Components/Footer/Footer.tsx";
 
 import DashboardCard from "../../Components/DashboardCard/DashboardCard.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
@@ -9,22 +6,16 @@ import { Error } from "../../Components/Error/Error.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
-import LeftNavBar from "../../Components/LeftNavBar/LeftNavBar";
 import { useState, useEffect, useCallback, useRef } from "react";
-import Icon from "../../Components/Icon/Icon.tsx";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
-import { useAuth } from "../../Context/AuthContext.tsx";
 import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimals.ts";
 import PaginationComposant from "../../Components/Pagination/Pagination";
 
 const ManageAnimal = () => {
-
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [showGestionModal, setShowGestionModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-	const [associationAnimals, setAssociationAnimals] = useState<IAnimal[]>([]);
 
 	// states qui permettent de gérer quel animal est à éditer ou supprimer
 
@@ -35,9 +26,14 @@ const ManageAnimal = () => {
 
 	const [toastMessage, setToastMessage] = useState("");
 	const [showToast, setShowToast] = useState(false);
+	const [toastData, setToastData] = useState<{
+		message: string;
+		color: string;
+	} | null>(null);
 
-	const toggleToast = useCallback((message) => {
+	const toggleToast = useCallback((message, color) => {
 		setToastMessage(message);
+		setToastData({ message: message, color: color });
 		setShowToast(true);
 	}, []);
 
@@ -130,7 +126,6 @@ const ManageAnimal = () => {
 
 			let updatedAnimal;
 			try {
-				const token = localStorage.getItem("auth_token");
 				const response = await fetch(
 					`${baseURL}/dashboard/association/animals/${animalToEdit.id}`,
 					{
@@ -145,7 +140,7 @@ const ManageAnimal = () => {
 				if (response.ok) {
 					updatedAnimal = await response.json(); // on récupère updatedAnimal ici
 
-					toggleToast("Animal édité avec succès");
+					toggleToast("Animal édité avec succès", "success");
 
 					setAnimalsToDisplay((prevAnimals) =>
 						prevAnimals.map((animal) =>
@@ -158,7 +153,10 @@ const ManageAnimal = () => {
 					}, 1000);
 				} else {
 					updatedAnimal = await response.json();
-					toggleToast(updatedAnimal.error || "Erreur lors de la mise à jour");
+					toggleToast(
+						updatedAnimal.error || "Erreur lors de la mise à jour",
+						"danger",
+					);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
@@ -183,7 +181,6 @@ const ManageAnimal = () => {
 			}
 			let createdAnimal;
 			try {
-				const token = localStorage.getItem("auth_token");
 				const response = await fetch(
 					`${baseURL}/dashboard/association/animals/`,
 					{
@@ -198,13 +195,16 @@ const ManageAnimal = () => {
 				if (response.ok) {
 					createdAnimal = await response.json();
 
-					toggleToast("Animal ajouté avec succès");
+					toggleToast("Animal ajouté avec succès", "success");
 					setTimeout(() => {
 						handleCloseGestionModal();
 					}, 1000);
 				} else {
 					createdAnimal = await response.json();
-					toggleToast(createdAnimal.error || "Erreur lors de la création");
+					toggleToast(
+						createdAnimal.error || "Erreur lors de la création",
+						"danger",
+					);
 
 					setTimeout(() => {
 						handleCloseGestionModal();
@@ -233,7 +233,6 @@ const ManageAnimal = () => {
 
 	const deleteAnimal = useCallback(async () => {
 		try {
-			const token = localStorage.getItem("auth_token");
 			const response = await fetch(
 				`${baseURL}/dashboard/association/animals/${animalToDelete.id}`,
 				{
@@ -245,7 +244,7 @@ const ManageAnimal = () => {
 			);
 
 			if (response.ok) {
-				toggleToast("Animal supprimé");
+				toggleToast("Animal supprimé", "success");
 				setAnimalsToDisplay((prevAnimals) =>
 					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
 				);
@@ -254,7 +253,7 @@ const ManageAnimal = () => {
 					handleCloseDeleteModal();
 				}, 1000);
 			} else {
-				toggleToast("Erreur lors de la suppression");
+				toggleToast("Erreur lors de la suppression", "danger");
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
@@ -319,6 +318,7 @@ const ManageAnimal = () => {
 				showToast={showToast}
 				toggleToast={toggleToast}
 				toastMessage={toastMessage}
+				toastData={toastData}
 			/>
 
 			{/* Modale pour confirmer la suppression d'un animal */}
@@ -337,7 +337,7 @@ const ManageAnimal = () => {
 					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
 					?{" "}
 					<div className="modal__toast d-flex justify-content-center mt-3">
-						<Toast show={showToast} onClose={toggleToast}>
+						<Toast show={showToast} onClose={toggleToast} bg={toastData?.color}>
 							<Toast.Body>{toastMessage}</Toast.Body>
 						</Toast>
 					</div>
