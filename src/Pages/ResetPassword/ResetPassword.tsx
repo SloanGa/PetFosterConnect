@@ -16,8 +16,10 @@ const ResetPassword = () => {
 
 	const location = useLocation();
 	const [decodedToken, setDecodedToken] = useState<object | null>(null);
-	// const [email, setEmail] = useState<string | null>(null);
 	const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
+	const [showToast, setShowToast] = useState(false);
+	const toggleShowToast = () => setShowToast(!showToast);
+	const [toastMessage, setToastMessage] = useState<string | null>(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -55,11 +57,7 @@ const ResetPassword = () => {
 		};
 
 		fetchData();
-	}, [location, baseURL]);
-
-	// useEffect(() => {
-	// 	console.log("decodedToken mis à jour:", decodedToken);
-	// }, [decodedToken]);
+	}, [location]);
 
 	const initialValues = {
 		email: "",
@@ -107,7 +105,13 @@ const ResetPassword = () => {
 					console.log(
 						"Email de réinitialisation envoyé. Consultez également vos spams.",
 					);
+					setToastMessage(
+						"Email de réinitialisation envoyé. Consultez également vos spams.",
+					);
+					toggleShowToast();
 				} else {
+					setToastMessage("Une erreur est survenue. Veuillez réessayer.");
+					toggleShowToast();
 					console.log("Une erreur est survenue. Veuillez réessayer.");
 				}
 			} catch (error) {
@@ -141,15 +145,23 @@ const ResetPassword = () => {
 				if (response.ok) {
 					const data = await response.json();
 					console.log(data);
+					setToastMessage(
+						"Email de réinitialisation envoyé. Consultez également vos spams.",
+					);
+					toggleShowToast();
 				} else {
 					const errorData = await response.json();
+					setToastMessage(
+						"Email de réinitialisation envoyé. Consultez également vos spams.",
+					);
+					toggleShowToast();
 					console.log(errorData);
 				}
 			} catch (error) {
 				console.error(error);
 			}
 		},
-		[],
+		[decodedToken, tokenFromUrl],
 	);
 	return (
 		<>
@@ -256,6 +268,13 @@ const ResetPassword = () => {
 						</Form>
 					)}
 				</Formik>
+				<Toast
+					className="confirmation__reset__toast"
+					show={showToast}
+					onClose={toggleShowToast}
+				>
+					<Toast.Body>{toastMessage}</Toast.Body>
+				</Toast>
 			</main>
 			<Footer />
 		</>
