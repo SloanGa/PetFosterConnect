@@ -1,8 +1,6 @@
-import { HelmetProvider } from "react-helmet-async";
 import "./Erreur.scss";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
-import { useRef } from "react";
 import Footer from "../../Components/Footer/Footer";
 
 const Erreur = () => {
@@ -19,7 +17,7 @@ const Erreur = () => {
 			<Header />
 			<main className="container">
 				<h1 className="main__title">Oups, cette page a pris la fuite ! </h1>
-				<img className="image__404" src="public/3818850.jpg" alt="Image d'erreur pour page non trouvée" />
+				<img className="image__404" src="src/assets/erreur404.webp" alt="Image d'erreur page non trouvée"></img>
 				<p className="text__404">
 					Il semble que la page que vous cherchez ait trouvé une famille
 					d'accueil temporaire ailleurs. Revenez à la page d'accueil pour

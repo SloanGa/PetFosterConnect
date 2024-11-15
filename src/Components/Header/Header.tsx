@@ -27,7 +27,7 @@ const Header = () => {
             <div className="header__primary">
                 <Link to="/" title="Retour sur la page d'accueil">
                     <img
-                        src="/src/assets/logo_name.png"
+                        src="/src/assets/logo_name.webp"
                         className="header__logo"
                         alt="Logo PetFoster Connect"
                     />

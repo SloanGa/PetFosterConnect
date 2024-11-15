@@ -124,7 +124,7 @@ const Filters = ({
                     <legend className="filters__form__description">Âge</legend>
 
                     <InputWithLabel id="0-2" classNameInput="form-check-input" type="checkbox" name="age"
-                                    ariaLabel="0 à 2 ans"
+                                    ariaLabel ="0 à 2 ans"
                                     value="0-2" text="0 à 2 ans" onChange={handleAgeCheckBoxChange}
                                     selected={selectedAge!} />
 
