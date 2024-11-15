@@ -48,8 +48,8 @@ const Associations = () => {
         const formData = new FormData(e.currentTarget);
         const params: { [key: string]: string } = {};
 
-        formData.forEach((value: string, key: string) => {
-            if (value !== "") {
+        formData.forEach((value, key) => {
+            if (value !== "" && typeof value === "string") {
                 params[key] = value;
             }
         });
@@ -67,6 +67,7 @@ const Associations = () => {
             const data = await response.json();
             setAssociationsFilterCount(data.totalAssociationCount);
             setAssociationsToDisplay(data.paginatedAssociations);
+            setIsFiltersVisible((prev) => !prev); //fermer les filtres sur mobile
         } catch (error) {
             console.error("Erreur lors de la récupération des données filtrées:", error);
         }
@@ -77,7 +78,7 @@ const Associations = () => {
     };
 
     /* Logique pour la gestion de la pagination  */
-    const handleChangePage = async (page: Number) => {
+    const handleChangePage = async (page: number) => {
         setCurrentPage(page);
         try {
             setIsLoading(true);
@@ -154,6 +155,7 @@ const Associations = () => {
                                 handleFilter={handleSubmitFilter}
                                 isFiltersVisible={isFiltersVisible}
                                 setForm={setForm}
+                                setIsFiltersVisible={setIsFiltersVisible}
                             />
                         </div>
                         <div className="cards">

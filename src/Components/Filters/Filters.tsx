@@ -12,7 +12,7 @@ interface FiltersProps {
     isFiltersVisible: boolean;
     setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
     setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
-    //setAssociationId: React.Dispatch<React.SetStateAction<string | null>>;
+    setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Filters = ({
@@ -21,7 +21,7 @@ const Filters = ({
     isFiltersVisible,
     setForm,
     setAnimalsFilterCount,
-    //setAssociationId,
+    setIsFiltersVisible,
 }: FiltersProps) => {
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -54,7 +54,7 @@ const Filters = ({
             setSelectedAge(null);
             setForm(null);
             setAnimalsFilterCount(null);
-            //setAssociationId(null);
+            setIsFiltersVisible((prev) => !prev); //fermer les filtres sur mobile
             navigate("/animaux");
         }
     };

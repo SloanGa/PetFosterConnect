@@ -68,7 +68,7 @@ const Card = ({
                                     <span>{animalType}</span>
                                     <span>{gender}</span>
                                     <span>
-                                        {age} {age > 1 ? "ans" : "an"}
+                                        {age} {age! > 1 ? "ans" : "an"}
                                     </span>
                                 </div>
                             </>

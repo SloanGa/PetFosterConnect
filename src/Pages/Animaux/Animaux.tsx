@@ -42,24 +42,26 @@ const Animaux = () => {
         const params: { [key: string]: string } = {};
 
         // Parcourir chaque entrée de FormData et ignore les ""
-        formData!.forEach((value: string, key: string) => {
-            // Gérer les options par défaut
-            if (key === "availability" && value === "") {
-                return; // Ignore la valeur par défaut
+        formData!.forEach((value, key) => {
+            if (typeof value === "string") {
+                // Gérer les options par défaut
+                if (key === "availability" && value === "") {
+                    return; // Ignore la valeur par défaut
+                }
+                if (key === "department_id" && value === "") {
+                    return; // Ignore la valeur par défaut
+                }
+                if (key === "association_id" && value === "") {
+                    return; // Ignore la valeur par défaut
+                }
+                if (key === "species" && value === "") {
+                    return; // Ignore la valeur par défaut
+                }
+                if (key === "gender" && value === "") {
+                    return; // Ignore la valeur par défaut
+                }
+                params[key] = value;
             }
-            if (key === "department_id" && value === "") {
-                return; // Ignore la valeur par défaut
-            }
-            if (key === "association_id" && value === "") {
-                return; // Ignore la valeur par défaut
-            }
-            if (key === "species" && value === "") {
-                return; // Ignore la valeur par défaut
-            }
-            if (key === "gender" && value === "") {
-                return; // Ignore la valeur par défaut
-            }
-            params[key] = value;
         });
         /* Initialise le state Form pour verifier si on est dans le cadre d'une recherche avec filtre ou non */
         setForm(params);
@@ -75,7 +77,7 @@ const Animaux = () => {
             const data = await response.json();
             setAnimalsFilterCount(data.totalAnimalCount);
             setAnimalsToDisplay(data.paginatedAnimals);
-            setIsFiltersVisible((prev) => !prev);
+            setIsFiltersVisible((prev) => !prev); //fermer les filtres sur mobile
         } catch (error) {
             console.error("Erreur lors de la récupération des données filtrées:", error);
         }
@@ -86,7 +88,7 @@ const Animaux = () => {
     };
 
     /* Logique pour la gestion de la pagination  */
-    const handleChangePage = async (page: Number) => {
+    const handleChangePage = async (page: number) => {
         setCurrentPage(page);
         try {
             setIsLoading(true);
@@ -163,6 +165,7 @@ const Animaux = () => {
                                 isFiltersVisible={isFiltersVisible}
                                 setForm={setForm}
                                 setAnimalsFilterCount={setAnimalsFilterCount}
+                                setIsFiltersVisible={setIsFiltersVisible}
                             />
                         </div>
                         <div className="cards">

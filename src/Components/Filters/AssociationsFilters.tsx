@@ -8,6 +8,7 @@ interface AssociationsFiltersProps {
     handleFilter: (event: FormEvent<HTMLFormElement>) => void;
     associations: IAssociation[];
     setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
+    setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssociationsFilters = ({
@@ -15,6 +16,7 @@ const AssociationsFilters = ({
     handleFilter,
     associations,
     setForm,
+    setIsFiltersVisible,
 }: AssociationsFiltersProps) => {
     const { departments } = useFetchDepartments();
     const { animals } = useFetchAnimals();
@@ -27,6 +29,7 @@ const AssociationsFilters = ({
         if (form) {
             form.reset();
             setForm(null);
+            setIsFiltersVisible((prev) => !prev); //fermer les filtres sur mobile
         }
     };
 

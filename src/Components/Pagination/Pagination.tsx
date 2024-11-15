@@ -3,7 +3,7 @@ import { Pagination } from "react-bootstrap";
 
 interface PaginationProps {
     items: number;
-    handleChangePage: (page: Number) => void;
+    handleChangePage: (page: number) => void;
     currentPage: number;
     animalsFilterCount?: number | null;
 }
