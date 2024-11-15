@@ -11,12 +11,11 @@ import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
 import Profil from "../Association/Association.tsx";
 
 const TableauBord = () => {
+
 	const { userData } = useAuth();
 	const [isAssociationConnected, setIsAssociationConnected] = useState<
 		boolean | null
 	>(null);
-
-	const storedUser = JSON.parse(localStorage.getItem("user"));
 
 	useEffect(() => {
 		const storedUser = JSON.parse(localStorage.getItem("user"));

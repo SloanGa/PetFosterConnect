@@ -1,80 +1,58 @@
-@use '../../styles/variables' as v;
+@use "../../styles/variables" as v;
 
-.form__register {
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  gap: 20px;
+.main--register {
+    .form__register {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem 1rem;
+        gap: 20px;
 
-  .info__form {
-    font-size: 1.2em;
-    padding-bottom: 0.4em;
-  }
+        input::placeholder {
+            color: rgb(145, 145, 145);
+        }
 
-  .form__password, .form__passwordconfirm {
-    position: relative;
-  }
+        .form__password,
+        .form__passwordconfirm {
+            position: relative;
+        }
 
-  .toggle-password-button {
-    position: absolute;
-    right: 10px;
-    top: 73%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
+        .form-label {
+            display: flex;
+            flex-direction: column-reverse;
+            font-weight: bold;
+        }
 
-
-  .form-label {
-    display: flex;
-    flex-direction: column-reverse;
-    font-weight: bold;
-  }
-
-  .form-control:focus {
-    border-color: v.$primary;
-    box-shadow: none;
-  }
-
-}
-
-.form__presentation {
-  display: block;
-  text-align: center;
-}
-
-.form__title {
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
-@media (min-width: 768px) {
-  .form__register {
-    align-items: center;
-  }
-
-  .container__register {
-    display: flex;
-    gap: 2em;
-    width: 90%;
-    margin: auto;
-    padding-bottom: 2em;
-    justify-content: center;
-
-    .user__register {
-      width: 30%;
+        .form-control:focus {
+            border-color: v.$primary;
+            box-shadow: none;
+        }
     }
 
-    .entity__register {
-      width: 30%;
+    .form__presentation {
+        display: block;
+        text-align: center;
     }
-  }
 
+    .form__title {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    @media (min-width: 768px) {
+        .form__register {
+            align-items: center;
+        }
+
+        .container__register {
+            display: flex;
+            gap: 2rem;
+            width: 90%;
+            padding-bottom: 2em;
+            justify-content: center;
+
+            .form__column {
+                width: calc(50% - 2rem);
+            }
+        }
+    }
 }
-
-
-
-
-
