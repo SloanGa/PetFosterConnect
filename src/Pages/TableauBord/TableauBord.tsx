@@ -40,7 +40,7 @@ const TableauBord = () => {
             <Header />
             <div className="content">
                 <LeftNavBar />
-                <main className="main__content">
+                <main className="main--dashboard main__content">
                     <h1 className="main__title">
                         Tableau de bord | {userData ? userData.association.name : "XXX"}
                     </h1>

@@ -1,84 +1,86 @@
 @use "../../styles/variables" as v;
 
-.card {
-    color: v.$main;
+.main--dashboard {
+    .card {
+        color: v.$main;
 
-    &__link {
-        display: block; // Assure que le lien prend toute la largeur
-        transition: transform 0.3s;
+        &__link {
+            display: block; // Assure que le lien prend toute la largeur
+            transition: transform 0.3s;
 
-        &:hover {
-            transform: scale(1.03);
+            &:hover {
+                transform: scale(1.03);
+            }
+        }
+
+        &__img__container {
+            position: relative;
+            display: block;
+            width: 100%; // Assure la pleine largeur du conteneur image
+        }
+
+        &__img {
+            height: 280px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            object-position: top;
+            width: 100%; // Assure la pleine largeur de l'image
+            display: block;
+        }
+
+        &__img__overlay--active {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(34, 6, 6, 0.425); // Semi-transparent overlay
+            color: white;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        &__img__overlay--inactive {
+            display: none;
+        }
+
+        &__title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        &__text {
+            font-weight: normal;
         }
     }
 
-    &__img__container {
-        position: relative;
-        display: block;
-        width: 100%; // Assure la pleine largeur du conteneur image
+    .card-body {
+        text-align: center;
     }
 
-    &__img {
-        height: 280px;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        object-position: top;
-        width: 100%; // Assure la pleine largeur de l'image
-        display: block;
-    }
-
-    &__img__overlay--active {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+    .card-buttons {
+        padding-top: 1em;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(34, 6, 6, 0.425); // Semi-transparent overlay
-        color: white;
-        font-weight: bold;
-        opacity: 1;
-        transition: opacity 0.3s;
-    }
+        justify-content: space-evenly;
 
-    &__img__overlay--inactive {
-        display: none;
-    }
+        .card-buttons__button {
+            background-color: v.$secondary-light;
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            color: v.$tertiary-light;
 
-    &__title {
-        font-weight: bold;
-        font-size: 1rem;
-    }
-
-    &__text {
-        font-weight: normal;
-    }
-}
-
-.card-body {
-    text-align: center;
-}
-
-.card-buttons {
-    padding-top: 1em;
-    display: flex;
-    justify-content: space-evenly;
-
-    .card-buttons__button {
-        background-color: v.$secondary-light;
-        border: none;
-        padding: 0.8rem 1rem;
-        border-radius: 15px;
-        color: v.$tertiary-light;
-
-        &:hover {
-            background-color: v.$secondary;
+            &:hover {
+                background-color: v.$secondary;
+            }
         }
     }
-}
 
-.family-profile-link {
-    font-weight: 600;
+    .family-profile-link {
+        font-weight: 600;
+    }
 }

@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon";
 import { Button } from "react-bootstrap";
-
+import "./DashboardCard.scss";
 
 interface DashboardCardProps {
-	path: string;
-	src: string;
-	alt: string;
-	name: string;
-	animal: Ianimal;
+    path: string;
+    src: string;
+    alt: string;
+    name: string;
+    animal: Ianimal;
 
-	onShowGestionModal: (animal: IAnimal) => void;
+    onShowGestionModal: (animal: IAnimal) => void;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
