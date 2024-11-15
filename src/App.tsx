@@ -14,6 +14,7 @@ import PolitiqueConfidentialite from "./Pages/PolitiqueConfidentialite/Politique
 import Erreur from "./Pages/Erreur/Erreur.tsx";
 import TableauBord from "./Pages/TableauBord/TableauBord";
 import { AuthProvider } from "./Context/AuthContext.tsx";
+import ProtectedRoute from "./Context/ProtectedRoute.tsx";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword.tsx";
 
 const App = () => {
@@ -27,10 +28,24 @@ const App = () => {
 						<Route path="/association/:slug" element={<Association />} />
 						<Route path="/animaux" element={<Animaux />} />
 						<Route path="/animaux/:slug" element={<Animal />} />
-						<Route path="/famille/:slug" element={<Famille />} />
+						<Route
+							path="/famille/:slug"
+							element={
+								<ProtectedRoute>
+									<Famille />
+								</ProtectedRoute>
+							}
+						/>
 						<Route path="/inscription" element={<Inscription />} />
 						<Route path="/connexion" element={<Connexion />} />
-						<Route path="/tableau-de-bord/*" element={<TableauBord />} />
+						<Route
+							path="/tableau-de-bord/*"
+							element={
+								<ProtectedRoute>
+									<TableauBord />
+								</ProtectedRoute>
+							}
+						/>
 						<Route path="/mentions-legales" element={<MentionsLegales />} />
 						<Route path="/plan-du-site" element={<PlanDuSite />} />
 						<Route
