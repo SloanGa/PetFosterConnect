@@ -2,24 +2,24 @@ import { useEffect, useState } from "react";
 import { IAnimal } from "../Interfaces/IAnimal.ts";
 
 const useFetchAssociationAnimals = (token: string | null) => {
-	const [paginatedAnimals, setPaginatedAnimals] = useState<IAnimal[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-	const [totalCount, setTotalCount] = useState<number | null>(null);
+    const [paginatedAnimals, setPaginatedAnimals] = useState<IAnimal[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [totalCount, setTotalCount] = useState<number | null>(null);
 
-	const baseURL = import.meta.env.VITE_API_URL;
+    const baseURL = import.meta.env.VITE_API_URL;
 
-	useEffect(() => {
-		const fetchAnimals = async () => {
-			try {
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/dashboard/association/animals`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					},
-				);
+    useEffect(() => {
+        const fetchAnimals = async () => {
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/dashboard/association/animals`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
 				if (!response.ok) {
 					return setError(
@@ -37,18 +37,19 @@ const useFetchAssociationAnimals = (token: string | null) => {
 			}
 		};
 
-		fetchAnimals();
-	}, [token]);
 
-	return {
-		paginatedAnimals,
-		isLoading,
-		setIsLoading,
-		error,
-		setError,
-		baseURL,
-		totalCount,
-	};
+        fetchAnimals();
+    }, [token]);
+
+    return {
+        paginatedAnimals,
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        baseURL,
+        totalCount,
+    };
 };
 
 export { useFetchAssociationAnimals };

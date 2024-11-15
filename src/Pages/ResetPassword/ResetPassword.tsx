@@ -9,12 +9,17 @@ import { Button, Form, Toast } from "react-bootstrap";
 import Icon from "../../Components/Icon/Icon.tsx";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+
 const ResetPassword = () => {
+	const navigate = useNavigate();
+
 	// Gestion toggle password/string
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
 		useState(false);
+
 	const baseURL = import.meta.env.VITE_API_URL;
 	const [isRequestReset, setIsRequestReset] = useState(true);
 
@@ -23,10 +28,13 @@ const ResetPassword = () => {
 	const location = useLocation();
 	const [decodedToken, setDecodedToken] = useState<object | null>(null);
 	const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
-	const [showToast, setShowToast] = useState(false);
-	const toggleShowToast = () => setShowToast(!showToast);
-	const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+	const [showToast, setShowToast] = useState(false);
+	const [toastMessage, setToastMessage] = useState<string | null>(null);
+	const toggleShowToast = (message) => {
+		setToastMessage(message);
+		setShowToast(!showToast);
+	};
 	useEffect(() => {
 		const fetchData = async () => {
 			const queryParams = new URLSearchParams(location.search);
@@ -34,7 +42,6 @@ const ResetPassword = () => {
 			setTokenFromURL(tokenFromUrl);
 
 			if (tokenFromUrl) {
-				console.log("Token récupéré:", tokenFromUrl);
 				setIsRequestReset(false);
 
 				try {
@@ -50,14 +57,13 @@ const ResetPassword = () => {
 
 					if (response.ok) {
 						const data = await response.json();
-						console.log("Réponse du serveur:", data);
 						setDecodedToken(data);
 					} else {
 						const errorText = await response.text();
-						console.log("Erreur du serveur:", response.status, errorText);
+						console.log("Erreur du serveur:", errorText);
 					}
 				} catch (error) {
-					console.error("Erreur de réseau:", error);
+					console.error(error);
 				}
 			}
 		};
@@ -96,7 +102,6 @@ const ResetPassword = () => {
 	const handleSubmitAskForReset = useCallback(
 		async (values: { email: string }) => {
 			const formDataObject = { email: values.email };
-			console.log(formDataObject);
 
 			try {
 				const response = await fetch(`${baseURL}/auth/resetpassword`, {
@@ -108,17 +113,11 @@ const ResetPassword = () => {
 				});
 
 				if (response.ok) {
-					console.log(
+					toggleShowToast(
 						"Email de réinitialisation envoyé. Consultez également vos spams.",
 					);
-					setToastMessage(
-						"Email de réinitialisation envoyé. Consultez également vos spams.",
-					);
-					toggleShowToast();
 				} else {
-					setToastMessage("Une erreur est survenue. Veuillez réessayer.");
-					toggleShowToast();
-					console.log("Une erreur est survenue. Veuillez réessayer.");
+					toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
 				}
 			} catch (error) {
 				console.error(error);
@@ -133,7 +132,6 @@ const ResetPassword = () => {
 				password: values.password,
 				confirmPassword: values.confirmPassword,
 			};
-			console.log("Reset Password", formDataObject);
 
 			try {
 				const response = await fetch(
@@ -150,24 +148,18 @@ const ResetPassword = () => {
 
 				if (response.ok) {
 					const data = await response.json();
-					console.log(data);
-					setToastMessage(
-						"Email de réinitialisation envoyé. Consultez également vos spams.",
-					);
-					toggleShowToast();
+					toggleShowToast("Mot de passe modifié avec succès.");
+					setTimeout(() => {
+						navigate("/connexion");
+					}, 2000);
 				} else {
-					const errorData = await response.json();
-					setToastMessage(
-						"Email de réinitialisation envoyé. Consultez également vos spams.",
-					);
-					toggleShowToast();
-					console.log(errorData);
+					toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
 				}
 			} catch (error) {
 				console.error(error);
 			}
 		},
-		[decodedToken, tokenFromUrl],
+		[decodedToken],
 	);
 	return (
 		<>

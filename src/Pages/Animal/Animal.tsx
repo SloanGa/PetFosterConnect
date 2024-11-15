@@ -88,7 +88,8 @@ const Animal = () => {
                 setAlert(alert);
             } else if (response.ok) {
                 const alert = {
-                    message: "Demande envoyée ! L'association vous recontactera.",
+                    message:
+                        "Demande envoyée ! L'association vous recontactera. Vous pouvez voir vos demandes sur votre profil.",
                     type: "success",
                 };
                 setAlert(alert);
