@@ -159,9 +159,9 @@ const Connexion = () => {
 										ariaLabel="Afficher ou Masquer le password"
 										className="reset-password__eye"
 										src={
-											isPasswordVisible
-												? "src/assets/icons/hidden-password.svg"
-												: "src/assets/icons/visible-password.svg"
+											isConfirmPasswordVisible
+												? "src/assets/icons/visible-password.svg"
+												: "src/assets/icons/hidden-password.svg"
 										}
 										alt=""
 										onClick={() => {
