@@ -1,5 +1,6 @@
 import { IAssociation } from "./IAssociation.ts";
 import { IFamily } from "./IFamily.ts";
+import IRequest from "./IRequest.ts";
 
 interface IAnimal {
     id: number;
@@ -17,6 +18,7 @@ interface IAnimal {
     family: IFamily | null;
     association_id: number;
     association: IAssociation;
+    requests?: IRequest[];
     created_at: Date;
     updated_at: Date;
 }

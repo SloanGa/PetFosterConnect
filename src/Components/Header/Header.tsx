@@ -79,7 +79,7 @@ const Header = () => {
                                     {userData.role === "family" ? (
                                         <li>
                                             <NavigationLink
-                                                to={`/famille/${userData.family.id}`}
+                                                to={`/famille/${userData.family.slug}`}
                                                 className="nav__list__link"
                                                 title="Profil"
                                                 text="Profil"

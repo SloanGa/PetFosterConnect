@@ -191,7 +191,7 @@ const ManageRequest = () => {
                     >
                         <Toast.Body>{toastData?.message}</Toast.Body>
                     </Toast>
-                    <Table striped bordered responsive className={"text-center"}>
+                    <Table bordered responsive className={"text-center"}>
                         <thead>
                             <tr>
                                 <th>N°</th>
@@ -204,7 +204,10 @@ const ManageRequest = () => {
                         </thead>
                         <tbody>
                             {animalGroup.requests.map((request) => (
-                                <tr key={request.id}>
+                                <tr
+                                    key={request.id}
+                                    className={request.status === "Terminée" ? "table-active" : ""}
+                                >
                                     <td>{request.id}</td>
                                     <td>
                                         <a

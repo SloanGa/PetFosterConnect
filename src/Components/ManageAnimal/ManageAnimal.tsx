@@ -134,7 +134,6 @@ const ManageAnimal = () => {
 
                 if (response.ok) {
                     updatedAnimal = await response.json(); // on récupère updatedAnimal ici
-
                     toggleToast("Animal édité avec succès");
 
                     setAnimalsToDisplay((prevAnimals) =>
