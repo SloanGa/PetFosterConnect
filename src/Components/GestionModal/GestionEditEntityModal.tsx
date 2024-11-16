@@ -18,16 +18,14 @@ interface GestionModalProps {
 }
 
 const GestionEditEntityModal: React.FC<GestionModalProps> = ({
-                                                                 show,
-                                                                 handleClose,
-                                                                 entityToEdit,
-                                                                 userToEdit,
-                                                                 setEntity,
-                                                             }) => {
-
+    show,
+    handleClose,
+    entityToEdit,
+    userToEdit,
+    setEntity,
+}) => {
     const { departments } = useFetchDepartments();
     const [alert, setAlert] = useState<{ message: string; type: string } | null>(null);
-
 
     const initialValues = {
         name: entityToEdit?.name || "",
@@ -41,12 +39,18 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
         password: "",
         confirmPassword: "",
         // Inclure email_association seulement si l'entité est une association
-        email_association: entityToEdit && "email_association" in entityToEdit ? entityToEdit.email_association : "",
+        email_association:
+            entityToEdit && "email_association" in entityToEdit
+                ? entityToEdit.email_association
+                : "",
         family_img: null,
         association_img: null,
     };
 
-    const fetchedURL = entityToEdit && "email_association" in entityToEdit ? `${import.meta.env.VITE_API_URL}/dashboard/association/profile` : `${import.meta.env.VITE_API_URL}/family`;
+    const fetchedURL =
+        entityToEdit && "email_association" in entityToEdit
+            ? `${import.meta.env.VITE_API_URL}/dashboard/association/profile`
+            : `${import.meta.env.VITE_API_URL}/family`;
 
     const handleSubmitEdit = async (values) => {
         const formData = new FormData();
@@ -58,10 +62,9 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
         }
 
         try {
-
             const response = await fetch(fetchedURL, {
                 method: "PATCH",
-                headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
+                headers: { Authorization: `Bearer ${localStorage.getItem("auth_token")}` },
                 body: formData,
             });
 
@@ -91,7 +94,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 handleClose();
                 setAlert(null);
             }, 1500);
-
         } catch (error) {
             const alert = {
                 message:
@@ -114,29 +116,15 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 <Modal.Title>Modifier les informations</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleSubmitEdit}
-                >
-                    {({
-                          handleSubmit,
-                          handleChange,
-                          values,
-                          touched,
-                          errors,
-                          setFieldValue,
-                      }) => (
+                <Formik initialValues={initialValues} onSubmit={handleSubmitEdit}>
+                    {({ handleSubmit, handleChange, values, touched, errors, setFieldValue }) => (
                         <Form
                             id="edit-animal-form"
                             encType="multipart/form-data"
                             onSubmit={handleSubmit} // C'est le handleSubmitEdit de formik ici
                         >
-                            <Form.Group
-                                aria-label="Modifier le nom"
-                                className="mb-3"
-                                controlId="name"
-                            >
-                                <Form.Label>Nom</Form.Label>
+                            <Form.Group className="mb-1" controlId="name">
+                                <Form.Label column="sm">Nom</Form.Label>
                                 <Form.Control
                                     type="text"
                                     placeholder="Nom"
@@ -144,66 +132,61 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                     value={values.name || ""}
                                     onChange={handleChange}
                                 />
-
                             </Form.Group>
 
                             {/* Input adresse */}
-                            <Form.Group controlId="formBasicAddress" className="form__address">
-                                <Form.Label column="sm">
-                                    Votre Adresse *
-                                </Form.Label>
+                            <Form.Group controlId="formBasicAddress" className="form__address mb-1">
+                                <Form.Label column="sm">Adresse *</Form.Label>
                                 <Form.Control
                                     className="form__connexion_input"
                                     type="text"
                                     name="address"
-                                    aria-label="Votre adresse"
-                                    placeholder="Votre adresse"
+                                    placeholder="Adresse"
                                     value={values.address}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
                             {/* Input zip_code */}
-                            <Form.Group controlId="formBasicZipcode" className="form__zipcode">
-                                <Form.Label column="sm">
-                                    Votre code postal *
-                                </Form.Label>
+                            <Form.Group controlId="formBasicZipcode" className="form__zipcode mb-1">
+                                <Form.Label column="sm">Code postal *</Form.Label>
                                 <Form.Control
                                     className="form__connexion_input"
                                     type="text"
                                     name="zip_code"
-                                    aria-label="Votre code postal"
-                                    placeholder="Votre code postal"
+                                    placeholder="Code postal"
                                     value={values.zip_code}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
-
                             {/* Input city */}
-                            <Form.Group controlId="formBasicCity" className="form__city">
-                                <Form.Label column="sm">
-                                    Votre Ville *
-                                </Form.Label>
+                            <Form.Group controlId="formBasicCity" className="form__city mb-1">
+                                <Form.Label column="sm">Ville *</Form.Label>
                                 <Form.Control
                                     className="form__connexion_input"
                                     type="text"
                                     name="city"
-                                    aria-label="Votre ville"
-                                    placeholder="Votre ville"
+                                    placeholder="Ville"
                                     value={values.city}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
-
                             {/*/!* Input departments *!/*/}
-                            <Form.Group controlId="formBasicDepartments" className="form__departement">
-                                <Form.Label column="sm">Votre département *</Form.Label>
-                                <Form.Control as="select" name="department_id"
-                                              onChange={handleChange}
+                            <Form.Group
+                                controlId="formBasicDepartments"
+                                className="form__departement mb-1"
+                            >
+                                <Form.Label column="sm">Département *</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="department_id"
+                                    onChange={handleChange}
                                 >
-                                    <option value={entityToEdit!.department_id}>{entityToEdit?.department.name}</option>
+                                    <option value={entityToEdit!.department_id}>
+                                        {entityToEdit?.department.name}
+                                    </option>
                                     {departments.map((department) => (
                                         <option key={department.id} value={department.id}>
                                             {department.name}
@@ -212,88 +195,79 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                                 </Form.Control>
                             </Form.Group>
 
-
                             {entityToEdit && "email_association" in entityToEdit ? (
-                                <Form.Group controlId="formBasicEmailAsso">
+                                <Form.Group controlId="formBasicEmailAsso" className="mb-1">
                                     <Form.Label column="sm" className="form__emailAsso">
-                                        Votre adresse mail d'association *
+                                        Adresse mail de contact *
                                     </Form.Label>
                                     <Form.Control
                                         className="form__connexion_input"
                                         type="text"
                                         name="email_association"
-                                        aria-label="Votre adresse mail d'association"
-                                        placeholder="Votre adresse mail d'association"
+                                        placeholder="Adresse mail de contact de l'association"
                                         value={values.email_association}
                                         onChange={handleChange}
                                     />
-                                </Form.Group>) : null}
-
+                                </Form.Group>
+                            ) : null}
 
                             {/* Input phone_number */}
-                            <Form.Group controlId="formBasicPhoneNumber">
+                            <Form.Group controlId="formBasicPhoneNumber" className="mb-1">
                                 <Form.Label column="sm" className="form__number">
-                                    Votre numéro de téléphone *
+                                    Numéro de téléphone *
                                 </Form.Label>
                                 <Form.Control
                                     className="form__connexion_input"
                                     type="text"
                                     name="phone_number"
-                                    aria-label="Votre numéro de téléphone"
-                                    placeholder="Votre numéro de téléphone"
+                                    placeholder="Numéro de téléphone"
                                     value={values.phone_number}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
-
                             {/* Input file */}
 
-                            {entityToEdit && "email_association" in entityToEdit ?
-                                /* mode = family */
-                                (<Form.Group controlId="formBasicFile" className="form__file">
-                                    <Form.Label column="sm">
-                                        Votre photo de profil
-                                    </Form.Label>
-                                    <Form.Control
-                                        className="form__connexion_input"
-                                        type="file"
-                                        name="family_img"
-                                        aria-label="Votre photo de profil"
-                                        accept="image/png, image/jpeg, image/webp, image/jpg"
-                                        onChange={(event) => {
-                                            const file = event.currentTarget.files[0];
-                                            setFieldValue("association_img", file);
-                                        }}
-                                    />
-                                </Form.Group>) :
-
+                            {entityToEdit && "email_association" in entityToEdit ? (
                                 /* mode = association */
-                                <Form.Group controlId="formBasicFile" className="form__file">
+                                <Form.Group controlId="formBasicFile" className="form__file mb-1">
                                     <Form.Label column="sm">
-                                        Votre photo de profil *
+                                        Photo / Logo de l'association *
                                     </Form.Label>
                                     <Form.Control
                                         className="form__connexion_input"
                                         type="file"
                                         name="association_img"
-                                        aria-label="Votre photo de profil"
                                         accept="image/png, image/jpeg, image/webp, image/jpg"
                                         onChange={(event) => {
                                             const file = event.currentTarget.files[0] || null;
                                             setFieldValue("family_img", file);
                                         }}
                                     />
-                                </Form.Group>}
-
+                                </Form.Group>
+                            ) : (
+                                /* mode = family */
+                                <Form.Group controlId="formBasicFile" className="form__file mb-1">
+                                    <Form.Label column="sm">Photo de profil</Form.Label>
+                                    <Form.Control
+                                        className="form__connexion_input"
+                                        type="file"
+                                        name="family_img"
+                                        accept="image/png, image/jpeg, image/webp, image/jpg"
+                                        onChange={(event) => {
+                                            const file = event.currentTarget.files[0];
+                                            setFieldValue("association_img", file);
+                                        }}
+                                    />
+                                </Form.Group>
+                            )}
 
                             <Form.Group
-                                aria-label="Votre description"
+                                aria-label="Description"
                                 controlId="description"
-                                className="mb-3"
+                                className="mb-2"
                             >
-
-                                <Form.Label>Description</Form.Label>
+                                <Form.Label column="sm">Description</Form.Label>
                                 <Form.Control
                                     type="text"
                                     placeholder="Description de l'animal"
@@ -305,52 +279,53 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 
                             <p className="info__form">Informations utilisateur</p>
                             {/* Input email */}
-                            <Form.Group controlId="formBasicEmail" className="form__email">
+                            <Form.Group controlId="formBasicEmail" className="form__email mb-1">
                                 <Form.Label column="sm" className="label">
-                                    Votre email *
+                                    Email de connexion *
                                 </Form.Label>
                                 <Form.Control
                                     className="input"
                                     type="email"
                                     name="email"
-                                    aria-label="Votre email"
-                                    placeholder="Votre email"
+                                    placeholder="Email de connexion"
                                     value={values.email}
                                     onChange={handleChange}
                                 />
                             </Form.Group>
 
                             {/* Input mot de passe */}
-                            <Form.Group controlId="formBasicPassword" className="form__password">
+                            <Form.Group
+                                controlId="formBasicPassword"
+                                className="form__password mb-1"
+                            >
                                 <Form.Label column="sm" className="label">
-                                    Votre mot de passe
+                                    Changer de mot de passe :
                                 </Form.Label>
                                 <Form.Control
                                     className="input input__password"
                                     type={"password"}
                                     name="password"
-                                    aria-label="Votre mot de passe"
-                                    placeholder="Votre mot de passe"
+                                    placeholder="Nouveau mot de passe"
                                     onChange={handleChange}
                                 />
-
                             </Form.Group>
 
                             {/* Input confirme mot de passe */}
-                            <Form.Group controlId="formBasicConfirmPassword" className="form__passwordconfirm">
+                            <Form.Group
+                                controlId="formBasicConfirmPassword"
+                                className="form__passwordconfirm mb-1"
+                            >
                                 <Form.Label column="sm" className="label">
-                                    Confirmez votre mot de passe
+                                    Confirmez votre nouveau mot de passe
                                 </Form.Label>
                                 <Form.Control
                                     className="input input__password"
                                     type={"password"}
                                     name="confirmPassword"
-                                    aria-label="Confirmez votre mot de passe"
-                                    placeholder="Confirmez votre mot de passe"
+                                    placeholder="Confirmez votre nouveau mot de passe"
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-
                         </Form>
                     )}
                 </Formik>
@@ -369,7 +344,6 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 </Button>
             </Modal.Footer>
         </Modal>
-
     );
 };
 

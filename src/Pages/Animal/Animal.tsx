@@ -175,7 +175,13 @@ const Animal = () => {
                                             </div>
                                             <div className="animal__infos__data__item">
                                                 <h2 className="item__title">Âge</h2>
-                                                <div className="item__value">{`${animal!.age} ${animal!.age > 1 ? "ans" : "an"}`}</div>
+                                                <div className="item__value">
+                                                    {animal!.age == 0
+                                                        ? "< 1 an"
+                                                        : animal!.age == 1
+                                                          ? animal!.age + " an"
+                                                          : animal!.age + " ans"}
+                                                </div>
                                             </div>
                                             <div className="animal__infos__data__item">
                                                 <h2 className="item__title">Taille</h2>
@@ -229,7 +235,7 @@ const Animal = () => {
                                         </a>
                                     </div>
                                     {!animal!.availability ? (
-                                           // Si l'animal est indisponible
+                                        // Si l'animal est indisponible
                                         <button className="btn btn--indisponible" disabled>
                                             Animal indisponible
                                         </button>
