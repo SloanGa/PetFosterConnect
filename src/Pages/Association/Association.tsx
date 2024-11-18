@@ -7,65 +7,75 @@ import { IUser } from "../../Interfaces/IUser.ts";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
-const Association = () => {
-    const { slug } = useParams();
+interface AssociationProps {
+	isDashboard: boolean;
+}
 
-    const arraySlug = slug!.split("-");
-    const associationId = arraySlug![arraySlug!.length - 1];
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [association, setAssociation] = useState<IAssociation | null>(null);
-    const [userHasAssociation, setUserHasAssociation] = useState<IUser | null>(null);
+const Association = ({ isDashboard }: AssociationProps) => {
+	const { slug } = useParams();
 
+	const arraySlug = slug!.split("-");
+	const associationId = arraySlug![arraySlug!.length - 1];
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [association, setAssociation] = useState<IAssociation | null>(null);
+	const [userHasAssociation, setUserHasAssociation] = useState<IUser | null>(
+		null,
+	);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Exécute les deux requêtes en parallèle
-                const [associationResponse, userResponse] = await Promise.all([
-                    fetch(`${baseURL}/associations/${associationId}`),
-                    fetch(`${import.meta.env.VITE_API_URL}/auth/association/${associationId}`),
-                ]);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				// Exécute les deux requêtes en parallèle
+				const [associationResponse, userResponse] = await Promise.all([
+					fetch(`${baseURL}/associations/${associationId}`),
+					fetch(
+						`${import.meta.env.VITE_API_URL}/auth/association/${associationId}`,
+					),
+				]);
 
-                if (!associationResponse.ok || !userResponse.ok) {
-                    setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                    setIsLoading(false);
-                    return;
-                }
+				if (!associationResponse.ok || !userResponse.ok) {
+					setError("Une erreur est survenue, veuillez rafraîchir la page.");
+					setIsLoading(false);
+					return;
+				}
 
-                const [associationData, userData] = await Promise.all([
-                    associationResponse.json(),
-                    userResponse.json(),
-                ]);
-                
-                setAssociation(associationData);
-                setUserHasAssociation(userData);
-            } catch (err) {
-                setError("Une erreur est survenue, veuillez rafraîchir la page.");
-                console.error("Erreur lors de la récupération des données:", err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+				const [associationData, userData] = await Promise.all([
+					associationResponse.json(),
+					userResponse.json(),
+				]);
 
-        fetchData();
-    }, [associationId, setAssociation]);
+				setAssociation(associationData);
+				setUserHasAssociation(userData);
+			} catch (err) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", err);
+			} finally {
+				setIsLoading(false);
+			}
+		};
 
-    const { isAuth, userData } = useAuth();
-    const isAssociationLegitimate = isAuth && userData?.association_id === parseInt(associationId);
+		fetchData();
+	}, [associationId, setAssociation]);
 
+	const { isAuth, userData } = useAuth();
+	const isAssociationLegitimate =
+		isAuth && userData?.association_id === parseInt(associationId);
 
-    return (
-    <>
-
-    <Profil entity={association} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isAssociationLegitimate} setEntity={setAssociation}
-                   userHasEntity={userHasAssociation} />
-    
-    </>);
-
-                   
+	return (
+		<>
+			<Profil
+				entity={association}
+				baseURL={baseURL}
+				isLoading={isLoading}
+				error={error}
+				isLegitimate={isAssociationLegitimate}
+				setEntity={setAssociation}
+				userHasEntity={userHasAssociation}
+				isDashboard={isDashboard}
+			/>
+		</>
+	);
 };
-
 
 export default Association;

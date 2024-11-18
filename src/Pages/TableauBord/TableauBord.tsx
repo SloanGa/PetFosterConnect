@@ -11,50 +11,56 @@ import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
 import Profil from "../Association/Association.tsx";
 
 const TableauBord = () => {
-    const { userData } = useAuth();
-    const [isAssociationConnected, setIsAssociationConnected] = useState<boolean | null>(null);
+	const { userData } = useAuth();
 
-    useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
+	const [isAssociationConnected, setIsAssociationConnected] = useState<
+		boolean | null
+	>(null);
 
-        if (!storedUser || !(storedUser.role === "association")) {
-            setIsAssociationConnected(false);
-        } else {
-            setIsAssociationConnected(true);
-        }
-    }, []);
+	useEffect(() => {
+		const storedUser = JSON.parse(localStorage.getItem("user"));
 
-    if (isAssociationConnected === false) {
-        return <Navigate to="/connexion" />;
-    }
+		if (!storedUser || !(storedUser.role === "association")) {
+			setIsAssociationConnected(false);
+		} else {
+			setIsAssociationConnected(true);
+		}
+	}, []);
 
-    return (
-        <>
-            <Helmet>
-                <title>Tableau de bord | PetFoster Connect</title>
-                <meta
-                    name="description"
-                    content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
-                />
-            </Helmet>
+	if (isAssociationConnected === false) {
+		return <Navigate to="/connexion" />;
+	}
 
-            <Header />
-            <div className="content">
-                <LeftNavBar />
-                <main className="main__content container">
-                    <h1 className="main__title">
-                        Tableau de bord | {userData ? userData.association.name : "XXX"}
-                    </h1>
-                    <Routes>
-                        <Route path="/" element={<ManageAnimal />} />
-                        <Route path="/demandes" element={<ManageRequest />} />
-                        <Route path="/profil-association/:slug" element={<Profil />} />
-                    </Routes>
-                </main>
-            </div>
-            <Footer />
-        </>
-    );
+	return (
+		<>
+			<Helmet>
+				<title>Tableau de bord | PetFoster Connect</title>
+				<meta
+					name="description"
+					content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+				/>
+			</Helmet>
+
+			<Header />
+			<div className="content">
+				<LeftNavBar />
+				<main className="main__content container">
+					<h1 className="main__title">
+						Tableau de bord | {userData ? userData.association.name : "XXX"}
+					</h1>
+					<Routes>
+						<Route path="/" element={<ManageAnimal />} />
+						<Route path="/demandes" element={<ManageRequest />} />
+						<Route
+							path="/profil-association/:slug"
+							element={<Profil isDashboard={true} />}
+						/>
+					</Routes>
+				</main>
+			</div>
+			<Footer />
+		</>
+	);
 };
 
 export default TableauBord;
