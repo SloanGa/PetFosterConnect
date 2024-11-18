@@ -3,11 +3,10 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import ModeSwitcher from "../../Components/ModeSwitcher/ModeSwitcher";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Icon from "../../Components/Icon/Icon.tsx";
 import * as formik from "formik";
@@ -308,6 +307,7 @@ const Inscription = () => {
                                                 name="family_img"
                                                 accept="image/png, image/jpeg, image/webp, image/jpg"
                                                 onChange={(event) => {
+                                                    //ts-ignore
                                                     const file = event.currentTarget.files[0];
                                                     setFieldValue("family_img", file);
                                                 }}
