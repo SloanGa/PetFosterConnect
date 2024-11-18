@@ -30,6 +30,9 @@ const ResetPassword = () => {
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const toggleShowToast = (message: string) => {
         setToastMessage(message);
+    };
+
+    const toggleCloseToast = () => {
         setShowToast(!showToast);
     };
     useEffect(() => {
@@ -107,11 +110,19 @@ const ResetPassword = () => {
                 });
 
                 if (response.ok) {
+                    setShowToast(true);
                     toggleShowToast(
                         "Email de réinitialisation envoyé. Consultez également vos spams.",
                     );
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 } else {
+                    setShowToast(true);
                     toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 }
             } catch (error) {
                 console.error(error);
@@ -141,12 +152,17 @@ const ResetPassword = () => {
                 );
 
                 if (response.ok) {
+                    setShowToast(true);
                     toggleShowToast("Mot de passe modifié avec succès.");
                     setTimeout(() => {
                         navigate("/connexion");
                     }, 2000);
                 } else {
+                    setShowToast(true);
                     toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 }
             } catch (error) {
                 console.error(error);
@@ -288,7 +304,7 @@ const ResetPassword = () => {
                 <Toast
                     className="confirmation__reset__toast"
                     show={showToast}
-                    onClose={toggleShowToast}
+                    onClose={toggleCloseToast}
                 >
                     <Toast.Body>{toastMessage}</Toast.Body>
                 </Toast>
