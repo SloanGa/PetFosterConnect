@@ -5,7 +5,7 @@ import Associations from "./Pages/Associations/Associations.tsx";
 import Association from "./Pages/Association/Association.tsx";
 import Animaux from "./Pages/Animaux/Animaux";
 import Animal from "./Pages/Animal/Animal.tsx";
-import Famille from "./Pages/Famille";
+import Famille from "./Pages/Famille/Famille.tsx";
 import Connexion from "./Pages/Connexion/Connexion.tsx";
 import Inscription from "./Pages/Inscription/Inscription.tsx";
 import MentionsLegales from "./Pages/MentionsLegales/MentionsLegales";
