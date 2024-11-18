@@ -5,14 +5,13 @@ import { Error } from "../../Components/Error/Error.tsx";
 
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
-import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import type { IAnimal } from "../../Interfaces/IAnimal.ts";
 import { useState, useEffect, useCallback, useRef } from "react";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimals.ts";
 import PaginationComposant from "../../Components/Pagination/Pagination";
 
 const ManageAnimal = () => {
-
 	// state qui permet de gérer si on a une modale edit ou créer un animal
 
 	const [showGestionModal, setShowGestionModal] = useState(false);

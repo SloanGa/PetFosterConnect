@@ -2,12 +2,12 @@ import "./GestionModal.scss";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import * as yup from "yup";
-import { FormEvent, useState } from "react";
-import { IAssociation } from "../../Interfaces/IAssociation.ts";
-import { IFamily } from "../../Interfaces/IFamily.ts";
+import { useState } from "react";
+import type { IAssociation } from "../../Interfaces/IAssociation.ts";
+import type { IFamily } from "../../Interfaces/IFamily.ts";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import Alert from "react-bootstrap/Alert";
-import { IUser } from "../../Interfaces/IUser.ts";
+import type { IUser } from "../../Interfaces/IUser.ts";
 
 interface GestionModalProps {
     show: boolean;
