@@ -7,15 +7,15 @@ import type { IAnimal } from "../../Interfaces/IAnimal.ts";
 interface GestionModalProps {
 	handleCloseGestionModal: () => void;
 	showGestionModal: boolean;
-	handleSubmitEdit: (values: any) => Promise<void>;
-	handleSubmitAdd: (values: any) => Promise<void>;
+	handleSubmitEdit: (values: any) => Promise<() => void>;
+	handleSubmitAdd: (values: any) => Promise<() => void>;
 	animalToEdit: IAnimal | null;
 	showToast: boolean;
-	toggleToast: () => void;
+	toggleToast: (message: string, color: string) => void;
 	toastData: {
 		message: string;
 		color: string;
-	};
+	} | null;
 }
 
 const GestionModal: React.FC<GestionModalProps> = ({

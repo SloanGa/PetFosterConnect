@@ -167,7 +167,7 @@ const ManageAnimal = () => {
 				}
 			};
 		},
-		[handleCloseGestionModal, animalToEdit, toggleToast, baseURL],
+		[handleCloseGestionModal, animalToEdit, toggleToast, baseURL, token],
 	);
 
 	// L'eventListener à la soumission du formulaire ajouter un animal
@@ -331,7 +331,6 @@ const ManageAnimal = () => {
 			<GestionModal
 				handleCloseGestionModal={handleCloseGestionModal}
 				showGestionModal={showGestionModal}
-				setShowGestionModal={setShowGestionModal}
 				handleSubmitEdit={handleSubmitEdit}
 				handleSubmitAdd={handleSubmitAdd}
 				animalToEdit={animalToEdit}
