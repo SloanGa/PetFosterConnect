@@ -1,10 +1,7 @@
 import "./Profil.scss";
-import { Helmet } from "react-helmet-async";
-import Header from "../../Components/Header/Header.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
 import Map from "../../Components/Map/Map.tsx";
-import Footer from "../../Components/Footer/Footer.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useState } from "react";
@@ -77,11 +74,6 @@ const Profil = ({
 
     return (
         <>
-            <Helmet>
-                <title>{entity ? `${entity.name} | ` : ""}PetFoster Connect</title>
-                <meta name="description" content={"PetFoster Connect - Profil."} />
-            </Helmet>
-            {storedUser.family && <Header />}
             <main className="main--entity">
                 <div className="container">
                     {isLoading ? (
@@ -145,7 +137,6 @@ const Profil = ({
                                                         {entity?.city}
                                                     </p>
                                                 </div>
-
                                                 <div className="infos__container">
                                                     <img
                                                         className="icon"
@@ -170,14 +161,6 @@ const Profil = ({
                                                     )}
                                                 </div>
                                             </div>
-                                            {entity && "email_association" in entity ? (
-                                                <AppLink
-                                                    to={`/animaux?association_id=${entity?.id}`}
-                                                    title={`Page des animaux de l'association ${entity!.name}`}
-                                                    text="Voir les animaux"
-                                                    className="btn btn--entity"
-                                                />
-                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
@@ -297,8 +280,6 @@ const Profil = ({
                     )}
                 </div>
             </main>
-
-            {storedUser.family && <Footer />}
 
             <GestionEditEntityModal
                 show={showEdit}
