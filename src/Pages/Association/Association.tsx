@@ -1,3 +1,6 @@
+import { Helmet } from "react-helmet-async";
+import Header from "../../Components/Header/Header.tsx";
+import Footer from "../../Components/Footer/Footer.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";

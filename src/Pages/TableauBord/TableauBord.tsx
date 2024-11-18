@@ -8,7 +8,7 @@ import { useAuth } from "../../Context/AuthContext.tsx";
 import { Navigate, Routes, Route } from "react-router-dom";
 import ManageAnimal from "../../Components/ManageAnimal/ManageAnimal.tsx";
 import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
-import Profil from "../Association/Association.tsx";
+import Profil from "../Profil/Profil.tsx";
 
 const TableauBord = () => {
 	const { userData } = useAuth();
