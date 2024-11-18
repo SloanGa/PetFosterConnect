@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
+
+import { Helmet } from "react-helmet-async";
+import Header from "../../Components/Header/Header.tsx";
+import Footer from "../../Components/Footer/Footer.tsx";import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { IFamily } from "../Interfaces/IFamily.ts";
-import { useAuth } from "../Context/AuthContext.tsx";
-import Profil from "./Profil/Profil.tsx";
-import { IUser } from "../Interfaces/IUser.ts";
-import IRequest from "../Interfaces/IRequest.ts";
+import { IFamily } from "../../Interfaces/IFamily.ts";
+import { useAuth } from "../../Context/AuthContext.tsx";
+import Profil from "../Profil/Profil.tsx";
+import { IUser } from "../../Interfaces/IUser.ts";
+import IRequest from "../../Interfaces/IRequest.ts";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -51,7 +54,7 @@ const Famille = () => {
 
                 setFamily(familyData);
                 setUserHasFamily(userData);
-                setRequestData(requestData.requestsFamily);
+                setRequestData(requestData);
             } catch (err) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 console.error("Erreur lors de la récupération des données:", err);
@@ -67,9 +70,18 @@ const Famille = () => {
     const isFamilyLegitimate = isAuth && userData.family_id === parseInt(familyId);
 
 
-    return <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
-                   isLegitimate={isFamilyLegitimate} setEntity={setFamily} userHasEntity={userHasFamily}
-                   requestData={requestData} setIsDeleteRequest={setIsDeleteRequest} />;
+    return (
+    <>
+        <Helmet>
+            <title>Votre Profil | PetFoster Connect</title>
+            <meta name="description" content={"PetFoster Connect - Profil."} />
+        </Helmet>
+        <Header />
+        <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
+                    isLegitimate={isFamilyLegitimate} setEntity={setFamily} userHasEntity={userHasFamily}
+                    requestData={requestData} setIsDeleteRequest={setIsDeleteRequest} />
+        <Footer/>
+    </>);
 };
 
 
