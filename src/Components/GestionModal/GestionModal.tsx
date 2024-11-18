@@ -2,13 +2,13 @@ import "./GestionModal.scss";
 import { Modal, Button, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import type { IAnimal } from "../../Interfaces/IAnimal.ts";
 
 interface GestionModalProps {
 	handleCloseGestionModal: () => void;
-	showGestionModal: () => void;
-	handleSubmitEdit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-	handleSubmitAdd: (event: FormEvent<HTMLFormElement>) => Promise<void>;
+	showGestionModal: boolean;
+	handleSubmitEdit: (values: any) => Promise<void>;
+	handleSubmitAdd: (values: any) => Promise<void>;
 	animalToEdit: IAnimal | null;
 	showToast: boolean;
 	toggleToast: () => void;
@@ -24,7 +24,6 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	handleSubmitAdd,
 	showGestionModal,
 	animalToEdit,
-	callbackTest,
 	showToast,
 	toggleToast,
 	toastData,
@@ -63,14 +62,16 @@ const GestionModal: React.FC<GestionModalProps> = ({
 					.notRequired()
 					.test("fileSize", "L'image ne doit pas dépasser 5 MB", (value) => {
 						if (!value) return true;
-						return value.size <= FILE_SIZE;
+						const file = value as File;
+						return file.size <= FILE_SIZE;
 					})
 					.test(
 						"fileFormat",
 						"Format non supporté. Utilisez JPG, JPEG, WEBP ou PNG",
 						(value) => {
 							if (!value) return true;
-							return SUPPORTED_FORMATS.includes(value.type);
+							const file = value as File;
+							return SUPPORTED_FORMATS.includes(file.type);
 						},
 					)
 			: yup
@@ -79,14 +80,16 @@ const GestionModal: React.FC<GestionModalProps> = ({
 					.required("L'image de l'animal est requise")
 					.test("fileSize", "L'image ne doit pas dépasser 5 MB", (value) => {
 						if (!value) return true;
-						return value.size <= FILE_SIZE;
+						const file = value as File;
+						return file.size <= FILE_SIZE;
 					})
 					.test(
 						"fileFormat",
 						"Format non supporté. Utilisez JPG, JPEG, WEBP ou PNG",
 						(value) => {
 							if (!value) return true;
-							return SUPPORTED_FORMATS.includes(value.type);
+							const file = value as File;
+							return SUPPORTED_FORMATS.includes(file.type);
 						},
 					),
 		species: yup.string().required("L'espèce de l'animal est requise"),
