@@ -109,6 +109,7 @@ const ManageAnimal = () => {
 
 	const handleSubmitEdit = useCallback(
 		async (values: any) => {
+			let timeoutId: ReturnType<typeof setTimeout>;
 			const formData = new FormData();
 
 			// On construit FormData avec les valeurs du formulaire
@@ -159,6 +160,12 @@ const ManageAnimal = () => {
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
+
+			return () => {
+				if (timeoutId) {
+					clearTimeout(timeoutId);
+				}
+			};
 		},
 		[handleCloseGestionModal, animalToEdit, toggleToast, baseURL],
 	);
@@ -167,6 +174,7 @@ const ManageAnimal = () => {
 
 	const handleSubmitAdd = useCallback(
 		async (values: any) => {
+			let timeoutId: ReturnType<typeof setTimeout>;
 			const formData = new FormData();
 
 			for (const key in values) {
@@ -212,6 +220,12 @@ const ManageAnimal = () => {
 			} catch (error) {
 				console.error("Erreur:", error);
 			}
+
+			return () => {
+				if (timeoutId) {
+					clearTimeout(timeoutId);
+				}
+			};
 		},
 		[handleCloseGestionModal, toggleToast, baseURL, token],
 	);
@@ -231,9 +245,10 @@ const ManageAnimal = () => {
 	}, []);
 
 	const deleteAnimal = useCallback(async () => {
+		let timeoutId: ReturnType<typeof setTimeout>;
 		try {
 			const response = await fetch(
-				`${baseURL}/dashboard/association/animals/${animalToDelete.id}`,
+				`${baseURL}/dashboard/association/animals/${animalToDelete?.id}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -245,7 +260,7 @@ const ManageAnimal = () => {
 			if (response.ok) {
 				toggleToast("Animal supprimé", "success");
 				setAnimalsToDisplay((prevAnimals) =>
-					prevAnimals.filter((animal) => animal.id !== animalToDelete.id),
+					prevAnimals.filter((animal) => animal.id !== animalToDelete?.id),
 				);
 
 				setTimeout(() => {
@@ -257,7 +272,13 @@ const ManageAnimal = () => {
 		} catch (error) {
 			console.error("Erreur:", error);
 		}
-	}, [animalToDelete, handleCloseDeleteModal, toggleToast]);
+
+		return () => {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+		};
+	}, [animalToDelete, handleCloseDeleteModal, toggleToast, baseURL, token]);
 
 	return (
 		<div className="manage-animal">
@@ -283,7 +304,6 @@ const ManageAnimal = () => {
 							<div
 								key={animal.id}
 								className="col-12 col-sm-6 col-lg-4 col-xl-3"
-								key={animal.id}
 							>
 								<DashboardCard
 									onShowDeleteModal={handleShowDeleteModal}
