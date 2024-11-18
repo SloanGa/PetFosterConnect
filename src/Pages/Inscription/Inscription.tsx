@@ -307,7 +307,7 @@ const Inscription = () => {
                                                 name="family_img"
                                                 accept="image/png, image/jpeg, image/webp, image/jpg"
                                                 onChange={(event) => {
-                                                    //ts-ignore
+                                                    
                                                     const file = event.currentTarget.files[0];
                                                     setFieldValue("family_img", file);
                                                 }}
