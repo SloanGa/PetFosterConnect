@@ -5,7 +5,7 @@ const LeftNavBar = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     console.log(storedUser.association.slug);
     return (
-        <div>
+        <aside className="dashboard__menu">
             <nav className="left__nav">
                 <ul className="left__nav__list">
                     <li className="left__nav__list__item">
@@ -34,7 +34,7 @@ const LeftNavBar = () => {
                     </li>
                 </ul>
             </nav>
-        </div>
+        </aside>
     );
 };
 
