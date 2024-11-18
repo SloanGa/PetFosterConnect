@@ -1,6 +1,9 @@
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
+import { Helmet } from "react-helmet-async";
+import Header from "../../Components/Header/Header.tsx";
+import Footer from "../../Components/Footer/Footer.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
@@ -25,6 +28,14 @@ const Association = ({ isDashboard }: AssociationProps) => {
 	const [userHasAssociation, setUserHasAssociation] = useState<IUser | null>(
 		null,
 	);
+	const arraySlug = slug!.split("-");
+	const associationId = arraySlug![arraySlug!.length - 1];
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [association, setAssociation] = useState<IAssociation | null>(null);
+	const [userHasAssociation, setUserHasAssociation] = useState<IUser | null>(
+		null,
+	);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -36,7 +47,22 @@ const Association = ({ isDashboard }: AssociationProps) => {
 						`${import.meta.env.VITE_API_URL}/auth/association/${associationId}`,
 					),
 				]);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				// Exécute les deux requêtes en parallèle
+				const [associationResponse, userResponse] = await Promise.all([
+					fetch(`${baseURL}/associations/${associationId}`),
+					fetch(
+						`${import.meta.env.VITE_API_URL}/auth/association/${associationId}`,
+					),
+				]);
 
+				if (!associationResponse.ok || !userResponse.ok) {
+					setError("Une erreur est survenue, veuillez rafraîchir la page.");
+					setIsLoading(false);
+					return;
+				}
 				if (!associationResponse.ok || !userResponse.ok) {
 					setError("Une erreur est survenue, veuillez rafraîchir la page.");
 					setIsLoading(false);
@@ -57,10 +83,29 @@ const Association = ({ isDashboard }: AssociationProps) => {
 				setIsLoading(false);
 			}
 		};
+				const [associationData, userData] = await Promise.all([
+					associationResponse.json(),
+					userResponse.json(),
+				]);
+
+				setAssociation(associationData);
+				setUserHasAssociation(userData);
+			} catch (err) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", err);
+			} finally {
+				setIsLoading(false);
+			}
+		};
 
 		fetchData();
 	}, [associationId, setAssociation]);
+		fetchData();
+	}, [associationId, setAssociation]);
 
+	const { isAuth, userData } = useAuth();
+	const isAssociationLegitimate =
+		isAuth && userData?.association_id === parseInt(associationId);
 	const { isAuth, userData } = useAuth();
 	const isAssociationLegitimate =
 		isAuth && userData?.association_id === parseInt(associationId);

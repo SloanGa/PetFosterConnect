@@ -12,8 +12,6 @@ interface DashboardCardProps {
 	alt: string;
 	name: string;
 	animal: IAnimal;
-	request: IRequest;
-	onShowDeleteModal: (animal: IAnimal) => void;
 
 	onShowGestionModal: (animal: IAnimal) => void;
 	onShowDeleteModal: (animal: IAnimal) => void;
@@ -24,8 +22,6 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 	alt,
 	name,
 	path,
-	onShowDeleteModal,
-	onShowGestionModal,
 	animal,
 	onShowGestionModal,
 	onShowDeleteModal,
@@ -34,9 +30,9 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 
 	useEffect(() => {
 		const pendingRequests = animal.requests?.filter(
-			(request) => request.status === "En attente",
+			(request: IRequest) => request.status === "En attente",
 		);
-		pendingRequests && setCountPendingRequests(pendingRequests.length);
+		setCountPendingRequests(pendingRequests?.length || 0);
 	});
 
 	return (

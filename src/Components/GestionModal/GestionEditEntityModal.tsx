@@ -1,6 +1,7 @@
 import "./GestionModal.scss";
 import { Modal, Button, Form } from "react-bootstrap";
-import { Formik } from "formik";
+import { Formik, FormikHelpers, FormikValues } from "formik";
+import * as yup from "yup";
 import { useState } from "react";
 import type { IAssociation } from "../../Interfaces/IAssociation.ts";
 import type { IFamily } from "../../Interfaces/IFamily.ts";

@@ -2,6 +2,8 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
 import Footer from "../../Components/Footer/Footer.tsx";
 import { useParams } from "react-router-dom";
+import Footer from "../../Components/Footer/Footer.tsx";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useAuth } from "../../Context/AuthContext.tsx";
@@ -27,7 +29,28 @@ const Famille = ({ isDashboard }: FamilleProps) => {
 	const [requestData, setRequestData] = useState<IRequest[] | null>(null);
 
 	const [isDeleteRequest, setIsDeleteRequest] = useState(false);
+	const arraySlug = slug!.split("-");
+	const familyId = arraySlug![arraySlug!.length - 1];
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [family, setFamily] = useState<IFamily | null>(null);
+	const [userHasFamily, setUserHasFamily] = useState<IUser | null>(null);
+	const [requestData, setRequestData] = useState<IRequest[] | null>(null);
 
+	const [isDeleteRequest, setIsDeleteRequest] = useState(false);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				// Exécute les deux requêtes en parallèle
+				const [familyResponse, userResponse, requestResponse] =
+					await Promise.all([
+						fetch(`${baseURL}/family/${familyId}`, {
+							headers: {
+								Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+							},
+						}),
+						fetch(`${import.meta.env.VITE_API_URL}/auth/family/${familyId}`),
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -47,13 +70,29 @@ const Famille = ({ isDashboard }: FamilleProps) => {
 							},
 						}),
 					]);
+						fetch(`${baseURL}/requests/family`, {
+							headers: {
+								Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+							},
+						}),
+					]);
 
 				if (!familyResponse.ok || !userResponse.ok || !userResponse.ok) {
 					setError("Une erreur est survenue, veuillez rafraîchir la page.");
 					setIsLoading(false);
 					return;
 				}
+				if (!familyResponse.ok || !userResponse.ok || !userResponse.ok) {
+					setError("Une erreur est survenue, veuillez rafraîchir la page.");
+					setIsLoading(false);
+					return;
+				}
 
+				const [familyData, userData, requestData] = await Promise.all([
+					familyResponse.json(),
+					userResponse.json(),
+					requestResponse.json(),
+				]);
 				const [familyData, userData, requestData] = await Promise.all([
 					familyResponse.json(),
 					userResponse.json(),
@@ -70,10 +109,25 @@ const Famille = ({ isDashboard }: FamilleProps) => {
 				setIsLoading(false);
 			}
 		};
+				setFamily(familyData);
+				setUserHasFamily(userData);
+				setRequestData(requestData);
+			} catch (err) {
+				setError("Une erreur est survenue, veuillez rafraîchir la page.");
+				console.error("Erreur lors de la récupération des données:", err);
+			} finally {
+				setIsLoading(false);
+			}
+		};
 
 		fetchData();
 	}, [familyId, setFamily, isDeleteRequest]);
+		fetchData();
+	}, [familyId, setFamily, isDeleteRequest]);
 
+	const { isAuth, userData } = useAuth();
+	const isFamilyLegitimate =
+		isAuth && userData.family_id === parseInt(familyId);
 	const { isAuth, userData } = useAuth();
 	const isFamilyLegitimate =
 		isAuth && userData.family_id === parseInt(familyId);
