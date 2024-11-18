@@ -1,11 +1,6 @@
 @use "../../styles/variables" as v;
 
 .manage-animal {
-    &__cards__container {
-        padding-left: 3rem;
-        padding-right: 3rem;
-    }
-
     .btn--add-animal {
         display: flex;
         align-items: center;
@@ -34,5 +29,5 @@
 }
 
 .modal__toast {
-    color: #ffffff
+    color: #ffffff;
 }

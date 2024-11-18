@@ -1,5 +1,12 @@
 @use "../../styles/variables" as v;
 
+.dashboard__menu {
+    @media (min-width: 992px) {
+        border-right: v.$secondary-light 1px solid;
+        margin-bottom: -3rem; // Que la bordure aille jusqu'au footer
+    }
+}
+
 .left__nav {
     &__list {
         display: flex;

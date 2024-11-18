@@ -1,7 +1,7 @@
-
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header.tsx";
-import Footer from "../../Components/Footer/Footer.tsx";import { useParams } from "react-router-dom";
+import Footer from "../../Components/Footer/Footer.tsx";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useAuth } from "../../Context/AuthContext.tsx";
@@ -21,9 +21,8 @@ const Famille = () => {
     const [family, setFamily] = useState<IFamily | null>(null);
     const [userHasFamily, setUserHasFamily] = useState<IUser | null>(null);
     const [requestData, setRequestData] = useState<IRequest[] | null>(null);
-    
-    const [isDeleteRequest, setIsDeleteRequest] = useState(false);
 
+    const [isDeleteRequest, setIsDeleteRequest] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,12 +30,12 @@ const Famille = () => {
                 // Exécute les deux requêtes en parallèle
                 const [familyResponse, userResponse, requestResponse] = await Promise.all([
                     fetch(`${baseURL}/family/${familyId}`, {
-                        headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
+                        headers: { Authorization: `Bearer ${localStorage.getItem("auth_token")}` },
                     }),
                     fetch(`${import.meta.env.VITE_API_URL}/auth/family/${familyId}`),
 
                     fetch(`${baseURL}/requests/family`, {
-                        headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` },
+                        headers: { Authorization: `Bearer ${localStorage.getItem("auth_token")}` },
                     }),
                 ]);
 
@@ -69,20 +68,27 @@ const Famille = () => {
     const { isAuth, userData } = useAuth();
     const isFamilyLegitimate = isAuth && userData.family_id === parseInt(familyId);
 
-
     return (
-    <>
-        <Helmet>
-            <title>Votre Profil | PetFoster Connect</title>
-            <meta name="description" content={"PetFoster Connect - Profil."} />
-        </Helmet>
-        <Header />
-        <Profil entity={family} baseURL={baseURL} isLoading={isLoading} error={error}
-                    isLegitimate={isFamilyLegitimate} setEntity={setFamily} userHasEntity={userHasFamily}
-                    requestData={requestData} setIsDeleteRequest={setIsDeleteRequest} />
-        <Footer/>
-    </>);
+        <>
+            <Helmet>
+                <title>Votre Profil | PetFoster Connect</title>
+                <meta name="description" content={"PetFoster Connect - Profil."} />
+            </Helmet>
+            <Header />
+            <Profil
+                entity={family}
+                baseURL={baseURL}
+                isLoading={isLoading}
+                error={error}
+                isLegitimate={isFamilyLegitimate}
+                setEntity={setFamily}
+                userHasEntity={userHasFamily}
+                requestData={requestData}
+                setIsDeleteRequest={setIsDeleteRequest}
+            />
+            <Footer />
+        </>
+    );
 };
-
 
 export default Famille;
