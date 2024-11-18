@@ -23,7 +23,7 @@ const AssociationsFilters = ({
 
     const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
 
-    /* Reinitialise le formulaire */
+    /* Réinitialise le formulaire */
     const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         const form = e.currentTarget.form;
         if (form) {
@@ -37,7 +37,7 @@ const AssociationsFilters = ({
         <div className={`filters ${isFiltersVisible ? "active" : ""}`}>
             <form className="filters__form" onSubmit={handleFilter}>
                 <label className="filters__form__description" htmlFor="name">
-                    Nom d'association
+                    Nom de l'association
                 </label>
                 <select className="form-select" id="name" name="association_id">
                     <option value="">Tous les noms</option>
@@ -49,7 +49,7 @@ const AssociationsFilters = ({
                 </select>
 
                 <label className="filters__form__description" htmlFor="department">
-                    Localisation association
+                    Département de l'association
                 </label>
                 <select className="form-select" id="department" name="department_id">
                     <option value="">Tous les départements</option>
@@ -61,10 +61,10 @@ const AssociationsFilters = ({
                 </select>
 
                 <label className="filters__form__description" htmlFor="species">
-                    Type
+                    Type d'animal
                 </label>
                 <select className="form-select" id="species" name="species">
-                    <option value="">Tous les types</option>
+                    <option value="">Toutes les espèces</option>
                     {uniqueSpecies.map((species) => (
                         <option key={species} value={species}>
                             {species}
@@ -72,14 +72,14 @@ const AssociationsFilters = ({
                     ))}
                 </select>
 
-                <button className="btn" type="submit" aria-label="Bouton de recherche">
+                <button className="btn" type="submit" aria-label="Lancer la recherche">
                     Rechercher
                 </button>
 
                 <button
                     className=" btn btn--form-reinit"
                     type="button"
-                    aria-label="Bouton de reinitialisation du formulaire"
+                    aria-label="Réinitialiser la recherche"
                     onClick={handleResetForm}
                 >
                     Réinitialiser
