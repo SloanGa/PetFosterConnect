@@ -3,22 +3,25 @@ import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import ModeSwitcher from "../../Components/ModeSwitcher/ModeSwitcher";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Icon from "../../Components/Icon/Icon.tsx";
 import * as formik from "formik";
 import * as yup from "yup";
-import { Error } from "../../Components/Error/Error.tsx";
+//import { Error as ErrorComponent } from "../../Components/Error/Error.tsx";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
+import { Toast } from "react-bootstrap";
 
 const Inscription = () => {
     const [mode, setMode] = useState<"family" | "association">("family");
-    const [error, setError] = useState<string | null>(null);
+    //const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showToast, setShowToast] = useState(false); // Toast
+    const [toastData, setToastData] = useState<{ message: string; color: string } | null>(null);
+
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
@@ -51,7 +54,7 @@ const Inscription = () => {
         confirmPassword: yup
             .string()
             .required("Le mot de passe est requis")
-            .oneOf([yup.ref("password"), null], "Les mots de passe doivent correspondre"),
+            .oneOf([yup.ref("password")], "Les mots de passe doivent correspondre"),
         email_association: isAssociation
             ? yup.string().required("Votre email d'association est requis")
             : yup.string().nullable(),
@@ -60,10 +63,6 @@ const Inscription = () => {
             : yup.mixed().nullable(),
         family_img: yup.mixed().nullable().notRequired(),
     });
-
-    // const handleSetMode = () => {
-    //     setMode(mode === "association" ? "family" : "association");
-    // };
 
     const handleSwitchFamilyMode = () => {
         setMode("family");
@@ -74,18 +73,19 @@ const Inscription = () => {
     };
 
     const handleSubmitForm = async (values: any) => {
+        let timer: number | null = null;
+        if (timer) {
+            clearTimeout(timer);
+        }
+
         const formData = new FormData();
         for (const key in values) {
             if (values[key] !== null && values[key] !== undefined && values[key] !== "") {
                 // Vérifie que la valeur n'est pas null ou undefined
                 formData.append(key, values[key]);
-                console.log(values[key]);
             }
         }
-
         formData.append("role", mode);
-
-        const department_id = formData.get("department_id");
 
         setIsLoading(true);
         try {
@@ -96,8 +96,14 @@ const Inscription = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                setError(errorData.error);
-                return;
+                let errorMessage =
+                    "Une erreur est survenue, veuillez recharger la page et réessayer.";
+                if (response.status === 400) {
+                    // Message spécifique pour 400 longitude/latitude pour adresse asso (API Nominatim)
+                    console.error(errorData);
+                    errorMessage = errorData.error;
+                }
+                throw new Error(errorMessage);
             }
 
             const token = response.headers.get("authorization")?.split(" ")[1];
@@ -111,10 +117,23 @@ const Inscription = () => {
                 localStorage.setItem("user", JSON.stringify(data));
 
                 login(data);
-                navigate("/");
+                setToastData({
+                    message:
+                        "Inscription validée, vous allez être redirigée vers la page d'accueil...",
+                    color: "success",
+                });
+                setShowToast(true);
+                timer = setTimeout(() => {
+                    navigate("/");
+                }, 5000);
             }
         } catch (error) {
             console.error("Erreur de requête:", error);
+            setToastData({
+                message: (error as Error).message,
+                color: "danger",
+            });
+            setShowToast(true);
         } finally {
             setIsLoading(false);
         }
@@ -308,7 +327,9 @@ const Inscription = () => {
                                                 name="family_img"
                                                 accept="image/png, image/jpeg, image/webp, image/jpg"
                                                 onChange={(event) => {
-                                                    const file = event.currentTarget.files[0];
+                                                    const file = (
+                                                        event.currentTarget as HTMLInputElement
+                                                    ).files?.[0];
                                                     setFieldValue("family_img", file);
                                                 }}
                                                 isInvalid={
@@ -335,7 +356,8 @@ const Inscription = () => {
                                                 accept="image/png, image/jpeg, image/webp, image/jpg"
                                                 onChange={(event) => {
                                                     const file =
-                                                        event.currentTarget.files[0] || null;
+                                                        (event.currentTarget as HTMLInputElement)
+                                                            .files?.[0] || null;
                                                     setFieldValue("association_img", file);
                                                 }}
                                                 isInvalid={
@@ -485,8 +507,18 @@ const Inscription = () => {
                     )}
                 </Formik>
                 <span>Champs requis*</span>
-                {error && <Error error={error} classNameForm="error__form" />}
+                {/* {error && <ErrorComponent error={error} classNameForm="error__form" />} */}
                 {isLoading && <Loading />}
+                <Toast
+                    onClose={() => setShowToast(false)}
+                    show={showToast}
+                    delay={5000}
+                    autohide
+                    bg={toastData?.color}
+                    className={"register__toast mt-4 text-white"}
+                >
+                    <Toast.Body>{toastData?.message}</Toast.Body>
+                </Toast>
             </div>
 
             <Footer />
