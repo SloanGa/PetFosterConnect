@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import type { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon";
 import { Button } from "react-bootstrap";
 import "./DashboardCard.scss";
+import type IRequest from "../../Interfaces/IRequest.ts";
 
 interface DashboardCardProps {
-    path: string;
-    src: string;
-    alt: string;
-    name: string;
-    animal: Ianimal;
+	path: string;
+	src: string;
+	alt: string;
+	name: string;
+	animal: IAnimal;
+	request: IRequest;
 
-    onShowGestionModal: (animal: IAnimal) => void;
+	onShowGestionModal: (animal: IAnimal) => void;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
@@ -20,18 +22,15 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 	alt,
 	name,
 	path,
-	onShowEditModal,
-	onShowDeleteModal,
-	onShowGestionModal,
 	animal,
 }: DashboardCardProps) => {
 	const [countPendingRequests, setCountPendingRequests] = useState(0);
 
 	useEffect(() => {
-		const pendingRequests = animal.requests!.filter(
-			(request) => request.status === "En attente",
+		const pendingRequests = animal.requests?.filter(
+			(request: IRequest) => request.status === "En attente",
 		);
-		setCountPendingRequests(pendingRequests.length);
+		setCountPendingRequests(pendingRequests?.length || 0);
 	});
 
 	return (

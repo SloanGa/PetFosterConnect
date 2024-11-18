@@ -1,7 +1,6 @@
 import "./Profil.scss";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import NavLink from "../../Components/Links/NavLink.tsx";
 import Map from "../../Components/Map/Map.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
@@ -274,7 +273,6 @@ const Profil = ({
 					)}
 				</div>
 			</main>
-
 
 			<GestionEditEntityModal
 				show={showEdit}
