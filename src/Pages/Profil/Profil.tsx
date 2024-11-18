@@ -79,7 +79,7 @@ const Profil = ({
 			.toLowerCase(); // Convertit en minuscule
 	};
 
-	console.log("isDashboard", isDashboard);
+	console.log("isentity", entity);
 	return (
 		<>
 			<Helmet>
@@ -187,7 +187,11 @@ const Profil = ({
 								</div>
 
 								<p className="description">{entity!.description}</p>
-								{isLegitimate ? (
+
+								{/* Cette condition permet de vérifier si soit on a affaire à une famille (elle est légitime et il n'y a 
+								pas d'email asso dans l'entité) soit on a affaire à une asso (ce qui est garantit par le fait que dashboard 
+								est vrai - protégé par ProtectedRoute dans app) */}
+								{(isLegitimate && !entity.email_association) || isDashboard ? (
 									<div className="btn__container">
 										<button
 											className=" btn btn--profil"
