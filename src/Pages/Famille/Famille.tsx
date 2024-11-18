@@ -54,7 +54,7 @@ const Famille = () => {
 
                 setFamily(familyData);
                 setUserHasFamily(userData);
-                setRequestData(requestData.requestsFamily);
+                setRequestData(requestData);
             } catch (err) {
                 setError("Une erreur est survenue, veuillez rafraîchir la page.");
                 console.error("Erreur lors de la récupération des données:", err);
