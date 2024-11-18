@@ -12,9 +12,9 @@ interface DashboardCardProps {
 	alt: string;
 	name: string;
 	animal: IAnimal;
-	request: IRequest;
 
 	onShowGestionModal: (animal: IAnimal) => void;
+	onShowDeleteModal: (animal: IAnimal) => void;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
@@ -23,6 +23,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 	name,
 	path,
 	animal,
+	onShowGestionModal,
+	onShowDeleteModal,
 }: DashboardCardProps) => {
 	const [countPendingRequests, setCountPendingRequests] = useState(0);
 
