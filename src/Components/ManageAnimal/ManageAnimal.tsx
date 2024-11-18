@@ -200,7 +200,11 @@ const ManageAnimal = () => {
 
 				if (response.ok) {
 					createdAnimal = await response.json();
-					setAnimalsToDisplay((prevAnimals) => [...prevAnimals, createdAnimal]);
+					animalsToDisplay.length > 6 &&
+						setAnimalsToDisplay((prevAnimals) => [
+							...prevAnimals,
+							createdAnimal,
+						]);
 
 					toggleToast("Animal ajouté avec succès", "success");
 					setTimeout(() => {
