@@ -4,6 +4,7 @@ import { IUser } from "../Interfaces/IUser.ts";
 interface AuthContextType {
     isAuth: boolean;
     userData: IUser | null;
+    isLoading: boolean;
     login: (user: IUser) => void;
     logout: () => void;
 }
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const [userData, setUserData] = useState<IUser | null>(null);
 
+    const [isLoading, setIsLoading] = useState(true);
 
     // Récupérer les données du localStorage au montage du composant
     useEffect(() => {
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const user: IUser = JSON.parse(storedUser);
             setUserData(user);
         }
+        setIsLoading(false);
     }, []);
 
     const login = (user: IUser) => {
@@ -64,10 +67,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuth, userData, login, logout }}>
+        <AuthContext.Provider value={{ isAuth, userData, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth doit être utilisé dans un AuthProvider");
+    }
+    return context;
+};

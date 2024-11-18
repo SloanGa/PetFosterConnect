@@ -272,7 +272,7 @@ const Profil = ({
                                                                 </span>
                                                             </td>
                                                             <td className="delete">
-                                                                {request.status !== "Validée" ? (
+                                                                {request.status !== "Acceptée" ? (
                                                                     <Icon
                                                                         ariaLabel="Supprimer la demande"
                                                                         src="/src/assets/icons/trash.svg"
