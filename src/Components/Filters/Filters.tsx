@@ -1,28 +1,30 @@
 import "./Filters.scss";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { IAnimal } from "../../Interfaces/IAnimal.ts";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import type { IAnimal } from "../../Interfaces/IAnimal.ts";
 import InputWithLabel from "../InputWithLabel/InputWithLabel.tsx";
 import { useFetchAssociations } from "../../Hook/useFetchAssociations.ts";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import { useNavigate } from "react-router-dom";
 
 interface FiltersProps {
-    animals: IAnimal[];
-    handleFilter: (event: FormEvent<HTMLFormElement>) => void;
-    isFiltersVisible: boolean;
-    setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
-    setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
-    setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	animals: IAnimal[];
+	handleFilter: (event: FormEvent<HTMLFormElement>) => void;
+	isFiltersVisible: boolean;
+	setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
+	setAnimalsFilterCount: React.Dispatch<React.SetStateAction<number | null>>;
+	setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Filters = ({
-    animals,
-    handleFilter,
-    isFiltersVisible,
-    setForm,
-    setAnimalsFilterCount,
-    setIsFiltersVisible,
+	animals,
+	handleFilter,
+	isFiltersVisible,
+	setForm,
+	setAnimalsFilterCount,
+	setIsFiltersVisible,
 }: FiltersProps) => {
+
     const [selectedAge, setSelectedAge] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
 

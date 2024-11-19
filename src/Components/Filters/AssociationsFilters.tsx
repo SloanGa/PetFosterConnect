@@ -1,27 +1,28 @@
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
-import { IAssociation } from "../../Interfaces/IAssociation.ts";
+import type { IAssociation } from "../../Interfaces/IAssociation.ts";
 
 interface AssociationsFiltersProps {
-    isFiltersVisible: boolean;
-    handleFilter: (event: FormEvent<HTMLFormElement>) => void;
-    associations: IAssociation[];
-    setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
-    setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	isFiltersVisible: boolean;
+	handleFilter: (event: FormEvent<HTMLFormElement>) => void;
+	associations: IAssociation[];
+	setForm: React.Dispatch<React.SetStateAction<FormData | null>>;
+	setIsFiltersVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssociationsFilters = ({
-    isFiltersVisible,
-    handleFilter,
-    associations,
-    setForm,
-    setIsFiltersVisible,
+	isFiltersVisible,
+	handleFilter,
+	associations,
+	setForm,
+	setIsFiltersVisible,
 }: AssociationsFiltersProps) => {
-    const { departments } = useFetchDepartments();
-    const { animals } = useFetchAnimals();
+	const { departments } = useFetchDepartments();
+	const { animals } = useFetchAnimals();
 
-    const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
+	const uniqueSpecies = [...new Set(animals.map((animal) => animal.species))];
+
 
     /* Réinitialise le formulaire */
     const handleResetForm = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -87,6 +88,7 @@ const AssociationsFilters = ({
             </form>
         </div>
     );
+
 };
 
 export default AssociationsFilters;

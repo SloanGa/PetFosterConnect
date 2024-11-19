@@ -1,34 +1,34 @@
 import { Link } from "react-router-dom";
-
 import "./Card.scss";
 
 interface CardProps {
-    path: string;
-    src: string;
-    alt: string;
-    name: string;
-    associationLocation: string;
-    associationName?: string;
-    animalType?: string;
-    gender?: string;
-    age?: number;
-    availability?: boolean;
-    isHomePage: boolean;
+	path: string;
+	src: string;
+	alt: string;
+	name: string;
+	associationLocation: string;
+	associationName?: string;
+	animalType?: string;
+	gender?: string;
+	age?: number;
+	availability?: boolean;
+	isHomePage: boolean;
 }
 
 const Card = ({
-    src,
-    alt,
-    name,
-    associationLocation,
-    associationName,
-    animalType,
-    gender,
-    age,
-    availability,
-    path,
-    isHomePage,
+	src,
+	alt,
+	name,
+	associationLocation,
+	associationName,
+	animalType,
+	gender,
+	age,
+	availability,
+	path,
+	isHomePage,
 }: CardProps) => {
+
     return (
         <>
             <Link
@@ -87,6 +87,7 @@ const Card = ({
             </Link>
         </>
     );
+
 };
 
 export default Card;

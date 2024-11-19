@@ -51,6 +51,7 @@ const Famille = ({ isDashboard }: FamilleProps) => {
                     return;
                 }
 
+
                 const [familyData, userData, requestData] = await Promise.all([
                     familyResponse.json(),
                     userResponse.json(),
@@ -68,12 +69,14 @@ const Famille = ({ isDashboard }: FamilleProps) => {
             }
         };
 
+
         fetchData();
     }, [familyId, setFamily, isDeleteRequest]);
 
     const { isAuth, userData } = useAuth();
     const isFamilyLegitimate =
         isAuth && userData?.family_id === parseInt(familyId);
+
 
     return (
         <>
