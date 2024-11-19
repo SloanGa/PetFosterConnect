@@ -1,21 +1,21 @@
 import "./Profil.scss";
 import { Helmet } from "react-helmet-async";
-import Header from "../../Components/Header/Header.tsx";
-import Footer from "../../Components/Footer/Footer.tsx";
-import Loading from "../../Components/Loading/Loading.tsx";
-import { Error } from "../../Components/Error/Error.tsx";
-import Map from "../../Components/Map/Map.tsx";
+import Header from "../Header/Header.tsx";
+import Footer from "../Footer/Footer.tsx";
+import Loading from "../Loading/Loading.tsx";
+import { Error } from "../Error/Error.tsx";
+import Map from "../Map/Map.tsx";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useState } from "react";
-import GestionEditEntityModal from "../../Components/GestionModal/GestionEditEntityModal.tsx";
-import GestionModalDeleteEntity from "../../Components/GestionModal/GestionModalDeleteEntity.tsx";
+import GestionEditEntityModal from "../GestionModal/GestionEditEntityModal.tsx";
+import GestionModalDeleteEntity from "../GestionModal/GestionModalDeleteEntity.tsx";
 import { IUser } from "../../Interfaces/IUser.ts";
 import { Table } from "react-bootstrap";
-import Icon from "../../Components/Icon/Icon.tsx";
+import Icon from "../Icon/Icon.tsx";
 import IRequest from "../../Interfaces/IRequest.ts";
-import GestionModalDeleteRequest from "../../Components/GestionModal/GestionModalDeleteRequest.tsx";
-import AppLink from "../../Components/Links/AppLink.tsx";
+import GestionModalDeleteRequest from "../GestionModal/GestionModalDeleteRequest.tsx";
+import AppLink from "../Links/AppLink.tsx";
 
 interface ProfilProps {
 	entity: IAssociation | IFamily | null;
@@ -61,8 +61,6 @@ const Profil = ({
 		setSelectedRequest(id);
 		setShowDeleteRequest(true);
 	};
-
-	const storedUser = JSON.parse(localStorage.getItem("user"));
 
 	/* Fonction pour convertir la date */
 	function formatDate(dateFromDB: string): string {
@@ -190,7 +188,8 @@ const Profil = ({
 								{/* Cette condition permet de vérifier si soit on a affaire à une famille (elle est légitime et il n'y a 
 								pas d'email asso dans l'entité) soit on a affaire à une asso (ce qui est garantit par le fait que dashboard 
 								est vrai - protégé par ProtectedRoute dans app) */}
-								{(isLegitimate && !entity.email_association) || isDashboard ? (
+								{(isLegitimate && !("email_association" in entity!)) ||
+								isDashboard ? (
 									<div className="btn__container">
 										<button
 											className=" btn btn--profil"

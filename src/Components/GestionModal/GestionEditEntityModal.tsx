@@ -1,7 +1,6 @@
 import "./GestionModal.scss";
 import { Modal, Button, Form } from "react-bootstrap";
-import { Formik, FormikHelpers, FormikValues } from "formik";
-import * as yup from "yup";
+import { Formik } from "formik";
 import { useState } from "react";
 import type { IAssociation } from "../../Interfaces/IAssociation.ts";
 import type { IFamily } from "../../Interfaces/IFamily.ts";
@@ -259,7 +258,9 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 										name="association_img"
 										accept="image/png, image/jpeg, image/webp, image/jpg"
 										onChange={(event) => {
-											const file = event.currentTarget.files[0] || null;
+											const file =
+												(event.currentTarget as HTMLInputElement).files?.[0] ||
+												null;
 											setFieldValue("family_img", file);
 										}}
 									/>
@@ -277,7 +278,9 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 										name="family_img"
 										accept="image/png, image/jpeg, image/webp, image/jpg"
 										onChange={(event) => {
-											const file = event.currentTarget.files[0];
+											const file =
+												(event.currentTarget as HTMLInputElement).files?.[0] ||
+												null;
 											setFieldValue("association_img", file);
 										}}
 									/>

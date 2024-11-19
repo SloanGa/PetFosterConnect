@@ -11,7 +11,7 @@ interface GestionModalProps {
 	handleSubmitAdd: (values: any) => Promise<() => void>;
 	animalToEdit: IAnimal | null;
 	showToast: boolean;
-	toggleToast: (message: string, color: string) => void;
+	setShowToast: React.Dispatch<React.SetStateAction<boolean>>;
 	toastData: {
 		message: string;
 		color: string;
@@ -25,7 +25,7 @@ const GestionModal: React.FC<GestionModalProps> = ({
 	showGestionModal,
 	animalToEdit,
 	showToast,
-	toggleToast,
+	setShowToast,
 	toastData,
 }) => {
 	// remplace les defaultValue sur les inputs du formulaire/géré par Formik mais est aussi obligatoire pour la validation - pour que ce soit des champs contrôlés
@@ -334,7 +334,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 					)}
 				</Formik>
 				<div className="toast__modal d-flex justify-content-center mb-1">
-					<Toast show={showToast} onClose={toggleToast} bg={toastData?.color}>
+					<Toast
+						show={showToast}
+						onClose={() => setShowToast(false)}
+						bg={toastData?.color}
+					>
 						<Toast.Body>{toastData?.message}</Toast.Body>
 					</Toast>
 				</div>
