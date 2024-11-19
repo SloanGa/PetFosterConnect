@@ -8,10 +8,12 @@ import { useAuth } from "../../Context/AuthContext.tsx";
 import { Navigate, Routes, Route } from "react-router-dom";
 import ManageAnimal from "../../Components/ManageAnimal/ManageAnimal.tsx";
 import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
-import Associciation from "../Association/Association.tsx";
+import Association from "../Association/Association.tsx";
 
 const TableauBord = () => {
 	const { userData } = useAuth();
+
+	const [associationData, setAssociationData] = useState(userData?.association);
 
 	const [isAssociationConnected, setIsAssociationConnected] = useState<
 		boolean | null
@@ -46,14 +48,19 @@ const TableauBord = () => {
 				<LeftNavBar />
 				<main className="main__content container">
 					<h1 className="main__title">
-						Tableau de bord | {userData ? userData.association?.name : "XXX"}
+						Tableau de bord | {userData ? associationData.name : "XXX"}
 					</h1>
 					<Routes>
 						<Route path="/" element={<ManageAnimal />} />
 						<Route path="/demandes" element={<ManageRequest />} />
 						<Route
 							path="/profil-association/:slug"
-							element={<Associciation isDashboard={true} />}
+							element={
+								<Association
+									isDashboard={true}
+									setAssociationData={setAssociationData}
+								/>
+							}
 						/>
 					</Routes>
 				</main>

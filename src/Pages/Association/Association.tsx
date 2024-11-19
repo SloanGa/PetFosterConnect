@@ -10,9 +10,12 @@ const baseURL = import.meta.env.VITE_API_URL;
 
 interface AssociationProps {
 	isDashboard: boolean;
+	setAssociationData: React.Dispatch<
+		React.SetStateAction<IAssociation | null | undefined>
+	>;
 }
 
-const Association = ({ isDashboard }: AssociationProps) => {
+const Association = ({ isDashboard, setAssociationData }: AssociationProps) => {
 	const { slug } = useParams();
 
 	const arraySlug = slug!.split("-");
@@ -76,6 +79,7 @@ const Association = ({ isDashboard }: AssociationProps) => {
 				setEntity={setAssociation}
 				userHasEntity={userHasAssociation}
 				isDashboard={isDashboard}
+				setAssociationData={setAssociationData}
 			/>
 		</>
 	);

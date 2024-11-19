@@ -30,7 +30,9 @@ interface ProfilProps {
 	requestData?: IRequest[] | null;
 	selectedRequest?: number;
 	setIsDeleteRequest?: React.Dispatch<React.SetStateAction<boolean>>;
-	isDashboard: boolean;
+	setAssociationData: React.Dispatch<
+		React.SetStateAction<IAssociation | null | undefined>
+	>;
 }
 
 const Profil = ({
@@ -44,6 +46,7 @@ const Profil = ({
 	requestData,
 	setIsDeleteRequest,
 	isDashboard,
+	setAssociationData,
 }: ProfilProps) => {
 	const [showEdit, setShowEdit] = useState(false);
 	const handleCloseEdit = () => setShowEdit(false);
@@ -304,6 +307,7 @@ const Profil = ({
 				entityToEdit={entity}
 				setEntity={setEntity}
 				userToEdit={userHasEntity}
+				setAssociationData={setAssociationData}
 			/>
 			<GestionModalDeleteEntity
 				handleCloseDelete={handleCloseDeleteProfil}
