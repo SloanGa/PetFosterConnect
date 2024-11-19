@@ -32,9 +32,15 @@ const ResetPassword = () => {
 	const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
 
 	const [showToast, setShowToast] = useState(false);
-	const [toastMessage, setToastMessage] = useState<string | null>(null);
-	const toggleShowToast = (message: string) => {
-		setToastMessage(message);
+
+	interface ToastData {
+		message: string;
+		color: string;
+	}
+
+	const [toastData, setToastData] = useState<ToastData | null>(null);
+	const toggleShowToast = (message: string, color: string) => {
+		setToastData({ message, color });
 	};
 
 	const toggleCloseToast = () => {
@@ -121,10 +127,14 @@ const ResetPassword = () => {
 					setShowToast(true);
 					toggleShowToast(
 						"Email de réinitialisation envoyé. Consultez également vos spams.",
+						"success",
 					);
 				} else {
 					setShowToast(true);
-					toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+					toggleShowToast(
+						"Une erreur est survenue. Veuillez réessayer.",
+						"danger",
+					);
 				}
 			} catch (error) {
 				console.error(error);
@@ -159,13 +169,16 @@ const ResetPassword = () => {
 
 				if (response.ok) {
 					setShowToast(true);
-					toggleShowToast("Mot de passe modifié avec succès.");
+					toggleShowToast("Mot de passe modifié avec succès.", "success");
 					timer = setTimeout(() => {
 						navigate("/connexion");
 					}, 5000);
 				} else {
 					setShowToast(true);
-					toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+					toggleShowToast(
+						"Une erreur est survenue. Veuillez réessayer.",
+						"danger",
+					);
 				}
 			} catch (error) {
 				console.error(error);
@@ -316,10 +329,11 @@ const ResetPassword = () => {
 					className="confirmation__reset__toast"
 					show={showToast}
 					onClose={toggleCloseToast}
+					bg={toastData?.color}
 					delay={5000}
 					autohide
 				>
-					<Toast.Body>{toastMessage}</Toast.Body>
+					<Toast.Body>{toastData?.message}</Toast.Body>
 				</Toast>
 			</main>
 			<Footer />
