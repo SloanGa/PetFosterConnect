@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <!--URL a modifier en prod-->
+        <loc>http://localhost:5173/</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/associations</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/animaux</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/inscription</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/connexion</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/mentions-legales</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/plan-du-site</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://localhost:5173/politique-confidentialite</loc>
+        <lastmod>2024-11-18</lastmod>
+        <priority>0.8</priority>
+    </url>
+</urlset>

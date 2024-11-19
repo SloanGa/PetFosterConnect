@@ -23,4 +23,4 @@ interface IAnimal {
     updated_at: Date;
 }
 
-export { IAnimal };
+export type { IAnimal };

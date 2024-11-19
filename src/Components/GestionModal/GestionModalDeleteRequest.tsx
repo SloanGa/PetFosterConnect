@@ -1,11 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useAuth } from "../../Context/AuthContext.tsx";
-import { IAssociation } from "../../Interfaces/IAssociation.ts";
-import { IFamily } from "../../Interfaces/IFamily.ts";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
-import IRequest from "../../Interfaces/IRequest.ts";
 
 interface GestionModalProps {
     handleCloseDelete: () => void,
@@ -51,8 +47,10 @@ const GestionModalDeleteRequest = ({
             };
             setAlert(alert);
 
-            /* Permet de re render le dom */
-            setIsDeleteRequest!((prev) => !prev);
+            /* Permet de re render le dom | La condition évite l'erreur de type*/
+            if (typeof setIsDeleteRequest === "function") {
+                setIsDeleteRequest((prev) => !prev);
+            }
 
             setTimeout(() => {
                 handleCloseDelete();

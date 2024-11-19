@@ -19,4 +19,4 @@ interface IFamily {
     user?: IUser;
 }
 
-export { IFamily };
+export type { IFamily };

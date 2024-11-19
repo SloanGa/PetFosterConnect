@@ -13,4 +13,4 @@ interface IUser {
     updated_at: Date;
 }
 
-export { IUser };
+export type { IUser };

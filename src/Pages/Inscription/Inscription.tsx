@@ -566,6 +566,7 @@ const Inscription = () => {
                         </Toast>
                     </>
                 )}
+
             </div>
             <Footer />
         </>

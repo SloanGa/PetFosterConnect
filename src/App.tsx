@@ -25,14 +25,17 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/associations" element={<Associations />} />
-						<Route path="/association/:slug" element={<Association />} />
+						<Route
+							path="/association/:slug"
+							element={<Association isDashboard={false} />}
+						/>
 						<Route path="/animaux" element={<Animaux />} />
 						<Route path="/animaux/:slug" element={<Animal />} />
 						<Route
 							path="/famille/:slug"
 							element={
 								<ProtectedRoute>
-									<Famille />
+									<Famille isDashboard={false} />
 								</ProtectedRoute>
 							}
 						/>
