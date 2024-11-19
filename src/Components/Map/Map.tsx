@@ -1,6 +1,9 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLngTuple, L } from "leaflet";
+import { LatLngTuple, Icon } from "leaflet";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 interface MapProps {
 	longitude: number;
@@ -8,10 +11,10 @@ interface MapProps {
 }
 
 // Définir le chemin des icônes Leaflet
-L.Icon.Default.mergeOptions({
-	iconUrl: "/assets/leaflet/marker-icon.png", // Chemin vers l'icône principale
-	iconRetinaUrl: "/assets/leaflet/marker-icon-2x.png", // Chemin vers l'icône Retina
-	shadowUrl: "/assets/leaflet/marker-shadow.png", // Chemin vers l'ombre
+Icon.Default.mergeOptions({
+	iconUrl: markerIcon, // Chemin vers l'icône principale
+	iconRetinaUrl: markerIcon2x, // Chemin vers l'icône Retina
+	shadowUrl: markerShadow, // Chemin vers l'ombre
 });
 
 const Map = ({ longitude, latitude }: MapProps) => {
