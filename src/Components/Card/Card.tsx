@@ -28,58 +28,66 @@ const Card = ({
 	path,
 	isHomePage,
 }: CardProps) => {
-	return (
-		<Link
-			to={path}
-			className="cards__list__link"
-			aria-label="Voir la page de cet animal"
-		>
-			<article className="card">
-				<div className="card__img__container">
-					<img
-						src={src}
-						className="card__img card-img-top"
-						alt={alt}
-						loading="lazy"
-					/>
-					<div
-						className={
-							availability === false
-								? "card__img__overlay--active"
-								: "card__img__overlay--inactive"
-						}
-					>
-						<span>Indisponible</span>
-					</div>
-				</div>
-				<div className="card-body text-center">
-					<h3 className="card__title card-title">{name}</h3>
-					{/* Affichage conditionnel si on est sur Home ou non */}
-					{isHomePage ? (
-						<p className="card__text card-text">{associationLocation}</p>
-					) : (
-						<>
-							<div className="card__description">
-								<span>{associationName}</span>
-								<span>{associationLocation}</span>
-							</div>
-							<div className="card__description">
-								<span>{animalType}</span>
-								<span>{gender}</span>
-								<span>
-									{age === 0
-										? "< 1 an"
-										: age === 1
-											? `${age} an`
-											: `${age} ans`}
-								</span>
-							</div>
-						</>
-					)}
-				</div>
-			</article>
-		</Link>
-	);
+
+    return (
+        <>
+            <Link
+                to={path}
+                className="cards__list__link"
+                aria-label={`Voir la page de ${name}`}
+                title={`Voir la page de ${name}`}
+            >
+                <article className="card">
+                    <div className="card__img__container">
+                        <img
+                            src={src}
+                            className="card__img card-img-top"
+                            alt={alt}
+                            loading="lazy"
+                        />
+
+                        <div
+                            className={
+                                availability === false
+                                    ? "card__img__overlay--active"
+                                    : "card__img__overlay--inactive"
+                            }
+                        >
+                            <span>Indisponible</span>
+                        </div>
+                    </div>
+
+                    <div className="card-body text-center">
+                        <h3 className="card__title card-title">{name}</h3>
+
+                        {/* Affichage conditionnel si on est sur Home ou non */}
+                        {isHomePage ? (
+                            <p className="card__text card-text">{associationLocation}</p>
+                        ) : (
+                            <>
+                                <div className="card__description">
+                                    <span>{associationName}</span>
+                                    <span>{associationLocation}</span>
+                                </div>
+                                <div className="card__description">
+                                    <span>{animalType}</span>
+                                    <span>{gender}</span>
+                                    <span>
+                                        {age == 0
+                                            ? "< 1 an"
+                                            : age == 1
+                                              ? age + " an"
+                                              : age + " ans"}
+                                    </span>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </article>
+            </Link>
+        </>
+    );
+
 };
 
 export default Card;

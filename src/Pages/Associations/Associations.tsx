@@ -124,14 +124,11 @@ const Associations = () => {
                     <section className="intro">
                         <h1 className="main__title">Les associations</h1>
                         <p className="intro__text__associations">
-                            Dans notre application, vous avez la possibilité de rechercher des
-                            associations de protection animale en fonction de plusieurs critères.
-                            Que vous cherchiez une association près de chez vous ou une organisation
-                            spécialisée dans un type d'animal particulier, notre fonctionnalité de
-                            recherche vous permet de filtrer les résultats par localisation, type
-                            d'animaux ou par nom. Que vous souhaitiez soutenir une petite
-                            association locale ou une organisation plus établie, PetFoster Connect
-                            vous aide à trouver celle qui correspond à vos attentes et valeurs !
+                            Vous avez la possibilité de rechercher des associations de protection
+                            animale en fonction de plusieurs critères. Que vous cherchiez une
+                            association près de chez vous ou une organisation spécialisée dans un
+                            type d'animal particulier, PetFoster Connect vous aide à trouver celle
+                            qui correspond à vos attentes et valeurs !
                         </p>
                     </section>
 
@@ -146,7 +143,7 @@ const Associations = () => {
                             <Icon
                                 ariaLabel="Ouvrir le menu de filtre"
                                 src="/src/assets/icons/filter.svg"
-                                alt="icône filtre"
+                                alt="Filtrer les résultats"
                                 onClick={toggleFiltersVisibility}
                                 text="Filtres"
                             />

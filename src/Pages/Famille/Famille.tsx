@@ -9,87 +9,91 @@ import IRequest from "../../Interfaces/IRequest.ts";
 const baseURL = import.meta.env.VITE_API_URL;
 
 interface FamilleProps {
-	isDashboard: boolean;
+    isDashboard: boolean;
 }
 
 const Famille = ({ isDashboard }: FamilleProps) => {
-	const { slug } = useParams();
+    const { slug } = useParams();
 
-	const arraySlug = slug!.split("-");
-	const familyId = arraySlug![arraySlug!.length - 1];
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-	const [family, setFamily] = useState<IFamily | null>(null);
-	const [userHasFamily, setUserHasFamily] = useState<IUser | null>(null);
-	const [requestData, setRequestData] = useState<IRequest[] | null>(null);
+    const arraySlug = slug!.split("-");
+    const familyId = arraySlug![arraySlug!.length - 1];
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [family, setFamily] = useState<IFamily | null>(null);
+    const [userHasFamily, setUserHasFamily] = useState<IUser | null>(null);
+    const [requestData, setRequestData] = useState<IRequest[] | null>(null);
 
-	const [isDeleteRequest, setIsDeleteRequest] = useState(false);
+    const [isDeleteRequest, setIsDeleteRequest] = useState(false);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				// Exécute les trois requêtes en parallèle
-				const [familyResponse, userResponse, requestResponse] =
-					await Promise.all([
-						fetch(`${baseURL}/family/${familyId}`, {
-							headers: {
-								Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-							},
-						}),
-						fetch(`${import.meta.env.VITE_API_URL}/auth/family/${familyId}`),
-						fetch(`${baseURL}/requests/family`, {
-							headers: {
-								Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-							},
-						}),
-					]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Exécute les deux requêtes en parallèle
+                const [familyResponse, userResponse, requestResponse] =
+                    await Promise.all([
+                        fetch(`${baseURL}/family/${familyId}`, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+                            },
+                        }),
+                        fetch(`${import.meta.env.VITE_API_URL}/auth/family/${familyId}`),
 
-				if (!familyResponse.ok || !userResponse.ok || !requestResponse.ok) {
-					setError("Une erreur est survenue, veuillez rafraîchir la page.");
-					setIsLoading(false);
-					return;
-				}
+                        fetch(`${baseURL}/requests/family`, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+                            },
+                        }),
+                    ]);
 
-				const [familyData, userData, requestData] = await Promise.all([
-					familyResponse.json(),
-					userResponse.json(),
-					requestResponse.json(),
-				]);
+                if (!familyResponse.ok || !userResponse.ok || !userResponse.ok) {
+                    setError("Une erreur est survenue, veuillez rafraîchir la page.");
+                    setIsLoading(false);
+                    return;
+                }
 
-				setFamily(familyData);
-				setUserHasFamily(userData);
-				setRequestData(requestData);
-			} catch (err) {
-				setError("Une erreur est survenue, veuillez rafraîchir la page.");
-				console.error("Erreur lors de la récupération des données:", err);
-			} finally {
-				setIsLoading(false);
-			}
-		};
 
-		fetchData();
-	}, [familyId, isDeleteRequest]);
+                const [familyData, userData, requestData] = await Promise.all([
+                    familyResponse.json(),
+                    userResponse.json(),
+                    requestResponse.json(),
+                ]);
 
-	const { isAuth, userData } = useAuth();
-	const isFamilyLegitimate =
-		isAuth && userData?.family_id === parseInt(familyId);
+                setFamily(familyData);
+                setUserHasFamily(userData);
+                setRequestData(requestData);
+            } catch (err) {
+                setError("Une erreur est survenue, veuillez rafraîchir la page.");
+                console.error("Erreur lors de la récupération des données:", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-	return (
-		<>
-			<Profil
-				entity={family}
-				baseURL={baseURL}
-				isLoading={isLoading}
-				error={error}
-				isLegitimate={isFamilyLegitimate}
-				setEntity={setFamily}
-				userHasEntity={userHasFamily}
-				requestData={requestData}
-				setIsDeleteRequest={setIsDeleteRequest}
-				isDashboard={isDashboard}
-			/>
-		</>
-	);
+
+        fetchData();
+    }, [familyId, setFamily, isDeleteRequest]);
+
+    const { isAuth, userData } = useAuth();
+    const isFamilyLegitimate =
+        isAuth && userData?.family_id === parseInt(familyId);
+
+
+    return (
+        <>
+            <Profil
+                entity={family}
+                baseURL={baseURL}
+                isLoading={isLoading}
+                error={error}
+                isLegitimate={isFamilyLegitimate}
+                setEntity={setFamily}
+                userHasEntity={userHasFamily}
+                requestData={requestData}
+                setIsDeleteRequest={setIsDeleteRequest}
+                isDashboard={isDashboard}
+            />
+        </>
+    );
 };
 
 export default Famille;

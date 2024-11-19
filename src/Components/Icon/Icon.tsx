@@ -1,5 +1,4 @@
 import "./Icon.scss";
-import { ReactNode } from "react";
 
 interface IconProps {
     ariaLabel: string;
@@ -21,7 +20,8 @@ const Icon = ({ ariaLabel, className, src, alt, text, onClick }: IconProps) => {
                 aria-label={ariaLabel}
             >
                 <img src={src} alt={alt} />
-                <span>{text}</span>
+                {text}
+                {/* <span>{text}</span> */}
             </button>
         </>
     );

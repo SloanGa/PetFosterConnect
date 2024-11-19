@@ -135,13 +135,13 @@ const Animal = () => {
                                         {animal!.gender === "Femelle" ? (
                                             <img
                                                 src="/src/assets/icons/female.svg"
-                                                alt="icône femelle"
+                                                alt="sexe femelle"
                                                 className="icon"
                                             />
                                         ) : (
                                             <img
                                                 src="/src/assets/icons/male.svg"
-                                                alt="icône male"
+                                                alt="Sexe mâle"
                                                 className="icon"
                                             />
                                         )}
@@ -206,12 +206,12 @@ const Animal = () => {
                                         title={"Aller sur la page de l'association"}
                                         text={animal!.association.name}
                                     />
-                                    <div>{animal!.association.address}</div>
-                                    <div>
+                                    <address>{animal!.association.address}</address>
+                                    <address>
                                         <span>{animal!.association.zip_code}</span>
                                         <span> </span>
                                         <span>{animal!.association.city}</span>
-                                    </div>
+                                    </address>
                                     <div>
                                         <span>Tel : </span>
                                         <a
@@ -236,12 +236,20 @@ const Animal = () => {
                                     </div>
                                     {!animal!.availability ? (
                                         // Si l'animal est indisponible
-                                        <button className="btn btn--indisponible" disabled>
+                                        <button
+                                            className="btn btn--indisponible"
+                                            type="button"
+                                            disabled
+                                        >
                                             Animal indisponible
                                         </button>
                                     ) : userData?.association ? null : isFamilyConnected ? (
                                         // Si l'animal est disponible et que l'utilisateur est une famille connectée
-                                        <button className="btn btn--demande" onClick={handleShow}>
+                                        <button
+                                            className="btn btn--demande"
+                                            type="button"
+                                            onClick={handleShow}
+                                        >
                                             Faire une demande d'accueil
                                         </button>
                                     ) : (
@@ -277,7 +285,7 @@ const Animal = () => {
                     Si vous confirmez votre demande, celle-ci sera envoyée à l'association qui vous
                     contactera directement.
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="justify-content-center justify-content-sm-end">
                     <Button variant="secondary" onClick={handleClose} className={"btn--cancel"}>
                         Annuler
                     </Button>

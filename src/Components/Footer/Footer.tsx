@@ -12,7 +12,7 @@ const Footer = () => {
                             to={"/mentions-legales"}
                             className={"footer__nav__link"}
                             text={"Mentions légales"}
-                            title={"Aller sur la page des mentions légales"}
+                            title={"Consulter la page des mentions légales"}
                         />
                     </li>
                     <li>
@@ -20,7 +20,7 @@ const Footer = () => {
                             to={"/politique-confidentialite"}
                             className={"footer__nav__link"}
                             text={"Politique de confidentialité"}
-                            title={"Aller sur la page Politique de confidentialité"}
+                            title={"Consulter la page Politique de confidentialité"}
                         />
                     </li>
                     <li>
@@ -28,11 +28,15 @@ const Footer = () => {
                             to={"/plan-du-site"}
                             className={"footer__nav__link"}
                             text={"Plan du site"}
-                            title={"Aller sur la page Plan du site"}
+                            title={"Consulter la page Plan du site"}
                         />
                     </li>
                     <li>
-                        <a className="footer__nav__link" href="mailto:contact@petfosterconnect.com">
+                        <a
+                            className="footer__nav__link"
+                            href="mailto:contact@petfosterconnect.com"
+                            title="Envoyer un email à PetFosterConnect"
+                        >
                             Contact
                         </a>
                     </li>

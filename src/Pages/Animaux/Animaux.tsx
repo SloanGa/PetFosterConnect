@@ -125,7 +125,7 @@ const Animaux = () => {
                 <title>Les animaux | PetFoster Connect</title>
                 <meta
                     name="description"
-                    content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                    content="Découvrez tous les animaux des associations partenaires de PetFosterConnect. Notre application permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
                 />
             </Helmet>
             <Header />
@@ -134,14 +134,11 @@ const Animaux = () => {
                     <section className="intro">
                         <h1 className="main__title">Les animaux</h1>
                         <p className="intro__text__animals">
-                            Dans notre application, vous pouvez facilement rechercher des animaux en
-                            fonction de plusieurs critères. Que vous soyez à la recherche d'un
-                            compagnon spécifique ou que vous souhaitiez simplement explorer les
-                            options disponibles, notre fonctionnalité de recherche vous permet de
-                            filtrer les résultats par type d'animal, localisation, association,
-                            genre, âge et taille. Que vous souhaitiez un petit chien dynamique ou un
-                            chat âgé et calme, PetFoster Connect vous aide à trouver l'animal qui
-                            correspond parfaitement à vos attentes !
+                            Rechercher facilement des animaux en fonction de plusieurs critères. Que
+                            vous soyez à la recherche d'un compagnon spécifique ou que vous
+                            souhaitiez simplement explorer les options disponibles, PetFoster
+                            Connect vous aide à trouver l'animal qui correspond parfaitement à vos
+                            attentes en attendant son adoption par une nouvelle famille !
                         </p>
                     </section>
 
@@ -154,7 +151,7 @@ const Animaux = () => {
                             <Icon
                                 ariaLabel="Ouvrir le menu de filtre"
                                 src="/src/assets/icons/filter.svg"
-                                alt="icône filtre"
+                                alt="Filtrer les résultats"
                                 onClick={toggleFiltersVisibility}
                                 text="Filtres"
                             />
