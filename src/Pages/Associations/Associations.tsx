@@ -176,12 +176,19 @@ const Associations = () => {
                                     ))}
                                 </ul>
                             )}
-                            <PaginationComposant
-                                items={form ? associationsToDisplay.length : associations.length}
-                                currentPage={currentPage}
-                                handleChangePage={handleChangePage}
-                                animalsFilterCount={form ? associationsFilterCount : null}
-                            />
+                            {associationsToDisplay.length > 0 ||
+                            (associationsFilterCount !== null && associationsFilterCount > 0) ? (
+                                <PaginationComposant
+                                    items={
+                                        form ? associationsToDisplay.length : associations.length
+                                    }
+                                    currentPage={currentPage}
+                                    handleChangePage={handleChangePage}
+                                    animalsFilterCount={form ? associationsFilterCount : null}
+                                />
+                            ) : (
+                                <p className="text-center">Aucune association à afficher</p>
+                            )}
                         </div>
                     </section>
                 </div>
