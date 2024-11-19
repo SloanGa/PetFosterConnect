@@ -333,11 +333,11 @@ const GestionModal: React.FC<GestionModalProps> = ({
 						</Form>
 					)}
 				</Formik>
-				<div className="toast__modal d-flex justify-content-center mb-1">
+				<div className={"toast__modal d-flex justify-content-center mb-1 "}>
 					<Toast
+						className={toastData?.color ? `toast-${toastData.color}` : ""}
 						show={showToast}
 						onClose={() => setShowToast(false)}
-						bg={toastData?.color}
 					>
 						<Toast.Body>{toastData?.message}</Toast.Body>
 					</Toast>
