@@ -2,7 +2,6 @@ import "./Connexion.scss";
 import { Helmet } from "react-helmet-async";
 import Loading from "../../Components/Loading/Loading.tsx";
 import Header from "../../Components/Header/Header";
-import { Link } from "react-router-dom";
 import AppLink from "../../Components/Links/AppLink.tsx";
 import Icon from "../../Components/Icon/Icon.tsx";
 import { useRef } from "react";
