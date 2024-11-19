@@ -171,7 +171,9 @@ const GestionModal: React.FC<GestionModalProps> = ({
 									type="file"
 									name="animal_img"
 									onChange={(event) => {
-										const file = event.currentTarget.files[0];
+										const file =
+											(event.currentTarget as HTMLInputElement).files?.[0] ||
+											null;
 										setFieldValue("animal_img", file);
 									}}
 									isInvalid={!!errors.animal_img}
