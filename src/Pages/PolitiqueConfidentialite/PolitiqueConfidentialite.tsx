@@ -10,7 +10,7 @@ const PolitiqueConfidentialite = () => {
                 <title>Politique de Confidentialité | PetFoster Connect</title>
                 <meta
                     name="description"
-                    content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                    content="Consultez la politique de confidentialité de PetFoster Connect pour en savoir plus sur la collecte, l'utilisation et la protection de vos données personnelles."
                 />
             </Helmet>
             <Header />

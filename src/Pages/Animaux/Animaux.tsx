@@ -125,7 +125,7 @@ const Animaux = () => {
                 <title>Les animaux | PetFoster Connect</title>
                 <meta
                     name="description"
-                    content="Découvrez tous les animaux des associations partenaires de PetFosterConnect. Notre application permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                    content="Découvrez tous les animaux des associations partenaires de PetFosterConnect."
                 />
             </Helmet>
             <Header />
