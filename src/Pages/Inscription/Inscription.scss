@@ -1,0 +1,62 @@
+@use "../../styles/variables" as v;
+
+.main--register {
+    .form__register {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem 1rem;
+        gap: 20px;
+
+        input::placeholder {
+            color: rgb(145, 145, 145);
+        }
+
+        .form__password,
+        .form__passwordconfirm {
+            position: relative;
+        }
+
+        .form-label {
+            display: flex;
+            flex-direction: column-reverse;
+            font-weight: bold;
+        }
+
+        .form-control:focus {
+            border-color: v.$primary;
+            box-shadow: none;
+        }
+    }
+
+    .form__presentation {
+        display: block;
+        text-align: center;
+    }
+
+    .form__title {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    @media (min-width: 768px) {
+        .form__register {
+            align-items: center;
+        }
+
+        .container__register {
+            display: flex;
+            gap: 2rem;
+            width: 90%;
+            padding-bottom: 2em;
+            justify-content: center;
+
+            .form__column {
+                width: calc(50% - 2rem);
+            }
+        }
+    }
+}
+
+.register__toast {
+    margin: 0 auto;
+}

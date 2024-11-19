@@ -1,0 +1,28 @@
+@use "../../styles/variables" as v;
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    border: none;
+    width: 30%;
+    margin: 3rem auto 0;
+
+    .page-item {
+        margin: 0;
+
+        &.active .page-link {
+            background-color: #baa89b;
+            color: #fff;
+            border-color: v.$secondary;
+        }
+
+        .page-link {
+            color: inherit;
+
+            &:hover {
+                background-color: #baa89b;
+                color: #fff;
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@use "../../styles/variables" as v;
+
+.intro__text__animals {
+    display: none;
+
+    @media (min-width: 992px) {
+        display: block;
+        text-align: center;
+        padding: 0 2rem;
+    }
+}
+
+.animals__number__results {
+    @media (min-width: 992px) {
+        padding-left: 0;
+        margin: 1.5rem 0;
+    }
+}
+
+.animals__section {
+    @media (min-width: 992px) {
+        display: flex;
+        gap: 2em;
+    }
+}

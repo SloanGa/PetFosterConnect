@@ -1,0 +1,29 @@
+@use '../../styles/variables' as v;
+
+
+.mapsite__presentation {
+    min-height: 59.3vh;
+ }
+
+.main__information {
+   display: block;
+   margin: auto;
+   text-align: center;
+}
+
+.main__information__list {
+    color: v.$main;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    display: block;
+    text-align: center;
+}
+
+.main__information__list__link :hover{
+        color: v.$tertiary;
+        opacity: 0.7;
+    }
+
+.main__information__list__link__second {
+        color: v.$secondary;
+    }

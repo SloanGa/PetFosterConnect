@@ -1,0 +1,45 @@
+@use "../../styles/variables" as v;
+
+.main--connexion {
+    min-height: 61vh;
+    }
+
+    .form__connexion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        font-family: Helvetica, sans-serif;
+
+        .form__group {
+            width: 50%;
+            max-width: 350px;
+        }
+
+        .form__group__password {
+            position: relative; // Pour icône masquer/afficher password qui est en absolute
+        }
+
+        .label {
+            position: relative;
+            font-weight: bold;
+            gap: 0.4em;
+        }
+
+        .form-control:focus {
+            border-color: v.$primary;
+            box-shadow: none;
+        }
+
+        .btn__submit {
+            border: none;
+
+            &:focus:active {
+                border: 2px solid v.$secondary;
+                background-color: v.$tertiary;
+                color: #fff;
+                opacity: 0.7;
+            }
+        }
+    }
+

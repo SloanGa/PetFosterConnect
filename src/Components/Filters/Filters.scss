@@ -1,0 +1,77 @@
+@use "../../styles/variables" as v;
+
+.animals__section,
+.associations__section {
+    &__filter {
+        padding: 1.5rem 0;
+        position: relative;
+        @media (min-width: 992px) {
+            padding: 0;
+            width: 32%;
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            column-gap: 0.5rem;
+        }
+    }
+}
+
+.filters {
+    display: none;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    left: 0;
+    z-index: 100;
+
+    background-color: v.$body;
+    font-family: Helvetica, sans-serif;
+
+    @media (min-width: 992px) {
+        display: flex;
+        position: relative;
+        box-shadow: none;
+        margin-top: 1rem;
+    }
+
+    &.active {
+        display: block;
+    }
+
+    &__form {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        margin: 1em auto;
+        gap: 1em;
+        @media (min-width: 992px) {
+            margin: 0;
+            width: 100%;
+        }
+
+        &__description {
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        &__fieldset {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+    }
+
+    .btn--form-reinit {
+        background-color: v.$secondary-light;
+
+        &:hover,
+        &:focus {
+            background-color: v.$secondary-light;
+            //color: #fff;
+            //opacity: 0.7;
+        }
+    }
+}

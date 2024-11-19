@@ -1,0 +1,52 @@
+@use "../../styles/variables" as v;
+
+.dashboard__menu {
+    @media (min-width: 992px) {
+        border-right: v.$secondary-light 1px solid;
+        margin-bottom: -3rem; // Que la bordure aille jusqu'au footer
+    }
+}
+
+.left__nav {
+    &__list {
+        display: flex;
+        flex-direction: column;
+        flex-basis: content;
+        row-gap: 1em;
+        align-items: center;
+        margin-top: 2em;
+        border-bottom: solid 1px v.$secondary-light;
+
+        padding-bottom: 2em;
+
+        &__link {
+            text-transform: uppercase;
+            color: v.$main;
+
+            &:hover {
+                color: v.$secondary-light;
+                opacity: 0.7;
+            }
+
+            &--current {
+                color: v.$secondary-light;
+            }
+        }
+    }
+
+    @media (min-width: 992px) {
+        padding-right: 2em;
+        padding-left: 2em;
+        padding-top: 4em;
+
+        &__list {
+            padding-top: 3em;
+            height: 20em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+
+            border: none;
+        }
+    }
+}
