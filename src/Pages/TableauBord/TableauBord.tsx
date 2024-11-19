@@ -11,7 +11,7 @@ import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
 import Association from "../Association/Association.tsx";
 
 const TableauBord = () => {
-	const { userData } = useAuth();
+    const { userData } = useAuth();
 
 	const [associationData, setAssociationData] = useState(userData?.association);
 
@@ -19,55 +19,55 @@ const TableauBord = () => {
 		boolean | null
 	>(null);
 
-	useEffect(() => {
-		const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-		if (!storedUser || !(storedUser.role === "association")) {
-			setIsAssociationConnected(false);
-		} else {
-			setIsAssociationConnected(true);
-		}
-	}, []);
+        if (!storedUser || !(storedUser.role === "association")) {
+            setIsAssociationConnected(false);
+        } else {
+            setIsAssociationConnected(true);
+        }
+    }, []);
 
-	if (isAssociationConnected === false) {
-		return <Navigate to="/connexion" />;
-	}
+    if (isAssociationConnected === false) {
+        return <Navigate to="/connexion" />;
+    }
 
-	return (
-		<>
-			<Helmet>
-				<title>Tableau de bord | PetFoster Connect</title>
-				<meta
-					name="description"
-					content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
-				/>
-			</Helmet>
+    return (
+        <>
+            <Helmet>
+                <title>Tableau de bord | PetFoster Connect</title>
+                <meta
+                    name="description"
+                    content="Accédez au tableau de bord de votre association sur PetFoster Connect pour gérer vos animaux, demandes et profil."
+                />
+            </Helmet>
 
-			<Header />
-			<div className="content">
-				<LeftNavBar />
-				<main className="main__content container">
-					<h1 className="main__title">
-						Tableau de bord | {userData ? associationData.name : "XXX"}
-					</h1>
-					<Routes>
-						<Route path="/" element={<ManageAnimal />} />
-						<Route path="/demandes" element={<ManageRequest />} />
-						<Route
-							path="/profil-association/:slug"
-							element={
-								<Association
-									isDashboard={true}
-									setAssociationData={setAssociationData}
-								/>
-							}
-						/>
-					</Routes>
-				</main>
-			</div>
-			<Footer />
-		</>
-	);
+            <Header />
+            <div className="content">
+              <LeftNavBar />
+              <main className="main__content container">
+                <h1 className="main__title">
+                  Tableau de bord | {userData ? associationData.name : "XXX"}
+                </h1>
+                <Routes>
+                  <Route path="/" element={<ManageAnimal />} />
+                  <Route path="/demandes" element={<ManageRequest />} />
+                  <Route
+                    path="/profil-association/:slug"
+                    element={
+                      <Association
+                        isDashboard={true}
+                        setAssociationData={setAssociationData}
+                      />
+                    }
+                  />
+                </Routes>
+              </main>
+            </div>
+            <Footer />
+		    </>
+	  );
 };
 
 export default TableauBord;

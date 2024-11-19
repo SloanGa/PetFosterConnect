@@ -172,11 +172,16 @@ const ManageRequest = () => {
                     <div className="request__header">
                         <img
                             src={`${baseURL}${animalGroup.animal.url_image}`}
-                            alt=""
+                            alt={animalGroup.animal.name}
                             loading="lazy"
                         />
                         <h2>
-                            <a href={`/animaux/${animalGroup.animal.slug}`} className="link">
+                            <a
+                                href={`/animaux/${animalGroup.animal.slug}`}
+                                className="link"
+                                title="Consulter la page de cet animal"
+                                aria-label="Consulter la page de cet animal"
+                            >
                                 {animalGroup.animal.name}
                             </a>
                         </h2>
@@ -213,6 +218,8 @@ const ManageRequest = () => {
                                         <a
                                             href={`/famille/${request.family.slug}`}
                                             className="link"
+                                            title="Consulter la page de profil de cette famille"
+                                            aria-label="Consulter la page de profil de cette famille"
                                         >
                                             {request.family.name}
                                         </a>
@@ -221,6 +228,8 @@ const ManageRequest = () => {
                                         <a
                                             href={`mailto:${request.family.user!.email}`}
                                             className="link"
+                                            title="Envoyer un email à cette famille"
+                                            aria-label="Envoyer un email à cette famille"
                                         >
                                             {request.family.user!.email}
                                         </a>
@@ -249,6 +258,7 @@ const ManageRequest = () => {
                                                 type="button"
                                                 className="btn btn--save-status"
                                                 onClick={() => handleClickOnSaveNewStatus(request)}
+                                                aria-label="Enregistrer"
                                             >
                                                 Ok
                                             </button>
@@ -258,7 +268,7 @@ const ManageRequest = () => {
                                             <Icon
                                                 ariaLabel={"Modifier le statut de la demande"}
                                                 src={"/src/assets/icons/pen.svg"}
-                                                alt={"icône modifier"}
+                                                alt={"Modifier le statut de la demande"}
                                                 onClick={() =>
                                                     handleClickOnEditStatus(
                                                         request.id,
