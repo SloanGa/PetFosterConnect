@@ -81,7 +81,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 				const error = await response.json();
 				const alert = {
 					message: error.error,
-					type: "danger",
+					type: "custom-red",
 				};
 				setAlert(alert);
 
@@ -95,7 +95,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 			setEntity(data);
 			const alert = {
 				message: "Modifications prises en compte.",
-				type: "success",
+				type: "custom-green",
 			};
 			setAlert(alert);
 
@@ -107,7 +107,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 			const alert = {
 				message:
 					"Une erreur s'est produite, votre demande n'a pas abouti. Veuillez réessayer.",
-				type: "danger",
+				type: "custom-red",
 			};
 			setAlert(alert);
 		}
@@ -358,7 +358,11 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 					)}
 				</Formik>
 				{alert && (
-					<Alert variant={alert.type} dismissible className="alert">
+					<Alert
+						variant={alert.type}
+						dismissible
+						className={`alert ${alert?.type ? `toast-${alert?.type}` : ""}`}
+					>
 						{alert.message}
 					</Alert>
 				)}
