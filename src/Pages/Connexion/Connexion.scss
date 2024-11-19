@@ -1,6 +1,9 @@
 @use "../../styles/variables" as v;
 
 .main--connexion {
+    min-height: 61vh;
+    }
+
     .form__connexion {
         display: flex;
         flex-direction: column;
@@ -39,4 +42,4 @@
             }
         }
     }
-}
+

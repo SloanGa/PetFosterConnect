@@ -8,7 +8,7 @@ import "./Animaux.scss";
 import { useFetchAnimals } from "../../Hook/useFetchAnimals.ts";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Error } from "../../Components/Error/Error.tsx";
-import { FormEvent, useEffect, useState, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { IAnimal } from "../../Interfaces/IAnimal.ts";
 import Icon from "../../Components/Icon/Icon.tsx";
 
@@ -22,6 +22,7 @@ const Animaux = () => {
     const [queryString, setQueryString] = useState("");
     const [form, setForm] = useState<{} | null>(null); // Permet de verifier sur le formulaire est vide ou non
     const [currentPage, setCurrentPage] = useState(1);
+    const [associationId, setAssociationId] = useState<string | null>(null);
 
     // Section liste des animaux pour pouvoir utilise scrollIntoView au changement de page
     const animalList = useRef<HTMLDivElement | null>(null);
@@ -119,13 +120,43 @@ const Animaux = () => {
         }
     };
 
+    /* Gestion du filtre lorsqu'on clique depuis la page d'une association */
+    useEffect(() => {
+        // Extraire les paramètres de recherche depuis l'URL
+        const params = new URLSearchParams(location.search);
+        const associationIdFromUrl = params.get("association_id");
+        const newQueryString = new URLSearchParams(params).toString();
+        if (associationIdFromUrl) {
+            setForm(associationIdFromUrl);
+            setAssociationId(associationIdFromUrl);
+            setQueryString(newQueryString);
+        }
+    }, [location.search]); // Se déclenche quand location.search change
+    useEffect(() => {
+        if (associationId) {
+            const fetchAnimals = async () => {
+                try {
+                    const response = await fetch(
+                        `${import.meta.env.VITE_API_URL}/animals/search?association_id=${associationId}`
+                    );
+                    const data = await response.json();
+                    setAnimalsFilterCount(data.totalAnimalCount);
+                    setAnimalsToDisplay(data.paginatedAnimals);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des animaux:", error);
+                }
+            };
+            fetchAnimals();
+        }
+    }, [associationId]);
+
     return (
         <>
             <Helmet>
                 <title>Les animaux | PetFoster Connect</title>
                 <meta
                     name="description"
-                    content="Découvrez tous les animaux des associations partenaires de PetFosterConnect. Notre application permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                    content="Découvrez tous les animaux des associations partenaires de PetFosterConnect."
                 />
             </Helmet>
             <Header />
@@ -191,12 +222,17 @@ const Animaux = () => {
                                     ))}
                                 </ul>
                             )}
-                            <PaginationComposant
-                                items={form ? animalsToDisplay.length : animals.length}
-                                currentPage={currentPage}
-                                handleChangePage={handleChangePage}
-                                animalsFilterCount={form ? animalsFilterCount : null}
-                            />
+                            {animalsToDisplay.length > 0 ||
+                            (animalsFilterCount !== null && animalsFilterCount > 0) ? (
+                                <PaginationComposant
+                                    items={form ? animalsToDisplay.length : animals.length}
+                                    currentPage={currentPage}
+                                    handleChangePage={handleChangePage}
+                                    animalsFilterCount={form ? animalsFilterCount : null}
+                                />
+                            ) : (
+                                <p className="text-center">Aucun animal à afficher</p>
+                            )}
                         </div>
                     </section>
                 </div>

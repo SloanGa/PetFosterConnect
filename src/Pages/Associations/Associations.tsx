@@ -115,7 +115,7 @@ const Associations = () => {
                 <title>Les associations | PetFoster Connect</title>
                 <meta
                     name="description"
-                    content="PetFosterConnect permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
+                    content="Découvrez toutes les associations partenaires de PetFosterConnect. Notre application permet de mettre en relation des familles d’accueil pour les animaux et des associations de protection animale en accueillant des animaux en attendant leur adoption définitive afin de leur offrir une meilleure vie."
                 />
             </Helmet>
             <Header />
@@ -176,12 +176,19 @@ const Associations = () => {
                                     ))}
                                 </ul>
                             )}
-                            <PaginationComposant
-                                items={form ? associationsToDisplay.length : associations.length}
-                                currentPage={currentPage}
-                                handleChangePage={handleChangePage}
-                                animalsFilterCount={form ? associationsFilterCount : null}
-                            />
+                            {associationsToDisplay.length > 0 ||
+                            (associationsFilterCount !== null && associationsFilterCount > 0) ? (
+                                <PaginationComposant
+                                    items={
+                                        form ? associationsToDisplay.length : associations.length
+                                    }
+                                    currentPage={currentPage}
+                                    handleChangePage={handleChangePage}
+                                    animalsFilterCount={form ? associationsFilterCount : null}
+                                />
+                            ) : (
+                                <p className="text-center">Aucune association à afficher</p>
+                            )}
                         </div>
                     </section>
                 </div>

@@ -16,6 +16,7 @@ import { useFetchDepartments } from "../../Hook/useFetchDepartments.ts";
 import { Toast } from "react-bootstrap";
 
 const Inscription = () => {
+
 	const [mode, setMode] = useState<"family" | "association">("family");
 	const [isLoading, setIsLoading] = useState(false);
 	const [showToast, setShowToast] = useState(false); // Toast
@@ -572,6 +573,7 @@ const Inscription = () => {
 			<Footer />
 		</>
 	);
+
 };
 
 export default Inscription;

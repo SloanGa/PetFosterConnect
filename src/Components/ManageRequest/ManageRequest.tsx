@@ -174,6 +174,7 @@ const ManageRequest = () => {
 		return <Loading />;
 	}
 
+
 	return (
 		<div className="manage-request">
 			{error && <Error error={error} />}
@@ -284,5 +285,6 @@ const ManageRequest = () => {
 			))}
 		</div>
 	);
+
 };
 export default ManageRequest;
