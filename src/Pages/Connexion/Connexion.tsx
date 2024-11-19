@@ -167,15 +167,11 @@ const Connexion = () => {
 							</Form.Group>
 
 							{/* Mot de passe oublié */}
-							<a
-								className="form__forget__password"
-								href="/reinitialisation-mot-de-passe"
-							>
-								Mot de passe oublié ?{" "}
-							</a>
+
 							<Link
 								to="/reinitialisation-mot-de-passe"
-								title="Aller vers la page réinitialiser le mot de passe"
+								title="Mot de passe oublié"
+								aria-label="Aller vers la page de réinitialisation du mot de passe."
 							/>
 
 							{/* Bouton submit */}
