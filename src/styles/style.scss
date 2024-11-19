@@ -114,3 +114,14 @@ h2 {
         gap: 1.5rem;
     }
 }
+
+// Classe qui gère les couleurs des toasts en cas d'erreur ou succès 
+
+    .toast-custom-red {
+        background-color: #a11f1f;
+
+    }
+
+    .toast-custom-green {
+        background-color: v.$primary-light;
+    }

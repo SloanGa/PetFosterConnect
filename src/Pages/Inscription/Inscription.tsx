@@ -119,7 +119,7 @@ const Inscription = () => {
 				}
 				setToastData({
 					message: errorMessage,
-					color: "danger",
+					color: "custom-red",
 				});
 				setShowToast(true);
 			}
@@ -138,7 +138,7 @@ const Inscription = () => {
 				setToastData({
 					message:
 						"Inscription validée, vous allez être redirigée vers la page d'accueil...",
-					color: "success",
+					color: "custom-green",
 				});
 				setShowToast(true);
 				timerRef.current = setTimeout(() => {
@@ -150,7 +150,7 @@ const Inscription = () => {
 			setToastData({
 				message:
 					"Une erreur est survenue, veuillez recharger la page et réessayer.",
-				color: "danger",
+				color: "custom-red",
 			});
 			setShowToast(true);
 		} finally {

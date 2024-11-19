@@ -136,7 +136,7 @@ const ManageAnimal = () => {
 
 					setToastData({
 						message: "Animal édité avec succès",
-						color: "success",
+						color: "custom-green",
 					});
 					setShowToast(true);
 
@@ -154,7 +154,7 @@ const ManageAnimal = () => {
 
 					setToastData({
 						message: updatedAnimal.error || "Erreur lors de la mise à jour",
-						color: "danger",
+						color: "custom-red",
 					});
 					setShowToast(true);
 				}
@@ -201,7 +201,7 @@ const ManageAnimal = () => {
 
 				if (response.ok) {
 					createdAnimal = await response.json();
-					animalsToDisplay.length > 6 &&
+					animalsToDisplay.length < 6 &&
 						setAnimalsToDisplay((prevAnimals) => [
 							...prevAnimals,
 							createdAnimal,
@@ -209,7 +209,7 @@ const ManageAnimal = () => {
 
 					setToastData({
 						message: "Animal ajouté avec succès",
-						color: "success",
+						color: "custom-green",
 					});
 
 					setShowToast(true);
@@ -222,7 +222,7 @@ const ManageAnimal = () => {
 
 					setToastData({
 						message: createdAnimal.error || "Erreur lors de la création",
-						color: "danger",
+						color: "custom-red",
 					});
 
 					setShowToast(true);
@@ -274,7 +274,7 @@ const ManageAnimal = () => {
 			if (response.ok) {
 				setToastData({
 					message: "Animal supprimé",
-					color: "success",
+					color: "custom-green",
 				});
 
 				setShowToast(true);
@@ -289,7 +289,7 @@ const ManageAnimal = () => {
 			} else {
 				setToastData({
 					message: "Erreur lors de la suppression",
-					color: "danger",
+					color: "custom-red",
 				});
 
 				setShowToast(true);
@@ -388,9 +388,9 @@ const ManageAnimal = () => {
 					?{" "}
 					<div className="modal__toast d-flex justify-content-center mt-3">
 						<Toast
+							className={toastData?.color ? `toast-${toastData.color}` : ""}
 							show={showToast}
 							onClose={() => setShowToast(false)}
-							bg={toastData?.color}
 						>
 							<Toast.Body>{toastData?.message}</Toast.Body>
 						</Toast>

@@ -329,7 +329,6 @@ const ResetPassword = () => {
 					className={`confirmation__reset__toast ${toastData?.color ? `toast-${toastData.color}` : ""}`}
 					show={showToast}
 					onClose={toggleCloseToast}
-					// bg={toastData?.color}
 					delay={5000}
 					autohide
 				>
