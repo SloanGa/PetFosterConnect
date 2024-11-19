@@ -147,8 +147,8 @@ const Connexion = () => {
                                         className="icon--eye"
                                         src={
                                             isPasswordVisible
-                                                ? "src/assets/icons/visible-password.svg"
-                                                : "src/assets/icons/hidden-password.svg"
+                                                ? "/assets/icons/visible-password.svg"
+                                                : "/assets/icons/hidden-password.svg"
                                         }
                                         alt=""
                                         onClick={() => {

@@ -30,19 +30,17 @@ const ResetPassword = () => {
     } | null>(null);
     const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
 
+    const [showToast, setShowToast] = useState(false);
 
-	const [showToast, setShowToast] = useState(false);
+    interface ToastData {
+        message: string;
+        color: string;
+    }
 
-	interface ToastData {
-		message: string;
-		color: string;
-	}
-
-	const [toastData, setToastData] = useState<ToastData | null>(null);
-	const toggleShowToast = (message: string, color: string) => {
-		setToastData({ message, color });
-	};
-
+    const [toastData, setToastData] = useState<ToastData | null>(null);
+    const toggleShowToast = (message: string, color: string) => {
+        setToastData({ message, color });
+    };
 
     const toggleCloseToast = () => {
         setShowToast(!showToast);
@@ -121,25 +119,20 @@ const ResetPassword = () => {
                     body: JSON.stringify(formDataObject),
                 });
 
-
-				if (response.ok) {
-					setShowToast(true);
-					toggleShowToast(
-						"Email de réinitialisation envoyé. Consultez également vos spams.",
-						"custom-green",
-					);
-				} else {
-					setShowToast(true);
-					toggleShowToast(
-						"Une erreur est survenue. Veuillez réessayer.",
-						"custom-red",
-					);
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		},
-
+                if (response.ok) {
+                    setShowToast(true);
+                    toggleShowToast(
+                        "Email de réinitialisation envoyé. Consultez également vos spams.",
+                        "custom-green"
+                    );
+                } else {
+                    setShowToast(true);
+                    toggleShowToast("Une erreur est survenue. Veuillez réessayer.", "custom-red");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
 
         []
     );
@@ -167,24 +160,19 @@ const ResetPassword = () => {
                     }
                 );
 
-
-				if (response.ok) {
-					setShowToast(true);
-					toggleShowToast("Mot de passe modifié avec succès.", "custom-green");
-					timer = setTimeout(() => {
-						navigate("/connexion");
-					}, 5000);
-				} else {
-					setShowToast(true);
-					toggleShowToast(
-						"Une erreur est survenue. Veuillez réessayer.",
-						"custom-red",
-					);
-				}
-			} catch (error) {
-				console.error(error);
-			}
-
+                if (response.ok) {
+                    setShowToast(true);
+                    toggleShowToast("Mot de passe modifié avec succès.", "custom-green");
+                    timer = setTimeout(() => {
+                        navigate("/connexion");
+                    }, 5000);
+                } else {
+                    setShowToast(true);
+                    toggleShowToast("Une erreur est survenue. Veuillez réessayer.", "custom-red");
+                }
+            } catch (error) {
+                console.error(error);
+            }
 
             return () => {
                 if (timer) {
@@ -264,8 +252,8 @@ const ResetPassword = () => {
                                                 className="icon--eye"
                                                 src={
                                                     isPasswordVisible
-                                                        ? "src/assets/icons/hidden-password.svg"
-                                                        : "src/assets/icons/visible-password.svg"
+                                                        ? "/assets/icons/hidden-password.svg"
+                                                        : "/assets/icons/visible-password.svg"
                                                 }
                                                 alt=""
                                                 onClick={() => {
@@ -304,8 +292,8 @@ const ResetPassword = () => {
                                                 className="icon--eye"
                                                 src={
                                                     isConfirmPasswordVisible
-                                                        ? "src/assets/icons/hidden-password.svg"
-                                                        : "src/assets/icons/visible-password.svg"
+                                                        ? "/assets/icons/hidden-password.svg"
+                                                        : "/assets/icons/visible-password.svg"
                                                 }
                                                 alt=""
                                                 onClick={() => {
@@ -319,27 +307,25 @@ const ResetPassword = () => {
                                 </>
                             )}
 
-
-							<Button className="btn--form-reset" type="submit">
-								Envoyer
-							</Button>
-						</Form>
-					)}
-				</Formik>
-				<Toast
-					className={`confirmation__reset__toast ${toastData?.color ? `toast-${toastData.color}` : ""}`}
-					show={showToast}
-					onClose={toggleCloseToast}
-					delay={5000}
-					autohide
-				>
-					<Toast.Body>{toastData?.message}</Toast.Body>
-				</Toast>
-			</main>
-			<Footer />
-		</>
-	);
-
+                            <Button className="btn--form-reset" type="submit">
+                                Envoyer
+                            </Button>
+                        </Form>
+                    )}
+                </Formik>
+                <Toast
+                    className={`confirmation__reset__toast ${toastData?.color ? `toast-${toastData.color}` : ""}`}
+                    show={showToast}
+                    onClose={toggleCloseToast}
+                    delay={5000}
+                    autohide
+                >
+                    <Toast.Body>{toastData?.message}</Toast.Body>
+                </Toast>
+            </main>
+            <Footer />
+        </>
+    );
 };
 
 export default ResetPassword;

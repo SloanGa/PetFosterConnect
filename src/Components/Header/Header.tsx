@@ -27,7 +27,7 @@ const Header = () => {
             <div className="header__primary">
                 <Link to="/" title="Retour sur la page d'accueil">
                     <img
-                        src="/src/assets/logo_name.webp"
+                        src="/assets/logo_name.webp"
                         className="header__logo"
                         alt="Logo PetFoster Connect"
                     />
@@ -37,14 +37,14 @@ const Header = () => {
                 <div className="header__primary__icons">
                     <Icon
                         ariaLabel={"Ouvrir le menu de navigation"}
-                        src={"/src/assets/icons/burger-icon.svg"}
-                        alt={"icône menu"}
+                        src={"/assets/icons/burger-icon.svg"}
+                        alt={"Ouvrir le menu de navigation"}
                         onClick={toggleSecondaryMenuVisibility}
                     />
                     <Icon
                         ariaLabel={"Ouvrir le menu de connexion ou inscription"}
-                        src={"/src/assets/icons/user-connect.svg"}
-                        alt={"icône connexion/inscription"}
+                        src={"/assets/icons/user-connect.svg"}
+                        alt={"Ouvrir le menu de connexion ou inscription"}
                         onClick={togglePrimaryMenuVisibility}
                     />
                 </div>

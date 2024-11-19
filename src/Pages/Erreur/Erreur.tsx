@@ -4,7 +4,6 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 
 const Erreur = () => {
-    // const { name-id } = useParams();
     return (
         <>
             <Helmet>
@@ -19,7 +18,7 @@ const Erreur = () => {
                 <h1 className="main__title">Oups, cette page a pris la fuite ! </h1>
                 <img
                     className="image__404"
-                    src="src/assets/erreur404.webp"
+                    src="/assets/erreur404.webp"
                     alt="Image d'erreur page non trouvée"
                 ></img>
                 <p className="text__404">

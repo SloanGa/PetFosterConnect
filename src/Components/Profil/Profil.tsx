@@ -17,35 +17,32 @@ import GestionModalDeleteRequest from "../GestionModal/GestionModalDeleteRequest
 import AppLink from "../Links/AppLink.tsx";
 
 interface ProfilProps {
-	entity: IAssociation | IFamily | null;
-	baseURL: string;
-	isLoading: boolean;
-	error: string | null;
-	isLegitimate: boolean;
-	setEntity: React.Dispatch<
-		React.SetStateAction<IAssociation | IFamily | null>
-	>;
-	userHasEntity: IUser | null;
-	requestData?: IRequest[] | null;
-	selectedRequest?: number;
-	setIsDeleteRequest?: React.Dispatch<React.SetStateAction<boolean>>;
-	setAssociationData: React.Dispatch<
-		React.SetStateAction<IAssociation | null | undefined>
-	>;
+    entity: IAssociation | IFamily | null;
+    baseURL: string;
+    isLoading: boolean;
+    error: string | null;
+    isLegitimate: boolean;
+    setEntity: React.Dispatch<React.SetStateAction<IAssociation | IFamily | null>>;
+    userHasEntity: IUser | null;
+    requestData?: IRequest[] | null;
+    selectedRequest?: number;
+    setIsDeleteRequest?: React.Dispatch<React.SetStateAction<boolean>>;
+    setAssociationData?: React.Dispatch<React.SetStateAction<IAssociation | null | undefined>>;
+    isDashboard: boolean;
 }
 
 const Profil = ({
-	entity,
-	baseURL,
-	isLoading,
-	error,
-	isLegitimate,
-	setEntity,
-	userHasEntity,
-	requestData,
-	setIsDeleteRequest,
-	isDashboard,
-	setAssociationData,
+    entity,
+    baseURL,
+    isLoading,
+    error,
+    isLegitimate,
+    setEntity,
+    userHasEntity,
+    requestData,
+    setIsDeleteRequest,
+    isDashboard,
+    setAssociationData,
 }: ProfilProps) => {
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -97,7 +94,7 @@ const Profil = ({
                                             <h1 className="main__title">{entity!.name}</h1>
                                             <img
                                                 className="icon icon--title"
-                                                src="/src/assets/icons/id-card.svg"
+                                                src="/assets/icons/id-card.svg"
                                                 alt=""
                                             />
                                         </div>
@@ -116,7 +113,7 @@ const Profil = ({
                                                 <div className="infos__container">
                                                     <img
                                                         className="icon"
-                                                        src="/src/assets/icons/heart-handshake.svg"
+                                                        src="/assets/icons/heart-handshake.svg"
                                                         alt=""
                                                     />
                                                     <p className="item__title" aria-label="Nom">
@@ -127,7 +124,7 @@ const Profil = ({
                                                 <div className="infos__container">
                                                     <img
                                                         className="icon"
-                                                        src="/src/assets/icons/house.svg"
+                                                        src="/assets/icons/house.svg"
                                                         alt=""
                                                     />
                                                     <p className="item__title" aria-label="Adresse">
@@ -139,7 +136,7 @@ const Profil = ({
                                                 <div className="infos__container">
                                                     <img
                                                         className="icon"
-                                                        src="/src/assets/icons/phone.svg"
+                                                        src="/assets/icons/phone.svg"
                                                         alt=""
                                                     />
 
@@ -156,7 +153,7 @@ const Profil = ({
                                                 <div className="infos__container">
                                                     <img
                                                         className="icon"
-                                                        src="/src/assets/icons/mail.svg"
+                                                        src="/assets/icons/mail.svg"
                                                         alt=""
                                                     />
                                                     {entity && "email_association" in entity ? (
@@ -296,7 +293,7 @@ const Profil = ({
                                                                 {request.status !== "Acceptée" ? (
                                                                     <Icon
                                                                         ariaLabel="Supprimer la demande"
-                                                                        src="/src/assets/icons/trash.svg"
+                                                                        src="/assets/icons/trash.svg"
                                                                         alt="Supprimer la demande"
                                                                         onClick={() =>
                                                                             handleShowDeleteRequest(
@@ -319,28 +316,29 @@ const Profil = ({
                 </div>
             </main>
 
-			{!isDashboard && <Footer />}
-			<GestionEditEntityModal
-				show={showEdit}
-				handleClose={handleCloseEdit}
-				entityToEdit={entity}
-				setEntity={setEntity}
-				userToEdit={userHasEntity}
-				setAssociationData={setAssociationData}
-			/>
-			<GestionModalDeleteEntity
-				handleCloseDelete={handleCloseDeleteProfil}
-				showDelete={showDeleteProfil}
-				entityToDelete={entity}
-			/>
-			<GestionModalDeleteRequest
-				handleCloseDelete={handleCloseDeleteRequest}
-				showDelete={showDeleteRequest}
-				selectedRequest={selectedRequest!}
-				setIsDeleteRequest={setIsDeleteRequest}
-			/>
-		</>
-	);
+            {!isDashboard && <Footer />}
+            <GestionEditEntityModal
+                show={showEdit}
+                handleClose={handleCloseEdit}
+                entityToEdit={entity}
+                setEntity={setEntity}
+                userToEdit={userHasEntity}
+                //@ts-ignore
+                setAssociationData={setAssociationData}
+            />
+            <GestionModalDeleteEntity
+                handleCloseDelete={handleCloseDeleteProfil}
+                showDelete={showDeleteProfil}
+                entityToDelete={entity}
+            />
+            <GestionModalDeleteRequest
+                handleCloseDelete={handleCloseDeleteRequest}
+                showDelete={showDeleteRequest}
+                selectedRequest={selectedRequest!}
+                setIsDeleteRequest={setIsDeleteRequest}
+            />
+        </>
+    );
 };
 
 export default Profil;
