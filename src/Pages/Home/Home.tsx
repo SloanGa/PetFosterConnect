@@ -25,7 +25,6 @@ const Home = () => {
 
     return (
         <>
-            {/*Composant qui gère les meta données*/}
             <Helmet>
                 <title>Page d'accueil | PetFoster Connect</title>
                 <meta
@@ -56,9 +55,6 @@ const Home = () => {
 
                     <section className="animals__section__home">
                         <h2 className="section__title">Découvrez nos animaux à accueillir</h2>
-
-                        {/*<!-- Cards des animaux --> */}
-
                         <div className="cards">
                             {isLoading ? (
                                 <Loading />
@@ -84,7 +80,7 @@ const Home = () => {
                         <AppLink
                             to={"/animaux"}
                             className={"btn"}
-                            title={"Voir les animaux"}
+                            title={"Voir tous les animaux"}
                             text={"Voir tous les animaux"}
                         />
                     </section>

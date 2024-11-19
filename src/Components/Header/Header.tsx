@@ -76,13 +76,13 @@ const Header = () => {
                             ) : (
                                 <>
                                     {/* Si l'utilisateur est authentifié et est un membre de la famille */}
-                                    {userData.role === "family" ? (
+                                    {userData?.role === "family" ? (
                                         <li>
                                             <NavigationLink
-                                                to={`/famille/${userData.family.slug}`}
+                                                to={`/famille/${userData?.family?.slug}`}
                                                 className="nav__list__link"
-                                                title="Profil"
-                                                text="Profil"
+                                                title="Consulter ma page de profil"
+                                                text="Mon profil"
                                             />
                                         </li>
                                     ) : (
@@ -90,7 +90,7 @@ const Header = () => {
                                             <NavigationLink
                                                 to="/tableau-de-bord"
                                                 className="nav__list__link"
-                                                title="Tableau de bord"
+                                                title="Aller sur le tableau de bord de l'association"
                                                 text="Tableau de bord"
                                             />
                                         </li>
@@ -142,7 +142,7 @@ const Header = () => {
                         <NavigationLink
                             to="/animaux"
                             className="nav__list__link"
-                            title="Page des animaux"
+                            title="Consulter la liste complète des animaux "
                             svg={
                                 <svg
                                     className="icon lucide lucide-paw-print"
@@ -169,7 +169,7 @@ const Header = () => {
                         <NavigationLink
                             to="/associations"
                             className="nav__list__link"
-                            title="Page des associations"
+                            title="Consulter la liste complète des associations"
                             svg={
                                 <svg
                                     className="icon lucide lucide-heart-handshake"
@@ -223,13 +223,13 @@ const Header = () => {
                     ) : (
                         <>
                             {/* Si l'utilisateur est authentifié et est un membre de la famille */}
-                            {userData.role === "family" ? (
+                            {userData?.role === "family" ? (
                                 <li>
                                     <NavigationLink
-                                        to={`/famille/${userData.family.id}`}
+                                        to={`/famille/${userData?.family?.id}`}
                                         className="nav__list__link"
-                                        title="Profil"
-                                        text="Profil"
+                                        title="Consulter ma page de profil"
+                                        text="Mon profil"
                                     />
                                 </li>
                             ) : (
@@ -237,7 +237,7 @@ const Header = () => {
                                     <NavigationLink
                                         to="/tableau-de-bord"
                                         className="nav__list__link"
-                                        title="Tableau de bord"
+                                        title="Aller sur le tableau de bord de l'association"
                                         text="Tableau de bord"
                                     />
                                 </li>

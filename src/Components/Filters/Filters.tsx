@@ -77,10 +77,10 @@ const Filters = ({
                 </select>
 
                 <label className="filters__form__description" htmlFor="species">
-                    Type
+                    Espèce
                 </label>
                 <select className="form-select" id="species" name="species">
-                    <option value="">Tous les types</option>
+                    <option value="">Tous les espèces</option>
                     {uniqueSpecies.map((species) => (
                         <option key={species} value={species}>
                             {species}
@@ -89,7 +89,7 @@ const Filters = ({
                 </select>
 
                 <label className="filters__form__description" htmlFor="department">
-                    Localisation
+                    Département
                 </label>
                 <select className="form-select" id="department" name="department_id">
                     <option value="">Tous les départements</option>
@@ -216,14 +216,14 @@ const Filters = ({
                     />
                 </fieldset>
 
-                <button className="btn" type="submit" aria-label="Bouton de recherche">
+                <button className="btn" type="submit" aria-label="Lancer la recherche">
                     Rechercher
                 </button>
 
                 <button
                     className="btn btn--form-reinit"
                     type="button"
-                    aria-label="Bouton de reinitialisation du formulaire"
+                    aria-label="Réinitialiser la recherche"
                     onClick={handleResetForm}
                 >
                     Réinitialiser

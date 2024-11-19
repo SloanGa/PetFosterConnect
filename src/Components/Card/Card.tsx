@@ -31,7 +31,12 @@ const Card = ({
 }: CardProps) => {
     return (
         <>
-            <Link to={path} className="cards__list__link" aria-label="Voir la page de cet animal">
+            <Link
+                to={path}
+                className="cards__list__link"
+                aria-label={`Voir la page de ${name}`}
+                title={`Voir la page de ${name}`}
+            >
                 <article className="card">
                     <div className="card__img__container">
                         <img

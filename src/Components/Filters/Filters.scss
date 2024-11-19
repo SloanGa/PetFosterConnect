@@ -1,12 +1,20 @@
 @use "../../styles/variables" as v;
 
-.animals__section {
+.animals__section,
+.associations__section {
     &__filter {
-        padding-top: 1.5rem;
+        padding: 1.5rem 0;
         position: relative;
         @media (min-width: 992px) {
-            padding-top: 0;
+            padding: 0;
             width: 32%;
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            column-gap: 0.5rem;
         }
     }
 }
