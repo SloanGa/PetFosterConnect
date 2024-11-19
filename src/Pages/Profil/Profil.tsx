@@ -79,7 +79,6 @@ const Profil = ({
 			.toLowerCase(); // Convertit en minuscule
 	};
 
-	console.log("isentity", entity);
 	return (
 		<>
 			<Helmet>

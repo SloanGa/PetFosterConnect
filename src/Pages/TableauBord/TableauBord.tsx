@@ -8,7 +8,7 @@ import { useAuth } from "../../Context/AuthContext.tsx";
 import { Navigate, Routes, Route } from "react-router-dom";
 import ManageAnimal from "../../Components/ManageAnimal/ManageAnimal.tsx";
 import ManageRequest from "../../Components/ManageRequest/ManageRequest.tsx";
-import Profil from "../Profil/Profil.tsx";
+import Associciation from "../Association/Association.tsx";
 
 const TableauBord = () => {
 	const { userData } = useAuth();
@@ -53,7 +53,7 @@ const TableauBord = () => {
 						<Route path="/demandes" element={<ManageRequest />} />
 						<Route
 							path="/profil-association/:slug"
-							element={<Profil isDashboard={true} />}
+							element={<Associciation isDashboard={true} />}
 						/>
 					</Routes>
 				</main>
