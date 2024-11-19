@@ -142,7 +142,7 @@ const Associations = () => {
                         <div className="associations__section__filter">
                             <Icon
                                 ariaLabel="Ouvrir le menu de filtre"
-                                src="/src/assets/icons/filter.svg"
+                                src="/assets/icons/filter.svg"
                                 alt="Filtrer les résultats"
                                 onClick={toggleFiltersVisibility}
                                 text="Filtres"

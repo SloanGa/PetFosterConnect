@@ -90,7 +90,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
                         </Button>
                         <Icon
                             ariaLabel={"Supprimer l'animal"}
-                            src={"/src/assets/icons/trash.svg"}
+                            src={"/assets/icons/trash.svg"}
                             alt={"Supprimer l'animal"}
                             onClick={() => {
                                 onShowDeleteModal(animal);
