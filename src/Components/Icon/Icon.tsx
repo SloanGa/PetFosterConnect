@@ -1,5 +1,4 @@
 import "./Icon.scss";
-import { ReactNode } from "react";
 
 interface IconProps {
     ariaLabel: string;

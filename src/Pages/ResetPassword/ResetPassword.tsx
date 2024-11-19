@@ -1,15 +1,13 @@
 import "./ResetPassword.scss";
-import { HelmetProvider } from "react-helmet-async";
 import { Helmet } from "react-helmet-async";
 import Header from "../../Components/Header/Header";
-import { useEffect, useCallback, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import { Button, Form, Toast } from "react-bootstrap";
 import Icon from "../../Components/Icon/Icon.tsx";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -25,13 +23,16 @@ const ResetPassword = () => {
     // Gestion récupération du resetToken
 
     const location = useLocation();
-    const [decodedToken, setDecodedToken] = useState<object | null>(null);
+    const [decodedToken, setDecodedToken] = useState<{ email: string, iat: number, exp: number } | null>(null);
     const [tokenFromUrl, setTokenFromURL] = useState<string | null>(null);
 
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const toggleShowToast = (message) => {
+    const toggleShowToast = (message: string) => {
         setToastMessage(message);
+    };
+
+    const toggleCloseToast = () => {
         setShowToast(!showToast);
     };
     useEffect(() => {
@@ -51,7 +52,7 @@ const ResetPassword = () => {
                             headers: {
                                 "Content-Type": "application/json",
                             },
-                        }
+                        },
                     );
 
                     if (response.ok) {
@@ -79,18 +80,18 @@ const ResetPassword = () => {
     const validationSchema = yup.object().shape({
         email: isRequestReset
             ? yup
-                  .string()
-                  .required("Veuillez entrer votre email")
-                  .email("Veuillez entrer une adresse email valide")
+                .string()
+                .required("Veuillez entrer votre email")
+                .email("Veuillez entrer une adresse email valide")
             : yup.string().nullable(),
         password: !isRequestReset
             ? yup.string().required("Veuillez entrer un mot de passe")
             : yup.string().nullable(),
         confirmPassword: !isRequestReset
             ? yup
-                  .string()
-                  .required("Veuillez entrer de nouveau le mot de passe")
-                  .oneOf([yup.ref("password"), null], "Les mots de passe doivent correspondre")
+                .string()
+                .required("Veuillez entrer de nouveau le mot de passe")
+                .oneOf([yup.ref("password")], "Les mots de passe doivent correspondre")
             : yup.string().nullable(),
     });
 
@@ -109,18 +110,26 @@ const ResetPassword = () => {
                 });
 
                 if (response.ok) {
+                    setShowToast(true);
                     toggleShowToast(
-                        "Email de réinitialisation envoyé. Consultez également vos spams."
+                        "Email de réinitialisation envoyé. Consultez également vos spams.",
                     );
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 } else {
+                    setShowToast(true);
                     toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 }
             } catch (error) {
                 console.error(error);
             }
         },
 
-        []
+        [],
     );
     const handleSubmitResetPassword = useCallback(
         async (values: { password: string; confirmPassword: string }) => {
@@ -131,7 +140,7 @@ const ResetPassword = () => {
 
             try {
                 const response = await fetch(
-                    `${baseURL}/auth/updatepassword/${decodedToken.email}`,
+                    `${baseURL}/auth/updatepassword/${decodedToken?.email}`,
                     {
                         method: "PATCH",
                         headers: {
@@ -139,23 +148,27 @@ const ResetPassword = () => {
                             Authorization: `Bearer ${tokenFromUrl}`,
                         },
                         body: JSON.stringify(formDataObject),
-                    }
+                    },
                 );
 
                 if (response.ok) {
-                    const data = await response.json();
+                    setShowToast(true);
                     toggleShowToast("Mot de passe modifié avec succès.");
                     setTimeout(() => {
                         navigate("/connexion");
                     }, 2000);
                 } else {
+                    setShowToast(true);
                     toggleShowToast("Une erreur est survenue. Veuillez réessayer.");
+                    setTimeout(() => {
+                        setShowToast(false);
+                    }, 2000);
                 }
             } catch (error) {
                 console.error(error);
             }
         },
-        [decodedToken]
+        [decodedToken],
     );
     return (
         <>
@@ -174,7 +187,7 @@ const ResetPassword = () => {
                     validationSchema={validationSchema}
                     onSubmit={isRequestReset ? handleSubmitAskForReset : handleSubmitResetPassword}
                 >
-                    {({ handleSubmit, handleChange, values, touched, errors, setFieldValue }) => (
+                    {({ handleSubmit, handleChange, values, touched, errors }) => (
                         <Form
                             className="reset__form"
                             id="reset-form"
@@ -291,7 +304,7 @@ const ResetPassword = () => {
                 <Toast
                     className="confirmation__reset__toast"
                     show={showToast}
-                    onClose={toggleShowToast}
+                    onClose={toggleCloseToast}
                 >
                     <Toast.Body>{toastMessage}</Toast.Body>
                 </Toast>

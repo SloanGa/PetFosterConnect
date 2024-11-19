@@ -4,4 +4,4 @@ interface IDepartment {
     name: string;
 }
 
-export { IDepartment };
+export type { IDepartment };
