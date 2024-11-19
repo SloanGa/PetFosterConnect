@@ -127,13 +127,13 @@ const ResetPassword = () => {
 					setShowToast(true);
 					toggleShowToast(
 						"Email de réinitialisation envoyé. Consultez également vos spams.",
-						"success",
+						"custom-green",
 					);
 				} else {
 					setShowToast(true);
 					toggleShowToast(
 						"Une erreur est survenue. Veuillez réessayer.",
-						"danger",
+						"custom-red",
 					);
 				}
 			} catch (error) {
@@ -169,7 +169,7 @@ const ResetPassword = () => {
 
 				if (response.ok) {
 					setShowToast(true);
-					toggleShowToast("Mot de passe modifié avec succès.", "success");
+					toggleShowToast("Mot de passe modifié avec succès.", "custom-green");
 					timer = setTimeout(() => {
 						navigate("/connexion");
 					}, 5000);
@@ -177,7 +177,7 @@ const ResetPassword = () => {
 					setShowToast(true);
 					toggleShowToast(
 						"Une erreur est survenue. Veuillez réessayer.",
-						"danger",
+						"custom-red",
 					);
 				}
 			} catch (error) {
@@ -326,10 +326,10 @@ const ResetPassword = () => {
 					)}
 				</Formik>
 				<Toast
-					className="confirmation__reset__toast"
+					className={`confirmation__reset__toast ${toastData?.color ? `toast-${toastData.color}` : ""}`}
 					show={showToast}
 					onClose={toggleCloseToast}
-					bg={toastData?.color}
+					// bg={toastData?.color}
 					delay={5000}
 					autohide
 				>
