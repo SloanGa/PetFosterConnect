@@ -18,7 +18,7 @@ const TableauBord = () => {
 	>(null);
 
 	useEffect(() => {
-		const storedUser = JSON.parse(localStorage.getItem("user"));
+		const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
 		if (!storedUser || !(storedUser.role === "association")) {
 			setIsAssociationConnected(false);
@@ -46,7 +46,7 @@ const TableauBord = () => {
 				<LeftNavBar />
 				<main className="main__content container">
 					<h1 className="main__title">
-						Tableau de bord | {userData ? userData.association.name : "XXX"}
+						Tableau de bord | {userData ? userData.association?.name : "XXX"}
 					</h1>
 					<Routes>
 						<Route path="/" element={<ManageAnimal />} />

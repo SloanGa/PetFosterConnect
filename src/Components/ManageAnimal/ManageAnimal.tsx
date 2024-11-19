@@ -30,11 +30,6 @@ const ManageAnimal = () => {
 		color: string;
 	} | null>(null);
 
-	const toggleToast = useCallback((message: string, color: string) => {
-		setToastData({ message: message, color: color });
-		setShowToast(true);
-	}, []);
-
 	// Gestion de la pagination
 
 	const token = localStorage.getItem("auth_token");
@@ -139,7 +134,11 @@ const ManageAnimal = () => {
 				if (response.ok) {
 					updatedAnimal = await response.json(); // on récupère updatedAnimal ici
 
-					toggleToast("Animal édité avec succès", "success");
+					setToastData({
+						message: "Animal édité avec succès",
+						color: "success",
+					});
+					setShowToast(true);
 
 					setAnimalsToDisplay((prevAnimals: IAnimal[]) =>
 						prevAnimals.map((animal: IAnimal) =>
@@ -149,13 +148,15 @@ const ManageAnimal = () => {
 
 					setTimeout(() => {
 						handleCloseGestionModal();
-					}, 1000);
+					}, 5000);
 				} else {
 					updatedAnimal = await response.json();
-					toggleToast(
-						updatedAnimal.error || "Erreur lors de la mise à jour",
-						"danger",
-					);
+
+					setToastData({
+						message: updatedAnimal.error || "Erreur lors de la mise à jour",
+						color: "danger",
+					});
+					setShowToast(true);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
@@ -167,7 +168,7 @@ const ManageAnimal = () => {
 				}
 			};
 		},
-		[handleCloseGestionModal, animalToEdit, toggleToast, baseURL, token],
+		[handleCloseGestionModal, animalToEdit, baseURL, token],
 	);
 
 	// L'eventListener à la soumission du formulaire ajouter un animal
@@ -206,20 +207,29 @@ const ManageAnimal = () => {
 							createdAnimal,
 						]);
 
-					toggleToast("Animal ajouté avec succès", "success");
-					setTimeout(() => {
-						handleCloseGestionModal();
-					}, 1000);
-				} else {
-					createdAnimal = await response.json();
-					toggleToast(
-						createdAnimal.error || "Erreur lors de la création",
-						"danger",
-					);
+					setToastData({
+						message: "Animal ajouté avec succès",
+						color: "success",
+					});
+
+					setShowToast(true);
 
 					setTimeout(() => {
 						handleCloseGestionModal();
-					}, 1000);
+					}, 5000);
+				} else {
+					createdAnimal = await response.json();
+
+					setToastData({
+						message: createdAnimal.error || "Erreur lors de la création",
+						color: "danger",
+					});
+
+					setShowToast(true);
+
+					setTimeout(() => {
+						handleCloseGestionModal();
+					}, 5000);
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
@@ -231,7 +241,7 @@ const ManageAnimal = () => {
 				}
 			};
 		},
-		[handleCloseGestionModal, toggleToast, baseURL, token],
+		[handleCloseGestionModal, setToastData, setShowToast, baseURL, token],
 	);
 
 	// Gestion de la modale confirmation de suppression
@@ -262,16 +272,27 @@ const ManageAnimal = () => {
 			);
 
 			if (response.ok) {
-				toggleToast("Animal supprimé", "success");
+				setToastData({
+					message: "Animal supprimé",
+					color: "success",
+				});
+
+				setShowToast(true);
+
 				setAnimalsToDisplay((prevAnimals) =>
 					prevAnimals.filter((animal) => animal.id !== animalToDelete?.id),
 				);
 
 				setTimeout(() => {
 					handleCloseDeleteModal();
-				}, 1000);
+				}, 5000);
 			} else {
-				toggleToast("Erreur lors de la suppression", "danger");
+				setToastData({
+					message: "Erreur lors de la suppression",
+					color: "danger",
+				});
+
+				setShowToast(true);
 			}
 		} catch (error) {
 			console.error("Erreur:", error);
@@ -282,7 +303,14 @@ const ManageAnimal = () => {
 				clearTimeout(timeoutId);
 			}
 		};
-	}, [animalToDelete, handleCloseDeleteModal, toggleToast, baseURL, token]);
+	}, [
+		animalToDelete,
+		handleCloseDeleteModal,
+		setToastData,
+		setShowToast,
+		baseURL,
+		token,
+	]);
 
 	return (
 		<div className="manage-animal">
@@ -339,7 +367,7 @@ const ManageAnimal = () => {
 				handleSubmitAdd={handleSubmitAdd}
 				animalToEdit={animalToEdit}
 				showToast={showToast}
-				toggleToast={toggleToast}
+				setShowToast={setShowToast}
 				toastData={toastData}
 			/>
 
@@ -359,7 +387,11 @@ const ManageAnimal = () => {
 					Voulez-vous vraiment supprimer {animalToDelete && animalToDelete.name}{" "}
 					?{" "}
 					<div className="modal__toast d-flex justify-content-center mt-3">
-						<Toast show={showToast} onClose={toggleToast} bg={toastData?.color}>
+						<Toast
+							show={showToast}
+							onClose={() => setShowToast(false)}
+							bg={toastData?.color}
+						>
 							<Toast.Body>{toastData?.message}</Toast.Body>
 						</Toast>
 					</div>
