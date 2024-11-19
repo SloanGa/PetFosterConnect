@@ -10,11 +10,14 @@ import { IFamily } from "../../Interfaces/IFamily.ts";
 const baseURL = import.meta.env.VITE_API_URL;
 
 interface AssociationProps {
-    isDashboard: boolean;
+	isDashboard: boolean;
+	setAssociationData: React.Dispatch<
+		React.SetStateAction<IAssociation | null | undefined>
+	>;
 }
 
-const Association = ({ isDashboard }: AssociationProps) => {
-    const { slug } = useParams();
+const Association = ({ isDashboard, setAssociationData }: AssociationProps) => {
+	const { slug } = useParams();
 
     const arraySlug = slug!.split("-");
     const associationId = arraySlug![arraySlug!.length - 1];
@@ -66,15 +69,16 @@ const Association = ({ isDashboard }: AssociationProps) => {
                 <meta name="description" content={`Découvrez l'association ${association?.name}`} />
             </Helmet>
             <Profil
-                entity={association}
-                baseURL={baseURL}
-                isLoading={isLoading}
-                error={error}
-                isLegitimate={isAssociationLegitimate}
-                setEntity={setAssociation}
-                userHasEntity={userHasAssociation}
-                isDashboard={isDashboard}
-            />
+              entity={association}
+              baseURL={baseURL}
+              isLoading={isLoading}
+              error={error}
+              isLegitimate={isAssociationLegitimate}
+              setEntity={setAssociation}
+              userHasEntity={userHasAssociation}
+              isDashboard={isDashboard}
+              setAssociationData={setAssociationData}
+			      />
         </>
     );
 };

@@ -16,6 +16,9 @@ interface GestionModalProps {
 		React.SetStateAction<IAssociation | IFamily | null>
 	>;
 	userToEdit: IUser | null;
+	setAssociationData: React.Dispatch<
+		React.SetStateAction<IAssociation | null | undefined>
+	>;
 }
 
 const GestionEditEntityModal: React.FC<GestionModalProps> = ({
@@ -24,6 +27,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 	entityToEdit,
 	userToEdit,
 	setEntity,
+	setAssociationData,
 }) => {
 	const { departments } = useFetchDepartments();
 	const [alert, setAlert] = useState<{ message: string; type: string } | null>(
@@ -92,6 +96,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 			}
 
 			const data = await response.json();
+			setAssociationData(data);
 			setEntity(data);
 			const alert = {
 				message: "Modifications prises en compte.",

@@ -13,7 +13,11 @@ import Association from "../Association/Association.tsx";
 const TableauBord = () => {
     const { userData } = useAuth();
 
-    const [isAssociationConnected, setIsAssociationConnected] = useState<boolean | null>(null);
+	const [associationData, setAssociationData] = useState(userData?.association);
+
+	const [isAssociationConnected, setIsAssociationConnected] = useState<
+		boolean | null
+	>(null);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -41,24 +45,29 @@ const TableauBord = () => {
 
             <Header />
             <div className="content">
-                <LeftNavBar />
-                <main className="main__content container">
-                    <h1 className="main__title">
-                        Tableau de bord | {userData ? userData.association?.name : "XXX"}
-                    </h1>
-                    <Routes>
-                        <Route path="/" element={<ManageAnimal />} />
-                        <Route path="/demandes" element={<ManageRequest />} />
-                        <Route
-                            path="/profil-association/:slug"
-                            element={<Association isDashboard={true} />}
-                        />
-                    </Routes>
-                </main>
+              <LeftNavBar />
+              <main className="main__content container">
+                <h1 className="main__title">
+                  Tableau de bord | {userData ? associationData.name : "XXX"}
+                </h1>
+                <Routes>
+                  <Route path="/" element={<ManageAnimal />} />
+                  <Route path="/demandes" element={<ManageRequest />} />
+                  <Route
+                    path="/profil-association/:slug"
+                    element={
+                      <Association
+                        isDashboard={true}
+                        setAssociationData={setAssociationData}
+                      />
+                    }
+                  />
+                </Routes>
+              </main>
             </div>
             <Footer />
-        </>
-    );
+		    </>
+	  );
 };
 
 export default TableauBord;
