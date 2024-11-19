@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Loading from "../../Components/Loading/Loading.tsx";
 import Header from "../../Components/Header/Header";
 import { Link } from "react-router-dom";
+import AppLink from "../../Components/Links/AppLink.tsx";
 import Icon from "../../Components/Icon/Icon.tsx";
 import { useRef } from "react";
 import Footer from "../../Components/Footer/Footer";
@@ -167,10 +168,10 @@ const Connexion = () => {
 							</Form.Group>
 
 							{/* Mot de passe oublié */}
-
-							<Link
+							<AppLink
 								to="/reinitialisation-mot-de-passe"
 								title="Mot de passe oublié"
+								text="Mot de passe oublié"
 								aria-label="Aller vers la page de réinitialisation du mot de passe."
 							/>
 
