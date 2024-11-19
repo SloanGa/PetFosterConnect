@@ -172,7 +172,7 @@ const Filters = ({
                         name="age"
                         ariaLabel="Plus de 10 ans"
                         value="11"
-                        text="< 10 ans"
+                        text="> 10 ans"
                         onChange={handleAgeCheckBoxChange}
                         selected={selectedAge!}
                     />
