@@ -73,7 +73,7 @@ const Animaux = () => {
 
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`,
+                `${import.meta.env.VITE_API_URL}/animals/search?${newQueryString}`
             );
             const data = await response.json();
             setAnimalsFilterCount(data.totalAnimalCount);
@@ -100,7 +100,7 @@ const Animaux = () => {
                 response = await fetch(`${import.meta.env.VITE_API_URL}/animals?page=${page}`);
             } else {
                 response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`,
+                    `${import.meta.env.VITE_API_URL}/animals/search?${queryString}&page=${page}`
                 );
             }
 
@@ -131,13 +131,13 @@ const Animaux = () => {
             setAssociationId(associationIdFromUrl);
             setQueryString(newQueryString);
         }
-    }, [location.search]);  // Se déclenche quand location.search change
+    }, [location.search]); // Se déclenche quand location.search change
     useEffect(() => {
         if (associationId) {
             const fetchAnimals = async () => {
                 try {
                     const response = await fetch(
-                        `${import.meta.env.VITE_API_URL}/animals/search?association_id=${associationId}`,
+                        `${import.meta.env.VITE_API_URL}/animals/search?association_id=${associationId}`
                     );
                     const data = await response.json();
                     setAnimalsFilterCount(data.totalAnimalCount);
@@ -149,7 +149,6 @@ const Animaux = () => {
             fetchAnimals();
         }
     }, [associationId]);
-
 
     return (
         <>
@@ -223,12 +222,17 @@ const Animaux = () => {
                                     ))}
                                 </ul>
                             )}
-                            <PaginationComposant
-                                items={form ? animalsToDisplay.length : animals.length}
-                                currentPage={currentPage}
-                                handleChangePage={handleChangePage}
-                                animalsFilterCount={form ? animalsFilterCount : null}
-                            />
+                            {animalsToDisplay.length > 0 ||
+                            (animalsFilterCount !== null && animalsFilterCount > 0) ? (
+                                <PaginationComposant
+                                    items={form ? animalsToDisplay.length : animals.length}
+                                    currentPage={currentPage}
+                                    handleChangePage={handleChangePage}
+                                    animalsFilterCount={form ? animalsFilterCount : null}
+                                />
+                            ) : (
+                                <p className="text-center">Aucun animal à afficher</p>
+                            )}
                         </div>
                     </section>
                 </div>

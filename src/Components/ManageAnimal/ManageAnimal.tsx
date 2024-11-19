@@ -189,7 +189,7 @@ const ManageAnimal = () => {
 
                 if (response.ok) {
                     createdAnimal = await response.json();
-                    animalsToDisplay.length > 6 &&
+                    animalsToDisplay.length < 6 &&
                         setAnimalsToDisplay((prevAnimals) => [...prevAnimals, createdAnimal]);
 
                     setToastData({
@@ -326,12 +326,15 @@ const ManageAnimal = () => {
                     )}
                 </div>
             </div>
-
-            <PaginationComposant
-                items={totalCount}
-                currentPage={currentPage}
-                handleChangePage={handleChangePage}
-            />
+            {animalsToDisplay.length > 0 ? (
+                <PaginationComposant
+                    items={totalCount}
+                    currentPage={currentPage}
+                    handleChangePage={handleChangePage}
+                />
+            ) : (
+                <p className="text-center mt-3">Aucun animal à afficher</p>
+            )}
 
             {/* Modale pour modifier ou créer un animal */}
 
