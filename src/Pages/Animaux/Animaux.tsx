@@ -231,7 +231,9 @@ const Animaux = () => {
                                     animalsFilterCount={form ? animalsFilterCount : null}
                                 />
                             ) : (
-                                <p className="text-center">Aucun animal à afficher</p>
+                                isLoading === false && (
+                                    <p className="text-center">Aucun animal à afficher</p>
+                                )
                             )}
                         </div>
                     </section>

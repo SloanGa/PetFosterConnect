@@ -327,11 +327,15 @@ const ManageAnimal = () => {
                 </div>
             </div>
 
-            <PaginationComposant
-                items={totalCount}
-                currentPage={currentPage}
-                handleChangePage={handleChangePage}
-            />
+            {animalsToDisplay.length > 0 ? (
+                <PaginationComposant
+                    items={totalCount}
+                    currentPage={currentPage}
+                    handleChangePage={handleChangePage}
+                />
+            ) : (
+                isLoading === false && <p className="text-center mt-3">Aucun animal à afficher</p>
+            )}
 
             {/* Modale pour modifier ou créer un animal */}
 

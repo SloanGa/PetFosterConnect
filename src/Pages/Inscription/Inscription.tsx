@@ -572,7 +572,7 @@ const Inscription = () => {
                             delay={5000}
                             autohide
                             bg={toastData?.color}
-                            className={"register__toast mt-4 text-white"}
+                            className={`register__toast mt-4 text-white ${toastData?.color ? `toast-${toastData.color}` : ""}`}
                         >
                             <Toast.Body>{toastData?.message}</Toast.Body>
                         </Toast>

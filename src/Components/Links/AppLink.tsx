@@ -4,7 +4,7 @@ import "./AppLink.scss";
 
 interface LinkProps {
     to: string;
-    className: string;
+    className?: string;
     title: string;
     text: string;
     svg?: ReactNode;
@@ -14,12 +14,7 @@ interface LinkProps {
 const AppLink = ({ to, className, title, svg, text, onClick }: LinkProps) => {
     return (
         <>
-            <Link
-                to={to}
-                className={className}
-                title={title}
-                onClick={onClick}
-            >
+            <Link to={to} className={className} title={title} onClick={onClick}>
                 {svg}
                 {text}
             </Link>

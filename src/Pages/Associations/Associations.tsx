@@ -187,7 +187,9 @@ const Associations = () => {
                                     animalsFilterCount={form ? associationsFilterCount : null}
                                 />
                             ) : (
-                                <p className="text-center">Aucune association à afficher</p>
+                                isLoading === false && (
+                                    <p className="text-center">Aucune association à afficher</p>
+                                )
                             )}
                         </div>
                     </section>
