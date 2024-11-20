@@ -16,7 +16,7 @@ interface GestionModalProps {
 		React.SetStateAction<IAssociation | IFamily | null>
 	>;
 	userToEdit: IUser | null;
-	setAssociationData: React.Dispatch<
+	setAssociationData?: React.Dispatch<
 		React.SetStateAction<IAssociation | null | undefined>
 	>;
 }
@@ -57,7 +57,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 	const fetchedURL =
 		entityToEdit && "email_association" in entityToEdit
 			? `${import.meta.env.VITE_API_URL}/dashboard/association/profile`
-			: `${import.meta.env.VITE_API_URL}/family`;
+			: `https://sloanga-server.eddi.cloud/family`;
 
 	const handleSubmitEdit = async (values: any) => {
 		const formData = new FormData();
@@ -81,7 +81,23 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 				body: formData,
 			});
 
-			if (!response.ok) {
+
+			if (response.ok) {
+				const data = await response.json();
+				if (setAssociationData){ setAssociationData(data) };
+				setEntity(data);
+				const alert = {
+					message: "Modifications prises en compte.",
+					type: "custom-green",
+				};
+				
+				setAlert(alert);
+
+				setTimeout(() => {
+					handleClose();
+					setAlert(null);
+				}, 1500);
+			} else {
 				const error = await response.json();
 				const alert = {
 					message: error.error,
@@ -95,26 +111,18 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 				return;
 			}
 
-			const data = await response.json();
-			setAssociationData(data);
-			setEntity(data);
-			const alert = {
-				message: "Modifications prises en compte.",
-				type: "custom-green",
-			};
-			setAlert(alert);
-
-			setTimeout(() => {
-				handleClose();
-				setAlert(null);
-			}, 1500);
+			
 		} catch (error) {
+			
 			const alert = {
 				message:
 					"Une erreur s'est produite, votre demande n'a pas abouti. Veuillez réessayer.",
 				type: "custom-red",
 			};
 			setAlert(alert);
+			setTimeout(() => {
+				setAlert(null);
+			}, 2000);			
 		}
 	};
 
@@ -376,7 +384,12 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
 				<Button className="btn--form" onClick={handleClose}>
 					Fermer
 				</Button>
-				<Button className="btn--form" type="submit" form="edit-animal-form">
+				<Button
+					className="btn--form"
+					type="submit"
+					onClick={handleSubmitEdit}
+					form="edit-animal-form"
+				>
 					Enregistrer
 				</Button>
 			</Modal.Footer>
