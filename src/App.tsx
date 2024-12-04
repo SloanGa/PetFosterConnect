@@ -18,55 +18,52 @@ import ProtectedRoute from "./Context/ProtectedRoute.tsx";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword.tsx";
 
 const App = () => {
-	return (
-		<HelmetProvider>
-			<AuthProvider>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/associations" element={<Associations />} />
-						<Route
-							path="/association/:slug"
-							element={<Association isDashboard={false} />}
-						/>
-						<Route path="/animaux" element={<Animaux />} />
-						<Route path="/animaux/:slug" element={<Animal />} />
-						<Route
-							path="/famille/:slug"
-							element={
-								<ProtectedRoute>
-									<Famille isDashboard={false} />
-								</ProtectedRoute>
-							}
-						/>
-						<Route path="/inscription" element={<Inscription />} />
-						<Route path="/connexion" element={<Connexion />} />
-						<Route
-							path="/tableau-de-bord/*"
-							element={
-								<ProtectedRoute>
-									<TableauBord />
-								</ProtectedRoute>
-							}
-						/>
-						<Route path="/mentions-legales" element={<MentionsLegales />} />
-						<Route path="/plan-du-site" element={<PlanDuSite />} />
-						<Route
-							path="/politique-confidentialite"
-							element={<PolitiqueConfidentialite />}
-						/>
-						<Route
-							path="/reinitialisation-mot-de-passe"
-							element={<ResetPassword />}
-						/>
-						{/* Page erreur redirige automatiquement vers /erreur */}
-						<Route path="*" element={<Navigate to="/erreur" replace />} />
-						<Route path="/erreur" element={<Erreur />} />
-					</Routes>
-				</BrowserRouter>
-			</AuthProvider>
-		</HelmetProvider>
-	);
+    return (
+        <HelmetProvider>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/associations" element={<Associations />} />
+                        <Route
+                            path="/association/:slug"
+                            element={<Association isDashboard={false} />}
+                        />
+                        <Route path="/animaux" element={<Animaux />} />
+                        <Route path="/animaux/:slug" element={<Animal />} />
+                        <Route
+                            path="/famille/:slug"
+                            element={
+                                <ProtectedRoute>
+                                    <Famille isDashboard={false} />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route path="/inscription" element={<Inscription />} />
+                        <Route path="/connexion" element={<Connexion />} />
+                        <Route
+                            path="/tableau-de-bord/*"
+                            element={
+                                <ProtectedRoute requiredRole="association">
+                                    <TableauBord />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route path="/mentions-legales" element={<MentionsLegales />} />
+                        <Route path="/plan-du-site" element={<PlanDuSite />} />
+                        <Route
+                            path="/politique-confidentialite"
+                            element={<PolitiqueConfidentialite />}
+                        />
+                        <Route path="/reinitialisation-mot-de-passe" element={<ResetPassword />} />
+                        {/* Page erreur redirige automatiquement vers /erreur */}
+                        <Route path="*" element={<Navigate to="/erreur" replace />} />
+                        <Route path="/erreur" element={<Erreur />} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
+        </HelmetProvider>
+    );
 };
 
 export default App;
