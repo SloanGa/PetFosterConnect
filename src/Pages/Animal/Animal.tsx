@@ -268,6 +268,7 @@ const Animal = () => {
                                     <Alert
                                         dismissible
                                         className={`alert ${alert?.type ? `toast-${alert?.type}` : ""}`}
+                                        onClose={() => setAlert(null)}
                                     >
                                         {alert.message}
                                     </Alert>
