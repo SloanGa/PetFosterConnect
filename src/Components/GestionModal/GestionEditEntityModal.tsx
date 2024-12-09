@@ -356,12 +356,7 @@ const GestionEditEntityModal: React.FC<GestionModalProps> = ({
                 <Button className="btn--form" onClick={handleClose}>
                     Fermer
                 </Button>
-                <Button
-                    className="btn--form"
-                    type="submit"
-                    onClick={handleSubmitEdit}
-                    form="edit-animal-form"
-                >
+                <Button className="btn--form" type="submit" form="edit-animal-form">
                     Enregistrer
                 </Button>
             </Modal.Footer>
