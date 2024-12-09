@@ -185,6 +185,7 @@
 }
 
 .map {
+    z-index: 1;
     height: 200px;
     width: 100%;
     @media (min-width: 992px) {
@@ -213,5 +214,5 @@
 
 .alert {
     margin-top: 1rem;
-    color:#fff;
+    color: #fff;
 }
