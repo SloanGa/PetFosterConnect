@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { useAuth } from "../../Context/AuthContext.tsx";
@@ -59,6 +59,10 @@ const Association = ({ isDashboard, setAssociationData }: AssociationProps) => {
 
     const { isAuth, userData } = useAuth();
     const isAssociationLegitimate = isAuth && userData?.association_id === parseInt(associationId);
+
+    if (isAssociationLegitimate === false) {
+        return <Navigate to="/connexion" />;
+    }
 
     return (
         <>
