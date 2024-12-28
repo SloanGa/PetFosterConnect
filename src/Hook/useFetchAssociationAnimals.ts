@@ -9,11 +9,10 @@ const useFetchAssociationAnimals = (token: string | null) => {
 
     const baseURL = import.meta.env.VITE_API_URL;
 
-    useEffect(() => {
-        const fetchAnimals = async () => {
+    const fetchAnimals = async (page: number = 1) => {
             try {
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/dashboard/association/animals`,
+                    `${import.meta.env.VITE_API_URL}/dashboard/association/animals?page=${page}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -38,17 +37,20 @@ const useFetchAssociationAnimals = (token: string | null) => {
 		};
 
 
+    useEffect(() => {
         fetchAnimals();
     }, [token]);
 
     return {
         paginatedAnimals,
+        setPaginatedAnimals,
         isLoading,
         setIsLoading,
         error,
         setError,
         baseURL,
         totalCount,
+        fetchAnimals,
     };
 };
 
