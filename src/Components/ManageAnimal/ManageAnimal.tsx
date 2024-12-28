@@ -6,7 +6,7 @@ import { Error } from "../../Components/Error/Error.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import type { IAnimal } from "../../Interfaces/IAnimal.ts";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimals.ts";
 import PaginationComposant from "../../Components/Pagination/Pagination";
@@ -34,27 +34,16 @@ const ManageAnimal = () => {
 
     const token = localStorage.getItem("auth_token");
 
-    const { paginatedAnimals, setPaginatedAnimals, isLoading, setIsLoading, error, setError, baseURL, totalCount, fetchAnimals } =
+    const { paginatedAnimals, setPaginatedAnimals, isLoading, error, baseURL, totalCount, fetchAnimals } =
         useFetchAssociationAnimals(token);
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const animalList = useRef<HTMLDivElement | null>(null);
 
     const handleChangePage = async (page: number) => {
         setCurrentPage(page);
-        try {
-            setIsLoading(true);
-            fetchAnimals(page)
-        } catch (error) {
-            setError("Une erreur est survenue, veuillez rafraîchir la page.");
-            console.error("Erreur lors de la récupération des données:", error);
-        } finally {
-            setIsLoading(false);
-            if (animalList.current !== null) {
-                animalList.current.scrollIntoView();
-            }
-        }
+        fetchAnimals(page)
+
     };
 
     // handler de la modale de gestion
