@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IAnimal } from "../Interfaces/IAnimal.ts";
 
 const useFetchAssociationAnimals = (token: string | null) => {
@@ -8,12 +8,13 @@ const useFetchAssociationAnimals = (token: string | null) => {
     const [totalCount, setTotalCount] = useState<number | null>(null);
 
     const baseURL = import.meta.env.VITE_API_URL;
+    const animalList = useRef<HTMLDivElement | null>(null);
+    
 
-    useEffect(() => {
-        const fetchAnimals = async () => {
+    const fetchAnimals = async (page: number = 1) => {
             try {
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/dashboard/association/animals`,
+                    `${import.meta.env.VITE_API_URL}/dashboard/association/animals?page=${page}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -33,22 +34,28 @@ const useFetchAssociationAnimals = (token: string | null) => {
 				setError("Une erreur est survenue, veuillez rafraîchir la page.");
 				console.error("Erreur lors de la récupération des données:", error);
 			} finally {
-				setIsLoading(false);
+                setIsLoading(false);
+                if (animalList.current !== null) {
+                animalList.current.scrollIntoView();
+            }
 			}
 		};
 
 
+    useEffect(() => {
         fetchAnimals();
     }, [token]);
 
     return {
         paginatedAnimals,
+        setPaginatedAnimals,
         isLoading,
         setIsLoading,
         error,
         setError,
         baseURL,
         totalCount,
+        fetchAnimals,
     };
 };
 

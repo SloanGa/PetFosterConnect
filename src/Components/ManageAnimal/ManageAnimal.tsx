@@ -6,7 +6,7 @@ import { Error } from "../../Components/Error/Error.tsx";
 import Loading from "../../Components/Loading/Loading.tsx";
 import { Button, Modal, Toast } from "react-bootstrap";
 import type { IAnimal } from "../../Interfaces/IAnimal.ts";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import GestionModal from "../../Components/GestionModal/GestionModal.tsx";
 import { useFetchAssociationAnimals } from "../../Hook/useFetchAssociationAnimals.ts";
 import PaginationComposant from "../../Components/Pagination/Pagination";
@@ -34,49 +34,16 @@ const ManageAnimal = () => {
 
     const token = localStorage.getItem("auth_token");
 
-    const { paginatedAnimals, isLoading, setIsLoading, error, setError, baseURL, totalCount } =
+    const { paginatedAnimals, setPaginatedAnimals, isLoading, error, baseURL, totalCount, fetchAnimals } =
         useFetchAssociationAnimals(token);
-
-    const [animalsToDisplay, setAnimalsToDisplay] = useState<IAnimal[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const animalList = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        if (paginatedAnimals) {
-            setAnimalsToDisplay(paginatedAnimals);
-        }
-    }, [paginatedAnimals]);
 
     const handleChangePage = async (page: number) => {
         setCurrentPage(page);
-        try {
-            setIsLoading(true);
+        fetchAnimals(page)
 
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/dashboard/association/animals?page=${page}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (!response.ok) {
-                return setError("Une erreur est survenue, veuillez rafraîchir la page.");
-            }
-            const data = await response.json();
-            setAnimalsToDisplay(data.paginatedAnimals);
-        } catch (error) {
-            setError("Une erreur est survenue, veuillez rafraîchir la page.");
-            console.error("Erreur lors de la récupération des données:", error);
-        } finally {
-            setIsLoading(false);
-            if (animalList.current !== null) {
-                animalList.current.scrollIntoView();
-            }
-        }
     };
 
     // handler de la modale de gestion
@@ -131,7 +98,7 @@ const ManageAnimal = () => {
                     });
                     setShowToast(true);
 
-                    setAnimalsToDisplay((prevAnimals: IAnimal[]) =>
+                    setPaginatedAnimals((prevAnimals: IAnimal[]) =>
                         prevAnimals.map((animal: IAnimal) =>
                             animal.id === updatedAnimal.id ? updatedAnimal : animal
                         )
@@ -189,8 +156,8 @@ const ManageAnimal = () => {
 
                 if (response.ok) {
                     createdAnimal = await response.json();
-                    animalsToDisplay.length < 6 &&
-                        setAnimalsToDisplay((prevAnimals) => [...prevAnimals, createdAnimal]);
+                    paginatedAnimals.length < 6 &&
+                        setPaginatedAnimals((prevAnimals) => [...prevAnimals, createdAnimal]);
 
                     setToastData({
                         message: "Animal ajouté avec succès",
@@ -264,7 +231,7 @@ const ManageAnimal = () => {
 
                 setShowToast(true);
 
-                setAnimalsToDisplay((prevAnimals) =>
+                setPaginatedAnimals((prevAnimals) =>
                     prevAnimals.filter((animal) => animal.id !== animalToDelete?.id)
                 );
 
@@ -310,7 +277,7 @@ const ManageAnimal = () => {
                     ) : error ? (
                         <Error error={error} />
                     ) : (
-                        animalsToDisplay.map((animal) => (
+                        paginatedAnimals.map((animal) => (
                             <div key={animal.id} className="col-12 col-sm-6 col-lg-4 col-xl-3">
                                 <DashboardCard
                                     onShowDeleteModal={handleShowDeleteModal}
@@ -327,7 +294,7 @@ const ManageAnimal = () => {
                 </div>
             </div>
 
-            {animalsToDisplay.length > 0 ? (
+            {paginatedAnimals.length > 0 ? (
                 <PaginationComposant
                     items={totalCount}
                     currentPage={currentPage}
