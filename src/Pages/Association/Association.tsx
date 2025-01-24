@@ -60,10 +60,6 @@ const Association = ({ isDashboard, setAssociationData }: AssociationProps) => {
     const { isAuth, userData } = useAuth();
     const isAssociationLegitimate = isAuth && userData?.association_id === parseInt(associationId);
 
-    if (isAssociationLegitimate === false) {
-        return <Navigate to="/connexion" />;
-    }
-
     return (
         <>
             <Helmet>
