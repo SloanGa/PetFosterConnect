@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IAssociation } from "../../Interfaces/IAssociation.ts";
 import { useAuth } from "../../Context/AuthContext.tsx";
